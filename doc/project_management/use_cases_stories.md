@@ -1,6 +1,6 @@
 # Functional Specifications
 # And User-Case Stories
-### __Updated 2020-03-11__
+### __Updated 2020-04-10__
 --------------------------------------------------------
 
 ## Meet the Team:
@@ -8,7 +8,7 @@
 
 * __Bob (he/him)__, a Grad Student Researcher designing high-throughput experiments. He generates way too much data to look at each test result, much less understand it all. He is setting up a program to make sure the work gets done as efficiently as possible. 
 
-* __Chalie (they/them)__, a ChemE Undergrad working in the lab three days a week. Pretty competent, but doesn't have a background in either programming or Electrochemistry, and has never really seen an EIS before. They doesn't want to screw up, because he needs Grad School recs from Alice and Dave, and is afraid of Bob.
+* __Chalie (they/them)__, a ChemE Undergrad working in the lab three days a week. Pretty competent, but doesn't have a background in either programming or  the research done in its lab. They doesn't want to screw up, because he needs Grad School recs from Alice and Dave, and is afraid of Bob.
 
 * __Dave (Your Highness)__, a stern old Professor who's lab they all work in. Your Highness is not a micro-manager, but simply expects results to be delivered on time. Dave is skeptical of the error and quality of high-throughput data, so needs to be convinced that all the results have well defined error explainations. The last programming Dave did was in Visual Basic in 1998.
 
@@ -20,8 +20,7 @@
 
 ### Alice:
  * She will use her old data and __Import & Classify__ tools to make a classifyer and help categorize incoming data.
- * She can use her understanding of EIS and our __Simulation__ tools to make sure the classification set is large and comprehensive - Making up for any gaps in her existing database such as Fuel-Cell, Simple Capacitor, and Short-Circuit data sets which she may not have.
- * She can then use our __CNN Modeling__ tools to bootstrap a Classifyer model, to confidently identify EIS simulated information and her backlog of real data at the same time.
+ * She can then use our __CNN Modeling__ tools to bootstrap a Classifyer model, to confidently identify and classify her data into the expected models.
  * She will hand off this model to the rest of the lab, and get back to papers and research. If she gets her hands on more data, the model will already be set up to accept it and improve.
 
 ### Bob: 
@@ -49,7 +48,7 @@
  * This way, when that crazy black-box-machine-learning-voodoo-witchcraft tells Bob or Alice that they have discovered a fantastic breakthrough, Dave can explain that he knew that would happen all along.
 
 ### Ernest: 
- * Nobody at the company understands why it's so important to do EIS work and track this data over time, but Ernest does it anyway and nobody complains because he processes all of their other data for them and so who cares what other side-projects he is working on.
+ * Nobody at the company understands why it's so important to track data over time, but Ernest does it anyway and nobody complains because he processes all of their other data for them and so who cares what other side-projects he is working on.
  * However, Ernest has integrated all of the above tools with his existing __Battery Lifetime Processing__ scripts. Now his __SQL Database__ reflects how the EIS changes as a function of battery lifetime. 
  * Ernest realizes that all of the batteries which start out as healthy RC circuits instead of Randles' circuits perform well up to 300 cycles, but then suddenly die! He doesn't know why that is (what is he, a chemist?) but he alerts the management and the Serial number trace allows them to design a new Quality-Control EIS test at the factory, improving their average lifetime performance by >200%
  * Ernest is promoted to head of R&D, where he can finally use his techno-sorcery to guide the chemists and researchers using the power of Data, and the company becomes the largest battery startup in the world. 
