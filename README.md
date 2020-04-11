@@ -1,2 +1,3 @@
 # hardy
 Handling Arbitrary Recognition of Data, y not
+https://lh3.googleusercontent.com/proxy/Qz_uKhu8-SjjISFQ_tPR1KTXXQqfwP4kpjZ8q-KbAtfWW9ItxiVdi_3goQr56MEOQAHyMt62nBaM9elR3Y_M0q-g4dmdH2n2QgWiuzRyZYVoWDaCohq9xMJzZX4b7LZ5Y9nzOcoKvoVknwAGXk8
