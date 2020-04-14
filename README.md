@@ -19,11 +19,11 @@ Our vision of the final product:
  
  ------------------------------------------------------------------
  ## Modules and Goals:
- * __Handling.py__    :  Functions related to configuration, importing/exporting, and other sorts of back-end useful tasks.
- * __Arbitrage.py__   :  Data Pre-Analysis, Transformations, and other preparation to be fed into the learning algorythm.
- * __Recognition.py__ :  The real Meat-and-Potatoes! Setup, Training, and output from whatever ML Algorythm(s?) we use.
- * __Database.py__    :  Output and reporting of any/all discoveries, maybe with an eye to long-term evolution and improving the quality and speed of the program.
- * __yNot.py__        :  Home for everything else that seems useful but doesn't fall into one of the other functions! (Probably will contain any/all of the User Interface tools we may or may not work on).
+ * __handling.py__         :  Functions related to configuration, importing/exporting, and other sorts of back-end useful tasks.
+ * __arbitrage.py__        :  Data Pre-Analysis, Transformations, and other preparation to be fed into the learning algorythm.
+ * __recognition.py__      :  The real Meat-and-Potatoes! Setup, Training, and output from whatever ML Algorythm(s?) we use.
+ * __data_reporting.py__   :  Output and reporting of any/all discoveries, maybe with an eye to long-term evolution and improving the quality and speed of the program.
+ * __yNot.py__             :  Home for everything else that seems useful but doesn't fall into one of the other functions! (Probably will contain any/all of the User Interface tools we may or may not work on).
  
  
  
