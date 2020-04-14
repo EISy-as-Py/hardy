@@ -6,13 +6,11 @@
 ## Meet the Team:
 * __Alice (she/her)__, a Data Scientist post-doc who has years of data and research. She wants to set up the project, but then focus on other work like writing papers and grants. That's what PostDocs do, right?
 
-* __Bob (he/him)__, a Grad Student Researcher designing high-throughput experiments. He generates way too much data to look at each test result, much less understand it all. He is setting up a program to make sure the work gets done as efficiently as possible. 
+* __Bonnie (she/her)__, a Quality Control Manager for a mid-sized startup. She's setting up a QC monitoring lab at the new factory, and will have a massive influx of data that she needs to manage in order to ensure constant quality of the Batteries we produce. That data includes incoming Material Assays (digestion UV-Vis, XRD, ShortAngle Scattering, Particle Size), as well as electrochemical testing (CV cycling, EIS, and even performance cycling). So much Data! And it all needs to be tracked and tested for pass/fail.
 
-* __Chalie (they/them)__, a ChemE Undergrad working in the lab three days a week. Pretty competent, but doesn't have a background in either programming or  the research done in its lab. They doesn't want to screw up, because he needs Grad School recs from Alice and Dave, and is afraid of Bob.
+* __Claude (they/them)__, a ChemE Undergrad working in the lab three days a week. Pretty competent, but doesn't have a background in either programming or  the research done in its lab. They doesn't want to screw up, because he needs Grad School recs from Alice and Dave, and is afraid of Bob.
 
 * __Dave (Your Highness)__, a stern old Professor who's lab they all work in. Your Highness is not a micro-manager, but simply expects results to be delivered on time. Dave is skeptical of the error and quality of high-throughput data, so needs to be convinced that all the results have well defined error explainations. The last programming Dave did was in Visual Basic in 1998.
-
-* __Ernest (Important to Be)__, A Test-Engineer at a mid-stage startup who has to do all four of their jobs all at once. He doesn't complain about grant proposals or publish-or-perish, it's called do-your-job. Ernie works from 9 to 5 and goes home to his kids as soon as the day is over. And he makes what they all do combined. 
 
 ---------------------------------------------------------
 
@@ -35,7 +33,7 @@
 	* __Dominant Circuit Behavior__: What type of circuit-fit does this data represent? 
 	* __MANY OTHER POSISBILITIES__: Bob will work with Alice to continue training the model, so that eventually it can do almost all the processing for them, and they can focus the NEXT Project: What to do with all that Wonderful SQL Meta-Data! But that's a project for another Semester...
 
-### Charlie: 
+### Claude: 
  * They will be the most hands-on with the equiment and data collection, so need to have a reliable and user friendly interface to make sure that everything is running smoothly. Our __HTML User Interface__ will eventually be JUST what they need!
  * When they get to the lab, Bob will hand them a list of what should be run today. 
  * First, they will run iniital checks on the equipment using two or three well known test circuits (an RC, an LRC, and a Randle's setup). When they put those data sets into the __User Interface__, it will use the __Classification Model__ behind the scenes to confirm that these are confidently the correct results, that noise is low, and that no frequency parameters are unusual. 
@@ -46,9 +44,3 @@
  * Dave's new best friend is the __HTML User Interface__, because unlike Grad-Students and Post-Docs it doesn't worry about his feelings and so he can see for himself all of the data with proper, accurate confidence intervals. 
  * Of course, Dave doesn't actually do that very often unless there is a paper coming soon. Dave really uses the __GUI Exporter__ to make beautiful plots and to check the results of Dave's own hypotheses about the experiments. 
  * This way, when that crazy black-box-machine-learning-voodoo-witchcraft tells Bob or Alice that they have discovered a fantastic breakthrough, Dave can explain that he knew that would happen all along.
-
-### Ernest: 
- * Nobody at the company understands why it's so important to track data over time, but Ernest does it anyway and nobody complains because he processes all of their other data for them and so who cares what other side-projects he is working on.
- * However, Ernest has integrated all of the above tools with his existing __Battery Lifetime Processing__ scripts. Now his __SQL Database__ reflects how the EIS changes as a function of battery lifetime. 
- * Ernest realizes that all of the batteries which start out as healthy RC circuits instead of Randles' circuits perform well up to 300 cycles, but then suddenly die! He doesn't know why that is (what is he, a chemist?) but he alerts the management and the Serial number trace allows them to design a new Quality-Control EIS test at the factory, improving their average lifetime performance by >200%
- * Ernest is promoted to head of R&D, where he can finally use his techno-sorcery to guide the chemists and researchers using the power of Data, and the company becomes the largest battery startup in the world. 
