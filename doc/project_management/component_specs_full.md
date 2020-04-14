@@ -85,33 +85,33 @@ __func_name():__
  
  __Module List__:
  
- ###*SECTION: Basic 1D Transformations*
+ ### *SECTION: Basic 1D Transformations*
  #### transform_log():
   * INPUT: 1D data array with NO NEGATIVE VALUES
   * OUTPUT: Logrythmic transform of that data 
   * Note: Consider shifting or abs() for negative data? no? simply don't call log transform for negative data?
- ### transform_reciprocal():
+ #### transform_reciprocal():
   * INPUT: 1D data array - Limits tbd?
   * OUTPUT: all values inverted (1/x)
   * Note: twice should return itself!
- ### transform_cumsum():
+ #### transform_cumsum():
   * INPUT: 1D data array - 
   * OUTPUT: cumulative sum of data (aka integrated with unit-steps)
   * Note: Not in high priority list?
- ### transform_1d_derrivative():
+ #### transform_1d_derrivative():
   * INPUT: 1D data array
   * OUTPUT: the step-by-step delta (Note: copy last delta to retain length?)
   * Note: Also not in high-priority list? Should also be able to complete the loop w/ cumsum.
- ### transform_exp():
+ #### transform_exp():
   * INPUT: 1D data array - Limits?
   * OUTPUT: e^x of each datapoint. 
   * Note: may be redundant in general with log? should be able to complete that loop!
- ### transform_0to1():
+ #### transform_0to1():
   * INPUT: 1D data array, data handling case instructions
   * OUTPUT: that array shifted and scaled to the 0-to-1 basis (by FIRST shifting to min=0, THEN scaling to max=1)
   * Note: option to leave data alone if min is already 0-to-1, or if max After Shift is already 0-to-1 (case: data begins 0.2-0.4, can either scale 0-1 or leave as is!)
 
- ###*SECTION: Basic 2D Transformations*
+ ### *SECTION: Basic 2D Transformations*
  #### transform_2D_int():
   * INPUT: 2 equal size 1D arrays Y, X, to be integrated (Y)dx - [Optional offset value? to use as the Plus-C]
   * OUTPUT: The integral of Y dx (BOX? Trapz?) - offset if instructed to.
@@ -124,7 +124,7 @@ __func_name():__
   * INPUT: 2 equal size 1D arrays X, Y , [Optional Power arguments? or do those in the 1D cases and use as inputs?]
   * OUTPUT: Product of each x*y, maybe with power-math included (options)
   
-###*SECTION: More Complex Transformations*
+### *SECTION: More Complex Transformations*
  #### transform_fourier_wavelets():
   * Ok so this is the only High-Priority one that I'm genuinely concerned with... while you "CAN" try to do a transform on a whole dataset, that gets noisy and lossy. 
     What I want to investigate is "Wavelet Filtering" Fourier transform, which we learned about at a Data Sci seminar last quarter?
@@ -142,7 +142,7 @@ __func_name():__
   * INPUT: 
   * OUTPUT:
   
--*SECTION: Perform Transformation*
+### *SECTION: Perform Transformation*
  #### get_xy():
   * Uses handling.py to load a file, check that we have xy data, and do a quick analysis on it! 
   * INPUT: file name
@@ -158,7 +158,7 @@ __func_name():__
   * OUTPUT: pandas dataframe with all X-transformationa and all Y-transformations - (Maybe in Standard names? Maybe Not?)
   * NOTE: This could get messy - And maybe use the same wrapping function above to perform the listed tranforms?
   
- ###*SECTION: Association Functions*
+ ### *SECTION: Association Functions*
   * NOTE: Not really planning these yet, that will be scoped or descoped based on Team Update by __2020-04-28__
  #### setup_correlation_matrix():
   * Sets up the 2D matrix of "scores" to judge the correlations 
