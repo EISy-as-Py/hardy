@@ -11,6 +11,30 @@ import torch.optim as optim
 
 
 def make_training_data(IMG_SIZE, NOISE, IDEAL):
+    """ Function that returns the imported data as numpy array
+
+    Function that imports the images from the folders, add labels
+    and then returns the imports as numpy array
+
+    Parameters
+    ----------
+    IMG_SIZE : int
+              an integer value indicating the image dimension for the
+              import.
+    NOISE : str
+            a string indicating the folder in which noisy data is. Both
+            absolute or relative path can be assigned.
+    IDEAL : str
+            a string indicating the folder in which ideal data is. Both
+            absolute or relative path can be assigned.
+
+    Returns
+    -------
+    training_data : numpy.array
+                    numpy array containing the image data as vectors
+                    and their corresponding label. It uses one-hot vector
+                    to represent the label.
+    """
     training_data = []
     LABELS = {NOISE: 0, IDEAL: 1}
     noisecount = 0
@@ -26,8 +50,6 @@ def make_training_data(IMG_SIZE, NOISE, IDEAL):
                     img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
                     training_data.append([np.array(img),
                                           np.eye(2)[LABELS[label]]])
-                    # do something like print(np.eye(2)[1]), just makes one_hot
-                    # print(np.eye(2)[self.LABELS[label]])
 
                     if label == NOISE:
                         noisecount += 1
@@ -97,7 +119,7 @@ def data_split(training_data, frac, IMG_SIZE):
     X = X/255.0
     y = torch.Tensor([i[1] for i in training_data])
 
-    VAL_PCT = frac  # lets reserve 10% of our data for validation
+    VAL_PCT = frac
     val_size = int(len(X)*VAL_PCT)
     print(val_size)
 
