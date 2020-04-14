@@ -35,6 +35,7 @@ def make_training_data(IMG_SIZE, NOISE, IDEAL):
                     and their corresponding label. It uses one-hot vector
                     to represent the label.
     """
+
     training_data = []
     LABELS = {NOISE: 0, IDEAL: 1}
     noisecount = 0
@@ -73,12 +74,31 @@ def make_training_data(IMG_SIZE, NOISE, IDEAL):
 class Net(nn.Module):
 
     def __init__(self, IMG_SIZE, Input_Size, Hidden_layer, kernel):
+        """Function that builds the convolutional neural network
+
+        Parameters
+        ----------
+        IMG_SIZE : int
+                   integer value indicating the image dimension. Also
+                   the vector length used for importing the data
+        Input_size : int
+                     integer value indicating the number of inputs.
+        Hidden_layer : int
+                       integer value indicating the size of first hidden
+                       layer the convolutional neural network
+        kernel : int
+                 integer value indicating the size of kernel.
+
+        Returns
+        -------
+        Neural Network : Neural_Network"""
+
         super().__init__()  # just run the init of parent class (nn.Module)
         self.conv1 = nn.Conv2d(Input_Size, Hidden_layer, kernel)
         # input is 1 image, 32 output channels, 5x5 kernel / window
         self.conv2 = nn.Conv2d(Hidden_layer, Hidden_layer*2, kernel)
-        # input is 32, bc the first layer output 32. Then we say the output
-        # will be 64 channels, 5x5 kernel / window
+        # input is 8, bc the first layer output 16. Then we say the output
+        # will be 32 channels, 5x5 kernel / window
         self.conv3 = nn.Conv2d(Hidden_layer*2, Hidden_layer*3, kernel)
 
         x = torch.randn(IMG_SIZE, IMG_SIZE).view(-1, 1, IMG_SIZE, IMG_SIZE)
@@ -86,7 +106,7 @@ class Net(nn.Module):
         self.convs(x)
 
         self.fc1 = nn.Linear(self._to_linear, 32)  # flattening.
-        self.fc2 = nn.Linear(32, 2)  # 512 in, 2 out bc we're doing 2 classes
+        self.fc2 = nn.Linear(32, 2)  # 32 input and 2 output classes
 
     def convs(self, x):
         # max pooling over 2x2
