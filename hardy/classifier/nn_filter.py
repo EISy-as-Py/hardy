@@ -74,7 +74,10 @@ def make_training_data(IMG_SIZE, NOISE, IDEAL):
 class Net(nn.Module):
 
     def __init__(self, IMG_SIZE, Input_Size, Hidden_layer, kernel):
-        """Function that builds the convolutional neural network
+        """Function that returns the convolutional neural network
+
+        The function uses given parameters to generate a convolutional
+        neural network.
 
         Parameters
         ----------
@@ -91,7 +94,8 @@ class Net(nn.Module):
 
         Returns
         -------
-        Neural Network : Neural_Network"""
+        Neural Network : Neural_Network
+        """
 
         super().__init__()  # just run the init of parent class (nn.Module)
         self.conv1 = nn.Conv2d(Input_Size, Hidden_layer, kernel)
@@ -126,18 +130,63 @@ class Net(nn.Module):
         return torch.sigmoid(x)
 
 
-def optimize(net, loss_rate):
-    optimizer = optim.Adam(net.parameters(), lr=loss_rate)
+def optimize(net, learning_rate):
+    """Function that returns the optimizer and loss function
+
+    Function that builds the optimizer and loss function through
+    given neural network and learning rate.
+
+    Parameters
+    ----------
+    net : convolutional neural network
+          convolutional nerural network model that is built
+          through the initialization of neural network class
+    learning_rate : float
+                    float value indicating the learning rate
+                    for the optimizer
+
+    Returns
+    -------
+    optimizer, loss_function : models
+                               models for optimizer and loss function
+    """
+    optimizer = optim.Adam(net.parameters(), lr=learning_rate)
     loss_function = nn.MSELoss()
 
     return optimizer, loss_function
 
 
-def data_split(training_data, frac, IMG_SIZE):
-    X = torch.Tensor([i[0] for i in training_data]).view(-1, IMG_SIZE,
-                                                         IMG_SIZE)
+def data_split(input_data, frac, IMG_SIZE):
+    """Function that returns the train data and validation data
+
+    The function splits the given numpy array data into training data
+    and test data according with reference to given fraction. It converts
+    the numpy data into torch object of IMG_SIZE*IMG_SIZE dimensions and
+    normalizes it.
+
+    Parameters
+    ----------
+    input_data : numpy.array
+                 The numpy array object consitituting the image data and
+                 their corresponding labels.
+    frac : float
+           float value indicating the fraction of data that is reserved for
+           validation of neural network model.
+    IMG_SIZE: int
+              integer value indicating the image vector dimension.
+
+    Returns
+    -------
+    train_X : tensor for training image data
+    test_X : tensor for testing image data
+    train_y : tensor labels for training data
+    test_y : tensor labels for testing data
+    """
+
+    X = torch.Tensor([i[0] for i in input_data]).view(-1, IMG_SIZE,
+                                                      IMG_SIZE)
     X = X/255.0
-    y = torch.Tensor([i[1] for i in training_data])
+    y = torch.Tensor([i[1] for i in input_data])
 
     VAL_PCT = frac
     val_size = int(len(X)*VAL_PCT)
