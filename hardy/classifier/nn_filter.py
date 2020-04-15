@@ -35,6 +35,7 @@ def make_training_data(IMG_SIZE, NOISE, IDEAL):
                     and their corresponding label. It uses one-hot vector
                     to represent the label.
     """
+
     training_data = []
     LABELS = {NOISE: 0, IDEAL: 1}
     noisecount = 0
@@ -73,12 +74,35 @@ def make_training_data(IMG_SIZE, NOISE, IDEAL):
 class Net(nn.Module):
 
     def __init__(self, IMG_SIZE, Input_Size, Hidden_layer, kernel):
+        """Function that returns the convolutional neural network
+
+        The function uses given parameters to generate a convolutional
+        neural network.
+
+        Parameters
+        ----------
+        IMG_SIZE : int
+                   integer value indicating the image dimension. Also
+                   the vector length used for importing the data
+        Input_size : int
+                     integer value indicating the number of inputs.
+        Hidden_layer : int
+                       integer value indicating the size of first hidden
+                       layer the convolutional neural network
+        kernel : int
+                 integer value indicating the size of kernel.
+
+        Returns
+        -------
+        Neural Network : Neural_Network
+        """
+
         super().__init__()  # just run the init of parent class (nn.Module)
         self.conv1 = nn.Conv2d(Input_Size, Hidden_layer, kernel)
         # input is 1 image, 32 output channels, 5x5 kernel / window
         self.conv2 = nn.Conv2d(Hidden_layer, Hidden_layer*2, kernel)
-        # input is 32, bc the first layer output 32. Then we say the output
-        # will be 64 channels, 5x5 kernel / window
+        # input is 8, bc the first layer output 16. Then we say the output
+        # will be 32 channels, 5x5 kernel / window
         self.conv3 = nn.Conv2d(Hidden_layer*2, Hidden_layer*3, kernel)
 
         x = torch.randn(IMG_SIZE, IMG_SIZE).view(-1, 1, IMG_SIZE, IMG_SIZE)
@@ -86,7 +110,7 @@ class Net(nn.Module):
         self.convs(x)
 
         self.fc1 = nn.Linear(self._to_linear, 32)  # flattening.
-        self.fc2 = nn.Linear(32, 2)  # 512 in, 2 out bc we're doing 2 classes
+        self.fc2 = nn.Linear(32, 2)  # 32 input and 2 output classes
 
     def convs(self, x):
         # max pooling over 2x2
@@ -106,18 +130,63 @@ class Net(nn.Module):
         return torch.sigmoid(x)
 
 
-def optimize(net, loss_rate):
-    optimizer = optim.Adam(net.parameters(), lr=loss_rate)
+def optimize(net, learning_rate):
+    """Function that returns the optimizer and loss function
+
+    Function that builds the optimizer and loss function through
+    given neural network and learning rate.
+
+    Parameters
+    ----------
+    net : convolutional neural network
+          convolutional nerural network model that is built
+          through the initialization of neural network class
+    learning_rate : float
+                    float value indicating the learning rate
+                    for the optimizer
+
+    Returns
+    -------
+    optimizer, loss_function : models
+                               models for optimizer and loss function
+    """
+    optimizer = optim.Adam(net.parameters(), lr=learning_rate)
     loss_function = nn.MSELoss()
 
     return optimizer, loss_function
 
 
-def data_split(training_data, frac, IMG_SIZE):
-    X = torch.Tensor([i[0] for i in training_data]).view(-1, IMG_SIZE,
-                                                         IMG_SIZE)
+def data_split(input_data, frac, IMG_SIZE):
+    """Function that returns the train data and validation data
+
+    The function splits the given numpy array data into training data
+    and test data according with reference to given fraction. It converts
+    the numpy data into torch object of IMG_SIZE*IMG_SIZE dimensions and
+    normalizes it.
+
+    Parameters
+    ----------
+    input_data : numpy.array
+                 The numpy array object consitituting the image data and
+                 their corresponding labels.
+    frac : float
+           float value indicating the fraction of data that is reserved for
+           validation of neural network model.
+    IMG_SIZE: int
+              integer value indicating the image vector dimension.
+
+    Returns
+    -------
+    train_X : tensor for training image data
+    test_X : tensor for testing image data
+    train_y : tensor labels for training data
+    test_y : tensor labels for testing data
+    """
+
+    X = torch.Tensor([i[0] for i in input_data]).view(-1, IMG_SIZE,
+                                                      IMG_SIZE)
     X = X/255.0
-    y = torch.Tensor([i[1] for i in training_data])
+    y = torch.Tensor([i[1] for i in input_data])
 
     VAL_PCT = frac
     val_size = int(len(X)*VAL_PCT)
@@ -135,6 +204,39 @@ def data_split(training_data, frac, IMG_SIZE):
 
 def train(train_X, train_y, net, IMG_SIZE, BATCH_SIZE, EPOCHS, optimizer,
           loss_function):
+    """Function that trains the model
+
+    The function intakes training data and run it through to train the model
+    using optimizer and loss function
+
+    Parameters
+    ----------
+    train_X : tensor
+              tensor representing the image training data.
+    train_y : tensor
+              tensor representing the labels for training data.
+    net : model
+          convolutional neural network model generated by neural network
+          class.
+    IMG_SIZE : int
+               integer representing the vector length for the input image.
+    BATCH_SIZE : int
+                 integer value indicating the division number of inputs in
+                 single batch for training.
+    EPOCHS : int
+             integer value indicating the number of times training is repeated.
+    optimizer : model
+                model indicating the optimizer to be used or returned through
+                optimize function.
+    loss_function : model
+                    model indicating the loss_function generated through
+                    optimize function.
+
+    Returns
+    -------
+    net : neural_network
+          trained neural network generated through the training data.
+    """
 
     for epoch in range(EPOCHS):
         for i in tqdm(range(0, len(train_X), BATCH_SIZE)):  # 0 to the len
@@ -156,6 +258,29 @@ def train(train_X, train_y, net, IMG_SIZE, BATCH_SIZE, EPOCHS, optimizer,
 
 
 def test_accuracy(test_X, test_y, trained_network, IMG_SIZE):
+    """Function for validation of trained neural network
+
+    The function takes validation data as input along with trained
+    neural network to test the accuracy of the convolutional neural
+    network
+
+    Parameters
+    ----------
+    test_X : tensor
+             tensor representing the testing data
+    test_y : tensor
+             tensor representing the label of testing data
+    trained_network : neural_network
+                      trained neural network which was generated by train
+                      function
+    IMG_SIZE : int
+               integer value indicating the vector length of input image
+
+    Returns
+    -------
+    Prints the accuracy of Convolutional Neural Network Model
+
+    """
     correct = 0
     total = 0
     with torch.no_grad():
@@ -172,6 +297,26 @@ def test_accuracy(test_X, test_y, trained_network, IMG_SIZE):
 
 
 def save_load_model(filename, network=None, save=None, load=None):
+    """Function to save and load model
+
+    Function that can save or load model depending on given parameters.
+
+    Parameters
+    ----------
+    filename : str
+               string indicating the filename for saving or loading model.
+    network : neural_network
+              neural network variable that is to be saved or loaded.
+    save : bool
+           boolean value if true saves the neural network model.
+    load : bool
+           boolean value if true loads the neural network model.
+
+    Returns
+    -------
+    loaded_model : model
+                   model that is loaded from the specified location
+    """
     if save:
         pickle.dump(network, open(filename+'.sav', 'wb'))
         return 0
