@@ -9,7 +9,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import unittest
 
-import eisy.Neural_Network.CNN_Model_Raw as CNN
+import hardy.Neural_Network.CNN_Model_Raw as CNN
 
 class TestCNNModelTools(unittest.TestCase):
     def test_DataImporter_Training(self):
@@ -68,7 +68,7 @@ def test_load_training_data(self):
     load_array_d = CNN.load_array_data(np_ndarray_file)
     assert type(np_ndarray_file) == str, \
         'Wrong type. The np_ndarray_file should be a string.'
-    
+
 def test_data_information(self):
     input_data = []
     IMG = np.random.rand(134, 200)

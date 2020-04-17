@@ -12,7 +12,7 @@ import torch.optim as optim
 
 import unittest
 
-import eisy.Neural_Network.CNN_Model as CNN
+import hardy.Neural_Network.CNN_Model as CNN
 
 
 class TestCNNModelTools(unittest.TestCase):
