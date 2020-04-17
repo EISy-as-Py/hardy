@@ -9,7 +9,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import unittest
 
-import hardy.Neural_Network.CNN_Model_Raw as CNN
+import hardy.classifier.CNN_Model_Raw as CNN
 
 class TestCNNModelTools(unittest.TestCase):
     def test_DataImporter_Training(self):
