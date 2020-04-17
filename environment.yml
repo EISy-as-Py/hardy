@@ -1,0 +1,44 @@
+name: eisy
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - ipython
+  - ipython_genutils
+  - ipywidgets
+  - jupyter
+  - jupyter_client
+  - jupyter_console
+  - jupyter_core
+  - matplotlib
+  - mkl
+  - mkl-service
+  - mkl_fft
+  - mkl_random
+  - notebook
+  - numpy
+  - numpy-base
+  - opencv
+  - pandas
+  - pandoc
+  - pillow
+  - pip
+  - python
+  - pytorch
+  - scipy
+  - setuptools
+  - sqlite
+  - sqlalchemy
+  - testpath
+  - tk
+  - torchvision
+  - pip:
+    - contextlib2
+    - google-images-download
+    - opt-einsum
+    - pyro-ppl
+    - selenium
+    - tqdm
+    - urllib3
+prefix: /home/amoeez/anaconda3/envs/EISy-as-Py
