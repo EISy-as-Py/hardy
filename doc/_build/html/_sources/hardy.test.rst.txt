@@ -12,14 +12,6 @@ hardy.test.test\_CNN\_Model module
    :undoc-members:
    :show-inheritance:
 
-hardy.test.test\_CNN\_Model\_Raw module
----------------------------------------
-
-.. automodule:: hardy.test.test_CNN_Model_Raw
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 
 Module contents
 ---------------

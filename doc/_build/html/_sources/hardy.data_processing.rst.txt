@@ -9,6 +9,7 @@ hardy.data\_processing.version module
 
 .. automodule:: hardy.data_processing.version
    :members:
+   :undoc-members:
    :show-inheritance:
 
 
