@@ -132,17 +132,18 @@ def load_array_data(np_ndarray_file):  # Data Status Check
     Load the data from the .npy file to check if all the images
     have been in the program.
 
-    Parameter
+    Parameters
     ----------
-    np_ndarray_file: The XXX.npy file name.
+    np_ndarray_file: The abc.npy file name.
                      Should be identical to the last index in path list
 
     Return
-    ----------
+    ------
     training_data:  The dataset expressed in numpy array form.
                     type -> numpy.ndarray
 
     """
+
     array_data = np.load(np_ndarray_file, allow_pickle=True)
     return array_data
 

@@ -1,3 +1,4 @@
+from .nn_filter import *
 from .CNN_Model import *
 from .version import __version__
 
