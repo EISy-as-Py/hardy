@@ -30,7 +30,7 @@ dependencies:
   - setuptools
   - sqlite
   - sqlalchemy
-  - cv2
+  - opencv
   - testpath
   - tk
   - torchvision
