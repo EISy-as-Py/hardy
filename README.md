@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/EISy-as-Py/eisy.svg?branch=master)](https://travis-ci.org/EISy-as-Py/hardy)
+[![Documentation Status](https://readthedocs.org/projects/hardy/badge/?version=latest)](https://hardy.readthedocs.io/en/latest/?badge=latest)
+
 
 # Project HARDy
  
