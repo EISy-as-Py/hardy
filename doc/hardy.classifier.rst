@@ -1,0 +1,34 @@
+hardy.classifier package
+========================
+
+Submodules
+----------
+
+hardy.classifier.CNN\_Model module
+----------------------------------
+
+.. automodule:: hardy.classifier.CNN_Model
+   :members:
+   :show-inheritance:
+
+hardy.classifier.CNN\_Model\_Raw module
+---------------------------------------
+
+.. automodule:: hardy.classifier.CNN_Model_Raw
+   :members:
+   :show-inheritance:
+
+hardy.classifier.nn\_filter module
+----------------------------------
+
+.. automodule:: hardy.classifier.nn_filter
+   :members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: hardy.classifier
+   :members:
+   :show-inheritance:
