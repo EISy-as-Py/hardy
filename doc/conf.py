@@ -12,7 +12,6 @@
 #
 import os
 import sys
-# import cv2
 # import datatime
 
 # sys.path.insert(0, os.path.abspath('.'))
@@ -70,7 +69,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '.png', '.csv',
 
 # The name of the Pygments (syntax highlighting) style to use.
 # pygments_style = 'sphinx'
-
+autodoc_mock_imports = ["cv2"]
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 # todo_include_todos = False
 
