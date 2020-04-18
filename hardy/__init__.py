@@ -1,7 +1,9 @@
 from .version import __version__
-# from .eisy_file_mgmt import *
+# from .classifier import *
+# from .data_processing import *
+# from .data_transformation import *
 # # from .simulation import alterations
 #
 __all__ = [__version__]
 #
-# name = 'eisy'
+# name = 'hardy'
