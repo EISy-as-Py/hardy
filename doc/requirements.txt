@@ -3,4 +3,3 @@ pandas
 matplotlib
 torch
 tqdm
-opencv
