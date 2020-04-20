@@ -1,5 +1,4 @@
-name: 
-  - hardy
+# name: hardy
 channels:
   - pytorch
   - conda-forge
