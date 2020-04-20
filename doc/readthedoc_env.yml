@@ -1,8 +1,3 @@
-name: hardy
-channels:
-  - pytorch
-  - conda-forge
-  - defaults
 dependencies:
   - ipython
   - ipython_genutils
