@@ -36,4 +36,4 @@
     - selenium
     - tqdm
     - urllib3
-prefix: /home/amoeez/anaconda3/envs/EISy-as-Py
+# prefix: /home/amoeez/anaconda3/envs/EISy-as-Py
