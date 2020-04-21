@@ -1,5 +1,5 @@
 from .version import __version__
-from .classifier import *
+from .ynot import *
 # from .data_processing import *
 # from .data_transformation import *
 # # from .simulation import alterations
