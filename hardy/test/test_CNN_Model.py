@@ -1,14 +1,14 @@
-import os
-import cv2
-from tqdm import tqdm
+# import os
+# import cv2
+# from tqdm import tqdm
 
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
+# import torch.nn as nn
+# import torch.nn.functional as F
+# import torch.optim as optim
 
 import unittest
 
@@ -33,6 +33,7 @@ class TestCNNModelTools(unittest.TestCase):
             'path_List_training should be a list'
         assert image_width <= 1000, 'Image size is too large'
         assert image_height <= 1000, 'Image size is too large'
+        return train_d
 
     def test_DataImporter_Predict(self):
         k = 1
@@ -51,6 +52,7 @@ class TestCNNModelTools(unittest.TestCase):
             'path_List_predict should be a list'
         assert image_width <= 1000, 'Image size is too large.'
         assert image_height <= 1000, 'Image size is too large.'
+        return predict_d
 
     def test_Build_Data(self):
         Training = True
@@ -71,6 +73,7 @@ class TestCNNModelTools(unittest.TestCase):
         assert type(path_list) == list, 'path_list should be a list.'
         assert image_width <= 1000, 'Image size is too large.'
         assert image_height <= 1000, 'Image size is too large.'
+        return Build_d
 
     def test_load_array_data(self):
         np_ndarray_file = 'training.npy'
@@ -78,6 +81,7 @@ class TestCNNModelTools(unittest.TestCase):
         load_array_d = CNN.load_array_data(np_ndarray_file)
         assert type(np_ndarray_file) == str, \
             'Wrong type. The np_ndarray_file should be a string.'
+        return load_array_d
 
     def test_data_information(self):
         input_data = []
@@ -90,6 +94,7 @@ class TestCNNModelTools(unittest.TestCase):
         data_information = CNN.data_information(array_data)
         assert type(array_data) == np.ndarray, \
             'Wrong type. The array_data should be a numpy array.'
+        return data_information
 
     def test_plotting_data(self):
         input_data = []
@@ -101,6 +106,7 @@ class TestCNNModelTools(unittest.TestCase):
 
         assert i <= len(input_data), \
             'Invalid i. i should fall in the range of dataset size.'
+        return ploting_d
 
     def test_image_to_tensor(self):
         input_data = []
@@ -116,6 +122,7 @@ class TestCNNModelTools(unittest.TestCase):
                                               image_height)
         assert type(array_data) == np.ndarray, \
             'Wrong type. The array_data should be a numpy array.'
+        return image_to_tensor
 
     def test_type_to_tensor(self):
         input_data = []
@@ -128,6 +135,7 @@ class TestCNNModelTools(unittest.TestCase):
         type_to_tensor = CNN.type_to_tensor(array_data)
         assert type(array_data) == np.ndarray, \
             'Wrong type. The array_data should be a numpy array.'
+        return type_to_tensor
 
     def test_data_separation(self):
         ratio_of_test = 0.2
@@ -135,7 +143,9 @@ class TestCNNModelTools(unittest.TestCase):
         TEST = False
         image_width = 200
         image_height = 134
-        tensor_data = torch.randn(image_height, image_width).view(-1, 1, image_height, image_width)
+        tensor_data = torch.randn(image_height,
+                                  image_width).view(-1, 1, image_height,
+                                                    image_width)
 
         d_separation = CNN.data_separation(tensor_data, ratio_of_test,
                                            TRAIN, TEST)
@@ -145,11 +155,15 @@ class TestCNNModelTools(unittest.TestCase):
         assert 0 <= ratio_of_test <= 1, \
             'Invalid ratio. ratio_of_test should be in between 0 and 1.'
         assert TRAIN != TEST, 'Return only one type of sample in one time.'
+        return d_separation
 
     def test_learning(self):
         image_width = 200
         image_height = 134
-        training_sample_image = torch.randn(image_height, image_width).view(-1, 1, image_height, image_width)
+        training_sample_image = torch.randn(image_height,
+                                            image_width).view(-1, 1,
+                                                              image_height,
+                                                              image_width)
         training_sample_type = torch.randn(1, 4)
         input_size = 1
         firstHidden = 8
@@ -167,11 +181,15 @@ class TestCNNModelTools(unittest.TestCase):
             'The number of image should equals to the number of label.'
         assert kernel_size <= 7, 'Maximum kernel_size is set as 7.'
         assert kernel_size % 2 == 1, 'kernel_size should be an odd integer'
+        return learning
 
     def test_accuracy(self):
         image_width = 200
         image_height = 134
-        testing_sample_image = torch.randn(image_height, image_width).view(-1, 1, image_height, image_width)
+        testing_sample_image = torch.randn(image_height,
+                                           image_width).view(-1, 1,
+                                                             image_height,
+                                                             image_width)
         testing_sample_type = torch.randn(1, 4)
         input_size = 1
         firstHidden = 8
@@ -185,6 +203,7 @@ class TestCNNModelTools(unittest.TestCase):
             'The number of image should equals to the number of label'
         assert kernel_size <= 7, 'Maximum kernel_size is set as 7.'
         assert kernel_size % 2 == 1, 'kernel_size should be an odd integer'
+        return accuracy
 
     def test_type_prediction(self):
         k = 1
@@ -192,7 +211,10 @@ class TestCNNModelTools(unittest.TestCase):
         image_width = 200
         image_height = 134
         path_List_training = ['testImage.png', 'training.npy']
-        tensor_data = torch.randn(image_height, image_width).view(-1, 1, image_height, image_width)
+        tensor_data = torch.randn(image_height,
+                                  image_width).view(-1, 1,
+                                                    image_height,
+                                                    image_width)
         input_data = []
         IMG = np.random.rand(134, 200)
         for i in range(1):
@@ -224,3 +246,4 @@ class TestCNNModelTools(unittest.TestCase):
         assert image_height <= 1000, 'Image size is too large.'
         assert kernel_size <= 7, 'Maximum kernel_size is set as 7.'
         assert kernel_size % 2 == 1, 'kernel_size should be an odd integer'
+        return type_prediction

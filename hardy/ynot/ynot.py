@@ -16,7 +16,7 @@ import numpy as np
 default_location = "../local_data/"
 
 
-def generate_linear(length=64, xrange=[0,1], m=1.0, b=1.0):
+def generate_linear(length=64, xrange=[0, 1], m=1.0, b=1.0):
     """
     Given set parmeters, generate an XY dataframe of x and y=mx+b
 
@@ -36,15 +36,15 @@ def generate_linear(length=64, xrange=[0,1], m=1.0, b=1.0):
     result : pandas.dataframe
             simple x,y dataframe to be written
     """
-    x_array = np.linspace(min(xrange),max(xrange),int(length))
+    x_array = np.linspace(min(xrange), max(xrange), int(length))
     y_array = x_array * m + b
     result = pd.DataFrame()
-    result['X']=x_array
+    result['X'] = x_array
     result['Y=mx+b'] = y_array
     return result
 
 
-def generate_sin(length=64, xrange=[0,1], A=1.0, f=1.0, theta=0.0):
+def generate_sin(length=64, xrange=[0, 1], A=1.0, f=1.0, theta=0.0):
     """
     Given set parmeters, generate an XY dataframe of x and
     y=A*sin(2pi*f*(x-theta))
@@ -70,15 +70,15 @@ def generate_sin(length=64, xrange=[0,1], A=1.0, f=1.0, theta=0.0):
     result : pandas.dataframe
             simple x,y dataframe to be written
     """
-    x_array = np.linspace(min(xrange),max(xrange),int(length))
+    x_array = np.linspace(min(xrange), max(xrange), int(length))
     y_array = A * np.sin(2 * np.pi * f * (x_array - theta))
     result = pd.DataFrame()
-    result['X']=x_array
+    result['X'] = x_array
     result['y=sin_x'] = y_array
     return result
 
 
-def generate_log(length=64, xrange=[0,1], A=1.0, y0=0, x0=-0.5):
+def generate_log(length=64, xrange=[0, 1], A=1.0, y0=0, x0=-0.5):
     """
     Given set parmeters, generate an XY dataframe of x and
     y=A*sin(2pi*f*(x-theta))
@@ -107,11 +107,6 @@ def generate_log(length=64, xrange=[0,1], A=1.0, y0=0, x0=-0.5):
         x0 = min(xrange) - 0.1
     y_array = A * np.log(x_array - x0) + y0
     result = pd.DataFrame()
-    result['X']=x_array
+    result['X'] = x_array
     result['y=log_x'] = y_array
     return result
-
-
-
-
-
