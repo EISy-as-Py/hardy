@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Locally Stored test-files (large file folders)
+#    Added DHurt 2020-04-20
+local_data/
