@@ -136,4 +136,3 @@ Data To Plot on Demand and deliver to the Image Processing f(n)s
           first and hopefully get good results in fewer attempts.
 
 """
-
