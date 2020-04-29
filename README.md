@@ -4,11 +4,11 @@
 
 # Project HARDy
  
+<img src=https://github.com/EISy-as-Py/hardy/blob/master/doc/images/EIS_Formats.PNG width=400 p align="right">
  _"Handling Arbitrary Recognition of Data, y not?"_
 A package to assist in discovery, research, and classification of YOUR data, no matter who you are! 
 
 
-<img src=https://github.com/EISy-as-Py/hardy/blob/master/doc/images/EIS_Formats.PNG width=400 p align="right">
 
 
 Our favorite Links:
