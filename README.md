@@ -7,6 +7,10 @@
  _"Handling Arbitrary Recognition of Data, y not?"_
 A package to assist in discovery, research, and classification of YOUR data, no matter who you are! 
 
+
+<img src=https://github.com/EISy-as-Py/hardy/blob/master/doc/images/EIS_Formats.PNG width=400 p align="right">
+
+
 Our favorite Links:
 * [Travis](https://travis-ci.org/github/EISy-as-Py/hardy)
 * [ReadtheDocs](www.google.com)
