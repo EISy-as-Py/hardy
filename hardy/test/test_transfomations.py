@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 """
-Created on Tue Apr 21 19:04:12 2020
-@author: hurtd
+TEST Transformations.py
+COPIED DOCSTRING FROM MAIN Transformations.py planning header
 
 The first-level functions, which will take input data
     (either 2D, 3D, or eventually nD...), and perform transformations
@@ -142,102 +141,55 @@ DATA WILL BE PROCESSED IN THE "ARBITRAGE.py" FILE
   * OUTPUT:
 
 """
-# asdf
-
-# asdf
-
-# asdf
-
-# asdf
+# import os
+# import sys
+# import csv
+# import time
+import math
+import unittest
 
 import numpy as np
 import pandas as pd
-from scipy import signal
-import matplotlib.pyplot as plt
+
+import hardy.data_transformation.transformations as tforms
 
 
-def tform_1d_cwt(raw_df, xy=0):
-    """
-    Transform to execute a "Continuous Wavelet Transform" on a 1d data array
-    pass it a raw XY data and tell it which column to use for the transform.
-    See Documentaion on CWT transform:
+class TestSimulationTools(unittest.TestCase):
+
+    def test_tform_1d_cwt(self):
+        """
+        Testing Package for a 1-dimensional Continuous-Wavelet Transform
+        This is a type of Fourier transform, to demonstrate chaning frequency
+        over time. See Here, Scipy:
             https://docs.scipy.org/doc/scipy/reference/generated/
             scipy.signal.cwt.html#scipy.signal.cwt
-    Note: I need to do testing to understand the in/outputs here...
-        *Plan is to simply hard-code a certain type of Wavelet to use... and
-        Output Data may not be able to be square... In that case, we will
-        discuss how to integrate this result with the compression of the data.
+        As with other transforms starting with 1D data
+            (pass X or Y, or as 0 or 1), intake a 1D array and output a
+            2D np array that is a square. HOWEVER unlike most 1D transforms,
+            this will have actual 2D shape.
+        The X-axis (regardless of X or Y data transform) will have length units
+            (recording position in file) but the Second Axis will have
+            Frequency units: Highest frequency at the top(?) and lowest
+            at the bottom, where top is a wavelet of minimum size
+            (2 datapoints?) and the bottom is maximum wavelet size (all data?)
+            ... I need to test this... Just use the sp.
 
-    Parameters
-    ----------
-    raw_df: pandas.DataFrame or 1D array (Mx2 or Mx1)
-                the raw data which is to be transformed.
-    xy:     boolean, or string 'x', or 'y'
-                information on which dataframe column to transform.
-                ignored if an 1D array is passed instead.
-    w_method: string or boolean?
-                input instructions guiding how to choose wavelet sizes.
-                default should be linear, with options for log- or exponential?
-                (Will have to experiment with data to discover best option)
+        Should we check the fidelity of a Reverse-Transform??
 
-    Returns
-    ----------
-    cwt_matrix: np.ndarray (MxM)
-                Square M-by-M matrix of the wavelet transform data
-                (Not yet compressed to plottable 0-1 data)
+        """
+        # Starting with a linear x from 0 to 10,
+        x_linear = np.linspace(0, 10, 500)
+        # generate a complex wave function:
+        #   In this case, amplitude 1 with frequency of 2pi/10, plus
+        #   Amplitude 1/10 with frequency of 10pi.
+        y_test = np.sin(2 * np.pi * 0.1 * x_linear) + \
+            0.1 * np.sin(2 * np.pi * 5 * x_linear)
 
-    """
-    if type(raw_df) is pd.DataFrame:
-        # Optional User-input, accept "y" or "Y" strings as 1, etc
-        if xy == "x" or xy == "X":
-            xy = 0
-        elif xy == "y" or xy == "Y":
-            xy = 1
+        test_df = pd.DataFrame(data={"Xlinear": x_linear, "Ytest": y_test})
 
-        if xy == 0:
-            data = raw_df[raw_df.keys()[0]]
-        elif xy == 1:
-            data = raw_df[raw_df.keys()[1]]
+        # Valid Test: Pass Test_df and the Y-axis transform to get output df
+        # of the Y-test data.
 
-    elif type(raw_df) is np.ndarray:
-        if raw_df.size == raw_df.shape[0]:
-            data = raw_df
-        else:
-            data = raw_df[0]
-        assert len(data) > 10, "NDarray is too small!"
-        assert data.size == data.shape[0], "NDarray is Multi-dimensional"
-
-    else:
-        # If not DataFrame or NDarray... What is it? Pd.Series?
-        # Will continue to creat tests to handle datatypes...
-        data = raw_df
-        assert len(data) > 10, "Something wrong with data entry." + \
-            "Needs Dataframe or 1-Dimensional Data Array!"
-
-    data_n = len(data)
-    widths = np.linspace(1, data_n, data_n)
-    cwt_matrix = signal.cwt(data, signal.ricker, widths)
-    # Optional different Signal to compare with: "Morlet2" but not working?)
-    # cwt_matrix = signal.cwt(data, signal.morlet2, widths)
-
-    return cwt_matrix
-
-
-# test
-x_linear = np.linspace(0, 20, 1000)
-y_test = 10 * np.sin(2 * np.pi * 0.1 * x_linear) + \
-            1 * np.sin(2 * np.pi * 5 * x_linear)
-test_df = pd.DataFrame(data={"Xlinear": x_linear, "Ytest": y_test})
-
-# Valid Test: Pass Test_df and the Y-axis transform to get output df
-# of the Y-test data.
-fig, ax = plt.subplots(2, 1)
-result_1 = tform_1d_cwt(test_df, 'y')
-ax[0].imshow(result_1, cmap='PRGn')
-ax[1].plot(x_linear, y_test)
-
-fig, ax2 = plt.subplots(2, 1)
-y_chirp = signal.chirp(x_linear, 2, 20, 0.001)
-result_2 = tform_1d_cwt(y_chirp)
-ax2[0].imshow(result_2, cmap='PRGn')
-ax2[1].plot(x_linear, y_chirp)
+        result_1 = tforms.tform_1d_cwt(test_df, 1)
+        result_y = tforms.tform_1d_cwt(test_df, "y")
+        assert math.isclose(result_1, result_y), "Not accepting y as 1 input"
