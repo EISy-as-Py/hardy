@@ -155,6 +155,20 @@ import pandas as pd
 from scipy import signal
 import matplotlib.pyplot as plt
 
+def transform_log(raw_array):
+    log_array = np.log(raw_array)
+    return log_array
+
+def transform_reciprocal(raw_array):
+    reciprocal_array = np.reciprocal(raw_array)
+    return reciprocal_array
+
+def transform_cumsum(raw_array):
+    cumsum_array = np.cumsum(raw_array)
+    return cumsum_array
+
+def transform_1d_derrivative(raw_array, spacing=0):
+
 
 def tform_1d_cwt(raw_df, xy=0):
     """
