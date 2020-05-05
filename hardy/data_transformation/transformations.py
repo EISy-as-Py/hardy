@@ -155,9 +155,10 @@ import pandas as pd
 from scipy import signal
 import matplotlib.pyplot as plt
 
+
 def transform_log(raw_array):
     '''The function that outputs the natural log of input array
-    
+
     PARAMETERS:
     -----------
     raw_array: Input numpy array
@@ -186,6 +187,7 @@ def transform_reciprocal(raw_array):
     reciprocal_array = np.reciprocal(raw_array)
     return reciprocal_array
 
+
 def transform_cumsum(raw_array):
     '''The function return the cumulative sum of input array
 
@@ -202,9 +204,23 @@ def transform_cumsum(raw_array):
     return cumsum_array
 
 
-def transform_1d_derrivative(raw_array, spacing=0):
+def transform_1d_derivative(raw_array, spacing=0):
+    ''' Function that outputs the gradient of 1-D array using
+    numpy.gradient function
+
+    PARAMETERS:
+    -----------
+    raw_array: numpy array
+    spacing: int representing the spacing between each datapoint
+
+    RETURNS:
+    --------
+    derivative_array: np.ndarray
+                      array representing gradient at each datapoint
+    '''
+
     if spacing == 0:
-        spacing = np.arange(raw_array.size)
+        spacing = np.arange(np.size(raw_array))
     else:
         spacing = spacing
 
