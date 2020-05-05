@@ -156,18 +156,61 @@ from scipy import signal
 import matplotlib.pyplot as plt
 
 def transform_log(raw_array):
+    '''The function that outputs the natural log of input array
+    
+    PARAMETERS:
+    -----------
+    raw_array: Input numpy array
+
+    RETURNS:
+    --------
+    log_array: np.ndarray
+               natural log values of each element in the input array
+    '''
     log_array = np.log(raw_array)
     return log_array
 
+
 def transform_reciprocal(raw_array):
+    '''The function the outputs the reciprocal of input array
+
+    PARAMETERS:
+    -----------
+    raw_array: Input numpy array
+
+    RETURNS:
+    --------
+    log_array: np.ndarray
+               reciprocal values of each element in the input array
+    '''
     reciprocal_array = np.reciprocal(raw_array)
     return reciprocal_array
 
 def transform_cumsum(raw_array):
+    '''The function return the cumulative sum of input array
+
+    PARAMETERS:
+    -----------
+    raw_array: Input numpy array
+
+    RETURNS:
+    --------
+    log_array: np.ndarray
+               cumulative sum of values in the input array
+    '''
     cumsum_array = np.cumsum(raw_array)
     return cumsum_array
 
+
 def transform_1d_derrivative(raw_array, spacing=0):
+    if spacing == 0:
+        spacing = np.arange(raw_array.size)
+    else:
+        spacing = spacing
+
+    derivative_array = np.gradient(raw_array, spacing)
+
+    return derivative_array
 
 
 def tform_1d_cwt(raw_df, xy=0):
