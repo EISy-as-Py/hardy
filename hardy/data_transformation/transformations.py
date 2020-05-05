@@ -289,9 +289,9 @@ def tform_1d_cwt(raw_df, xy=0):
 
     data_n = len(data)
     widths = np.linspace(1, data_n, data_n)
-    cwt_matrix = signal.cwt(data, signal.ricker, widths)
+    # cwt_matrix = signal.cwt(data, signal.ricker, widths)
     # Optional different Signal to compare with: "Morlet2" but not working?)
-    # cwt_matrix = signal.cwt(data, signal.morlet2, widths)
+    cwt_matrix = signal.cwt(data, signal.morlet, widths)
 
     return cwt_matrix
 
