@@ -155,8 +155,12 @@ import pandas as pd
 from scipy import signal
 import matplotlib.pyplot as plt
 
+def transform_1d_exp(raw_array):
 
-def transform_log(raw_array):
+    return np.exp(raw_array)
+
+
+def transform_1d_log(raw_array):
     '''The function that outputs the natural log of input array
 
     PARAMETERS:
@@ -172,7 +176,7 @@ def transform_log(raw_array):
     return log_array
 
 
-def transform_reciprocal(raw_array):
+def transform_1d_reciprocal(raw_array):
     '''The function the outputs the reciprocal of input array
 
     PARAMETERS:
@@ -188,7 +192,7 @@ def transform_reciprocal(raw_array):
     return reciprocal_array
 
 
-def transform_cumsum(raw_array):
+def transform_1d_cumsum(raw_array):
     '''The function return the cumulative sum of input array
 
     PARAMETERS:
@@ -229,7 +233,7 @@ def transform_1d_derivative(raw_array, spacing=0):
     return derivative_array
 
 
-def tform_1d_cwt(raw_df, xy=0):
+def transform_1d_cwt(raw_df, xy=0):
     """
     Transform to execute a "Continuous Wavelet Transform" on a 1d data array
     pass it a raw XY data and tell it which column to use for the transform.
@@ -296,21 +300,31 @@ def tform_1d_cwt(raw_df, xy=0):
     return cwt_matrix
 
 
-# test
-x_linear = np.linspace(0, 20, 1000)
-y_test = 10 * np.sin(2 * np.pi * 0.1 * x_linear) + \
-            1 * np.sin(2 * np.pi * 5 * x_linear)
-test_df = pd.DataFrame(data={"Xlinear": x_linear, "Ytest": y_test})
-
-# Valid Test: Pass Test_df and the Y-axis transform to get output df
-# of the Y-test data.
-fig, ax = plt.subplots(2, 1)
-result_1 = tform_1d_cwt(test_df, 'y')
-ax[0].imshow(result_1, cmap='PRGn')
-ax[1].plot(x_linear, y_test)
-
-fig, ax2 = plt.subplots(2, 1)
-y_chirp = signal.chirp(x_linear, 2, 20, 0.001)
-result_2 = tform_1d_cwt(y_chirp)
-ax2[0].imshow(result_2, cmap='PRGn')
-ax2[1].plot(x_linear, y_chirp)
+list_1d = {
+        "1d_log": transform_1d_log,
+        "1d_reciprocal": transform_1d_reciprocal,
+        "1d_cumsum": transform_1d_cumsum,
+        "1d_derivative": transform_1d_derivative,
+        "1d_cwt": transform_1d_cwt
+        }
+# =============================================================================
+# # test
+# x_linear = np.linspace(0, 20, 1000)
+# y_test = 10 * np.sin(2 * np.pi * 0.1 * x_linear) + \
+#             1 * np.sin(2 * np.pi * 5 * x_linear)
+# test_df = pd.DataFrame(data={"Xlinear": x_linear, "Ytest": y_test})
+#
+# # Valid Test: Pass Test_df and the Y-axis transform to get output df
+# # of the Y-test data.
+# fig, ax = plt.subplots(2, 1)
+# result_1 = tform_1d_cwt(test_df, 'y')
+# ax[0].imshow(result_1, cmap='PRGn')
+# ax[1].plot(x_linear, y_test)
+#
+# fig, ax2 = plt.subplots(2, 1)
+# y_chirp = signal.chirp(x_linear, 2, 20, 0.001)
+# result_2 = tform_1d_cwt(y_chirp)
+# ax2[0].imshow(result_2, cmap='PRGn')
+# ax2[1].plot(x_linear, y_chirp)
+#
+# =============================================================================

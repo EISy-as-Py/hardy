@@ -136,3 +136,100 @@ Data To Plot on Demand and deliver to the Image Processing f(n)s
           first and hopefully get good results in fewer attempts.
 
 """
+import os.path
+
+import numpy as np
+import pandas as pd
+
+import transformations as transform
+
+# This is a test of the import functions, so I can make sure it's working
+a = np.linspace(0.1, 10, 1000)
+b = transform.transform_cumsum(a)
+
+
+class transform_data():
+    """
+    """
+
+    testing_global_import = a
+
+
+    def __init__(self, fname=None, rawdata=None, transforms=None):
+        """
+
+        """
+        if fname:
+            assert type(fname) == str, "fname must be a string, " + \
+                                        "pointing to file"
+            assert os.path.isfile(fname), "no file found at {}".format(fname)
+            self.fpath, self.serialID = os.path.split(fname)
+            if rawdata:
+                raise AssertionError("Passed Data AND FileName?!?")
+                # Still keep path and name... Decide how to overrule?
+                self.fpath, self.serialID = os.path.split(fname)
+            else:
+                # STAND-IN FOR DATA HANDLING MODULE
+                self.rawdata = pd.read_csv(fname)
+        else:
+            pass
+
+        if rawdata.any():
+            if type(rawdata) == pd.DataFrame:
+                self.rawdata = rawdata
+            elif type(rawdata) == np.ndarray:
+                self.rawdata = pd.DataFrame(rawdata)
+            else:
+                if not fname:
+                    raise AssertionError("Neither Data or FileName Given!")
+
+        if transforms:
+            # One option is to pass an immediate LIST of Transforms to use
+            # In order X(R-->G-->B)-->Y((R-->G-->B) for each axis...
+            # IF more than 6 transforms passed... Error for now.
+            #   IN FUTURE: Handle more Transforms by assuming 8-D or other
+            #              method of image convolution?
+
+            if type(transforms) == str:
+                # Check that that is a valid transform to use?
+                # OR just raise error as if it was wrong, and force data
+                # to be entered as a LIST...
+                raise AssertionError("For now, put transform str in a LIST")
+            elif type(transforms) == list:
+                if len(transforms) > 6:
+                    raise AssertionError("For Now, only accept 6 Transforms")
+                for tform in transforms:
+                    # LOOP THROUGH LIST, AND PERFORM EACH TRANSFORM,
+                    # AND STORE THAT IMAGE IN THE CORRECT ARRAY
+                    # perform_transform(tform, array=n)
+                    a = 1
+            else:
+                raise AssertionError("Unacceptable Type." +
+                                     "Expect List of Strings")
+        return None
+
+
+    def perform_transfom(self, tform_str, array=0):
+        """
+        First, Parse the Transform string to find What type of TForm it is...
+            1D-->1D: ex. Log(x)
+            2D-->2D: ex. ? KernelDensity? (Scatter/Heatmap)
+            1D-->2D: ex. Wavelet or other Fourier-Transform
+            2D-->1D: ex. x*y^2 or dY/dx
+        Then, call the appropriate Transform from the appropriate list
+            (Or should we only have one, bigger list?)
+        """
+        # FIRST must confirm self.rawdata
+
+        if "1d1d" in tform_str:
+            if tform_str in
+                tform_array = tform_1d(tform_str)
+        elif "2d" in tform_str:
+            tform_array = tform_2d(tform_str)
+
+c = np.zeros([2, 100])
+d = transform_data(rawdata = c)
+
+
+
+
