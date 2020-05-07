@@ -154,7 +154,6 @@ class transform_data():
 
     testing_global_import = a
 
-
     def __init__(self, fname=None, rawdata=None, transforms=None):
         """
 
@@ -189,27 +188,83 @@ class transform_data():
             # IF more than 6 transforms passed... Error for now.
             #   IN FUTURE: Handle more Transforms by assuming 8-D or other
             #              method of image convolution?
+            perform_transform_list(transforms)
 
-            if type(transforms) == str:
-                # Check that that is a valid transform to use?
-                # OR just raise error as if it was wrong, and force data
-                # to be entered as a LIST...
-                raise AssertionError("For now, put transform str in a LIST")
-            elif type(transforms) == list:
-                if len(transforms) > 6:
-                    raise AssertionError("For Now, only accept 6 Transforms")
-                for tform in transforms:
-                    # LOOP THROUGH LIST, AND PERFORM EACH TRANSFORM,
-                    # AND STORE THAT IMAGE IN THE CORRECT ARRAY
-                    # perform_transform(tform, array=n)
-                    a = 1
-            else:
-                raise AssertionError("Unacceptable Type." +
-                                     "Expect List of Strings")
         return None
 
+    def perform_transform_list(self, transforms, array_n=0):
+        """
+        This will allow for doing transforms in addtion to those done during
+        "__INIT__" step.
+        In fact, the init step should just pass its list of transforms to this!
 
-    def perform_transfom(self, tform_str, array=0):
+        Parameters:
+            ----------------------------------
+            self.rawdata : pandas.DataFrame
+                        must be dataframe of raw data columns
+                        columns may be named but most likely will be called
+                        by a NUMERICAL call on the df.columns() list.
+
+                        N columns allowed... Need to determine which to do
+                        on each transform...
+
+            transforms : tuple(?) or list
+                    a LIST (or tuple) of the transformations to perform...
+                    Each item in list is a TUPLE of the form
+                    (Transform, Target(s), OTHER?), where:
+                Transform :
+                    a STRING that must match a transform in the dictionary
+                    passed as part of transformations.py
+                Target(s) :
+                    For 1D transforms, a single number (or column name?)
+                        (or list with one number/name in it), directing
+                        what column to use for the transfomr
+                    For 2D transforms, a LIST of numbers (or names?)
+                        directing which 2 columns to pass to the transform
+                        (IN ORDER OF COURSE).
+                    For ND transforms, a LIST of N target columns to pass.
+                OTHER? :
+                    Any other arguments that this particular tform needs???
+                    I don't like this parameter and hopefully we will use none.
+        """
+        # For Transform List, either pass an "N" array to start at, or we'll
+        # find the first Non-empty array in the list!
+        array_n = 0
+        for tform_array in tform_array_list():
+            if self.tform_array.any():
+                array_n += 1
+            else:
+                pass
+
+        # FIRST, Check that transforms is the correct type:
+        if type(transforms) == str:
+            # Check that that is a valid transform to use?
+            # OR just raise error as if it was wrong, and force data
+            # to be entered as a LIST...
+            raise AssertionError("For now, put transform str in a LIST. \n" +
+                                 "SEE DOCUMENTATION FOR GUIDANCE.")
+        elif type(transforms) == list or type(transfoms) == tuple:
+            if len(transforms) > 6:
+                raise AssertionError("For Now, only accept 6 Transforms")
+            for tform in enumerate(transforms):
+                # LOOP THROUGH LIST, AND PERFORM EACH TRANSFORM,
+                # AND STORE THAT IMAGE IN THE CORRECT ARRAY
+                # perform_transform(tform, array=n)
+                if type(tform) == str:
+                    print("Transform passed without column?")
+                elif type(tform) == list or type(tform) == tuple:
+                    # Perform the Transform and put it in the n'th array
+                    if array_n >= 7:
+                        raise AssertionError("Could Not Find Empty Array to " +
+                                             "Place Transform: " + tform[0])
+                    perform_transform(tform, array=array_n)
+                    array_n += 1
+        else:
+            raise AssertionError("Unacceptable Type." +
+                                 "Expect List of Strings")
+
+
+    def perform_transfom(self, tform, array=0):
         """
         First, Parse the Transform string to find What type of TForm it is...
             1D-->1D: ex. Log(x)
@@ -218,17 +273,69 @@ class transform_data():
             2D-->1D: ex. x*y^2 or dY/dx
         Then, call the appropriate Transform from the appropriate list
             (Or should we only have one, bigger list?)
+
+        PARAMETERS:
+            self.rawdata : Pandas.DataFrame
+                    Raw data, for individual columns to be DEEP COPIED
+                    and fed into the transforms
+
+            tform : list of directions for the transform (described in init...)
+                tform[0] : str
+                    a STRING that must match a transform in the dictionary
+                    passed as part of transformations.py
+                tform[1] : int or LIST of ints (or str? bad...)
+                    For 1D transforms, a single number (or column name?)
+                        (or list with one number/name in it), directing
+                        what column to use for the transfomr
+                    For 2D transforms, a LIST of numbers (or names?)
+                        directing which 2 columns to pass to the transform
+                        (IN ORDER OF COURSE).
+                    For ND transforms, a LIST of N target columns to pass.
+                tform[2]: LIST of OTHER?
+                    Any other arguments that this particular tform needs???
+                    I don't like this parameter and hopefully we will use none.
         """
-        # FIRST must confirm self.rawdata
+        # FIRST must confirm self.rawdata exists, or this will fail badly!
+        raw = copy.deepcopy(self.rawdata).to_numpy()
+        # DEEP COPY the raw data, so we NEVER change or overwrite it!
 
-        if "1d1d" in tform_str:
-            if tform_str in
-                tform_array = tform_1d(tform_str)
-        elif "2d" in tform_str:
-            tform_array = tform_2d(tform_str)
+        # DECISION FOR GROUP: Which Columns in Raw to tform?
 
-c = np.zeros([2, 100])
-d = transform_data(rawdata = c)
+        string_guess = 0
+        if type(tform[1]) == int:
+            target_guess = 1
+        elif type(tform[1]) == list or type(tform[1]) == tuple:
+            target_guess = len(tform[1])  # How many columns do we target?
+        else:
+            raise AssertionError("Need list of column IDs to transform")
+
+        if "1d_" in tform[0]:
+            string_guess = 1
+        elif "2d_" in tform[0]:
+            string_guess = 2
+        elif "d_" in tform[0]:
+            string_guess = 3
+        else:
+            raise AssertionError("Bad Transform String? Must ID the Dimension")
+
+        if string_guess != target_guess:
+            raise AssertionError("Wrong number of columns passed " +
+                                 "for transform: \n" + tform[0])
+        else:
+            pass
+
+#        if target_guess == 1:
+#            if tform_str in transformations.list_1d.keys():
+#                raw_array = raw[tform[1][0]]
+#                tform_array = tform_1d(raw, tform_str)
+#            else:
+#                pass
+#        elif "2d" in tform_str:
+#            if tform_str in transformations.list_1d.keys():
+#                tform_array = tform_2d(raw, tform_str)
+
+# c = np.zeros([2, 100])
+# d = transform_data(rawdata = c)
 
 
 

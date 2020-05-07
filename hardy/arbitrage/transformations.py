@@ -153,7 +153,8 @@ DATA WILL BE PROCESSED IN THE "ARBITRAGE.py" FILE
 import numpy as np
 import pandas as pd
 from scipy import signal
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
+
 
 def transform_1d_exp(raw_array):
 
@@ -292,7 +293,7 @@ def transform_1d_cwt(raw_df, xy=0):
             "Needs Dataframe or 1-Dimensional Data Array!"
 
     data_n = len(data)
-    widths = np.linspace(1, data_n, data_n)
+    widths = np.arange(1, data_n, 1)
     # cwt_matrix = signal.cwt(data, signal.ricker, widths)
     # Optional different Signal to compare with: "Morlet2" but not working?)
     cwt_matrix = signal.cwt(data, signal.morlet, widths)
@@ -307,24 +308,23 @@ list_1d = {
         "1d_derivative": transform_1d_derivative,
         "1d_cwt": transform_1d_cwt
         }
-# =============================================================================
-# # test
-# x_linear = np.linspace(0, 20, 1000)
-# y_test = 10 * np.sin(2 * np.pi * 0.1 * x_linear) + \
-#             1 * np.sin(2 * np.pi * 5 * x_linear)
-# test_df = pd.DataFrame(data={"Xlinear": x_linear, "Ytest": y_test})
-#
-# # Valid Test: Pass Test_df and the Y-axis transform to get output df
-# # of the Y-test data.
-# fig, ax = plt.subplots(2, 1)
-# result_1 = tform_1d_cwt(test_df, 'y')
-# ax[0].imshow(result_1, cmap='PRGn')
-# ax[1].plot(x_linear, y_test)
-#
-# fig, ax2 = plt.subplots(2, 1)
-# y_chirp = signal.chirp(x_linear, 2, 20, 0.001)
-# result_2 = tform_1d_cwt(y_chirp)
-# ax2[0].imshow(result_2, cmap='PRGn')
-# ax2[1].plot(x_linear, y_chirp)
-#
-# =============================================================================
+
+
+#=============================================================================
+# test
+x_linear = np.linspace(0, 20, 1000)
+y_test = 10 * np.sin(2 * np.pi * 0.1 * x_linear) + 1 * np.sin(2 * np.pi * 5 * x_linear)
+test_df = pd.DataFrame(data={"Xlinear": x_linear, "Ytest": y_test})
+# Valid Test: Pass Test_df and the Y-axis transform to get output df
+# of the Y-test data.
+fig, ax = plt.subplots(2, 1)
+result_1 = transform_1d_cwt(test_df, 'y')
+ax[0].imshow(result_1, cmap='PRGn')
+ax[1].plot(x_linear, y_test)
+fig, ax2 = plt.subplots(2, 1)
+
+y_chirp = signal.chirp(x_linear, 2, 20, 0.001)
+result_2 = transform_1d_cwt(y_chirp)
+ax2[0].imshow(result_2, cmap='PRGn')
+ax2[1].plot(x_linear, y_chirp)
+ #=============================================================================
