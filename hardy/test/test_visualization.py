@@ -2,8 +2,9 @@ import numpy as np
 import unittest
 
 
-from hardy.visualization import (normalize, normalize_image, rgb_plot,
-                                 orthogonal_images_add, orthogonal_images_mlt)
+from hardy.handling.visualization import (normalize, normalize_image, rgb_plot,
+                                          orthogonal_images_add,
+                                          orthogonal_images_mlt)
 
 #####################################################################
 # Define arrays for testing the funcitons in visualization
