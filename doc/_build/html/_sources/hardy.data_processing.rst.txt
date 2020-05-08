@@ -1,0 +1,22 @@
+hardy.data\_processing package
+==============================
+
+Submodules
+----------
+
+hardy.data\_processing.version module
+-------------------------------------
+
+.. automodule:: hardy.data_processing.version
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: hardy.data_processing
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,4 +1,4 @@
-name: eisy
+name: hardy
 channels:
   - pytorch
   - conda-forge

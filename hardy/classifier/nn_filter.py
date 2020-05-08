@@ -58,6 +58,7 @@ def make_training_data(IMG_SIZE, NOISE, IDEAL):
                         idealcount += 1
 
                 except Exception as e:
+                    print(e)
                     pass
 
     np.random.shuffle(training_data)

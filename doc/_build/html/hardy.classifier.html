@@ -1,0 +1,704 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hardy.classifier package &mdash; hardy.py 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="hardy.data_processing package" href="hardy.data_processing.html" />
+    <link rel="prev" title="hardy package" href="hardy.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> hardy.py
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">hardy</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="hardy.html">hardy package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="hardy.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">hardy.classifier package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="hardy.data_processing.html">hardy.data_processing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="hardy.data_transformation.html">hardy.data_transformation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="hardy.test.html">hardy.test package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="hardy.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hardy.html#module-hardy.version">hardy.version module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hardy.html#module-hardy">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">hardy.py</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">hardy</a> &raquo;</li>
+        
+          <li><a href="hardy.html">hardy package</a> &raquo;</li>
+        
+      <li>hardy.classifier package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/hardy.classifier.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="hardy-classifier-package">
+<h1>hardy.classifier package<a class="headerlink" href="#hardy-classifier-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-hardy.classifier.CNN_Model">
+<span id="hardy-classifier-cnn-model-module"></span><h2>hardy.classifier.CNN_Model module<a class="headerlink" href="#module-hardy.classifier.CNN_Model" title="Permalink to this headline">¶</a></h2>
+<p>Import necessary package</p>
+<dl class="function">
+<dt id="hardy.classifier.CNN_Model.Build_Data">
+<code class="sig-prename descclassname">hardy.classifier.CNN_Model.</code><code class="sig-name descname">Build_Data</code><span class="sig-paren">(</span><em class="sig-param">Training</em>, <em class="sig-param">Predict</em>, <em class="sig-param">k</em>, <em class="sig-param">path_list</em>, <em class="sig-param">image_width</em>, <em class="sig-param">image_height</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.Build_Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine the type of data to build.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Training</strong> (<em>True for building the training data</em>) – </p></li>
+<li><p><strong>Predict</strong> (<em>True for building the predict data</em>) – </p></li>
+<li><p><strong>k</strong> (<em>Depends on training/predict switch:</em>) – The total number of type/path(folder).
+(Setting the maximum value equal 7/10 by defult)</p></li>
+<li><p><strong>path_list_training</strong> (<em>A list containing the path of training folder.</em>) – One index for one path only.
+Last index is the nparray file name (XXX.npy).</p></li>
+<li><p><strong>image_width</strong> (<em>The target width after resize</em>) – </p></li>
+<li><p><strong>image_height</strong> (<em>The target height after resize</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="hardy.classifier.CNN_Model.EISDataImport">
+<em class="property">class </em><code class="sig-prename descclassname">hardy.classifier.CNN_Model.</code><code class="sig-name descname">EISDataImport</code><a class="headerlink" href="#hardy.classifier.CNN_Model.EISDataImport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Data Import and Pre-Processing</p>
+<dl class="method">
+<dt id="hardy.classifier.CNN_Model.EISDataImport.DataImporter_Predict">
+<code class="sig-name descname">DataImporter_Predict</code><span class="sig-paren">(</span><em class="sig-param">k</em>, <em class="sig-param">path_List_predict</em>, <em class="sig-param">image_width</em>, <em class="sig-param">image_height</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.EISDataImport.DataImporter_Predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import the testing image file (.png) into the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>The total number of path</em><em>(</em><em>folder</em><em>)</em>) – (Setting the maximum value equal 10 by defult)</p></li>
+<li><p><strong>path_list_predict</strong> (<em>A list containing the path of random image to</em>) – be predicted.
+One index for one path only.
+Last index is the nparray file name (XXX.npy).</p></li>
+<li><p><strong>image_width</strong> (<em>The target width after resize</em>) – </p></li>
+<li><p><strong>image_height</strong> (<em>The target height after resize</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="hardy.classifier.CNN_Model.EISDataImport.DataImporter_Training">
+<code class="sig-name descname">DataImporter_Training</code><span class="sig-paren">(</span><em class="sig-param">k</em>, <em class="sig-param">path_List_training</em>, <em class="sig-param">image_width</em>, <em class="sig-param">image_height</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.EISDataImport.DataImporter_Training" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import the training image file (.png) into the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>The total number of the type.</em>) – (Setting the maximum value equal 7 by defult)</p></li>
+<li><p><strong>path_list_training</strong> (<em>A list containing the path of training images.</em>) – One index for one path only.
+Last index is the nparray file name (XXX.npy).</p></li>
+<li><p><strong>image_width</strong> (<em>The target width after resize</em>) – </p></li>
+<li><p><strong>image_height</strong> (<em>The target height after resize</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="hardy.classifier.CNN_Model.Net">
+<em class="property">class </em><code class="sig-prename descclassname">hardy.classifier.CNN_Model.</code><code class="sig-name descname">Net</code><span class="sig-paren">(</span><em class="sig-param">input_size</em>, <em class="sig-param">image_width</em>, <em class="sig-param">image_height</em>, <em class="sig-param">firstHidden</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">output_size</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.Net" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Convolutional Neural Network Model</p>
+<dl class="method">
+<dt id="hardy.classifier.CNN_Model.Net.convs">
+<code class="sig-name descname">convs</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.Net.convs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put the image into the convolutional hidden layer. Scan over the
+original image to and use the max pooling function (with size 2) to
+determine the one number to represent the sub-image.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hardy.classifier.CNN_Model.Net.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.Net.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine the order that image pass through the neural network model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hardy.classifier.CNN_Model.Net.last_conv_neuron">
+<code class="sig-name descname">last_conv_neuron</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.Net.last_conv_neuron" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate how many neurons that the last convolutional layer will
+connect to the linear hidden layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>a random torch tensor with size</em><em> (</em><em>-1</em><em>, </em><em>1</em><em>, </em><em>image_height</em><em>, </em><em>image_width</em><em>)</em>) – </p></li>
+<li><p><strong>Ex</strong> (<em>x = torch.randn</em><em>(</em><em>image_height</em><em>, </em><em>image_width</em>) – ).view(-1, 1, image_height, image_width)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.CNN_Model.accuracy">
+<code class="sig-prename descclassname">hardy.classifier.CNN_Model.</code><code class="sig-name descname">accuracy</code><span class="sig-paren">(</span><em class="sig-param">testing_sample_image</em>, <em class="sig-param">testing_sample_type</em>, <em class="sig-param">input_size</em>, <em class="sig-param">image_width</em>, <em class="sig-param">image_height</em>, <em class="sig-param">firstHidden</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">output_size</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.accuracy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the predicting accuracy for the learning function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>testing_sample_image</strong> (<em>The tensor-form images used to test model accuracy</em>) – </p></li>
+<li><p><strong>testing_sample_type</strong> (<em>The tensor-form types used to test model accuracy</em>) – </p></li>
+<li><p><strong>as the parameters of nn model---</strong> (<em>---Same</em>) – </p></li>
+<li><p><strong>input_size</strong> (<em>Setting as 1 for gray scale image.</em>) – </p></li>
+<li><p><strong>image_width</strong> (<em>The target width after resize</em>) – </p></li>
+<li><p><strong>image_height</strong> (<em>The target height after resize</em>) – </p></li>
+<li><p><strong>firstHidden</strong> (<em>The size of first hidden layer.</em>) – </p></li>
+<li><p><strong>kernel_size</strong> (<em>It will form a subwindom with size of kernel to scan over</em>) – the original image.</p></li>
+<li><p><strong>output_size</strong> (<em>The number of final target type.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.CNN_Model.data_information">
+<code class="sig-prename descclassname">hardy.classifier.CNN_Model.</code><code class="sig-name descname">data_information</code><span class="sig-paren">(</span><em class="sig-param">array_data</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.data_information" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the size of image and dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>array_data</strong> (<em>the data in nparray form loading from &quot;XXX.npy&quot; file.</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.CNN_Model.data_separation">
+<code class="sig-prename descclassname">hardy.classifier.CNN_Model.</code><code class="sig-name descname">data_separation</code><span class="sig-paren">(</span><em class="sig-param">tensor_data</em>, <em class="sig-param">ratio_of_testing</em>, <em class="sig-param">TRAIN</em>, <em class="sig-param">TEST</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.data_separation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Separate the training and testing data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tensor_data</strong> (<em>the data in tensor form</em>) – </p></li>
+<li><p><strong>ratio_of_testing</strong> (<em>ratio for the testing data</em>) – </p></li>
+<li><p><strong>TRAIN</strong> (<em>determine which size of data will be printed out</em>) – if TRIAN is True, print out the training sample size;
+otherwise, print out the testing sample size</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.CNN_Model.image_to_tensor">
+<code class="sig-prename descclassname">hardy.classifier.CNN_Model.</code><code class="sig-name descname">image_to_tensor</code><span class="sig-paren">(</span><em class="sig-param">array_data</em>, <em class="sig-param">image_width</em>, <em class="sig-param">image_height</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.image_to_tensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform the array image into tensor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array_data</strong> (<em>the data in nparray form loading from &quot;XXX.npy&quot; file.</em>) – </p></li>
+<li><p><strong>image_width</strong> (<em>The target width after resize</em>) – </p></li>
+<li><p><strong>image_height</strong> (<em>The target height after resize</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>tensor_image</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Image data in tensor-form.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.CNN_Model.learning">
+<code class="sig-prename descclassname">hardy.classifier.CNN_Model.</code><code class="sig-name descname">learning</code><span class="sig-paren">(</span><em class="sig-param">training_sample_image</em>, <em class="sig-param">training_sample_type</em>, <em class="sig-param">input_size</em>, <em class="sig-param">image_width</em>, <em class="sig-param">image_height</em>, <em class="sig-param">firstHidden</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">output_size</em>, <em class="sig-param">learning_rate</em>, <em class="sig-param">BATCH_SIZE</em>, <em class="sig-param">EPOCHS</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.learning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put the training sample into to the neural network model to learn.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>training_sample_image</strong> (<em>The tensor-form images used to train the model</em>) – </p></li>
+<li><p><strong>training_sample_type</strong> (<em>The tensor-form types used to train the model</em>) – </p></li>
+<li><p><strong>as the parameters of nn model---</strong> (<em>---Same</em>) – </p></li>
+<li><p><strong>input_size</strong> (<em>Setting as 1 for gray scale image.</em>) – </p></li>
+<li><p><strong>image_width</strong> (<em>The target width after resize</em>) – </p></li>
+<li><p><strong>image_height</strong> (<em>The target height after resize</em>) – </p></li>
+<li><p><strong>firstHidden</strong> (<em>The size of first hidden layer.</em>) – </p></li>
+<li><p><strong>kernel_size</strong> (<em>It will form a subwindom with size of kernel to scan over</em>) – the original image.</p></li>
+<li><p><strong>output_size</strong> (<em>The number of final target type.</em>) – </p></li>
+<li><p><strong>learning_rate</strong> (<em>The learning rate controls how quickly the model is adapted</em>) – to the problem (often in the range between 0.0 and 1.0.)</p></li>
+<li><p><strong>BATCH_SIZE</strong> (<em>Number of training examples utilized in one iteration.</em>) – </p></li>
+<li><p><strong>EPOCHS</strong> (<em>Number of iterations in the whole training process</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.CNN_Model.load_array_data">
+<code class="sig-prename descclassname">hardy.classifier.CNN_Model.</code><code class="sig-name descname">load_array_data</code><span class="sig-paren">(</span><em class="sig-param">np_ndarray_file</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.load_array_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the data from the .npy file to check if all the images
+have been in the program.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>np_ndarray_file</strong> (<em>The abc.npy file name.</em>) – Should be identical to the last index in path list</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>training_data</strong> – type -&gt; numpy.ndarray</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>The dataset expressed in numpy array form.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.CNN_Model.plotting_data">
+<code class="sig-prename descclassname">hardy.classifier.CNN_Model.</code><code class="sig-name descname">plotting_data</code><span class="sig-paren">(</span><em class="sig-param">input_data</em>, <em class="sig-param">i</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.plotting_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show the assigned image with matplotlib package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_data</strong> (<em>the data in nparray form loading from &quot;XXX.npy&quot; file.</em>) – </p></li>
+<li><p><strong>i</strong> (<em>An arbitrary number to assign one image in input_data to show.</em>) – Should fall in the range of dataset size.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.CNN_Model.type_prediction">
+<code class="sig-prename descclassname">hardy.classifier.CNN_Model.</code><code class="sig-name descname">type_prediction</code><span class="sig-paren">(</span><em class="sig-param">k</em>, <em class="sig-param">path_List_training</em>, <em class="sig-param">tensor_data</em>, <em class="sig-param">array_data</em>, <em class="sig-param">input_size</em>, <em class="sig-param">image_width</em>, <em class="sig-param">image_height</em>, <em class="sig-param">firstHidden</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">output_size</em>, <em class="sig-param">detailed_information</em>, <em class="sig-param">j</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.type_prediction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict which type the input image is and print out the total number of
+each type.
+(Optional) Print out the predicted type and file name for each image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>The total number of &quot;TRAINING&quot; folder.</em>) – Must be identical to the first parameter in “DataImporter_Training”
+function.</p></li>
+<li><p><strong>path_list_training</strong> (<em>Must be identical to the second parameter</em>) – in “DataImporter_Training function”.
+A list containing the path of “TRAINING” folder.
+One index for one path only.
+Last index is the nparray file name (XXX.npy).</p></li>
+<li><p><strong>tensor_data</strong> (<em>from the return of image_to_tensor</em><em>(</em><em>) </em><em>function.</em>) – </p></li>
+<li><p><strong>array_data</strong> (<em>from the return of load_array_data</em><em>(</em><em>) </em><em>function.</em>) – </p></li>
+<li><p><strong>as the parameters of nn model---</strong> (<em>---Same</em>) – </p></li>
+<li><p><strong>input_size</strong> (<em>Setting as 1 for gray scale image.</em>) – </p></li>
+<li><p><strong>image_width</strong> (<em>The target width after resize</em>) – </p></li>
+<li><p><strong>image_height</strong> (<em>The target height after resize</em>) – </p></li>
+<li><p><strong>firstHidden</strong> (<em>The size of first hidden layer.</em>) – </p></li>
+<li><p><strong>kernel_size</strong> (<em>It will form a subwindom with size of kernel to scan over</em>) – the original image.</p></li>
+<li><p><strong>output_size</strong> (<em>The number of final target type.</em>) – </p></li>
+<li><p><strong>information</strong> (<em>detailed</em>) – name for each image or not.</p></li>
+<li><p><strong>j</strong> (<em>Determine how many images will print out the detailed information.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.CNN_Model.type_to_tensor">
+<code class="sig-prename descclassname">hardy.classifier.CNN_Model.</code><code class="sig-name descname">type_to_tensor</code><span class="sig-paren">(</span><em class="sig-param">array_data</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.CNN_Model.type_to_tensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type here means the labels which were put with the images
+while importing
+Transform the array type into tensor.
+The function should be used only in the training part.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>array_data</strong> (<em>the data in nparray form loading from &quot;XXX.npy&quot; file.</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>tensor_type</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Types data in tensor-form.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hardy.classifier.nn_filter">
+<span id="hardy-classifier-nn-filter-module"></span><h2>hardy.classifier.nn_filter module<a class="headerlink" href="#module-hardy.classifier.nn_filter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hardy.classifier.nn_filter.Net">
+<em class="property">class </em><code class="sig-prename descclassname">hardy.classifier.nn_filter.</code><code class="sig-name descname">Net</code><span class="sig-paren">(</span><em class="sig-param">IMG_SIZE</em>, <em class="sig-param">Input_Size</em>, <em class="sig-param">Hidden_layer</em>, <em class="sig-param">kernel</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.nn_filter.Net" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dl class="method">
+<dt id="hardy.classifier.nn_filter.Net.convs">
+<code class="sig-name descname">convs</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.nn_filter.Net.convs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hardy.classifier.nn_filter.Net.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.nn_filter.Net.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.nn_filter.data_split">
+<code class="sig-prename descclassname">hardy.classifier.nn_filter.</code><code class="sig-name descname">data_split</code><span class="sig-paren">(</span><em class="sig-param">input_data</em>, <em class="sig-param">frac</em>, <em class="sig-param">IMG_SIZE</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.nn_filter.data_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that returns the train data and validation data</p>
+<p>The function splits the given numpy array data into training data
+and test data according with reference to given fraction. It converts
+the numpy data into torch object of IMG_SIZE*IMG_SIZE dimensions and
+normalizes it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_data</strong> (<em>numpy.array</em>) – The numpy array object consitituting the image data and
+their corresponding labels.</p></li>
+<li><p><strong>frac</strong> (<em>float</em>) – float value indicating the fraction of data that is reserved for
+validation of neural network model.</p></li>
+<li><p><strong>IMG_SIZE</strong> (<em>int</em>) – integer value indicating the image vector dimension.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>train_X</strong> (<em>tensor for training image data</em>)</p></li>
+<li><p><strong>test_X</strong> (<em>tensor for testing image data</em>)</p></li>
+<li><p><strong>train_y</strong> (<em>tensor labels for training data</em>)</p></li>
+<li><p><strong>test_y</strong> (<em>tensor labels for testing data</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.nn_filter.make_training_data">
+<code class="sig-prename descclassname">hardy.classifier.nn_filter.</code><code class="sig-name descname">make_training_data</code><span class="sig-paren">(</span><em class="sig-param">IMG_SIZE</em>, <em class="sig-param">NOISE</em>, <em class="sig-param">IDEAL</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.nn_filter.make_training_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that returns the imported data as numpy array</p>
+<p>Function that imports the images from the folders, add labels
+and then returns the imports as numpy array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>IMG_SIZE</strong> (<em>int</em>) – an integer value indicating the image dimension for the
+import.</p></li>
+<li><p><strong>NOISE</strong> (<em>str</em>) – a string indicating the folder in which noisy data is. Both
+absolute or relative path can be assigned.</p></li>
+<li><p><strong>IDEAL</strong> (<em>str</em>) – a string indicating the folder in which ideal data is. Both
+absolute or relative path can be assigned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>training_data</strong> – numpy array containing the image data as vectors
+and their corresponding label. It uses one-hot vector
+to represent the label.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.nn_filter.optimize">
+<code class="sig-prename descclassname">hardy.classifier.nn_filter.</code><code class="sig-name descname">optimize</code><span class="sig-paren">(</span><em class="sig-param">net</em>, <em class="sig-param">learning_rate</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.nn_filter.optimize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that returns the optimizer and loss function</p>
+<p>Function that builds the optimizer and loss function through
+given neural network and learning rate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<em>convolutional neural network</em>) – convolutional nerural network model that is built
+through the initialization of neural network class</p></li>
+<li><p><strong>learning_rate</strong> (<em>float</em>) – float value indicating the learning rate
+for the optimizer</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>optimizer, loss_function</strong> – models for optimizer and loss function</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>models</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.nn_filter.save_load_model">
+<code class="sig-prename descclassname">hardy.classifier.nn_filter.</code><code class="sig-name descname">save_load_model</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">network=None</em>, <em class="sig-param">save=None</em>, <em class="sig-param">load=None</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.nn_filter.save_load_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to save and load model</p>
+<p>Function that can save or load model depending on given parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – string indicating the filename for saving or loading model.</p></li>
+<li><p><strong>network</strong> (<em>neural_network</em>) – neural network variable that is to be saved or loaded.</p></li>
+<li><p><strong>save</strong> (<em>bool</em>) – boolean value if true saves the neural network model.</p></li>
+<li><p><strong>load</strong> (<em>bool</em>) – boolean value if true loads the neural network model.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>loaded_model</strong> – model that is loaded from the specified location</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.nn_filter.test_accuracy">
+<code class="sig-prename descclassname">hardy.classifier.nn_filter.</code><code class="sig-name descname">test_accuracy</code><span class="sig-paren">(</span><em class="sig-param">test_X</em>, <em class="sig-param">test_y</em>, <em class="sig-param">trained_network</em>, <em class="sig-param">IMG_SIZE</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.nn_filter.test_accuracy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for validation of trained neural network</p>
+<p>The function takes validation data as input along with trained
+neural network to test the accuracy of the convolutional neural
+network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>test_X</strong> (<em>tensor</em>) – tensor representing the testing data</p></li>
+<li><p><strong>test_y</strong> (<em>tensor</em>) – tensor representing the label of testing data</p></li>
+<li><p><strong>trained_network</strong> (<em>neural_network</em>) – trained neural network which was generated by train
+function</p></li>
+<li><p><strong>IMG_SIZE</strong> (<em>int</em>) – integer value indicating the vector length of input image</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Prints the accuracy of Convolutional Neural Network Model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hardy.classifier.nn_filter.train">
+<code class="sig-prename descclassname">hardy.classifier.nn_filter.</code><code class="sig-name descname">train</code><span class="sig-paren">(</span><em class="sig-param">train_X</em>, <em class="sig-param">train_y</em>, <em class="sig-param">net</em>, <em class="sig-param">IMG_SIZE</em>, <em class="sig-param">BATCH_SIZE</em>, <em class="sig-param">EPOCHS</em>, <em class="sig-param">optimizer</em>, <em class="sig-param">loss_function</em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.classifier.nn_filter.train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that trains the model</p>
+<p>The function intakes training data and run it through to train the model
+using optimizer and loss function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>train_X</strong> (<em>tensor</em>) – tensor representing the image training data.</p></li>
+<li><p><strong>train_y</strong> (<em>tensor</em>) – tensor representing the labels for training data.</p></li>
+<li><p><strong>net</strong> (<em>model</em>) – convolutional neural network model generated by neural network
+class.</p></li>
+<li><p><strong>IMG_SIZE</strong> (<em>int</em>) – integer representing the vector length for the input image.</p></li>
+<li><p><strong>BATCH_SIZE</strong> (<em>int</em>) – integer value indicating the division number of inputs in
+single batch for training.</p></li>
+<li><p><strong>EPOCHS</strong> (<em>int</em>) – integer value indicating the number of times training is repeated.</p></li>
+<li><p><strong>optimizer</strong> (<em>model</em>) – model indicating the optimizer to be used or returned through
+optimize function.</p></li>
+<li><p><strong>loss_function</strong> (<em>model</em>) – model indicating the loss_function generated through
+optimize function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>net</strong> – trained neural network generated through the training data.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>neural_network</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hardy.classifier.version">
+<span id="hardy-classifier-version-module"></span><h2>hardy.classifier.version module<a class="headerlink" href="#module-hardy.classifier.version" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-hardy.classifier">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-hardy.classifier" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="hardy.data_processing.html" class="btn btn-neutral float-right" title="hardy.data_processing package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="hardy.html" class="btn btn-neutral float-left" title="hardy package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Maria Politi, Abdul Moeez,              David Hurt
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

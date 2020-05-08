@@ -1,7 +1,15 @@
+[![Build Status](https://travis-ci.org/EISy-as-Py/eisy.svg?branch=master)](https://travis-ci.org/EISy-as-Py/hardy)
+[![Documentation Status](https://readthedocs.org/projects/hardy/badge/?version=latest)](https://hardy.readthedocs.io/en/latest/?badge=latest)
+<img src=https://github.com/EISy-as-Py/hardy/blob/master/doc/images/EIS_Formats.PNG width=400 p align="right">
+
 # Project HARDy
  
  _"Handling Arbitrary Recognition of Data, y not?"_
 A package to assist in discovery, research, and classification of YOUR data, no matter who you are! 
+
+Our favorite Links:
+* [Travis](https://travis-ci.org/github/EISy-as-Py/hardy)
+* [ReadtheDocs](www.google.com)
 
 WORK IN PROGRESS - Please feel free to provide feedback and expand on our vision!
 -----------------------------------------------------------------

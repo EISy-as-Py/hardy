@@ -67,7 +67,7 @@ class EISDataImport():
         ----------
         k: The total number of path(folder)
            (Setting the maximum value equal 10 by defult)
-        path_list_predict: A list containing the path of random image to 
+        path_list_predict: A list containing the path of random image to
                            be predicted.
                            One index for one path only.
                            Last index is the nparray file name (XXX.npy).
@@ -132,17 +132,18 @@ def load_array_data(np_ndarray_file):  # Data Status Check
     Load the data from the .npy file to check if all the images
     have been in the program.
 
-    Parameter
+    Parameters
     ----------
-    np_ndarray_file: The XXX.npy file name.
+    np_ndarray_file: The abc.npy file name.
                      Should be identical to the last index in path list
 
     Return
-    ----------
+    ------
     training_data:  The dataset expressed in numpy array form.
                     type -> numpy.ndarray
 
     """
+
     array_data = np.load(np_ndarray_file, allow_pickle=True)
     return array_data
 
@@ -345,7 +346,7 @@ def learning(training_sample_image, training_sample_type, input_size,
 
     learning_rate: The learning rate controls how quickly the model is adapted
                    to the problem (often in the range between 0.0 and 1.0.)
-                   
+
     BATCH_SIZE: Number of training examples utilized in one iteration.
     EPOCHS: Number of iterations in the whole training process
     """
@@ -426,9 +427,9 @@ def type_prediction(k, path_List_training, tensor_data, array_data,
     Parameters
     ----------
     k: The total number of "TRAINING" folder.
-       Must be identical to the first parameter in "DataImporter_Training" 
+       Must be identical to the first parameter in "DataImporter_Training"
        function.
-    path_list_training: Must be identical to the second parameter 
+    path_list_training: Must be identical to the second parameter
                         in "DataImporter_Training function".
                         A list containing the path of "TRAINING" folder.
                         One index for one path only.
@@ -461,7 +462,7 @@ def type_prediction(k, path_List_training, tensor_data, array_data,
             if predicted_type == Type:
                 countImage_predicted_type[Type] += 1
                 # Print out the detailed information.
-                if i < j:                    
+                if i < j:
                     if detailed_information is True:
                         print("Type Prediction:", path_List_training[Type])
                         print("Path and File Name", array_data[i][0])
