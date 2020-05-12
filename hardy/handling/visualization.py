@@ -125,7 +125,7 @@ def rgb_plot(red_array=None, green_array=None, blue_array=None,
 
     given = {k: v is not None for i, (k, v) in enumerate(arrays.items())}
     given_arrays = [(k, arrays[k]) for i, (k, v) in enumerate(given.items())
-                    if v isTrue]
+                    if v is True]
     n = []
     for i in range(len(given_arrays)):
         n.append(len(given_arrays[i][1]))
