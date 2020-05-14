@@ -182,6 +182,7 @@ def transform_1d_log(raw_array):
     '''
     # NOTE: All Elements in array MUST be Positive!?
     #       IF Not, option to normalize first??
+    assert min(raw_array)>0, "Log will not accept negative values!"
     log_array = np.log(raw_array)
     return log_array
 

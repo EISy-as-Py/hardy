@@ -494,7 +494,7 @@ def load_and_transform_data(transformed_data, tform_list=None,
 
             for i, file_row in transformed_data[each_class].iterrows():
                 tform_data = file_row["tform_data"]
-                tform_data.to_csv(file_row['tform_path'],)
+                tform_data.to_csv(file_row['tform_path'],index=False)
 
     return transformed_data
 
