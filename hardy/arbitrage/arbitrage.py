@@ -140,12 +140,13 @@ import os.path
 
 import numpy as np
 import pandas as pd
+import copy
 
-import transformations as transform
+import hardy.arbitrage.transformations as transform
 
 # This is a test of the import functions, so I can make sure it's working
 a = np.linspace(0.1, 10, 1000)
-b = transform.transform_cumsum(a)
+b = transform.transform_1d_cumsum(a)
 
 
 class transform_data():
@@ -188,7 +189,7 @@ class transform_data():
             # IF more than 6 transforms passed... Error for now.
             #   IN FUTURE: Handle more Transforms by assuming 8-D or other
             #              method of image convolution?
-            perform_transform_list(transforms)
+            self.perform_transform_list(transforms)
 
         return None
 
@@ -231,7 +232,7 @@ class transform_data():
         # find the first Non-empty array in the list!
         array_n = 0
         for tform_array in tform_array_list():
-            if self.tform_array.any():
+            if tform_array.any():
                 array_n += 1
             else:
                 pass
@@ -336,7 +337,3 @@ class transform_data():
 
 # c = np.zeros([2, 100])
 # d = transform_data(rawdata = c)
-
-
-
-

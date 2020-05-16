@@ -1,6 +1,8 @@
-from .version import __version__
-from handling import *
-__all__ = [__version__]
+from .version import __version__      # noqa: F401
+from .handling import *               # noqa: F401, F403
+from .to_catalogue import *           # noqa: F401, F403
+from .visualization import *          # noqa: F401, F403
 
-name = 'data_processing'
+# __all__ = [__version__]
 
+name = 'handling'

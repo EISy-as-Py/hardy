@@ -131,3 +131,8 @@ dmypy.json
 # Locally Stored test-files (large file folders)
 #    Added DHurt 2020-04-20
 local_data/
+
+# Locally disk file mac
+#    Added moeez 2020-05-16
+.DS_store
+.vscode/

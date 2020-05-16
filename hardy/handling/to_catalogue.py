@@ -1,8 +1,8 @@
-import numpy as np
+# import numpy as np
 import pandas as pd
 import pickle
-from .visualization import (rgb_plot, orthogonal_images_add,
-                            orthogonal_images_mlt)
+import os
+from hardy.handling.visualization import (rgb_plot, orthogonal_images_add)
 
 
 def save_load_data(filename, data=None, save=None, load=None,
@@ -68,6 +68,6 @@ def rgb_list(input_path='./', classes=['noisy', 'not_noisy'],
             else:
                 label = classes[1]
             list_of_tuples.append((entry.rstrip(entry[-4:]),
-                                   combined_image, label))
+                                   rgb_image, label))
 
     return list_of_tuples

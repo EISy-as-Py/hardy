@@ -1,9 +1,6 @@
-from .version import __version__
-# from .ynot import *
-# from .data_processing import *
-# from .data_transformation import *
-# # from .simulation import alterations
+from .version import __version__     # noqa: F401
+from .ynot import *                  # noqa: F401, F403
+
+# __all__ = [__version__]
 #
-__all__ = [__version__]
-#
-# name = 'hardy'
+name = 'ynot'

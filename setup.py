@@ -35,8 +35,8 @@ setup(name='hardy',
                                      charset=UTF-8; variant=GFM',
       url='https://github.com/EISy-as-Py/hardy',
       license='MIT',
-      author='Maria Polit, Abdul Moeez, David Hurt'
-      python_requires='>=3.5',
+      author='Maria Polit, Abdul Moeez, David Hurt',
+      python_requires="~=3.5",
       packages=setuptools.find_packages())
 
 classifiers = ("Programming Language :: Python :: 3",
