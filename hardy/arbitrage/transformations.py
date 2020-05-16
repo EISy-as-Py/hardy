@@ -152,7 +152,6 @@ DATA WILL BE PROCESSED IN THE "ARBITRAGE.py" FILE
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from scipy import signal
 
 
