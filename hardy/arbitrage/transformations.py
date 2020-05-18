@@ -153,7 +153,7 @@ DATA WILL BE PROCESSED IN THE "ARBITRAGE.py" FILE
 import numpy as np
 import pandas as pd
 from scipy import signal
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 def transform_1d_none(raw_array):
@@ -344,4 +344,5 @@ result_2 = transform_1d_cwt(y_chirp)
 ax2[0].imshow(result_2, cmap='PRGn')
 ax2[1].plot(x_linear, y_chirp)
 # ==========================================================================
+
 """

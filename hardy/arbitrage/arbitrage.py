@@ -499,18 +499,24 @@ def load_and_transform_data(transformed_data, tform_list=None,
     return transformed_data
 
 
+"""
+TESTING ZONE
+"""
+import time
+
+a=time.perf_counter()
 test_dir = '../local_data/2020-4-21_0000'
 test_tform_list = (
      (0, "1d_exp", 0),
      (1, "1d_none", 1),
      (2, "1d_cumsum", 1),
      )
-transformed_data, save_path = setup_tform_files(test_dir)
 
+transformed_data, save_path = setup_tform_files(test_dir)
 test_tform_data = load_and_transform_data(transformed_data, test_tform_list,
                                           save_path=save_path)
 
-
+print("Time was : {} seconds".format(round(time.perf_counter()-a,2)))
 """
 To-Do now:
     -make some sort of iterable to scan the data and determine GLOBAL features
