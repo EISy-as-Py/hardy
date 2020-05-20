@@ -145,13 +145,13 @@ DATA WILL BE PROCESSED IN THE "ARBITRAGE.py" FILE
 # import sys
 # import csv
 # import time
-import math
+# import math
 import unittest
 
 import numpy as np
 import pandas as pd
 
-import hardy.arbitrage.transformations as tforms
+from hardy.arbitrage import transformations as tforms
 
 
 class TestSimulationTools(unittest.TestCase):
@@ -190,6 +190,6 @@ class TestSimulationTools(unittest.TestCase):
         # Valid Test: Pass Test_df and the Y-axis transform to get output df
         # of the Y-test data.
 
-        result_1 = tforms.tform_1d_cwt(test_df, 1)
-        result_y = tforms.tform_1d_cwt(test_df, "y")
-        assert math.isclose(result_1, result_y), "Not accepting y as 1 input"
+        result_1 = tforms.transform_1d_cwt(test_df, 1)
+        result_y = tforms.transform_1d_cwt(test_df, "y")
+        assert np.allclose(result_1, result_y), "Not accepting y as 1 input"
