@@ -192,4 +192,4 @@ class TestSimulationTools(unittest.TestCase):
 
         result_1 = tforms.transform_1d_cwt(test_df, 1)
         result_y = tforms.transform_1d_cwt(test_df, "y")
-        assert math.isclose(result_1, result_y), "Not accepting y as 1 input"
+        assert np.allclose(result_1, result_y), "Not accepting y as 1 input"
