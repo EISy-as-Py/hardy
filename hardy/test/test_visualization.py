@@ -41,8 +41,9 @@ class TestSimulationTools(unittest.TestCase):
             'the input of the normalization function should be an array'
         assert np.shape(normalized_image)[0] == np.shape(normalized_image)[1],\
             'the normalized image is not square'
-        assert 0 <= min(normalized_image[:, :, 0]), \
-            'the lower limit of the normalized image should be zero'
+        for value in normalized_image[:, :, 0]:  # Loop through each data
+            assert 0 <= value, \
+                'the lower limit of the normalized image should be zero'
         np.testing.assert_almost_equal(max(normalized_image[:, :, 0]),
                                        1, decimal=18, err_msg='the ormalized \
                                        array is nto correclty computed.')

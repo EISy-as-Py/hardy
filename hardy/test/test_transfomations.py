@@ -151,7 +151,7 @@ import unittest
 import numpy as np
 import pandas as pd
 
-import hardy.arbitrage.transformations as tforms
+from hardy.arbitrage import transformations as tforms
 
 
 class TestSimulationTools(unittest.TestCase):
