@@ -190,6 +190,6 @@ class TestSimulationTools(unittest.TestCase):
         # Valid Test: Pass Test_df and the Y-axis transform to get output df
         # of the Y-test data.
 
-        result_1 = tforms.tform_1d_cwt(test_df, 1)
-        result_y = tforms.tform_1d_cwt(test_df, "y")
+        result_1 = tforms.transform_1d_cwt(test_df, 1)
+        result_y = tforms.transform_1d_cwt(test_df, "y")
         assert math.isclose(result_1, result_y), "Not accepting y as 1 input"
