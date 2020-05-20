@@ -37,6 +37,7 @@ setup(name='hardy',
       license='MIT',
       author='Maria Polit, Abdul Moeez, David Hurt',
       python_requires="~=3.5",
+
       packages=setuptools.find_packages())
 
 classifiers = ("Programming Language :: Python :: 3",

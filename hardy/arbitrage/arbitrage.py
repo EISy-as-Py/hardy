@@ -137,22 +137,27 @@ Data To Plot on Demand and deliver to the Image Processing f(n)s
 
 """
 import os.path
+import copy  # Used for Deepcopy, to never edit the raw data frame
+# import time
 
 import numpy as np
 import pandas as pd
-import copy
 
 import hardy.arbitrage.transformations as transform
 
-# This is a test of the import functions, so I can make sure it's working
+
+# This is a test of the imported transforms functions,
+#    so I can make sure it's working
 a = np.linspace(0.1, 10, 1000)
 b = transform.transform_1d_cumsum(a)
+
+tform_1d1d = transform.list_1d1d
 
 
 class transform_data():
     """
-    """
 
+    """
     testing_global_import = a
 
     def __init__(self, fname=None, rawdata=None, transforms=None):
@@ -230,12 +235,6 @@ class transform_data():
         """
         # For Transform List, either pass an "N" array to start at, or we'll
         # find the first Non-empty array in the list!
-        array_n = 0
-        for tform_array in tform_array_list():
-            if tform_array.any():
-                array_n += 1
-            else:
-                pass
 
         # FIRST, Check that transforms is the correct type:
         if type(transforms) == str:
@@ -244,10 +243,12 @@ class transform_data():
             # to be entered as a LIST...
             raise AssertionError("For now, put transform str in a LIST. \n" +
                                  "SEE DOCUMENTATION FOR GUIDANCE.")
-        elif type(transforms) == list or type(transfoms) == tuple:
-            if len(transforms) > 6:
+        elif type(transforms) == list or type(transforms) == tuple:
+            if len(transforms) > 6-array_n:
                 raise AssertionError("For Now, only accept 6 Transforms")
-            for tform in enumerate(transforms):
+            else:
+                pass
+            for i, tform in enumerate(transforms):
                 # LOOP THROUGH LIST, AND PERFORM EACH TRANSFORM,
                 # AND STORE THAT IMAGE IN THE CORRECT ARRAY
                 # perform_transform(tform, array=n)
@@ -258,14 +259,13 @@ class transform_data():
                     if array_n >= 7:
                         raise AssertionError("Could Not Find Empty Array to " +
                                              "Place Transform: " + tform[0])
-                    perform_transform(tform, array=array_n)
+                    # perform_transform(tform, array=array_n)
                     array_n += 1
         else:
             raise AssertionError("Unacceptable Type." +
                                  "Expect List of Strings")
 
-
-    def perform_transfom(self, tform, array=0):
+    def perform_1D_transfom(self, tform, array=0):
         """
         First, Parse the Transform string to find What type of TForm it is...
             1D-->1D: ex. Log(x)
@@ -297,7 +297,7 @@ class transform_data():
                     I don't like this parameter and hopefully we will use none.
         """
         # FIRST must confirm self.rawdata exists, or this will fail badly!
-        raw = copy.deepcopy(self.rawdata).to_numpy()
+        # raw = copy.deepcopy(self.rawdata).to_numpy()
         # DEEP COPY the raw data, so we NEVER change or overwrite it!
 
         # DECISION FOR GROUP: Which Columns in Raw to tform?
@@ -337,3 +337,188 @@ class transform_data():
 
 # c = np.zeros([2, 100])
 # d = transform_data(rawdata = c)
+
+
+"""
+I'm frustrated as hell with this class object BS so I'm going back and
+writing things in Pandas like we planned on months ago... Goddamnit.
+
+"""
+
+
+def setup_tform_files(input_path='../local_data'):
+    """
+    Takes in a directory
+
+    Takes in a list of transforms,
+    """
+
+    classes = []
+    for item in os.listdir(input_path):
+        if os.path.isdir(os.path.join(input_path, item)):
+            # If it's a folder, check how many files are inside
+            if len(os.listdir(os.path.join(input_path, item))) > 10:
+                # If at least n files in the folder, it may be a classifier
+                classes.append(item)
+    assert len(classes) >= 2, "Must have found at least 2 classes to run a CNN"
+
+    transformed_data = {}
+    for each_class in classes:
+        n_files = 0
+        size_files = 0
+        raw_files = []
+        transform_files = []
+        for fname in os.listdir(os.path.join(input_path, each_class)):
+            if '.csv' in fname:
+                # Make a list of all the csvs in that folder
+                fullname = os.path.join(input_path, each_class, fname)
+                raw_files.append(fullname)
+                savename = os.path.join(input_path, 'transform',
+                                        each_class, fname)
+                transform_files.append(savename)
+                n_files += 1
+                size_files += os.path.getsize(fullname)
+            else:
+                pass
+
+        # Now, for each classification, make a dataframe that will (for now)
+        #   only have the filenames in it. Then we can loop through and process
+        #   files one-by-one
+        transformed_data[each_class] = pd.DataFrame(data=raw_files,
+                                                    columns=['raw_path'])
+        transformed_data[each_class]['tform_path'] = transform_files
+
+        # save_path will be the equivalent masterfolder which will have the
+        # two classification subfolders in it, JUST like the RAW Data Folders
+        save_path = os.path.join(input_path, 'transform')
+        os.makedirs(os.path.join(save_path, each_class), exist_ok=True)
+
+        print("{} Classifier has {} files, taking {} MB of data".format(
+                each_class, n_files, size_files/1000000))
+
+    """
+    Now, to load all the data into that pd dataframe
+    """
+    for each_class in classes:
+        fread_data = []
+        for i, file_row in transformed_data[each_class].iterrows():
+            n = 0
+            while n < 100:
+                fread = pd.read_csv(file_row['raw_path'],
+                                    skiprows=n)
+                if str in fread.dtypes:
+                    # This should not happen!
+                    n += 1
+                else:
+                    fread_data.append(fread)
+                    # print(n)
+                    n = 1000
+        transformed_data[each_class]['raw_data'] = fread_data
+    return transformed_data, save_path
+
+
+def load_and_transform_data(transformed_data, tform_list=None,
+                            save_path=False):
+
+    if tform_list:
+        """
+        To Perform Transformations, we need to be given a tuple/list of
+            commands. This will appear in the following method:
+        (
+        (Index=0, transform, source),
+        (Index=1, transform, source),
+        (Index=2, transform, source),
+        (Index=3, transform, source),
+        (Index=4, transform, source),
+        (Index=5, transform, source),
+        )
+
+        Wherein Index will be a number from 0 to 5 representing RGB in X and Y,
+            respecitively.
+        Each "transform" will be a function in one of the 1D lists (for now)
+            which should be CALLABLE via the tform_1d1d function.
+        each "source" will be the naturally occuring array number
+            (OR COLUMN NAME?) that will be transformed upon.
+
+        tform_data=[]
+        tform_data[Index] = tform_1d1d[transform](source)
+
+        """
+        # Setup Column Names for the Transform:
+        tform_columns = []
+        n_cols = len(tform_list)
+        for tform in tform_list:
+            col_name = "{}_on_col_{}".format(tform[1], tform[2])
+            tform_columns.append(col_name)
+
+        for each_class in transformed_data:
+            # Loop through both classifications
+            # Option: Redefine names here?
+
+            all_transforms = []  # Initialize storage dataframe(list)
+            for i, file_row in transformed_data[each_class].iterrows():
+                # Loop through each file's raw data
+                raw_data = copy.deepcopy(file_row['raw_data'])
+                tform_data = np.ones([len(raw_data), n_cols])
+                # Should we initialize as n_cols, or  as always 6??
+                for tform in tform_list:
+                    col_source = raw_data.columns[tform[2]]
+                    pass_array = raw_data[col_source]
+                    # print(pass_array)  # Debugging
+                    tform_data[:, tform[0]] = tform_1d1d[tform[1]](pass_array)
+                tform_df = pd.DataFrame(tform_data, columns=tform_columns)
+                all_transforms.append(tform_df)
+            transformed_data[each_class]['tform_data'] = all_transforms
+
+    """
+    Now, the Save_Path part of the module. IF you gave us a save path
+    (NOTE: save_path can be copied from the setup function)
+    then we will loop through all of the files, and save them as their newly
+    transformed pandas CSV files
+    """
+    if save_path:
+        if os.path.exists(save_path):
+            pass
+        else:
+            os.makedirs(save_path)
+        for each_class in transformed_data:
+            folder = os.path.join(save_path, each_class)
+            if os.path.exists(folder):
+                pass
+            else:
+                os.makedirs(folder)
+
+            for i, file_row in transformed_data[each_class].iterrows():
+                tform_data = file_row["tform_data"]
+                tform_data.to_csv(file_row['tform_path'], index=False)
+
+    return transformed_data
+
+
+# =============================================================================
+# """
+# TESTING ZONE
+# """
+#
+# a=time.perf_counter()
+# test_dir = '../local_data/2020-4-21_0000'
+# test_tform_list = (
+#      (0, "1d_exp", 0),
+#      (1, "1d_none", 1),
+#      (2, "1d_cumsum", 1),
+#      )
+#
+# transformed_data, save_path = setup_tform_files(test_dir)
+# test_tform_data = load_and_transform_data(transformed_data, test_tform_list,
+#                                           save_path=save_path)
+#
+# print("Time was : {} seconds".format(round(time.perf_counter()-a,2)))
+# """
+# To-Do now:
+#    -make some sort of iterable to scan the data and determine GLOBAL features
+#    (like max and min, to deterimine what transforms are OK for each dataset)
+#    -Use this function to create a LIST of Transform_list possibilities, and
+#    iterate over that list (as we will be able to direct)
+#
+# """
+# =============================================================================

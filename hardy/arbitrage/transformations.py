@@ -153,10 +153,18 @@ DATA WILL BE PROCESSED IN THE "ARBITRAGE.py" FILE
 import numpy as np
 import pandas as pd
 from scipy import signal
+# import matplotlib.pyplot as plt
+
+
+def transform_1d_none(raw_array):
+    # Placeholder, to perform "no transform" and use the raw data in that
+    # column
+    return raw_array
 
 
 def transform_1d_exp(raw_array):
-
+    # import numpy as np
+    # Simple transform, returning the exponential value of each number
     return np.exp(raw_array)
 
 
@@ -172,6 +180,9 @@ def transform_1d_log(raw_array):
     log_array: np.ndarray
                natural log values of each element in the input array
     '''
+    # NOTE: All Elements in array MUST be Positive!?
+    #       IF Not, option to normalize first??
+    assert min(raw_array) > 0, "Log will not accept negative values!"
     log_array = np.log(raw_array)
     return log_array
 
@@ -293,36 +304,46 @@ def transform_1d_cwt(raw_df, xy=0):
 
     data_n = len(data)
     widths = np.arange(1, data_n, 1)
-    # cwt_matrix = signal.cwt(data, signal.ricker, widths)
+    cwt_matrix = signal.cwt(data, signal.ricker, widths)
     # Optional different Signal to compare with: "Morlet2" but not working?)
-    cwt_matrix = signal.cwt(data, signal.morlet, widths)
+    # cwt_matrix = signal.cwt(data, signal.morlet, widths)
 
     return cwt_matrix
 
 
-list_1d = {
+list_1d1d = {
+        "1d_none": transform_1d_none,
         "1d_log": transform_1d_log,
+        "1d_exp": transform_1d_exp,
         "1d_reciprocal": transform_1d_reciprocal,
         "1d_cumsum": transform_1d_cumsum,
-        "1d_derivative": transform_1d_derivative,
+        "1d_derivative": transform_1d_derivative
+        }
+list_1d2d = {
         "1d_cwt": transform_1d_cwt
         }
 
 
-#=============================================================================
-# test
-# x_linear = np.linspace(0, 20, 1000)
-# y_test = 10 * np.sin(2 * np.pi * 0.1 * x_linear) + 1 * np.sin(2 * np.pi * 5 * x_linear)
-# test_df = pd.DataFrame(data={"Xlinear": x_linear, "Ytest": y_test})
+"""
+# ==========================================================================
+# test zone (Note: Uncomment Matplotlib at top of file!
+
+x_linear = np.linspace(0, 20, 1000)
+y_test = 10 * np.sin(2 * np.pi * 0.1 * x_linear) + \
+            1 * np.sin(2 * np.pi * 5 * x_linear)
+test_df = pd.DataFrame(data={"Xlinear": x_linear, "Ytest": y_test})
 # Valid Test: Pass Test_df and the Y-axis transform to get output df
 # of the Y-test data.
-# fig, ax = plt.subplots(2, 1)
-# result_1 = transform_1d_cwt(test_df, 'y')
-# ax[0].imshow(result_1, cmap='PRGn')
-# ax[1].plot(x_linear, y_test)
-# fig, ax2 = plt.subplots(2, 1)
-# y_chirp = signal.chirp(x_linear, 2, 20, 0.001)
-# result_2 = transform_1d_cwt(y_chirp)
-# ax2[0].imshow(result_2, cmap='PRGn')
-# ax2[1].plot(x_linear, y_chirp)
-# =============================================================================
+fig, ax = plt.subplots(2, 1)
+result_1 = transform_1d_cwt(test_df, 'y')
+ax[0].imshow(result_1, cmap='PRGn')
+ax[1].plot(x_linear, y_test)
+fig, ax2 = plt.subplots(2, 1)
+
+y_chirp = signal.chirp(x_linear, 2, 20, 0.001)
+result_2 = transform_1d_cwt(y_chirp)
+ax2[0].imshow(result_2, cmap='PRGn')
+ax2[1].plot(x_linear, y_chirp)
+# ==========================================================================
+
+"""
