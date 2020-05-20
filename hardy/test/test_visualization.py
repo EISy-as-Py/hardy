@@ -44,13 +44,19 @@ class TestSimulationTools(unittest.TestCase):
         # NOTE: You can't take min() of 2d array apparently?
         #       So for now it works to loop through each point.
         #       Not efficient, but it works for unit testing.
+
+        minval = 1  # Initialize bad min val
+        maxval = 0  # Initialize bad max val
         for row in normalized_image[:, :, 0]:
-            for value in row:
-                assert 0 <= value, \
-                    'the lower limit of the normalized image should be zero'
-        np.testing.assert_almost_equal(max(normalized_image[:, :, 0]),
-                                       1, decimal=18, err_msg='the ormalized \
-                                       array is nto correclty computed.')
+            minval = min(minval, min(row))
+            maxval = max(maxval, max(row))
+
+        assert 0 <= minval, \
+            'the lower limit of the normalized image should be zero'
+
+        np.testing.assert_almost_equal(maxval, 1, decimal=18,
+                                       err_msg='the normalized' +
+                                       'array is not correclty computed.')
 
     def test_rgb_plot(self):
         rgb_plot_array = rgb_plot(red_array=array_to_normalize)
