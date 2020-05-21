@@ -237,3 +237,132 @@ def ask_file_list():
     root.destroy()
 
     return files_list, os.path.abspath(files_list[0])
+
+
+def cats_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
+                     from_serials=False):
+    """
+    Given a list of file names, determine if there are classifying endings
+    that split the data into "expect" (default 2) Groups.
+
+    (Also report the population of those groups. Return it?)
+    (Also, maybe give option to split the file names by category?
+          If not, would default return_split=False)
+
+    Option from_serials, to be used if the file name extensions are already
+        clipped off (aka we're passing serial ID info instead of fnames)
+    """
+    import os
+
+    classification_list = []
+    populations = {}  # Dictionary
+
+    # Get file list either passed, or from path
+    if not file_list or path:
+        raise AssertionError("Need either File List OR Path")
+    elif file_list and path:
+        print("Given List of Fnames, will Ignore Path")
+    elif path:
+        file_list = os.listdir(path)
+    else:
+        pass
+    n_files = len(file_list)
+
+    # Downselect for CSVs
+    csv_files = []
+    for file in file_list:
+        if file.endswith('.csv'):
+            csv_files.append(file)
+        else:
+            pass
+    if print_ok:
+        print("From {} Files:".format(n_files))
+        print("Found {} CSVs...".format(len(csv_files)))
+
+    if from_serials:
+        # Workaround for using serial IDs instead of file names
+        if print_ok:
+            print("Using Serial IDs Instead!")
+        csv_files = file_list
+
+    for file in csv_files:
+        str_end = len(file)
+        str_start = 0
+        i = len(file)
+
+        while str_start == 0 and i >= 0:
+
+            # Loop until you find the string starting underscore,
+            # Or until you are at the beginning (which would be a fail)
+            i -= 1  # Step back into filename
+            if file[i] == '.':  # if you find the file extension dot
+                str_end = i
+            elif file[i] == '_':  # first underscore you find
+                str_start = i+1  # String starts AFTER the underscore
+
+        if i == 0:  # If you reached the start of the file with no "_"
+            if print_ok:
+                print("File {} \t has no underscore - cannot classify")
+            else:
+                raise AssertionError(
+                    "File {} \t has no underscore - cannot classify")
+            # FOR NOW, Allow and ignore??
+        elif str_start == 0 or str_end == 0:
+            if print_ok:
+                print("File {} \t has no label - cannot classify")
+            else:
+                raise AssertionError(
+                    "File {} \t has no label - cannot classify")
+        else:
+            # IF file name found a class in format
+            label = file[str_start:str_end]
+            if label not in classification_list:
+                classification_list.append(label)
+                populations[label] = 1
+            else:
+                populations[label] += 1
+
+    # Now we have a list of classifications, and population of each.
+    # print that for now. (Allow print to be turned off...))
+    n_found = len(classification_list)
+    if n_found == expect:
+        # Perfect! we found the classifications expected.
+        if print_ok:
+            print("Success! Found {} Classifications:".format(expect))
+            for label in classification_list:
+                print("\t{} Files of Label : {}".format(
+                    populations[label], label))
+
+    elif n_found <= expect:
+        # What if we found FEWER than expected?
+        print(classification_list)
+        raise AssertionError("Found {} Labels, Expected {}...".format(
+            n_found, expect))
+
+    elif n_found >= expect:
+        # Important! What if we found MORE than expected?
+        # Well... Either error out, or move on with the most populous N!
+        print("Found {} Labels, Expected {}...".format(n_found, expect))
+
+        n_to_pass = int(len(csv_files)/expect * 0.9)
+        # To pass, must have at least 1/nth of the total files
+        # (With a 10% margin for error?)
+        new_classification_list = []
+        for label in classification_list:
+            print("\t{} Files of Label : {}".format(
+                populations[label], label))
+            if populations[label] >= n_to_pass:
+                new_classification_list.append(label)
+            else:
+                pass
+
+        if len(new_classification_list) == expect:
+            # Now that we've downsorted, I think there MUST be equal or less.
+            #   Less may happen if data is a 75%/25% split for instance...
+            # For now, throw our hands up in the air, and only say OK if
+            #   we successfully fixed the situation.
+            # Maybe that 10% buffer should be bigger or smaller (~line 333)
+            classification_list = new_classification_list
+            # Over-write the old list with the new.
+
+    return classification_list
