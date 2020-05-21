@@ -141,7 +141,7 @@ import copy  # Used for Deepcopy, to never edit the raw data frame
 import numpy as np
 import pandas as pd
 
-import transformations as transform
+import hardy.arbitrage.transformations as transform
 
 
 # This is a test of the imported transforms functions,
