@@ -156,8 +156,8 @@ def rgb_list(input_path='./', classes=['noisy', 'not_noisy'],
 
 
 def rgb_list_from_df(serial_list, df_list, classes=None,
-             plot_format='RGBrgb', column_names=None,
-             combine_method='add'):
+                     plot_format='RGBrgb', column_names=None,
+                     combine_method='add'):
     '''
         Input a list of dataframes (already read and/or processed),
         Plot them RGB-wise into images
@@ -246,7 +246,7 @@ def rgb_list_from_df(serial_list, df_list, classes=None,
                                        blue_array=b, plot=False)
 
             # Default to "Add", but check for the option of using the mlt fn.
-            if combine_method is "mlt":
+            if combine_method == "mlt":
                 rgb_image = vis.orthogonal_images_mlt(rgb_image_x,
                                                       rgb_image_y,
                                                       plot=False)
