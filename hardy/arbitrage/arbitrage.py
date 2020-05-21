@@ -22,8 +22,6 @@ Data To Plot on Demand and deliver to the Image Processing f(n)s
           which we can use to prioritize!
 
 
-
-
  __Timeline + Milestones__:
   * 2020-04-21: List of the high-priority functions and
                   Simple-Transformations, with progress and
@@ -143,7 +141,7 @@ import copy  # Used for Deepcopy, to never edit the raw data frame
 import numpy as np
 import pandas as pd
 
-import hardy.arbitrage.transformations as transform
+import transformations as transform
 
 
 # This is a test of the imported transforms functions,
