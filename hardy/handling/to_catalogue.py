@@ -4,7 +4,7 @@ import pickle
 import os
 
 # from visualization import (rgb_plot, orthogonal_images_add)
-import visualization as vis
+import hardy.handling.visualization as vis
 import handling
 
 
