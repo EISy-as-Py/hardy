@@ -1,8 +1,7 @@
-from .version import __version__
+from .version import __version__   # noqa: F401
+from .arbitrage import *           # noqa: F401, F403
+from .transformations import *     # noqa: F401, F403
 
-__all__ = [__version__]
+# __all__ = [version.__version__]
 
 name = 'arbitrage'
-
-from arbitrage import *
-from transformation import *

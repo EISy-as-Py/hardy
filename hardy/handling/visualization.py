@@ -1,9 +1,6 @@
 import numpy as np
-import pandas as pd
+# import pandas as pd
 import matplotlib.pyplot as plt
-
-import matplotlib
-matplotlib.use('Agg')
 
 
 #######################################################################
@@ -40,7 +37,6 @@ def normalize(impedance_array):
 
 
 def normalize_image(color_image_array):
-
     ''' Function that normalizes a color image array.
     The color image array will ahve dimensions (n,n, 3).
     The 'n' value will depends on how big your image is
@@ -58,8 +54,6 @@ def normalize_image(color_image_array):
                       array should be values in the range zero to one.
                       The image shape should still be (n,n,3)
     '''
-    # Determine the size of the square image
-    n = np.shape(color_image_array)[0]
     # Determine the size of the square image
     n = np.shape(color_image_array)[0]
 
@@ -163,6 +157,7 @@ Check that you are using the right inputs'
     if save_image:
         filename = str(save_location+filename)
         plt.savefig('{}.png'.format(filename), dpi=100, bbox_inches='tight')
+        plt.close()
 
     return rgb_plot
 
@@ -216,6 +211,11 @@ def orthogonal_images_add(image_x, image_y, plot=True, save_image=None,
         ax.imshow(combined_image)
         ax.axis('off')
 
+    if save_image:
+        filename = str(save_location+filename)
+        plt.savefig('{}.png'.format(filename), dpi=100, bbox_inches='tight')
+        plt.close()
+
     return combined_image
 
 
@@ -225,6 +225,12 @@ def orthogonal_images_mlt(image_x, image_y, plot=True, save_image=None,
     Takes two images and combines them by rotating one of
     them 90 degrees and multiplies them.
     Takes in two images of shape=(ARBITRARY, Data-axis, 3)
+
+    NOTE: If one axis of a color (Red X) has data but the other (Red Y)
+          has nothing, we should Replace the Zero-array with a Ones-Array!
+
+
+
 
     Parameters
     ----------
@@ -255,6 +261,23 @@ def orthogonal_images_mlt(image_x, image_y, plot=True, save_image=None,
                       x-axis and on the y-axis in one of the three basic
                       colors: red, blue or green
     '''
+    # Check and Fix/Prepare for Zero-Arrays
+    for channel in range(3):
+        if 0 != image_x[:, :, channel].all():
+            if 0 == image_y[:, :, channel].all():
+                # IF X has data, but Y does not, Make Y all 1's
+                image_y[:, :, channel] = np.ones_like(image_y[:, :, channel])
+            else:
+                pass
+        elif 0 != image_y[:, :, channel].all():
+            if 0 == image_x[:, :, channel].all():
+                # IF Y has data, but X does not, Make X all 1's
+                image_x[:, :, channel] = np.ones_like(image_x[:, :, channel])
+            else:
+                pass
+        else:
+            pass
+
     image_flip = np.ndarray(shape=image_y.shape)
     for channel in range(3):
         image_flip[:, :, channel] = image_y[:, :, channel].transpose()
@@ -269,5 +292,5 @@ def orthogonal_images_mlt(image_x, image_y, plot=True, save_image=None,
     if save_image:
         filename = str(save_location+filename)
         plt.savefig('{}.png'.format(filename), dpi=100, bbox_inches='tight')
-        # plt.close()
+        plt.close()
     return combined_image

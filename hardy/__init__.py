@@ -1,9 +1,9 @@
-from .version import __version__
-# from .classifier import *
-# from .data_processing import *
-# from .data_transformation import *
-# # from .simulation import alterations
+from .version import __version__         # noqa: F401, F403
+from .arbitrage import *                 # noqa: F401, F403
+from .classifier import *                # noqa: F401, F403
+from .handling import *                  # noqa: F401, F403
+from .ynot import *                      # noqa: F401, F403
+
+# __all__ = [""]
 #
-__all__ = [__version__]
-#
-# name = 'hardy'
+name = 'hardy'
