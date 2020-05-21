@@ -5,7 +5,7 @@ import os
 
 # from visualization import (rgb_plot, orthogonal_images_add)
 import hardy.handling.visualization as vis
-import handling
+import hardy.handling as handling
 
 
 def save_load_data(filename, data=None, save=None, load=None,
