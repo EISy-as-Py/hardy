@@ -413,7 +413,7 @@ def feature_map(img_path, model, classes, size, layer_num=None):
     return
 
 
-def feature_map_layers(image_feature_array, model, list_layer_pos):
+def feature_map_layers(img_feature_array, model, list_layer_pos):
     '''
     Nested function for feature_map(). Returns the pyplots for if layer_num
     is int or None in feature_map().
