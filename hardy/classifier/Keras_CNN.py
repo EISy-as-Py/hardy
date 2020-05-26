@@ -410,6 +410,7 @@ def feature_map(img_path, model, classes, size, layer_num=None):
     else:
         list_layer_pos.append(layer_num)
         feature_map_layers(img_feature_array, model, list_layer_pos)
+    return
 
 
 def feature_map_layers(image_feature_array, model, list_layer_pos):
@@ -449,4 +450,4 @@ def feature_map_layers(image_feature_array, model, list_layer_pos):
             b = ax.add_subplot(6, 6, x)
             b.axis('off')
             plt.imshow(feature_map[0, :, :, x-1], cmap='gray')
-        plt.show()
+    return plt.show()
