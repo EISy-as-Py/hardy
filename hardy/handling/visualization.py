@@ -56,21 +56,17 @@ def normalize_image(color_image_array):
     '''
     # Determine the size of the square image
     n = np.shape(color_image_array)[0]
-    # Extracting single channels from 3 channel image
-    img_r = color_image_array[:, :, 0]
-    img_g = color_image_array[:, :, 1]
-    img_b = color_image_array[:, :, 2]
 
-    # normalizing data per channel:
-    img_r = (img_r - np.min(img_r)) / (np.max(img_r) - np.min(img_r))
-    img_g = (img_g - np.min(img_g)) / (np.max(img_g) - np.min(img_g))
-    img_b = (img_b - np.min(img_b)) / (np.max(img_b) - np.min(img_b))
-
-    # putting the 3 channels back together:
     normalized_image = np.empty((n, n, 3), dtype=np.float32)
-    normalized_image[:, :, 0] = img_r
-    normalized_image[:, :, 1] = img_g
-    normalized_image[:, :, 2] = img_b
+
+    for i in range(np.shape(color_image_array)[2]):
+        img = color_image_array[:, :, i]
+        if np.count_nonzero(img) != 0:
+            # normalizing data per channel
+            normalized_image[:, :, i] = img / (np.amax(img, axis=0))
+        else:
+            # skip any channel with all zero to avoid 'NaN' as output
+            normalized_image[:, :, i] = img
 
     return normalized_image
 
@@ -130,7 +126,7 @@ def rgb_plot(red_array=None, green_array=None, blue_array=None,
         n.append(len(given_arrays[i][1]))
     assert len(given_arrays) != 0, 'no input array was given.'
     assert all(x == n[0] for x in n), 'the given arrays have different length.\
-Check that you are using the right inputs'
+        Check that you are using the right inputs'
 
     not_given = [k for (k, v) in given.items() if v is False]
     for array in not_given:
@@ -161,6 +157,7 @@ Check that you are using the right inputs'
     if save_image:
         filename = str(save_location+filename)
         plt.savefig('{}.png'.format(filename), dpi=100, bbox_inches='tight')
+        plt.close()
 
     return rgb_plot
 
@@ -213,6 +210,11 @@ def orthogonal_images_add(image_x, image_y, plot=True, save_image=None,
         fig, ax = plt.subplots(figsize=[6, 6])
         ax.imshow(combined_image)
         ax.axis('off')
+
+    if save_image:
+        filename = str(save_location+filename)
+        plt.savefig('{}.png'.format(filename), dpi=100, bbox_inches='tight')
+        plt.close()
 
     return combined_image
 
@@ -287,4 +289,8 @@ def orthogonal_images_mlt(image_x, image_y, plot=True, save_image=None,
         ax.imshow(combined_image)
         ax.axis('off')
 
+    if save_image:
+        filename = str(save_location+filename)
+        plt.savefig('{}.png'.format(filename), dpi=100, bbox_inches='tight')
+        plt.close()
     return combined_image
