@@ -3,10 +3,10 @@ import pandas as pd
 import pickle
 import os
 
-#import hardy.handling.visualization as vis
-#import hardy.handling as handling
-import visualization as vis
-import handling
+import hardy.handling.visualization as vis
+import hardy.handling as handling
+# import visualization as vis
+# import handling
 
 
 def save_load_data(filename, data=None, save=None, load=None,
