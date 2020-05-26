@@ -4,6 +4,7 @@ import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
+import yaml
 
 from keras.layers import (Dense, Conv2D, MaxPool2D,
                           Flatten)
@@ -328,25 +329,53 @@ def build_tuner_model(hp):
     model: Keras sequential model
            The trained convolutional neural network
     '''
+    ###################################
+    # loading the configuration file for tuner
+
+    with open(r'./tuner_config.yaml') as file:
+        param = yaml.load(file, Loader=yaml.FullLoader)
+
+    ####################################
+    # Defining input size
+
     inputs = tf.keras.Input(shape=(50, 50, 3))
     x = inputs
-    for i in range(hp.Int('conv_layers', 1, 3, default=3)):
+
+    ####################################
+    # extracting parameters from the parameters file
+    # and feeding in the tuner
+
+    for i in range(hp.Int('conv_layers', 1, max(param['layers']),
+                          default=3)):
         x = tf.keras.layers.Conv2D(
-            filters=4 * i,
-            kernel_size=hp.Int('kernel_size_' + str(i), 3, 7),
-            activation=hp.Choice('activation_' + str(i),
-                                 ['relu', 'sigmoid']))(x)
+            filters=getattr(hp, param['filters'][0])
+            ('filters_', min(param['filters'][1]['values']),
+             max(param['filters'][1]['values']), step=4, default=8),
+            kernel_size=getattr(hp, param['kernel_size'][0])
+            ('kernel_size_' + str(i), min(param['kernel_size'][1]['values']),
+             max(param['kernel_size'][1]['values'])),
+            activation=getattr(hp, param['activation'][0])
+            ('activation_' + str(i), values=param['activation'][1]['values']),
+            padding='same')(x)
 
-    x = tf.keras.layers.GlobalMaxPooling2D()(x)
-
+    if getattr(hp,
+               param['pooling'][0])('pooling',
+                                    values=param['pooling'][1]['values'])\
+            == 'max':
+        x = tf.keras.layers.GlobalMaxPooling2D()(x)
+    else:
+        x = tf.keras.layers.GlobalAveragePooling2D()(x)
     outputs = tf.keras.layers.Dense(2, activation='softmax')(x)
 
     model = tf.keras.Model(inputs, outputs)
 
-    optimizer = hp.Choice('optimizer', ['adam', 'sgd'])
-    learning_rate = hp.Choice('learning_rate', [1e-2, 1e-3, 1e-4])
-    model.compile(optimizer, leraning_rate=learning_rate,
-                  loss='categorical_crossentropy', metrics=['accuracy'])
+    optimizer = getattr(hp, param['optimizer'][0])('optimizer',
+                                                   values=param['optimizer']
+                                                   [1]['values'])
+
+    model.compile(optimizer, loss='categorical_crossentropy',
+                  metrics=['accuracy'])
+
     return model
 
 
@@ -440,7 +469,7 @@ def feature_map_layers(img_feature_array, model, list_layer_pos):
     for item in list_layer_pos:
         feature_map_model = Model(inputs=model.inputs,
                                   outputs=model.layers[item].output)
-        feature_map = feature_map_model.predict(image_feature_array)
+        feature_map = feature_map_model.predict(img_feature_array)
 
         print('The output is from layer {}, {} with \
               shape {}'.format(item, model.layers[item].name,
