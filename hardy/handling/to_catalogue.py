@@ -3,9 +3,10 @@ import pandas as pd
 import pickle
 import os
 
-# from visualization import (rgb_plot, orthogonal_images_add)
-import hardy.handling.visualization as vis
-import hardy.handling as handling
+#import hardy.handling.visualization as vis
+#import hardy.handling as handling
+import visualization as vis
+import handling
 
 
 def save_load_data(filename, data=None, save=None, load=None,
@@ -44,29 +45,17 @@ def save_load_data(filename, data=None, save=None, load=None,
         return loaded_data
 
 
-def rgb_list(input_path='./', classes=['noisy', 'not_noisy'],
-             plot_format='single', skiprows=6, column_names=None):
+def rgb_list(input_path='./', skiprows=6, df_list=None, serial_list=None,
+             classes=['noisy', 'not_noisy'],
+             plot_format='single',  column_names=None,
+             combine_method='add'):
     '''
         Input a path of csv files (with some guidance),
         Plot them RGB-wise into images
         return a list of tuples as to be fed into the keras PreProcess f(n)
 
-
-
         INPUTS:
-            plot_format :   EITHER 'single' (bodge, depreciate later)
-                            OR some combination of "RGBrgb", which will be
-                            the order of columns plotted:
-                            R = red   X-axis      r = red   Y-axis
-                            G = green X-axis      g = green Y-axis
-                            B = blue  X-axis      b = blue   Y-axis
-                             * X = do not plot (skip column)
-                             ** If string skips letters, totally ok.
 
-                            The to-be-depreciated 'single' is thus:
-                                "RB"
-                            The As-written "else" is thus:
-                                "Rb"
 
         RETURNS
 
@@ -87,48 +76,8 @@ def rgb_list(input_path='./', classes=['noisy', 'not_noisy'],
             # Read data into pandas dataframe
             fdata = pd.read_csv(input_path+entry, skiprows=skiprows)
 
-            if plot_format == 'single':
-                rgb_image = vis.rgb_plot(red_array=fdata[column_names[0]],
-                                         blue_array=fdata[column_names[1]],
-                                         plot=False)
-            elif plot_format == "else":
-                rgb_image_x = vis.rgb_plot(red_array=fdata[column_names[0]],
-                                           plot=False)
-                rgb_image_y = vis.rgb_plot(blue_array=fdata[column_names[1]],
-                                           plot=False)
-                rgb_image = vis.orthogonal_images_add(rgb_image_x, rgb_image_y,
-                                                      plot=False)
-            else:
-                # Writing new Decision-matrix to organize with the input-string
-                # Loop through the string, and if you see an "RGB,rgb",
-                #   then that column is the one which will go there!
-                R = None
-                G = None
-                B = None
-                r = None
-                g = None
-                b = None
-                for i in range(len(plot_format)):
-                    # Loop through the string. react to FIRST encounter of str
-                    if not R and plot_format[i] == "R":
-                        R = fdata[column_names[i]]
-                    if not G and plot_format[i] == "G":
-                        G = fdata[column_names[i]]
-                    if not B and plot_format[i] == "B":
-                        B = fdata[column_names[i]]
-                    if not r and plot_format[i] == "r":
-                        r = fdata[column_names[i]]
-                    if not g and plot_format[i] == "g":
-                        g = fdata[column_names[i]]
-                    if not b and plot_format[i] == "b":
-                        b = fdata[column_names[i]]
-                rgb_image_x = vis.rgb_plot(red_array=R, green_array=G,
-                                           blue_array=B, plot=False)
-                rgb_image_y = vis.rgb_plot(red_array=r, green_array=g,
-                                           blue_array=b, plot=False)
-                rgb_image = vis.orthogonal_images_add(rgb_image_x,
-                                                      rgb_image_y,
-                                                      plot=False)
+            rgb_image = rgb_visualize(fdata, plot_format, combine_method,
+                                      column_names)
 
 #  The labelling of the data is somewhat hardcoded in this funciton right now.
 #  Consider improving it. We can now call cats_from_fnames for the full list.
@@ -150,14 +99,13 @@ def rgb_list(input_path='./', classes=['noisy', 'not_noisy'],
             else:
                 pass
             list_of_tuples.append((entry.rstrip(entry[-4:]),
-                                   rgb_image, label))
+                                  rgb_image, label))
 
     return list_of_tuples
 
 
-def rgb_list_from_df(serial_list, df_list, classes=None,
-                     plot_format='RGBrgb', column_names=None,
-                     combine_method='add'):
+def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
+                  column_names=None):
     '''
         Input a list of dataframes (already read and/or processed),
         Plot them RGB-wise into images
@@ -191,89 +139,56 @@ def rgb_list_from_df(serial_list, df_list, classes=None,
             IMG         :   ndarray of NxNx3
 
     '''
-    list_of_tuples = []
-    if not classes:
-        classes = handling.cats_from_fnames(serial_list, from_serials=True)
+    if not column_names:
+        column_names = fdata.columns.keys()
 
-    # MAIN DIFFERENCE BETWEEN THIS AND THE FROM_FILE:
-    #   Already have a list of DFs and the corresponding list of serials,
-    #   But we need to confirm they're correct
-    assert len(serial_list) == len(df_list), "InputError: DF and " +\
-        "Serial Lists Don't Match!"
+    if plot_format == 'single':
+        rgb_image = vis.rgb_plot(red_array=fdata[column_names[0]],
+                                 blue_array=fdata[column_names[1]],
+                                 plot=False)
+    elif plot_format == "else":
+        rgb_image_x = vis.rgb_plot(red_array=fdata[column_names[0]],
+                                   plot=False)
+        rgb_image_y = vis.rgb_plot(blue_array=fdata[column_names[1]],
+                                   plot=False)
+        rgb_image = vis.orthogonal_images_add(rgb_image_x, rgb_image_y,
+                                              plot=False)
+    else:
+        # Writing new Decision-matrix to organize with the input-string
+        # Loop through the string, and if you see an "RGB,rgb",
+        #   then that column is the one which will go there!
+        R = None
+        G = None
+        B = None
+        r = None
+        g = None
+        b = None
+        for i in range(len(plot_format)):
+            # Loop through the string. react to FIRST encounter of str
+            if not R and plot_format[i] == "R":
+                R = fdata[column_names[i]]
+            if not G and plot_format[i] == "G":
+                G = fdata[column_names[i]]
+            if not B and plot_format[i] == "B":
+                B = fdata[column_names[i]]
+            if not r and plot_format[i] == "r":
+                r = fdata[column_names[i]]
+            if not g and plot_format[i] == "g":
+                g = fdata[column_names[i]]
+            if not b and plot_format[i] == "b":
+                b = fdata[column_names[i]]
+        rgb_image_x = vis.rgb_plot(red_array=R, green_array=G,
+                                   blue_array=B, plot=False)
+        rgb_image_y = vis.rgb_plot(red_array=r, green_array=g,
+                                   blue_array=b, plot=False)
 
-    for f_number, fdata in enumerate(df_list):
-        # Read data into pandas dataframe
-        serial = serial_list[f_number]
-
-        if plot_format == 'single':
-            rgb_image = vis.rgb_plot(red_array=fdata[column_names[0]],
-                                     blue_array=fdata[column_names[1]],
-                                     plot=False)
-        elif plot_format == "else":
-            rgb_image_x = vis.rgb_plot(red_array=fdata[column_names[0]],
-                                       plot=False)
-            rgb_image_y = vis.rgb_plot(blue_array=fdata[column_names[1]],
-                                       plot=False)
-            rgb_image = vis.orthogonal_images_add(rgb_image_x, rgb_image_y,
+        # Default to "Add", but check for the option of using the mlt fn.
+        if combine_method == "mlt":
+            rgb_image = vis.orthogonal_images_mlt(rgb_image_x,
+                                                  rgb_image_y,
                                                   plot=False)
         else:
-            # Writing new Decision-matrix to organize with the input-string
-            # Loop through the string, and if you see an "RGB,rgb",
-            #   then that column is the one which will go there!
-            R = None
-            G = None
-            B = None
-            r = None
-            g = None
-            b = None
-            for i in range(len(plot_format)):
-                # Loop through the string. react to FIRST encounter of str
-                if not R and plot_format[i] == "R":
-                    R = fdata[column_names[i]]
-                if not G and plot_format[i] == "G":
-                    G = fdata[column_names[i]]
-                if not B and plot_format[i] == "B":
-                    B = fdata[column_names[i]]
-                if not r and plot_format[i] == "r":
-                    r = fdata[column_names[i]]
-                if not g and plot_format[i] == "g":
-                    g = fdata[column_names[i]]
-                if not b and plot_format[i] == "b":
-                    b = fdata[column_names[i]]
-            rgb_image_x = vis.rgb_plot(red_array=R, green_array=G,
-                                       blue_array=B, plot=False)
-            rgb_image_y = vis.rgb_plot(red_array=r, green_array=g,
-                                       blue_array=b, plot=False)
-
-            # Default to "Add", but check for the option of using the mlt fn.
-            if combine_method == "mlt":
-                rgb_image = vis.orthogonal_images_mlt(rgb_image_x,
-                                                      rgb_image_y,
-                                                      plot=False)
-            else:
-                rgb_image = vis.orthogonal_images_add(rgb_image_x,
-                                                      rgb_image_y,
-                                                      plot=False)
-
-#  The labelling of the data is somewhat hardcoded in this funciton right now.
-#  Consider improving it. We can now call cats_from_fnames for the full list.
-#            if classes[0] in entry:
-#                label = classes[0]
-#            else:
-#                label = classes[1]
-
-        label = None
-        for each_label in classes:
-            # Find the first label that matches.
-            if not label and each_label in serial:
-                label = each_label
-            else:
-                pass
-        if not label:
-            # If none of the labels fit, make new "not" label
-            label = "not_" + classes[0]
-        else:
-            pass
-        list_of_tuples.append(serial, rgb_image, label)
-
-    return list_of_tuples
+            rgb_image = vis.orthogonal_images_add(rgb_image_x,
+                                                  rgb_image_y,
+                                                  plot=False)
+    return rgb_image

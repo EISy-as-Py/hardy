@@ -235,8 +235,8 @@ def ask_file_list():
     root = tkinter.Tk()
     files_list = askopenfilenames(multiple=True)
     root.destroy()
-
-    return files_list, os.path.abspath(files_list[0])
+    the_dir, the_file = os.path.split(files_list[0])
+    return files_list, the_dir
 
 
 def cats_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
@@ -336,13 +336,13 @@ def cats_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
     elif n_found <= expect:
         # What if we found FEWER than expected?
         print(classification_list)
-        raise AssertionError("Found {} Labels, Expected {}...".format(
+        raise AssertionError("Found {} Labels, Expected at least {}...".format(
             n_found, expect))
 
     elif n_found >= expect:
         # Important! What if we found MORE than expected?
         # Well... Either error out, or move on with the most populous N!
-        print("Found {} Labels, Expected {}...".format(n_found, expect))
+        print("Found {} Labels, Only Expected {}...".format(n_found, expect))
 
         n_to_pass = int(len(csv_files)/expect * 0.9)
         # To pass, must have at least 1/nth of the total files
@@ -364,5 +364,19 @@ def cats_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
             # Maybe that 10% buffer should be bigger or smaller (~line 333)
             classification_list = new_classification_list
             # Over-write the old list with the new.
+        elif expect == 2:
+            # IF expect is 2, use the most populous and all others are just
+            # "NOT" that one...
+            maxpop = 0
+            mainlabel = ''
+            for label in classification_list:
+                if populations[label] > maxpop:
+                    # If this is the highest population,
+                    # Set this to be the biggest label
+                    maxpop = populations[label]
+                    mainlabel = label
+                else:
+                    pass
+            classification_list = [mainlabel, "not_{}".format(mainlabel)]
 
     return classification_list
