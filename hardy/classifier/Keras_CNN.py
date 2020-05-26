@@ -13,6 +13,10 @@ from keras.preprocessing.image import ImageDataGenerator
 # from kerastuner.tuners import RandomSearch, BayesianOptimization
 from sklearn.metrics import classification_report, confusion_matrix
 from tensorflow.keras import callbacks
+from keras.preprocessing.image import load_img
+from keras.preprocessing.image import img_to_array
+from numpy import expand_dims
+from keras.models import Model
 
 
 def learning_set(path, split=0.1, target_size=(50, 50),
@@ -346,6 +350,103 @@ def build_tuner_model(hp):
     return model
 
 
-# def run_tuner():
-#
-#     return
+def feature_map(img_path, model, classes, size, layer_num=None):
+    '''
+    The function outputs the feature map of given layer.
+
+    The function takes image path, model, number of classes, target
+    size to ouput the feature maps for a particular neural network
+    model.
+
+    Parameter:
+    ----------
+    imag_path: str
+               location of the image
+    model: neural network model
+           trained neural network model to make prediction
+    classes: int
+             number of classes used to train the model
+    size: int
+          target size used to train the model
+    layer_num: int or str
+               if int, provides output only from a single layer. If
+               None, provides output from all the layers. If 'last',
+               it provides provides probablity for classifications.
+
+    Returns:
+    --------
+
+    feature_map: int
+                 if layer_num = 'last', feature_map is probability for
+                 classfication
+    pyplot: matplotlib.pyplot
+            if layer_num is int or None, pyplots are generated
+
+    '''
+
+    img_feature = load_img(img_path, target_size=(size, size))
+    img_feature_array = img_to_array(img_feature)
+    img_feature_array = expand_dims(img_feature_array, axis=0)
+
+    list_layer_pos = []
+    if layer_num is None:
+        for i in range(len(model.layers)):
+            layer = model.layers[i]
+            if 'flatten' in layer.name or layer.output.shape[1] == classes:
+                continue
+            list_layer_pos.append(i)
+
+        feature_map_layers(img_feature_array, model, list_layer_pos)
+
+    elif layer_num == 'last':
+        for i in range(len(model.layers)):
+            list_layer_pos.append(i)
+        feature_map_model = Model(inputs=model.inputs,
+                                  outputs=model.layers[max(list_layer_pos)]
+                                  .output)
+        feature_map = feature_map_model.predict(img_feature_array)
+        print('The output from final layer is {}'.format(feature_map))
+
+    else:
+        list_layer_pos.append(layer_num)
+        feature_map_layers(img_feature_array, model, list_layer_pos)
+
+
+def feature_map_layers(image_feature_array, model, list_layer_pos):
+    '''
+    Nested function for feature_map(). Returns the pyplots for if layer_num
+    is int or None in feature_map().
+
+    Parameters:
+    -----------
+
+    image_feature_array: array
+                         array in expanded dimension representing the image
+                         input in feature_map()
+    model: neural network model
+           neural network model used to make prediction for the image
+    list_layer_pos: list
+                    list comprising of numbers representing the layer position
+
+    Returns:
+    --------
+
+    pyplot: matplotlib.pyplot
+            pyplot representing the feature maps
+
+    '''
+
+    for item in list_layer_pos:
+        feature_map_model = Model(inputs=model.inputs,
+                                  outputs=model.layers[item].output)
+        feature_map = feature_map_model.predict(image_feature_array)
+
+        print('The output is from layer {}, {} with \
+              shape {}'.format(item, model.layers[item].name,
+                               model.layers[item].output.shape))
+        ax = plt.figure(figsize=(10, 10))
+        for x in range(1, feature_map.shape[3]+1):
+            b = ax.add_subplot(6, 6, x)
+            b.axis('off')
+            plt.imshow(feature_map[0, :, :, x-1], cmap='gray')
+        plt.show()
