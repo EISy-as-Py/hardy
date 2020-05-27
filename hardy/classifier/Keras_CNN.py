@@ -369,10 +369,12 @@ def build_tuner_model(hp):
 
     model = tf.keras.Model(inputs, outputs)
 
+    # adding in the optimizer
     optimizer = getattr(hp, param['optimizer'][0])('optimizer',
                                                    values=param['optimizer']
                                                    [1]['values'])
 
+    # compiling neural network model
     model.compile(optimizer, loss='categorical_crossentropy',
                   metrics=['accuracy'])
 
