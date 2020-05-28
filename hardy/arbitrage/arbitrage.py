@@ -142,14 +142,13 @@ import numpy as np
 import pandas as pd
 
 # import transformations as transform
-import hardy.arbitrage.transformations as trasform
+import hardy.arbitrage.transformations as transform
 tform_1d1d = transform.list_1d1d
 
 # This is a test of the imported transforms functions,
 #    so I can make sure it's working
 a = np.linspace(0.1, 10, 1000)
 b = transform.transform_1d_cumsum(a)
-
 
 
 def setup_tform_files(input_path='../local_data'):
@@ -215,8 +214,11 @@ def setup_tform_files(input_path='../local_data'):
                 dt = time.perf_counter() - timer  # Total time in Seconds
                 timer = time.perf_counter()
                 rate = int(i_interval / dt)  # Files per Second
-                print("\r{}\tout of\t{}\t files...\t{}\tFiles/second".format(i,
-                    len(transformed_data[each_class]), rate), end="")
+                print("\r{}\tout of\t{}\t files..." +
+                      "\t{}\tFiles/second".format(i,
+                                                  len(transformed_data[
+                                                      each_class]), rate),
+                      end="")  # THIS IS A FLAKE8 DISASTER
                 i_target += i_interval
             n = 0
             while n < 100:
@@ -292,8 +294,8 @@ def load_and_transform_data(transformed_data, tform_list=None,
                     timer = time.perf_counter()
                     rate = int(i_interval / dt)  # Files per Second
                     print("\r{}\tout of\t{}\t files...".format(i,
-                          len(transformed_data[each_class]),) +\
-                          "\t{}\tFiles/second".format( rate), end="")
+                          len(transformed_data[each_class]),) +
+                          "\t{}\tFiles/second".format(rate), end="")
                     i_target += i_interval
 
                 # Loop through each file's raw data
