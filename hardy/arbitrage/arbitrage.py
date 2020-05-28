@@ -214,10 +214,10 @@ def setup_tform_files(input_path='../local_data'):
                 dt = time.perf_counter() - timer  # Total time in Seconds
                 timer = time.perf_counter()
                 rate = int(i_interval / dt)  # Files per Second
-                print("\r{}\tout of\t{}\t files..." +
-                      "\t{}\tFiles/second".format(i,
-                                                  len(transformed_data[
-                                                      each_class]), rate),
+                print("\r{}\tout of".format(i) +
+                      "\t{}\t files...".format(len(transformed_data[
+                                               each_class])) +
+                      "\t{}\tFiles/second".format(rate),
                       end="")  # THIS IS A FLAKE8 DISASTER
                 i_target += i_interval
             n = 0
