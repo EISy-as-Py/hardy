@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Tue Apr 21 19:03:40 2020
 @author: hurtd
@@ -69,15 +68,21 @@ The zeroth-level functions, related to importing and setting up data.
   * ACTIONS: Checks the file and data format. May try and load one/more files?
   * NOTE: Should we estimate size of all files and eventually try and
               estimate program-time? that may be useful...
-"""
 
-"""
+
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 ---SECTION 1 : Files to Import List   -----------------------------------------
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 """
+import os.path
+from os import listdir
+
+import numpy as np
+import pandas as pd
+import tkinter
+from tkinter.filedialog import askdirectory
 
 
 def get_file_list(dir_path='../local_data', str_has=['.'], str_inc=['.'],
@@ -98,10 +103,7 @@ def get_file_list(dir_path='../local_data', str_has=['.'], str_inc=['.'],
             * Final (successful) directory path used. (from cwd, or from base)
 
     """
-    import os.path
-    from os import listdir
-    import tkinter
-    from tkinter.filedialog import askdirectory
+
     if interact:
         root = tkinter.Tk()  # this will help control file dialog boxes!
 
@@ -182,8 +184,6 @@ def check_dir_path(dir_path, files_contain=['.csv'], n_required=1,
             * BOOLEAN (T/F), did we find all the required files?
             * Error Message, to use in selecting a folder if we failed.
     """
-    import os.path
-    from os import listdir
     if os.path.isdir(dir_path):
         # First confirm that it's a directory, otherwise fail
         file_list = listdir(dir_path)
@@ -229,8 +229,6 @@ def ask_file_list():
     Alternative to get_file_list, just makes a tkinter window and asks the user
     to select the files. Written easiy so we don't have to remember tkinter
     """
-    import os.path
-    import tkinter
     from tkinter.filedialog import askopenfilenames
     root = tkinter.Tk()
     files_list = askopenfilenames(multiple=True)
@@ -252,8 +250,6 @@ def cats_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
     Option from_serials, to be used if the file name extensions are already
         clipped off (aka we're passing serial ID info instead of fnames)
     """
-    import os
-
     classification_list = []
     populations = {}  # Dictionary
 
@@ -380,3 +376,117 @@ def cats_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
             classification_list = [mainlabel, "not_{}".format(mainlabel)]
 
     return classification_list
+
+
+def _smart_read_csv(full_fname, try_skiprows, last_skiprows=None,
+                    size_to_load=None, maxskip=100):
+    """
+    Looping through pandas read_csv, checking the data
+        and trying again if it's bad.
+    Our hard-coded "Skiprows=6" requires the user to know too much
+        a-priori about the data and can lead to frustrating errors.
+    I wrote this a week ago and somehow it was git deleted from the
+        git to_catalogue.py... Oh well it belongs here instead.
+    Note:
+        Will Return ONLY columns which are interger or floats.
+            No lists, no strings, no silly things.
+
+    INPUTS:
+        full_fname      :   str
+                            joined path and file name (ideally from root?)
+                            so that we can load the file
+
+        try_skiprows    :   int
+                            this replaces the hard "skiprows" in the
+                            old functions. It'll be the first we try.
+
+        last_skiprows   :   int (optional)
+                            Function Output of the successful skiprows #.
+                            To be re-fed into the function on the next loop
+                            occurance to speed up. (Will be tried AFTER the
+                                                    hard-coded "try"...)
+
+        size_to_load    :   float (optional) from 0 to 1   (Or int?)
+                            For long files, trying to load the entire thing
+                            multiple times will take long. So this would only
+                            load a certain number of lines equal to ~the
+                            file size... (Or should we specify line count?)
+                            and then load the full thing at the end.
+
+        max_skip        :   loop size. Will error if you skip this many rows.
+
+    """
+    load_success = False
+    # ^ We will use this to Track whether we did a successful load.
+    #       Turn it TRUE if a load does not error, but Turn if FALSE
+    #       if a successful load does not pass the data tests.
+    try:
+        fdata = pd.read_csv(full_fname, skiprows=try_skiprows)
+        load_success = _test_df(fdata)
+        last_skiprows = try_skiprows
+    except pd.errors.ParserError:  # Error if file changes width
+        pass
+
+    # Second Try: "Last successful", if given.
+    if last_skiprows and not load_success:
+        try:
+            fdata = pd.read_csv(full_fname, skiprows=last_skiprows)
+            load_success = _test_df(fdata)
+        except pd.errors.ParserError:
+            pass
+    else:
+        pass
+
+    # Finally, loop from n = 0 to maxrows until something passes!
+    n = 0
+    while not load_success and n:
+        try:
+            fdata = pd.read_csv(full_fname, skiprows=n)
+            load_success = _test_df(fdata)
+            last_skiprows = n
+        except pd.errors.ParserError:
+            pass
+        n += 1  # Increment skiprows every time we fail.
+    return fdata, last_skiprows
+
+
+def _test_df(fdata, columns_to_pass=2):
+    """
+    Parameters
+    ----------
+    fdata : dataframe, just loaded by pd.read_csv()
+
+    Returns
+    -------
+    load_success : Does the fdata frame pass our tests?
+    """
+    assert type(fdata) is pd.DataFrame, "Not Dataframe"
+
+    column_types = fdata.dtypes
+    good_columns = 0
+    for dtype in column_types:
+        if dtype is float:
+            good_columns += 1
+        elif dtype is np.dtype('float64') or np.dtype('float32'):
+            good_columns += 1
+        elif dtype is int:
+            good_columns += 1
+        else:
+            pass
+
+    if good_columns >= columns_to_pass:
+        return True  # GOOD Test!
+    else:
+        return False  # BAD Test! Don't error, just continue!
+
+
+# =============================================================================
+# # TESTING ZONE
+# base_path = "C:/Users/hurtd/Py/hardy/hardy/local_data/"
+# test_linear = base_path + "2020-4-24_linear_0001.csv"
+# test_eis = base_path + "200504_csv_EIS_simulaiton/" +\
+#            "200504-0016_sim_one_current_noise.csv"
+#
+# fdata = _smart_read_csv(test_linear, try_skiprows=5)
+#
+# =============================================================================
