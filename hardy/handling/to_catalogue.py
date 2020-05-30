@@ -275,7 +275,7 @@ def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
     return rgb_image
 
 
-def rgb_list_to_DirFlow(rgb_tuples, basepath, newfolder="img_for_keras",
+def rgb_list_to_DirFlow(rgb_tuples, basepath, newfolder="rbg_for_keras",
                         delete_existing=True):
     """
     Takes the list of tuples (as made in "rgb_list") and creates the exact
@@ -297,12 +297,56 @@ def rgb_list_to_DirFlow(rgb_tuples, basepath, newfolder="img_for_keras",
     # Make new folder full path... But what if it exists?
     if os.path.isdir(newfolder_path):
         # Well, if "Delete Existing" is true, delete that folder.
+        if delete_existing:
+            # Loop through and delete all... DANGEROUS
+            # So instead wrote a safety loop.
+            _safe_clear_dirflow(newfolder_path)
+        else:
+            raise AssertionError("Directory Full! Pass new 'newfolder'\n" +
+                                 "\t Or use 'delete_existing'=True")
+    else:
+        pass
 
-
+    # Now, make folders and fill them with the images!
+    os.makedirs(newfolder_path)
+    for each_class in classes:
+        class_folder = os.path.join(newfolder_path, each_class)
+        os.makedirs(class_folder)
+        for each_image in rgb_tuples:
+            if each_image[2] == each_class:
+                # If this image is in the class, save it in this folder!
+                save_png = os.path.join(class_folder, each_image + '.png')
 
 
 
     return basepath, newfolder
+
+
+def _safe_clear_dirflow(path):
+    """
+    Safely check that the path contains ONLY folders of png files.
+        if any other structure, will simply ERROR out.
+    (for now, doesn't fix errors, just raises them)
+    """
+    print("Clearing {}...".format(path))
+    assert os.isdir(path), "Didn't pass a folder to be cleaned"
+    for folder in os.listdir(path):
+        cat_folder = os.path.join(path, folder)
+        assert os.path(os.isdir(cat_folder)), \
+            "Dir contains Non-Folder File!"
+        for file in os.listdir(cat_folder):
+            # For every file, confirm is PNG or error.
+            # DONT DELETE YET, IN CASE OF ERRORS!
+            assert ".png" in file, "Folder has Non PNG Contents!"
+    # If we got though that with no error, then now we can delete!
+    for folder in os.listdir(path):
+        cat_folder = os.path.join(path, folder)
+        for file in os.listdir(cat_folder):
+            os.remove(os.path.join(cat_folder, file))
+        os.rmdir(cat_folder)
+    os.rmdir(path)
+    return True
+
 
 
 # Testing Zone:
