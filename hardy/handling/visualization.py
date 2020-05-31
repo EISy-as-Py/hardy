@@ -125,7 +125,7 @@ def rgb_plot(red_array=None, green_array=None, blue_array=None,
         n.append(len(given_arrays[i][1]))
     assert len(given_arrays) != 0, 'no input array was given.'
     assert all(x == n[0] for x in n), 'the given arrays have different length.\
-Check that you are using the right inputs'
+        Check that you are using the right inputs'
 
     not_given = [k for (k, v) in given.items() if v is False]
     for array in not_given:
