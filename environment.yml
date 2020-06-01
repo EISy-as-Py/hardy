@@ -26,7 +26,6 @@ dependencies:
   - pillow
   - pip
   - python
-  - pytorch
   - scipy
   - setuptools
   - scikit-learn
