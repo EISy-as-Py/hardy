@@ -29,7 +29,7 @@ dependencies:
   - pytorch
   - scipy
   - setuptools
-  - sklearn
+  - scikit-learn
   - sqlite
   - sqlalchemy
   - tensorflow
