@@ -3,7 +3,6 @@ import pickle
 # import kerastuner as kt
 import matplotlib.pyplot as plt
 import numpy as np
-import tensorflow as tf
 
 from keras.layers import (Dense, Conv2D, MaxPool2D,
                           Flatten)

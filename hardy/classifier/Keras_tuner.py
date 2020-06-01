@@ -1,6 +1,8 @@
+import datetime
+import yaml
+
 import kerastuner as kt
 import tensorflow as tf
-import yaml
 
 
 def build_tuner_model(hp):
@@ -167,6 +169,10 @@ def run_tuner(training_set, validation_set, project_name='untransformed',
                  verbose=2, callbacks=[early_stopping])
 
     return tuner
+
+
+# define default log directory
+log_dir = "./report/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + "/"
 
 
 def report_generation(tuner, model, history, metrics,
