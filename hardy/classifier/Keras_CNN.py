@@ -4,7 +4,6 @@ import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
-import yaml
 
 from keras.layers import (Dense, Conv2D, MaxPool2D,
                           Flatten)
