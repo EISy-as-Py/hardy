@@ -1,8 +1,7 @@
-import pickle
-
 # import kerastuner as kt
 import matplotlib.pyplot as plt
 import numpy as np
+import tensorflow as tf
 
 from keras.layers import (Dense, Conv2D, MaxPool2D,
                           Flatten)
@@ -282,7 +281,7 @@ def report_on_metrics(model, test_set, target_names=['noisy', 'not_noisy']):
     return conf_matrix, report
 
 
-def save_load_model(filename, model=None, save=None, load=None):
+def save_load_model(filepath, model=None, save=None, load=None):
     '''Function to save and load the NN model
 
     Function that can save or load model depending on given parameters.
@@ -292,7 +291,7 @@ def save_load_model(filename, model=None, save=None, load=None):
     filename : str
                string indicating the filename for saving or loading model.
     network : neural_network
-              neural network variable that is to be saved or loaded.
+              trained neural network variable that is to be saved or loaded.
     save : bool
            boolean value if true saves the neural network model.
     load : bool
@@ -304,10 +303,10 @@ def save_load_model(filename, model=None, save=None, load=None):
                    model that is loaded from the specified location
     '''
     if save:
-        pickle.dump(model, open(filename+'.sav', 'wb'))
+        model.save(filepath)
         return 'the model was correctly saved'
     elif load:
-        loaded_model = pickle.load(open(filename+'.sav', 'rb'))
+        loaded_model = tf.keras.models.load_model(filepath)
         return loaded_model
 
 
