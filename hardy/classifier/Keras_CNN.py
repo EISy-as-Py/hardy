@@ -311,7 +311,7 @@ def save_load_model(filename, model=None, save=None, load=None):
         return loaded_model
 
 
-def feature_map(img_path, model, classes, size, layer_num=None):
+def feature_map(image, model, classes, size, layer_num=None):
     '''
     The function outputs the feature map of given layer.
 
@@ -321,8 +321,9 @@ def feature_map(img_path, model, classes, size, layer_num=None):
 
     Parameter:
     ----------
-    imag_path: str
-               location of the image
+    imag_path: str or numpy array
+               if string it opens the image from path provided. If
+               numpy array, it directly feeds it into feature maps
     model: neural network model
            trained neural network model to make prediction
     classes: int
@@ -344,9 +345,12 @@ def feature_map(img_path, model, classes, size, layer_num=None):
             if layer_num is int or None, pyplots are generated
 
     '''
+    if isinstance(image, str):
+        img_feature = load_img(image, target_size=(size, size))
+        img_feature_array = img_to_array(img_feature)
+    else:
+        img_feature_array = image
 
-    img_feature = load_img(img_path, target_size=(size, size))
-    img_feature_array = img_to_array(img_feature)
     img_feature_array = expand_dims(img_feature_array, axis=0)
 
     list_layer_pos = []
