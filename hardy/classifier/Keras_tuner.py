@@ -220,7 +220,7 @@ def report_generation(tuner, model, history, metrics,
     validation_metrics_dict = {'test_loss': float(metrics[0]),
                                'test_accuracy': float(metrics[1])}
 
-    with open(log_dir+"report/"+datetime.datetime.now().strftime("%Y%m%d") +
+    with open(log_dir+"../report/"+datetime.datetime.now().strftime("%Y%m%d") +
               ".yaml", 'w') as yaml_file:
         yaml.dump(best_hp, yaml_file)
         yaml.dump(metrics_accuracy_feed, yaml_file)
