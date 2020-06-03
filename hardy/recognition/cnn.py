@@ -1,4 +1,4 @@
-# import kerastuner as kt
+import yaml
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
@@ -7,8 +7,6 @@ from keras.layers import (Dense, Conv2D, MaxPool2D,
                           Flatten)
 from keras.models import Sequential
 from keras.optimizers import Adam
-from keras.preprocessing.image import ImageDataGenerator
-# from kerastuner.tuners import RandomSearch, BayesianOptimization
 from sklearn.metrics import classification_report, confusion_matrix
 from tensorflow.keras import callbacks
 from keras.preprocessing.image import load_img
@@ -17,94 +15,8 @@ from numpy import expand_dims
 from keras.models import Model
 
 
-def learning_set(path, split=0.1, target_size=(50, 50),
-                 classes=['noisy', 'not_noisy'], batch_size=32,
-                 color_mode='grayscale', **kwargs):
-    '''
-    A funciton that will create an iterator for the files representing the
-    learning sets
-
-    Parameters
-    ----------
-    path: str
-          A string containing the path to the files to use for the learning set
-    split: float
-            A number between 0 and 1 representing which percentage of the data
-            will compose the validation set
-    target_size: tuple
-                 A tuple containing the dimentions of the image to be inputted
-                 in the model
-    classes: list
-             A list containing strings of the classes the data is divided in.
-             The class name represent the folder name the files are contained
-             in.
-    batch_size: int
-                The number of files to group up into a batch
-    color_mode: str
-                Either grayscale or rgb
-
-    Returns
-    -------
-    training_set:  Keras image iterator
-                The training set containg labelled images
-    validation_set: Keras image iterator
-                The training set containg labelled images
-    '''
-    data = ImageDataGenerator(validation_split=split, **kwargs)
-    training_set = data.flow_from_directory(path, target_size=target_size,
-                                            classes=classes,
-                                            batch_size=batch_size,
-                                            subset='training', shuffle=True,
-                                            color_mode=color_mode)
-    validation_set = data.flow_from_directory(path, target_size=target_size,
-                                              classes=classes,
-                                              batch_size=batch_size,
-                                              subset='validation',
-                                              shuffle=True,
-                                              color_mode=color_mode)
-
-    return training_set, validation_set
-
-
-def test_set(path, target_size=(50, 50),
-             classes=['noisy', 'not_noisy'], batch_size=32,
-             color_mode='grayscale', **kwargs):
-    '''
-    A funciton that will create an iterator for the files representing the
-    test set
-
-    Parameters
-    ----------
-    path: str
-          A string containing the path to the files to use for the test set
-    target_size: tuple
-                 A tuple containing the dimentions of the image to be inputted
-                 in the model
-    classes: list
-             A list containing strings of the classes the data is divided in.
-             The class name represent the folder name the files are contained
-             in.
-    batch_size: int
-                The number of files to group up into a batch
-    color_mode: str
-                Either grayscale or rgb
-
-    Returns
-    -------
-    test_set :  Keras image iterator
-                The testing set containg labelled images that was not part of
-                the learning dataset
-    '''
-    data = ImageDataGenerator(**kwargs)
-    test_set = data.flow_from_directory(path, target_size=target_size,
-                                        classes=classes, batch_size=batch_size,
-                                        shuffle=False, color_mode=color_mode)
-    return test_set
-
-
 # Define the base Keras model to use for comparing the different types of plots
-def build_model(training_set, validation_set, kernel_size=3, epochs=10,
-                activation=['relu', 'relu', 'relu'], input_shape=(50, 50, 1)):
+def build_model(training_set, validation_set, config_path='./'):
     '''
     Function that allows to build and fit a sequential convolutional
     neural network using Keras.
@@ -116,17 +28,9 @@ def build_model(training_set, validation_set, kernel_size=3, epochs=10,
     validation_set: Keras image directory iterator
                     The set of files that will be used to validate the trained
                     model after each epoch
-    kernel_size: int
-                 Integer indicating teh size of the kernel. The resulting
-                 kernel will be square
-    epochs: int
-            Integer indicating the number of epochs the model will be run for.
-    activation: list
-                A list contianing strings representing the activation function
-                of each layer in the model.
-    input_shape: tuple
-                 A tuple containing the dimentions of the image to be inputted
-                 in the model
+    config_path : str
+                  string containing the path to the yaml file representing the
+                  classifier hyperparameters
 
     Returns
     -------
@@ -138,30 +42,42 @@ def build_model(training_set, validation_set, kernel_size=3, epochs=10,
                    epoch.
     '''
     #################################################################
+    # Get the hyperparameters from the cnn_configuration file
+    with open(config_path + 'cnn_config.yaml', 'r') as file:
+        hparam = yaml.load(file, Loader=yaml.FullLoader)
+    ##################################################################
     # Build CNN Model
-    kernel = (kernel_size, kernel_size)
+    kernel = (hparam['kernel_size'][0], hparam['kernel_size'][0])
+    input = (hparam['input_shape'][0], hparam['input_shape'][0],
+             hparam['input_shape'][1])
     model = Sequential()
-    model.add(Conv2D(8, kernel, activation=activation[0],
-                     input_shape=input_shape))
-    model.add(Conv2D(16, kernel, activation=activation[1]))
-    model.add(Conv2D(32, kernel, activation=activation[2]))
+    model.add(Conv2D(hparam['filter_size'][0], kernel,
+                     activation=hparam['activation'][0],
+                     input_shape=input))
+    model.add(Conv2D(2*hparam['filter_size'][0], kernel,
+                     activation=hparam['activation'][1]))
+    model.add(Conv2D(4*hparam['filter_size'][0], kernel,
+                     activation=hparam['activation'][2]))
     model.add(MaxPool2D(2, 2))
     model.add(Flatten())
-    model.add(Dense(2, activation='softmax'))
+    model.add(Dense(hparam['num_classes'][0], activation='softmax'))
     #################################################################
     # set up early stopping to automatically interrupt the model when the loss
     # function does not vary for 3 epochs
-    callback = callbacks.EarlyStopping(monitor='loss', patience=2)
+    callback = callbacks.EarlyStopping(monitor='loss',
+                                       patience=hparam['patience'][0])
 
     #################################################################
     # compile the optimizer and defined the learning function
-    model.compile(optimizer=Adam(lr=0.001), loss='categorical_crossentropy',
+    model.compile(optimizer=Adam(lr=hparam['learning_rate'][0]),
+                  loss='categorical_crossentropy',
                   metrics=['accuracy'])
     #################################################################
     # Start the learning step and plot the result of the training and
     # validation sets to determine how well the model learned
-    history = model.fit(training_set, epochs=epochs, callbacks=[callback],
-                        shuffle=True, validation_data=validation_set)
+    history = model.fit(training_set, epochs=hparam['epochs'][0],
+                        callbacks=[callback], shuffle=True,
+                        validation_data=validation_set)
     #################################################################
 
     return model, history

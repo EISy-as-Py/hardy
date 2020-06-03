@@ -92,7 +92,7 @@ def test_set_folder(path, test_set_filenames):
     return test_set_folder
 
 
-def classes_folder_split(path, plot_type=None, classes=['noise', ''],
+def classes_folder_split(path, classes=['noise', ''],
                          class_folder=['noisy', 'not_noisy'],
                          file_extension='.png'):
     '''
@@ -104,10 +104,6 @@ def classes_folder_split(path, plot_type=None, classes=['noise', ''],
     path : str
            string containing the path to the files where to create the
            training and validation sets folders
-    plot_type: str
-               a string containig indication of wht plot type the file
-               represent. The plot type is contained in the filename as a
-               label at the end.
     classes: list
              A list containing strings of the classes the data is divided in.
              The classes are contained in the filename as labels.
@@ -127,10 +123,7 @@ def classes_folder_split(path, plot_type=None, classes=['noise', ''],
     assert len(classes) == len(class_folder), 'the number of labels and' +\
         'folders created needs to be equal'
     list_of_folders = []
-    if plot_type:
-        end_of_file = '_'+plot_type + file_extension
-    else:
-        end_of_file = file_extension
+    end_of_file = file_extension
     for i in range(len(classes)):
         list_of_files = [n for n in os.listdir(path) if
                          n.endswith(classes[i] + end_of_file)]

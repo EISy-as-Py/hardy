@@ -4,75 +4,27 @@ import unittest
 import numpy as np
 
 from hardy.recognition import cnn
-
+from hardy.handling.to_catalogue import learning_set, test_set
 
 # define variables to use for the following test:
 
 path = './hardy/test/test_image/'
 split = 0.1
-batch_size = 1
 classes = ['class_1', 'class_2']
-epochs = 1
-kernel_size = 3
-activation = ['relu', 'relu', 'relu']
-input_shape = (50, 50, 1)
+batch_size = 1
 
 
 class TestSimulationTools(unittest.TestCase):
 
-    def test_learning_set(self):
-        train, val = cnn.learning_set(path, split=split,
-                                      batch_size=batch_size,
-                                      classes=classes)
-        assert isinstance(path, str), 'the path should be in a string format'
-        assert isinstance(split, (float, np.float32, int)), \
-            ' the data split should be a number'
-        assert isinstance(classes, list), \
-            'the classes should be inputted as a list'
-        for item in classes:
-            assert isinstance(item, str), 'the class should be a string'
-        assert isinstance(train, keras.preprocessing.image.DirectoryIterator),\
-            'the training set should be an image iterator type of object'
-        assert isinstance(val, keras.preprocessing.image.DirectoryIterator),\
-            'the validation set should be an image iterator type of object'
-        assert isinstance(batch_size, int), \
-            'the batch size should be an integer'
-
-    def test_test_set(self):
-        testing = cnn.test_set(path, batch_size=batch_size,
-                               classes=classes)
-        assert isinstance(path, str), 'the path should be in a string format'
-        assert isinstance(classes, list), \
-            'the classes should be inputted as a list'
-        for item in classes:
-            assert isinstance(item, str), 'the class should be a string'
-        assert isinstance(testing, keras.preprocessing.image.DirectoryIterator
-                          ), 'the training set should be an image iterator'
-
     def test_build_model(self):
-        train, val = cnn.learning_set(path, split=split, classes=classes)
+        train, val = learning_set(path, split=split, classes=classes,
+                                  iterator_mode=None)
         model, history = cnn.build_model(train, val,
-                                         epochs=epochs,
-                                         kernel_size=kernel_size,
-                                         activation=activation,
-                                         input_shape=input_shape)
+                                         config_path='./hardy/recognition/')
         assert isinstance(train, keras.preprocessing.image.DirectoryIterator),\
             'the training set should be an image iterator type of object'
         assert isinstance(val, keras.preprocessing.image.DirectoryIterator),\
             'the validation set should be an image iterator type of object'
-        assert isinstance(kernel_size, int), \
-            'the kernel size should beinputted as na integer'
-        assert isinstance(activation, list), \
-            'activation functions should be indicated using a list'
-        for item in activation:
-            assert isinstance(item, str), \
-                'the activation function should be a string'
-        assert isinstance(input_shape, tuple), \
-            'the input shape should be indicated in a tuple'
-        assert len(input_shape) == 3, 'the input shape should ahve 3 entries'
-        assert input_shape[2] == (1 or 3), \
-            'the image should be either grayscale or rgb' +\
-            'wrong number of channels inputted'
         assert isinstance(model, keras.engine.sequential.Sequential),\
             'the CNN model should be a keras sequential model'
         assert isinstance(history, keras.callbacks.callbacks.History), \
@@ -80,14 +32,12 @@ class TestSimulationTools(unittest.TestCase):
 
     def test_evaluate_model(self):
         # define the sets and the model to use for the rest of the testing
-        train, val = cnn.learning_set(path, split=split, classes=classes)
-        testing = cnn.test_set(path, batch_size=batch_size,
-                               classes=classes)
+        train, val = learning_set(path, split=split, classes=classes,
+                                  iterator_mode=None)
+        testing = test_set(path, batch_size=batch_size, classes=classes,
+                           iterator_mode=None)
         model, history = cnn.build_model(train, val,
-                                         epochs=epochs,
-                                         kernel_size=kernel_size,
-                                         activation=activation,
-                                         input_shape=input_shape)
+                                         config_path='./hardy/recognition/')
         results = cnn.evaluate_model(model, testing)
         assert isinstance(results, list), \
             'model performance should be store in a list'
@@ -95,14 +45,12 @@ class TestSimulationTools(unittest.TestCase):
             'the accuracy should be a number smaller than 1'
 
     def test_report_on_metrics(self):
-        train, val = cnn.learning_set(path, split=split, classes=classes)
-        testing = cnn.test_set(path, batch_size=batch_size,
-                               classes=classes)
+        train, val = learning_set(path, split=split, classes=classes,
+                                  iterator_mode=None)
+        testing = test_set(path, batch_size=batch_size, classes=classes,
+                           iterator_mode=None)
         model, history = cnn.build_model(train, val,
-                                         epochs=epochs,
-                                         kernel_size=kernel_size,
-                                         activation=activation,
-                                         input_shape=input_shape)
+                                         config_path='./hardy/recognition/')
         conf_matrix, report = cnn.report_on_metrics(
                                 model, testing,
                                 target_names=['noisy', 'not_noisy'])

@@ -231,7 +231,7 @@ def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
 # Generating the sets to use for the classification step
 
 
-def learning_set(path='./', split=0.1, target_size=(50, 50),
+def learning_set(path='./', split=0.1, target_size=(80, 80),
                  classes=['noisy', 'not_noisy'], batch_size=32,
                  color_mode='rgb', iterator_mode='arrays',
                  image_list=None, **kwargs):
@@ -271,7 +271,10 @@ def learning_set(path='./', split=0.1, target_size=(50, 50),
 
     if iterator_mode == 'arrays':
         n = target_size[0]
-        channels = target_size[2]
+        if color_mode == 'rgb':
+            channels = 3
+        else:
+            channels = 1
 
         assert image_list, 'the image arrays should be provided'
 # Add checks for the image arrays- (filename, arrays, label)
@@ -292,14 +295,14 @@ def learning_set(path='./', split=0.1, target_size=(50, 50),
 
     else:
 
-        training_set = data.flow_from_directory(path=path,
+        training_set = data.flow_from_directory(path,
                                                 target_size=target_size,
                                                 classes=classes,
                                                 batch_size=batch_size,
                                                 subset='training',
                                                 shuffle=True,
                                                 color_mode=color_mode)
-        validation_set = data.flow_from_directory(path=path,
+        validation_set = data.flow_from_directory(path,
                                                   target_size=target_size,
                                                   classes=classes,
                                                   batch_size=batch_size,
@@ -310,7 +313,7 @@ def learning_set(path='./', split=0.1, target_size=(50, 50),
     return training_set, validation_set
 
 
-def test_set(path, target_size=(50, 50),
+def test_set(path, target_size=(80, 80),
              classes=['noisy', 'not_noisy'], batch_size=32,
              color_mode='rgb', iterator_mode='arrays',
              image_list=None, **kwargs):
@@ -343,7 +346,10 @@ def test_set(path, target_size=(50, 50),
     data = ImageDataGenerator(**kwargs)
     if iterator_mode == 'arrays':
         n = target_size[0]
-        channels = target_size[2]
+        if color_mode == 'rgb':
+            channels = 3
+        else:
+            channels = 1
 
         assert image_list, 'the image arrays should be provided'
 # Add checks for the image arrays- (filename, arrays, label)
