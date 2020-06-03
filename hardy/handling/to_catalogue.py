@@ -7,8 +7,6 @@ import hardy.handling.visualization as vis
 import hardy.handling as handling
 from keras.preprocessing.image import ImageDataGenerator
 import keras
-# import visualization as vis
-# import handling
 
 
 def save_load_data(filename, data=None, save=None, load=None,

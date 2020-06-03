@@ -18,9 +18,9 @@ We have been commissioned by Professor Lilo Pozzo to create a new tool for resea
 Our vision of the final product:
  * A package which can approach any large, labeled dataset (such as those familiar to High Throughput Screening (HTS) researchers).
  * Perform a (procedurally generated and data-guided) wide array of transformations on the data to produce completely novel ways of examining the data, maybe not Human-Readable but in a certainly machine-readable format.
- * Train "A Machine Learning Algorythm" (We currently focus on Visual-Processing CNNs but are open to anything!) to classify the existing labled data based on each of the aforementioned transformations.
+ * Train "A Machine Learning Algorithm" (We currently focus on Visual-Processing CNNs but are open to anything!) to classify the existing labled data based on each of the aforementioned transformations.
  * Report back to the user:
-    * Which versions of the Model/Algorythm worked best?
+    * Which versions of the Model/Algorithm worked best?
     * Which transformations appeared the most useful? (AKA were used across many of the most successful models)
     * What Data "Fingerprints" should we pay the most attention to? 
  * Present a User Interface, to allow non-programmers to interact with and use the chosen classifier(s?) in their work.
