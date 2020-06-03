@@ -35,7 +35,10 @@ def hold_out_test_set(path, number_of_files_per_class, classes=['noise', ''],
 
     # Initialize a list that will contain the serial numbers of thefiles
     # composing the test set
-    test_set_serialnumbers = []
+    test_set_filenames = []
+
+    # # These lines are hardcoded to allow for 2 classes only # #
+    # #  Rewrite to support a higher number of classes # #
 
     # Randomly pick files that are labelled as noisy and append
     #  them into the test_set list
@@ -46,16 +49,18 @@ def hold_out_test_set(path, number_of_files_per_class, classes=['noise', ''],
     for i in range(number_of_files_per_class):
         chosen_file = random.choice(file_list_1)
         file_list_1.remove(chosen_file)
-        test_set_serialnumbers.append(str(chosen_file).split('_')[0])
+        test_set_filenames.append(str(chosen_file.rstrip(chosen_file[-4:])
+                                      ))
 
         chosen_file = random.choice(file_list_2)
         file_list_2.remove(chosen_file)
-        test_set_serialnumbers.append(str(chosen_file).split('_')[0])
+        test_set_filenames.append(str(chosen_file.rstrip(chosen_file[-4:])
+                                      ))
 
-    return test_set_serialnumbers
+    return test_set_filenames
 
 
-def test_set_folder(path, test_set_serialnumbers):
+def test_set_folder(path, test_set_filenames):
     '''
     Functions that removes the files randomly chosen to be part of the
     test set and saves them intothe test_set folder
@@ -64,7 +69,7 @@ def test_set_folder(path, test_set_serialnumbers):
     ----------
     path : str
            string containing the path where to create a test set folder
-    test_set_serialnumbers: list
+    test_set_filenames: list
                             The list containig the strings of filenames
                             randomly selected to be part of the test set.
 
@@ -79,11 +84,10 @@ def test_set_folder(path, test_set_serialnumbers):
     if not os.path.exists(test_set_folder):
         os.makedirs(test_set_folder)
 
-    for serial_number in test_set_serialnumbers:
-        test_set_files = [n for n in os.listdir(path)
-                          if n.startswith(serial_number)]
-        for file in test_set_files:
-            shutil.move(path + file, test_set_folder)
+    test_set_files = [n for n in os.listdir(path) if n in test_set_filenames]
+
+    for file in test_set_files:
+        shutil.move(path + file, test_set_folder)
     return test_set_folder
 
 
@@ -136,3 +140,40 @@ def classes_folder_split(path, plot_type=None, classes=['noise', ''],
             shutil.move(path + file, new_folder_path)
         list_of_folders.append(new_folder_path)
     return list_of_folders
+
+
+def save_to_folder(input_path, project_name, transformation_name):
+    '''
+    Function that creates a new path to the folder for a specific
+    transformation. The transformation folder will be nested in a
+    run folder named using the run date and the project name
+
+    Parameters
+    ----------
+    input_path : str
+                 String containing the path to the .csv files
+    project_name : str
+                   String representing the project name. This will be used to
+                   name the folder containing the results from the hardy run
+    transformation_name : str
+                          String representing the transformation applied to
+                          the data
+
+    Returns
+    -------
+    transformation_folder_path :  str
+                                  String representing the path to the newly
+                                  generated path
+    '''
+    date = time.strftime('%y%m%d', time.localtime())
+
+    hardy_folder_path = input_path + date + '/' + project_name + '/'
+    if not os.path.exists(hardy_folder_path):
+        os.makedirs(hardy_folder_path)
+
+    transformation_folder_path = hardy_folder_path + transformation_name + '/'
+
+    if not os.path.exists(transformation_folder_path):
+        os.makedirs(transformation_folder_path)
+
+    return transformation_folder_path
