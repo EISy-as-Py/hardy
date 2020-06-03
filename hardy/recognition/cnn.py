@@ -1,4 +1,5 @@
 # import kerastuner as kt
+import os
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
@@ -310,7 +311,8 @@ def save_load_model(filepath, model=None, save=None, load=None):
         return loaded_model
 
 
-def feature_map(image, model, classes, size, layer_num=None):
+def feature_map(image, model, classes, size, layer_num=None,
+                save=True, log_dir="./", image_path=None):
     '''
     The function outputs the feature map of given layer.
 
@@ -320,9 +322,9 @@ def feature_map(image, model, classes, size, layer_num=None):
 
     Parameter:
     ----------
-    imag_path: str or numpy array
-               if string it opens the image from path provided. If
-               numpy array, it directly feeds it into feature maps
+    image: str or numpy array
+           if string it opens the image from path provided. If
+           numpy array, it directly feeds it into feature maps
     model: neural network model
            trained neural network model to make prediction
     classes: int
@@ -333,6 +335,10 @@ def feature_map(image, model, classes, size, layer_num=None):
                if int, provides output only from a single layer. If
                None, provides output from all the layers. If 'last',
                it provides provides probablity for classifications.
+    save: bool
+          if True it saves the feature maps in the log_dir folder
+    log_dir: str
+             log directory representing the location of logs
 
     Returns:
     --------
@@ -345,8 +351,12 @@ def feature_map(image, model, classes, size, layer_num=None):
 
     '''
     if isinstance(image, str):
-        img_feature = load_img(image, target_size=(size, size))
-        img_feature_array = img_to_array(img_feature)
+        if image_path:
+            img_feature = load_img(image_path + image,
+                                   target_size=(size, size))
+            img_feature_array = img_to_array(img_feature)
+        else:
+            print('the path to the image was not provided')
     else:
         img_feature_array = image
 
@@ -360,7 +370,8 @@ def feature_map(image, model, classes, size, layer_num=None):
                 continue
             list_layer_pos.append(i)
 
-        feature_map_layers(img_feature_array, model, list_layer_pos)
+        feature_map_layers(img_feature_array, model, list_layer_pos,
+                           save, log_dir)
 
     elif layer_num == 'last':
         for i in range(len(model.layers)):
@@ -373,11 +384,13 @@ def feature_map(image, model, classes, size, layer_num=None):
 
     else:
         list_layer_pos.append(layer_num)
-        feature_map_layers(img_feature_array, model, list_layer_pos)
+        feature_map_layers(img_feature_array, model, list_layer_pos,
+                           save, log_dir)
     return
 
 
-def feature_map_layers(img_feature_array, model, list_layer_pos):
+def feature_map_layers(img_feature_array, model, list_layer_pos, save,
+                       log_dir):
     '''
     Nested function for feature_map(). Returns the pyplots for if layer_num
     is int or None in feature_map().
@@ -392,6 +405,10 @@ def feature_map_layers(img_feature_array, model, list_layer_pos):
            neural network model used to make prediction for the image
     list_layer_pos: list
                     list comprising of numbers representing the layer position
+    save: bool
+          if True it saves the feature maps in the log_dir folder
+    log_dir: str
+             log directory representing the location of logs
 
     Returns:
     --------
@@ -414,4 +431,11 @@ def feature_map_layers(img_feature_array, model, list_layer_pos):
             b = ax.add_subplot(6, 6, x)
             b.axis('off')
             plt.imshow(feature_map[0, :, :, x-1], cmap='gray')
+
+        if save:
+            name_feature_map = "_"+str(model.layers[item].name)+"_"
+            new_folder_path = "../report/feature_maps/feature_map"
+            if not os.path.exists(new_folder_path):
+                os.makedirs(new_folder_path)
+            ax.savefig(log_dir+new_folder_path+name_feature_map, dpi=100)
     return plt.show()
