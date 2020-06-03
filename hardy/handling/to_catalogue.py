@@ -1,10 +1,12 @@
-# import numpy as np
+import numpy as np
 import pandas as pd
 import pickle
 import os
 
 import hardy.handling.visualization as vis
 import hardy.handling as handling
+from keras.preprocessing.image import ImageDataGenerator
+import keras
 # import visualization as vis
 # import handling
 
@@ -276,7 +278,7 @@ def learning_set(path='./', split=0.1, target_size=(50, 50),
 # assert im
         image_arrays = np.array([image_list[i][1][:]
                                 for i in range(len(image_list))])
-        image_data = image_arrays.reshape(image_arrays.shape[0], n
+        image_data = image_arrays.reshape(image_arrays.shape[0], n,
                                           n, channels).astype('float32')
         image_data = (image_data*255).astype('uint8')
         image_labels = np.array([image_list[i][:][2]
@@ -348,7 +350,7 @@ def test_set(path, target_size=(50, 50),
 # assert im
         image_arrays = np.array([image_list[i][1][:]
                                 for i in range(len(image_list))])
-        image_data = image_arrays.reshape(image_arrays.shape[0], n
+        image_data = image_arrays.reshape(image_arrays.shape[0], n,
                                           n, channels).astype('float32')
         image_data = (image_data*255).astype('uint8')
         image_labels = np.array([image_list[i][:][2]

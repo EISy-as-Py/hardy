@@ -1,6 +1,7 @@
 import os
 import random
 import shutil
+import time
 
 
 def hold_out_test_set(path, number_of_files_per_class, classes=['noise', ''],
