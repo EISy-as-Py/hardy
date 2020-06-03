@@ -41,7 +41,7 @@ def build_tuner_model(hp):
                           default=3)):
         x = tf.keras.layers.Conv2D(
             filters=getattr(hp, param['filters'][0])
-            ('filters_', min(param['filters'][1]['values']),
+            ('filters_' + str(i), min(param['filters'][1]['values']),
              max(param['filters'][1]['values']), step=4, default=8),
             kernel_size=getattr(hp, param['kernel_size'][0])
             ('kernel_size_' + str(i), min(param['kernel_size'][1]['values']),

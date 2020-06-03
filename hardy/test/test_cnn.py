@@ -3,7 +3,7 @@ import unittest
 
 import numpy as np
 
-from hardy.classifier import Keras_CNN
+from hardy.recognition import cnn
 
 
 # define variables to use for the following test:
@@ -21,9 +21,9 @@ input_shape = (50, 50, 1)
 class TestSimulationTools(unittest.TestCase):
 
     def test_learning_set(self):
-        train, val = Keras_CNN.learning_set(path, split=split,
-                                            batch_size=batch_size,
-                                            classes=classes)
+        train, val = cnn.learning_set(path, split=split,
+                                      batch_size=batch_size,
+                                      classes=classes)
         assert isinstance(path, str), 'the path should be in a string format'
         assert isinstance(split, (float, np.float32, int)), \
             ' the data split should be a number'
@@ -39,8 +39,8 @@ class TestSimulationTools(unittest.TestCase):
             'the batch size should be an integer'
 
     def test_test_set(self):
-        testing = Keras_CNN.test_set(path, batch_size=batch_size,
-                                     classes=classes)
+        testing = cnn.test_set(path, batch_size=batch_size,
+                               classes=classes)
         assert isinstance(path, str), 'the path should be in a string format'
         assert isinstance(classes, list), \
             'the classes should be inputted as a list'
@@ -50,12 +50,12 @@ class TestSimulationTools(unittest.TestCase):
                           ), 'the training set should be an image iterator'
 
     def test_build_model(self):
-        train, val = Keras_CNN.learning_set(path, split=split, classes=classes)
-        model, history = Keras_CNN.build_model(train, val,
-                                               epochs=epochs,
-                                               kernel_size=kernel_size,
-                                               activation=activation,
-                                               input_shape=input_shape)
+        train, val = cnn.learning_set(path, split=split, classes=classes)
+        model, history = cnn.build_model(train, val,
+                                         epochs=epochs,
+                                         kernel_size=kernel_size,
+                                         activation=activation,
+                                         input_shape=input_shape)
         assert isinstance(train, keras.preprocessing.image.DirectoryIterator),\
             'the training set should be an image iterator type of object'
         assert isinstance(val, keras.preprocessing.image.DirectoryIterator),\
@@ -80,30 +80,30 @@ class TestSimulationTools(unittest.TestCase):
 
     def test_evaluate_model(self):
         # define the sets and the model to use for the rest of the testing
-        train, val = Keras_CNN.learning_set(path, split=split, classes=classes)
-        testing = Keras_CNN.test_set(path, batch_size=batch_size,
-                                     classes=classes)
-        model, history = Keras_CNN.build_model(train, val,
-                                               epochs=epochs,
-                                               kernel_size=kernel_size,
-                                               activation=activation,
-                                               input_shape=input_shape)
-        results = Keras_CNN.evaluate_model(model, testing)
+        train, val = cnn.learning_set(path, split=split, classes=classes)
+        testing = cnn.test_set(path, batch_size=batch_size,
+                               classes=classes)
+        model, history = cnn.build_model(train, val,
+                                         epochs=epochs,
+                                         kernel_size=kernel_size,
+                                         activation=activation,
+                                         input_shape=input_shape)
+        results = cnn.evaluate_model(model, testing)
         assert isinstance(results, list), \
             'model performance should be store in a list'
         assert results[1] <= 1,\
             'the accuracy should be a number smaller than 1'
 
     def test_report_on_metrics(self):
-        train, val = Keras_CNN.learning_set(path, split=split, classes=classes)
-        testing = Keras_CNN.test_set(path, batch_size=batch_size,
-                                     classes=classes)
-        model, history = Keras_CNN.build_model(train, val,
-                                               epochs=epochs,
-                                               kernel_size=kernel_size,
-                                               activation=activation,
-                                               input_shape=input_shape)
-        conf_matrix, report = Keras_CNN.report_on_metrics(
+        train, val = cnn.learning_set(path, split=split, classes=classes)
+        testing = cnn.test_set(path, batch_size=batch_size,
+                               classes=classes)
+        model, history = cnn.build_model(train, val,
+                                         epochs=epochs,
+                                         kernel_size=kernel_size,
+                                         activation=activation,
+                                         input_shape=input_shape)
+        conf_matrix, report = cnn.report_on_metrics(
                                 model, testing,
                                 target_names=['noisy', 'not_noisy'])
         assert isinstance(conf_matrix, np.ndarray), \
