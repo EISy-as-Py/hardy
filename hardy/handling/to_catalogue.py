@@ -229,7 +229,7 @@ def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
 # Generating the sets to use for the classification step
 
 
-def learning_set(path='./', split=0.1, target_size=(80, 80),
+def learning_set(path=None, split=0.1, target_size=(80, 80),
                  classes=['noisy', 'not_noisy'], batch_size=32,
                  color_mode='rgb', iterator_mode='arrays',
                  image_list=None, **kwargs):
@@ -292,7 +292,6 @@ def learning_set(path='./', split=0.1, target_size=(80, 80),
                                    batch_size=batch_size, subset='validation')
 
     else:
-
         training_set = data.flow_from_directory(path,
                                                 target_size=target_size,
                                                 classes=classes,
