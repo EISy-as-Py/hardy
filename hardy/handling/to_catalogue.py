@@ -584,7 +584,8 @@ def test_set(path=None, target_size=(80, 80),
                              shuffle=False)
 
     else:
-        test_set = data.flow_from_directory(path, target_size=target_size,
+        test_set = data.flow_from_directory(path + 'test_set/',
+                                            target_size=target_size,
                                             classes=classes,
                                             batch_size=batch_size,
                                             shuffle=False,

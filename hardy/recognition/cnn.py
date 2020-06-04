@@ -366,6 +366,13 @@ def feature_map_layers(img_feature_array, model, list_layer_pos, save,
     return plt.show()
 
 
+def import_config(config_path):
+    '''
+    '''
+    with open(config_path + 'tuner_config.yaml', 'r') as file:
+        param = yaml.load(file, Loader=yaml.FullLoader)
+    return param
+
 # =============================================================================
 # def hardy_simple_keras(path, epochs=10, plotting=False,
 #                        save_threshold=0.95):
