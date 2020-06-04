@@ -194,11 +194,11 @@ def report_on_metrics(model, test_set, target_names=['noisy', 'not_noisy']):
     if isinstance(test_set, keras.preprocessing.image.DirectoryIterator):
         conf_matrix = confusion_matrix(test_set.classes, y_pred)
         report = classification_report(test_set.classes, y_pred,
-                                   target_names=target_names)
+                                       target_names=target_names)
     else:
         conf_matrix = confusion_matrix(np.argmax(test_set.y, axis=1), y_pred)
         report = classification_report(np.argmax(test_set.y, axis=1), y_pred,
-                                   target_names=target_names)
+                                       target_names=target_names)
     print(conf_matrix)
     print('\n Classification Report')
 
