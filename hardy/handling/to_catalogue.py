@@ -479,7 +479,7 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
     return training_set, validation_set
 
 
-def test_set(path, target_size=(80, 80),
+def test_set(path=None, target_size=(80, 80),
              classes=['noisy', 'not_noisy'], batch_size=32,
              color_mode='rgb', iterator_mode='arrays',
              image_list=None, **kwargs):
