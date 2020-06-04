@@ -190,7 +190,10 @@ def report_on_metrics(model, test_set, target_names=['noisy', 'not_noisy']):
     Y_pred = model.predict_generator(test_set, len(test_set))
     y_pred = np.argmax(Y_pred, axis=1)
     print('Confusion Matrix \n')
-    conf_matrix = confusion_matrix(test_set.classes, y_pred)
+    try:
+        conf_matrix = confusion_matrix(test_set.classes, y_pred)
+    except e as exception:
+        conf_matrix = confusion_matrix(np.unique(test_set.y), y_pred)
     print(conf_matrix)
     print('\n Classification Report')
     report = classification_report(test_set.classes, y_pred,
@@ -227,74 +230,6 @@ def save_load_model(filepath, model=None, save=None, load=None):
     elif load:
         loaded_model = tf.keras.models.load_model(filepath)
         return loaded_model
-
-
-def build_tuner_model(hp):
-    '''
-    Functions that builds a convolutional keras model with
-    tunable hyperparameters
-
-
-    Parameters
-    ----------
-    hp: keras tuner class
-        A class that is used to define the parameter search space
-
-    Returns
-    -------
-    model: Keras sequential model
-           The trained convolutional neural network
-    '''
-    ###################################
-    # loading the configuration file for tuner
-
-    with open(r'./tuner_config.yaml') as file:
-        param = yaml.load(file, Loader=yaml.FullLoader)
-
-    ####################################
-    # Defining input size
-
-    inputs = tf.keras.Input(shape=(50, 50, 3))
-    x = inputs
-
-    ####################################
-    # extracting parameters from the parameters file
-    # and feeding in the tuner
-
-    for i in range(hp.Int('conv_layers', 1, max(param['layers']),
-                          default=3)):
-        x = tf.keras.layers.Conv2D(
-            filters=getattr(hp, param['filters'][0])
-            ('filters_', min(param['filters'][1]['values']),
-             max(param['filters'][1]['values']), step=4, default=8),
-            kernel_size=getattr(hp, param['kernel_size'][0])
-            ('kernel_size_' + str(i), min(param['kernel_size'][1]['values']),
-             max(param['kernel_size'][1]['values'])),
-            activation=getattr(hp, param['activation'][0])
-            ('activation_' + str(i), values=param['activation'][1]['values']),
-            padding='same')(x)
-
-    if getattr(hp,
-               param['pooling'][0])('pooling',
-                                    values=param['pooling'][1]['values'])\
-            == 'max':
-        x = tf.keras.layers.GlobalMaxPooling2D()(x)
-    else:
-        x = tf.keras.layers.GlobalAveragePooling2D()(x)
-    outputs = tf.keras.layers.Dense(2, activation='softmax')(x)
-
-    model = tf.keras.Model(inputs, outputs)
-
-    # adding in the optimizer
-    optimizer = getattr(hp, param['optimizer'][0])('optimizer',
-                                                   values=param['optimizer']
-                                                   [1]['values'])
-
-    # compiling neural network model
-    model.compile(optimizer, loss='categorical_crossentropy',
-                  metrics=['accuracy'])
-
-    return model
 
 
 def feature_map(image, model, classes, size, layer_num=None,

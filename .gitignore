@@ -136,3 +136,7 @@ local_data/
 #    Added moeez 2020-05-16
 .DS_store
 .vscode/
+
+
+# pickled image list
+.npy

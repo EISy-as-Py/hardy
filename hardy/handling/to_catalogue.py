@@ -56,6 +56,8 @@ Current Status:
                          structure is in place, to avoid errors.
 
 """
+
+
 def save_load_data(filename, data=None, save=None, load=None,
                    file_extension='.sav', location='./'):
     """Function to save and load data
@@ -111,7 +113,7 @@ def _data_tuples_from_fnames(input_path='./', skiprows=6, classes=None):
         # OR simply pass an integer of how many to expect.
         # (in the instance above, default is to expect 2)
         classes = handling.cats_from_fnames(os.listdir(input_path),
-                                            expect = classes)
+                                            expect=classes)
     else:
         pass
 
