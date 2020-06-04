@@ -7,16 +7,16 @@ import time
 import matplotlib.pyplot as plt
 
 import hardy.handling.visualization as vis
-import hardy.handling as handling
+import hardy.handling.handling as handling
 from keras.preprocessing.image import ImageDataGenerator
 import keras
 
 
 def save_load_data(filename, data=None, save=None, load=None,
                    file_extension='.sav', location='./'):
-    """Function to save and load model
+    """Function to save and load data
 
-    Function that can save or load model depending on given parameters.
+    Function that can save or load data depending on given parameters.
 
     Parameters
     ----------
@@ -479,7 +479,7 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
     return training_set, validation_set
 
 
-def test_set(path, target_size=(80, 80),
+def test_set(path=None, target_size=(80, 80),
              classes=['noisy', 'not_noisy'], batch_size=32,
              color_mode='rgb', iterator_mode='arrays',
              image_list=None, **kwargs):
