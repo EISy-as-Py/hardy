@@ -11,7 +11,51 @@ import hardy.handling.handling as handling
 from keras.preprocessing.image import ImageDataGenerator
 import keras
 
+"""
+To_Catalogue, functions for handling (?) data?
+    (This has gotten messy and VERY overlapping, both with handling.py
+     and with the downstream pre_processing.py)...
 
+Current Status:
+    save_load_data : Executes a pickel data dump or load (unsafe?)
+
+    _data_tuples_from_fnames :  Gets properly formatted List_of_tuples from
+                                an input_path using smart category finder
+                                and smart/safe read csv (arbitrary rows, and
+                                deletes columns of "bad" data like strings)
+
+    ** Note:  Here in Wrapping Function Flow, is where the Arbitrage Transforms
+              Would "Intercept" the data and create transforms!
+
+    rgb_list :  Takes that list of dataframe tuples (following convention)
+                and creates a list of image tuples (same convention)
+
+    data_set_split : Takes that image_tuple list, and splits
+                     based on an also-given list of file names?
+                     test_set is the names passed, learning is all others...
+
+    rgb_visualize : Internal function called by rgb_list. Takes one fdata
+                    dataframe and creates the image for it via a plot_format
+                    string like 'RGBrgb' or "RgBrGb","Rg" or "Rxxgxx" etc.
+
+    learning_set :  Complex (multi-options) BUT, given the right rules
+                    (should be defaults) will turn the image_tuple_list
+                    into the proper (255) images, then use the Keras
+                    Preprocessing to turn them into keras objects.
+                    Finally, executes data_set_split to return separate
+                    Training and Validation data sets.
+
+    test_set:       Does all of that, without splitting the data.
+
+    #######################################################################
+    rgb_list_to_dirflow: Unused for now. Gives the possibility of outputting
+                         the rgb_list of tuples to a data structure
+                         designed to work with keras flow_from_dir()
+    _safe_clear_dirflow: Used to "safely" clear a directory to overwrite with
+                         new files. Clears NOTHING unless specific folder
+                         structure is in place, to avoid errors.
+
+"""
 def save_load_data(filename, data=None, save=None, load=None,
                    file_extension='.sav', location='./'):
     """Function to save and load data
@@ -58,12 +102,16 @@ def _data_tuples_from_fnames(input_path='./', skiprows=6, classes=None):
         (FileName (no extension), DataFrame, LABEL)
     """
     # Get list of classes for later
-
     list_of_tuples = []
     if classes is None:
         # This tells us to find the categories on our own.
         #    See "Handling" package for these methods.
         classes = handling.cats_from_fnames(os.listdir(input_path))
+    elif type(classes) is int:
+        # OR simply pass an integer of how many to expect.
+        # (in the instance above, default is to expect 2)
+        classes = handling.cats_from_fnames(os.listdir(input_path),
+                                            expect = classes)
     else:
         pass
 

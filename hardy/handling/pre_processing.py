@@ -2,6 +2,33 @@ import os
 import random
 import shutil
 import time
+"""
+NOTE: CURRENTLY OVERLAPPING WITH TO_CATALOGUE.
+      GOAL IS TO SEPARATE EVENTUALLY BASED ON DEPENDANCY.
+
+Current Functionality:
+    Given raw data Path,
+
+Current WIP:
+    I think this should contain the Wrappers around arbitrage and the
+        functions that are in to_catalogue.py,
+        so that this will have the "One Click" function to make
+        List_of_Tuples.
+    SPLITTING RULES + Path --? ?
+    path --> list of files (and classes?)
+    files --> list_of_tuples (RAW)
+    raw --> list_of_tuples (Transformed)
+    transformed --> list_of_tuples (RGB images)
+    l_o_t(rgb) --> "keras preprocessed" data set.
+
+"""
+import hardy.handling.to_catalogue as catalogue
+import hardy.arbitrage.arbitrage as arbitrage
+
+
+import keras_ready_frompath(raw_datapath,
+                            tform_commands=None)
+
 
 
 def hold_out_test_set(path=None, number_of_files_per_class=100,
