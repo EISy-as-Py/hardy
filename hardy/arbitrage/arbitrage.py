@@ -143,7 +143,7 @@ import numpy as np
 import pandas as pd
 
 # Imports must be changed depending on Package vs GIT build....
-import transformations as transform
+import hardy.arbitrage.transformations as transform
 # import hardy.arbitrage.transformations as transform
 
 

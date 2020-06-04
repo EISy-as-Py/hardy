@@ -1,5 +1,6 @@
 # import time
 # from datetime import datetime
+import keras
 import os
 import yaml
 
@@ -190,9 +191,9 @@ def report_on_metrics(model, test_set, target_names=['noisy', 'not_noisy']):
     Y_pred = model.predict_generator(test_set, len(test_set))
     y_pred = np.argmax(Y_pred, axis=1)
     print('Confusion Matrix \n')
-    try:
+    if isinstance(test_set, keras.preprocessing.image.DirectoryIterator):
         conf_matrix = confusion_matrix(test_set.classes, y_pred)
-    except e as exception:
+    else:
         conf_matrix = confusion_matrix(np.unique(test_set.y), y_pred)
     print(conf_matrix)
     print('\n Classification Report')
