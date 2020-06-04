@@ -1,0 +1,128 @@
+
+# Configuration File to provide List of Transformation Commands
+#   To the Arbitrage.py wrapping function: "####################"
+#
+# File will contain a List of Tuple-Lists, In the following Format:
+#
+# LIST_OF_TRANSFORMATIONS:
+#       TForm_1 (w/ Name? String for Reference?)
+#           -   (
+#               (Index=0, transform, source),
+#               (Index=1, transform, source),
+#               (Index=2, transform, source),
+#               (Index=3, transform, source),
+#               (Index=4, transform, source),
+#               (Index=5, transform, source),
+#               )
+#
+#        Wherein Index will be a number from 0 to 5 representing
+#            RGB in X and Y, respecitively.
+#           (Actually can re-define RGBrgb Later)
+#        Each "transform" will be a function in one of the 1D lists (for now)
+#            which should be CALLABLE via the tform_1d1d function.
+#        each "source" will be the naturally occuring array number
+#            (OR COLUMN NAME?) that will be transformed upon.
+
+
+# =============================================================================
+# # List Of Transformation Commands:
+#    "list_1d1d = {
+#         "1d_raw": transform_1d_none,
+#         "1d_log": transform_1d_log,
+#         "1d_exp": transform_1d_exp,
+#         "1d_reciprocal": transform_1d_reciprocal,
+#         "1d_cumsum": transform_1d_cumsum,
+#         "1d_derivative": transform_1d_derivative
+#         }"
+# =============================================================================
+
+
+# =============================================================================
+#
+# # For Planning Purposes, Suggest you Investigate your Data's SOURCE columns
+# #   And Post Here to help in planning:
+# #   FOR EIS DATA in our Format
+#
+# #   [0] :   Frequency (Log-like)
+# #   [1] :   Angular_Freq (Loglike)
+# #   [2] :   Real Z
+# #   [3] :   Imaginary Z
+# #   [4] :   Total Ohms
+# #   [5] :   Phase Angle
+# #   [6?] :   Added Real Noise?
+# #   [7?] :   Added Imaginary Noise?
+# =============================================================================
+
+tform_command_list:
+    - "Nyquist_like_Z_Z"
+    - "Bode_like_LogF_ZPhase"
+    - "NyBode_like_LogF_ZZ"
+    - "Raw_FZ_Z"
+    - "LogF_RawZZ"
+    - "Recip_FZZ"
+    - "Raw_FZPhase"
+    - "LogF_RawZPhase"
+    - "Recip_FZPhase"
+    - "Raw_FZZ_ZPhase"
+    - "LogF_ZZ_ZPhase"
+
+
+tform_command_dict:
+    "Nyquist_like_Z_Z":
+        - [0, '1d_raw', 0]
+        - [5, '1d_raw', 2]
+
+    "Bode_like_LogF_ZPhase":
+        - [0, '1d_log', 0]
+        - [5, '1d_raw', 4]
+        - [6, '1d_raw', 5]
+
+    "NyBode_like_LogF_ZZ":
+        - [0, '1d_log', 0]
+        - [5, '1d_raw', 2]
+        - [6, '1d_raw', 3]
+
+    "Raw_FZ_Z":
+        - [0, '1d_raw', 0]
+        - [1, '1d_raw', 2]
+        - [6, '1d_raw', 3]
+
+    "LogF_RawZZ":
+        - [0, '1d_log', 0]
+        - [1, '1d_raw', 2]
+        - [6, '1d_raw', 3]
+
+    "Recip_FZZ":
+        - [0, '1d_reciprocal', 0]
+        - [1, '1d_reciprocal', 2]
+        - [6, '1d_reciprocal', 3]
+
+    "Raw_FZPhase":
+        - [0, '1d_raw', 0]
+        - [1, '1d_raw', 4]
+        - [6, '1d_raw', 5]
+
+    "LogF_RawZPhase":
+        - [0, '1d_log', 0]
+        - [1, '1d_raw', 4]
+        - [6, '1d_raw', 5]
+
+    "Recip_FZPhase":
+        - [0, '1d_reciprocal', 0]
+        - [1, '1d_reciprocal', 4]
+        - [6, '1d_reciprocal', 5]
+
+    "Raw_FZZ_ZPhase":
+        - [0, '1d_raw', 0]
+        - [1, '1d_raw', 2]
+        - [2, '1d_raw', 3]
+        - [3, '1d_raw', 4]
+        - [4, '1d_raw', 5]
+
+    "LogF_ZZ_ZPhase":
+        - [0, '1d_log', 0]
+        - [1, '1d_raw', 2]
+        - [2, '1d_raw', 3]
+        - [4, '1d_raw', 4]
+        - [5, '1d_raw', 5]
+

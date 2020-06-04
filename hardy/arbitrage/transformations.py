@@ -312,7 +312,7 @@ def transform_1d_cwt(raw_df, xy=0):
 
 
 list_1d1d = {
-        "1d_none": transform_1d_none,
+        "1d_raw": transform_1d_none,
         "1d_log": transform_1d_log,
         "1d_exp": transform_1d_exp,
         "1d_reciprocal": transform_1d_reciprocal,
