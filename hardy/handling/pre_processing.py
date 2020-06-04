@@ -22,13 +22,12 @@ Current WIP:
     l_o_t(rgb) --> "keras preprocessed" data set.
 
 """
-import hardy.handling.to_catalogue as catalogue
-import hardy.arbitrage.arbitrage as arbitrage
+# import hardy.handling.to_catalogue as catalogue
+# import hardy.arbitrage.arbitrage as arbitrage
 
 
-import keras_ready_frompath(raw_datapath,
-                            tform_commands=None)
-
+def keras_ready_frompath(raw_datapath, tform_commands=None):
+    return None
 
 
 def hold_out_test_set(path=None, number_of_files_per_class=100,
