@@ -15,7 +15,7 @@ exec_per_trial:
   - 3
 
 search_function:
-  - RandomSearch
+  - 'RandomSearch'
 
 #########################################################################
 # Configuration of search space

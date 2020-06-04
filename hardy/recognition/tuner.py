@@ -7,13 +7,11 @@ import tensorflow as tf
 
 
 class build_param():
-
     def __init__(self, config_path):
-        param = cnn.import_config(config_path)
-
-
-def print_param(param):
-    print(param)
+        with open(config_path + 'tuner_config.yaml', 'r') as file:
+            self.hparam = yaml.load(file, Loader=yaml.FullLoader)
+        global tuner_parameters
+        tuner_parameters = self.hparam
 
 
 def build_tuner_model(hp):
@@ -35,7 +33,7 @@ def build_tuner_model(hp):
     ###################################
     # loading the configuration file for tuner
 
-    param = import_config(config_path)
+    param = tuner_parameters
 
     ####################################
     # Defining input size
@@ -116,8 +114,7 @@ def best_model(tuner, training_set, validation_set, test_set):
              np array containing loss and accuracy for cross-validation of data
 
     '''
-    with open(r'./tuner_config.yaml') as file:
-        param = yaml.load(file, Loader=yaml.FullLoader)
+    param = tuner_parameters
 
     best_hp = tuner.get_best_hyperparameters()[0]
     early_stopping = tf.keras.callbacks.EarlyStopping(monitor='loss',
@@ -156,8 +153,7 @@ def run_tuner(training_set, validation_set, project_name='untransformed'):
     --------
     tuner: keras tuner
     '''
-    with open(r'./tuner_config.yaml') as file:
-        param = yaml.load(file, Loader=yaml.FullLoader)
+    param = tuner_parameters
 
     early_stopping = tf.keras.callbacks.EarlyStopping(monitor='loss',
                                                       patience=param['patience'
