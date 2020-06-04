@@ -7,16 +7,16 @@ import time
 import matplotlib.pyplot as plt
 
 import hardy.handling.visualization as vis
-import hardy.handling as handling
+import hardy.handling.handling as handling
 from keras.preprocessing.image import ImageDataGenerator
 import keras
 
 
 def save_load_data(filename, data=None, save=None, load=None,
                    file_extension='.sav', location='./'):
-    """Function to save and load model
+    """Function to save and load data
 
-    Function that can save or load model depending on given parameters.
+    Function that can save or load data depending on given parameters.
 
     Parameters
     ----------

@@ -4,8 +4,9 @@ import shutil
 import time
 
 
-def hold_out_test_set(path, number_of_files_per_class, classes=['noise', ''],
-                      file_extension='.csv'):
+def hold_out_test_set(path=None, number_of_files_per_class=100,
+                      classes=['noise', ''], file_extension='.csv',
+                      image_list=None, iterator_mode=None):
     '''
     Functions that returns a list of filenames
     of the randomly selected files to compose the test set
@@ -26,6 +27,10 @@ def hold_out_test_set(path, number_of_files_per_class, classes=['noise', ''],
     file_extension: str
                     the extension of the file to read. The default value is
                     .csv
+    image_list: np.array
+                numpy array representing file names, image data and labels
+    iterator_mode: str
+                   string representing if the data provided is in arrays
 
     Returns
     -------
@@ -38,25 +43,39 @@ def hold_out_test_set(path, number_of_files_per_class, classes=['noise', ''],
     # composing the test set
     test_set_filenames = []
 
+    # seperating test_set_filenames for input as arrays
+    if iterator_mode == "arrays":
+        file_list_1 = [n[0] for n in image_list
+                       if n[0].endswith(classes[0])]
+        file_list_2 = [n[0] for n in image_list
+                       if not n[0].endswith(classes[0])]
+        for i in range(number_of_files_per_class):
+            chosen_file = random.choice(file_list_1)
+            file_list_1.remove(chosen_file)
+            test_set_filenames.append(str(chosen_file))
+            chosen_file = random.choice(file_list_2)
+            file_list_2.remove(chosen_file)
+            test_set_filenames.append(str(chosen_file))
     # # These lines are hardcoded to allow for 2 classes only # #
     # #  Rewrite to support a higher number of classes # #
 
     # Randomly pick files that are labelled as noisy and append
     #  them into the test_set list
-    file_list_1 = [n for n in os.listdir(path)
-                   if n.endswith(classes[0]+file_extension)]
-    file_list_2 = [n for n in os.listdir(path)
-                   if not n.endswith(classes[0]+file_extension)]
-    for i in range(number_of_files_per_class):
-        chosen_file = random.choice(file_list_1)
-        file_list_1.remove(chosen_file)
-        test_set_filenames.append(str(chosen_file.rstrip(chosen_file[-4:])
-                                      ))
+    else:
+        file_list_1 = [n for n in os.listdir(path)
+                       if n.endswith(classes[0]+file_extension)]
+        file_list_2 = [n for n in os.listdir(path)
+                       if not n.endswith(classes[0]+file_extension)]
+        for i in range(number_of_files_per_class):
+            chosen_file = random.choice(file_list_1)
+            file_list_1.remove(chosen_file)
+            test_set_filenames.append(str(chosen_file.rstrip(
+                                          chosen_file[-4:])))
 
-        chosen_file = random.choice(file_list_2)
-        file_list_2.remove(chosen_file)
-        test_set_filenames.append(str(chosen_file.rstrip(chosen_file[-4:])
-                                      ))
+            chosen_file = random.choice(file_list_2)
+            file_list_2.remove(chosen_file)
+            test_set_filenames.append(str(chosen_file.rstrip(
+                                          chosen_file[-4:])))
 
     return test_set_filenames
 
