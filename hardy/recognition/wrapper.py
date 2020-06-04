@@ -1,7 +1,7 @@
 import hardy.recognition.cnn as cnn
 import hardy.recognition.tuner as tuner
 from hardy.handling import pre_processing as preprocessing
-from hardy.handling import handling as handling
+# from hardy.handling import handling as handling
 from hardy.handling import to_catalogue as to_catalogue
 
 
@@ -39,7 +39,7 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
             iterator_mode='from_directory', batch_size=batch_size,
             classes=classes)
 
-        test_set = to_catalogue.test_set(path, target_size=target_size,
+        test_set = to_catalogue.test_set(image_path, target_size=target_size,
                                          classes=classes,
                                          iterator_mode='from_directory',
                                          batch_size=batch_size,)
@@ -48,10 +48,10 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
         # warn search_function, 'no search function provided,
         # using default RandomSearch'
         tuner.build_param(config_path)
-        tuner = tuner.run_tuner(training_set, validation_set,
-                                project_name=project_name +
-                                transformation_name)
-        model, history, metrics = tuner.best_model(tuner, training_set,
+        tuned_model = tuner.run_tuner(training_set, validation_set,
+                                      project_name=project_name +
+                                      run_name)
+        model, history, metrics = tuner.best_model(tuned_model, training_set,
                                                    validation_set, test_set)
     else:
         model, history = cnn.build_model(training_set, validation_set,
