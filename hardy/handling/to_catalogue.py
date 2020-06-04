@@ -1,14 +1,15 @@
-import matplotlib.pyplot as plt
 import numpy as np
-import os
 # import pandas as pd
 import pickle
+import os
 import time
+
+import matplotlib.pyplot as plt
 
 import hardy.handling.visualization as vis
 import hardy.handling as handling
-# import visualization as vis
-# import handling
+from keras.preprocessing.image import ImageDataGenerator
+import keras
 
 
 def save_load_data(filename, data=None, save=None, load=None,
@@ -57,6 +58,7 @@ def _data_tuples_from_fnames(input_path='./', skiprows=6, classes=None):
         (FileName (no extension), DataFrame, LABEL)
     """
     # Get list of classes for later
+
     list_of_tuples = []
     if classes is None:
         # This tells us to find the categories on our own.
@@ -184,6 +186,38 @@ def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
     t_sec = round(time.perf_counter()-t, 2)
     print("Success in {}seconds!".format(t_sec))
     return list_of_rgb_tuples
+
+
+def data_set_split(image_list, test_set_filenames):
+    '''
+    Function that splits the list of image arrays into a test set and a
+    learning setto use for the classification step
+
+    Parameters
+    ----------
+    image_list : list
+                 A list of tuples containing the filenames, the arrays
+                 reoresenitng the images and their labels
+    test_set_filenames : list
+                         List of strings containig the filename of the datasets
+                         selected to the be in the test set
+
+    Returns
+    -------
+    test_set_list : list
+                    A list of tuples containing the filenames, the arrays
+                    reoresenitng the images and their labels to be used as
+                    the test set
+    learning_set_list : list
+                        A list of tuples containing the filenames, the arrays
+                        reoresenitng the images and their labels to be used as
+                        the learning set
+
+    '''
+    test_set_list = [n for n in image_list if n[0][:][:] in test_set_filenames]
+    learning_set_list = [n for n in image_list if n not in test_set_list]
+
+    return test_set_list, learning_set_list
 
 
 def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
@@ -358,3 +392,151 @@ def _safe_clear_dirflow(the_path):
 # EIS_folder_to_keras = rgb_list_to_DirFlow(EIS_rgb_tuples,
 #                                           basepath=EIS_fname_data)
 # =============================================================================
+
+
+############################################################################
+# Generating the sets to use for the classification step
+
+
+def learning_set(path=None, split=0.1, target_size=(80, 80),
+                 classes=['noisy', 'not_noisy'], batch_size=32,
+                 color_mode='rgb', iterator_mode='arrays',
+                 image_list=None, **kwargs):
+    '''
+    A funciton that will create an iterator for the files representing the
+    learning sets
+
+    Parameters
+    ----------
+    path: str
+          A string containing the path to the files to use for the learning set
+    split: float
+            A number between 0 and 1 representing which percentage of the data
+            will compose the validation set
+    target_size: tuple
+                 A tuple containing the dimentions of the image to be inputted
+                 in the model
+    classes: list
+             A list containing strings of the classes the data is divided in.
+             The class name represent the folder name the files are contained
+             in.
+    batch_size: int
+                The number of files to group up into a batch
+    color_mode: str
+                Either grayscale or rgb
+    iterator_mode : str
+    image_list : list
+
+    Returns
+    -------
+    training_set:  Keras image iterator
+                The training set containg labelled images
+    validation_set: Keras image iterator
+                The training set containg labelled images
+    '''
+    data = ImageDataGenerator(validation_split=split, **kwargs)
+
+    if iterator_mode == 'arrays':
+        n = target_size[0]
+        if color_mode == 'rgb':
+            channels = 3
+        else:
+            channels = 1
+
+        assert image_list, 'the image arrays should be provided'
+# Add checks for the image arrays- (filename, arrays, label)
+# assert im
+        image_arrays = np.array([image_list[i][1][:]
+                                for i in range(len(image_list))])
+        image_data = image_arrays.reshape(image_arrays.shape[0], n,
+                                          n, channels).astype('float32')
+        image_data = (image_data*255).astype('uint8')
+        image_labels = np.array([image_list[i][:][2]
+                                 for i in range(len(image_list))])
+        image_labels = keras.utils.to_categorical(image_labels, num_classes=2)
+
+        training_set = data.flow(x=image_data, y=image_labels,
+                                 batch_size=batch_size, subset='training')
+        validation_set = data.flow(x=image_data, y=image_labels,
+                                   batch_size=batch_size, subset='validation')
+
+    else:
+        training_set = data.flow_from_directory(path,
+                                                target_size=target_size,
+                                                classes=classes,
+                                                batch_size=batch_size,
+                                                subset='training',
+                                                shuffle=True,
+                                                color_mode=color_mode)
+        validation_set = data.flow_from_directory(path,
+                                                  target_size=target_size,
+                                                  classes=classes,
+                                                  batch_size=batch_size,
+                                                  subset='validation',
+                                                  shuffle=True,
+                                                  color_mode=color_mode)
+
+    return training_set, validation_set
+
+
+def test_set(path, target_size=(80, 80),
+             classes=['noisy', 'not_noisy'], batch_size=32,
+             color_mode='rgb', iterator_mode='arrays',
+             image_list=None, **kwargs):
+    '''
+    A funciton that will create an iterator for the files representing the
+    test set
+
+    Parameters
+    ----------
+    path: str
+          A string containing the path to the files to use for the test set
+    target_size: tuple
+                 A tuple containing the dimentions of the image to be inputted
+                 in the model
+    classes: list
+             A list containing strings of the classes the data is divided in.
+             The class name represent the folder name the files are contained
+             in.
+    batch_size: int
+                The number of files to group up into a batch
+    color_mode: str
+                Either grayscale or rgb
+
+    Returns
+    -------
+    test_set :  Keras image iterator
+                The testing set containg labelled images that was not part of
+                the learning dataset
+    '''
+    data = ImageDataGenerator(**kwargs)
+    if iterator_mode == 'arrays':
+        n = target_size[0]
+        if color_mode == 'rgb':
+            channels = 3
+        else:
+            channels = 1
+
+        assert image_list, 'the image arrays should be provided'
+# Add checks for the image arrays- (filename, arrays, label)
+# assert im
+        image_arrays = np.array([image_list[i][1][:]
+                                for i in range(len(image_list))])
+        image_data = image_arrays.reshape(image_arrays.shape[0], n,
+                                          n, channels).astype('float32')
+        image_data = (image_data*255).astype('uint8')
+        image_labels = np.array([image_list[i][:][2]
+                                 for i in range(len(image_list))])
+        image_labels = keras.utils.to_categorical(image_labels, num_classes=2)
+
+        test_set = data.flow(x=image_data, y=image_labels,
+                             batch_size=batch_size,
+                             shuffle=False)
+
+    else:
+        test_set = data.flow_from_directory(path, target_size=target_size,
+                                            classes=classes,
+                                            batch_size=batch_size,
+                                            shuffle=False,
+                                            color_mode=color_mode)
+    return test_set

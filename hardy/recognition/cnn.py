@@ -1,20 +1,16 @@
+# import time
+# from datetime import datetime
 import os
-import pickle
-import time
-from datetime import datetime
+import yaml
 
-# import kerastuner as kt
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
-import yaml
 
 from keras.layers import (Dense, Conv2D, MaxPool2D,
                           Flatten)
 from keras.models import Sequential
 from keras.optimizers import Adam
-from keras.preprocessing.image import ImageDataGenerator
-# from kerastuner.tuners import RandomSearch, BayesianOptimization
 from sklearn.metrics import classification_report, confusion_matrix
 from tensorflow.keras import callbacks
 from keras.preprocessing.image import load_img
@@ -23,94 +19,8 @@ from numpy import expand_dims
 from keras.models import Model
 
 
-def learning_set(path, split=0.1, target_size=(50, 50),
-                 classes=['noisy', 'not_noisy'], batch_size=32,
-                 color_mode='grayscale', **kwargs):
-    '''
-    A funciton that will create an iterator for the files representing the
-    learning sets
-
-    Parameters
-    ----------
-    path: str
-          A string containing the path to the files to use for the learning set
-    split: float
-            A number between 0 and 1 representing which percentage of the data
-            will compose the validation set
-    target_size: tuple
-                 A tuple containing the dimentions of the image to be inputted
-                 in the model
-    classes: list
-             A list containing strings of the classes the data is divided in.
-             The class name represent the folder name the files are contained
-             in.
-    batch_size: int
-                The number of files to group up into a batch
-    color_mode: str
-                Either grayscale or rgb
-
-    Returns
-    -------
-    training_set:  Keras image iterator
-                The training set containg labelled images
-    validation_set: Keras image iterator
-                The training set containg labelled images
-    '''
-    data = ImageDataGenerator(validation_split=split, **kwargs)
-    training_set = data.flow_from_directory(path, target_size=target_size,
-                                            classes=classes,
-                                            batch_size=batch_size,
-                                            subset='training', shuffle=True,
-                                            color_mode=color_mode)
-    validation_set = data.flow_from_directory(path, target_size=target_size,
-                                              classes=classes,
-                                              batch_size=batch_size,
-                                              subset='validation',
-                                              shuffle=True,
-                                              color_mode=color_mode)
-
-    return training_set, validation_set
-
-
-def test_set(path, target_size=(50, 50),
-             classes=['noisy', 'not_noisy'], batch_size=32,
-             color_mode='grayscale', **kwargs):
-    '''
-    A funciton that will create an iterator for the files representing the
-    test set
-
-    Parameters
-    ----------
-    path: str
-          A string containing the path to the files to use for the test set
-    target_size: tuple
-                 A tuple containing the dimentions of the image to be inputted
-                 in the model
-    classes: list
-             A list containing strings of the classes the data is divided in.
-             The class name represent the folder name the files are contained
-             in.
-    batch_size: int
-                The number of files to group up into a batch
-    color_mode: str
-                Either grayscale or rgb
-
-    Returns
-    -------
-    test_set :  Keras image iterator
-                The testing set containg labelled images that was not part of
-                the learning dataset
-    '''
-    data = ImageDataGenerator(**kwargs)
-    test_set = data.flow_from_directory(path, target_size=target_size,
-                                        classes=classes, batch_size=batch_size,
-                                        shuffle=False, color_mode=color_mode)
-    return test_set
-
-
 # Define the base Keras model to use for comparing the different types of plots
-def build_model(training_set, validation_set, kernel_size=3, epochs=10,
-                activation=['relu', 'relu', 'relu'], input_shape=(50, 50, 1)):
+def build_model(training_set, validation_set, config_path='./'):
     '''
     Function that allows to build and fit a sequential convolutional
     neural network using Keras.
@@ -122,17 +32,9 @@ def build_model(training_set, validation_set, kernel_size=3, epochs=10,
     validation_set: Keras image directory iterator
                     The set of files that will be used to validate the trained
                     model after each epoch
-    kernel_size: int
-                 Integer indicating teh size of the kernel. The resulting
-                 kernel will be square
-    epochs: int
-            Integer indicating the number of epochs the model will be run for.
-    activation: list
-                A list contianing strings representing the activation function
-                of each layer in the model.
-    input_shape: tuple
-                 A tuple containing the dimentions of the image to be inputted
-                 in the model
+    config_path : str
+                  string containing the path to the yaml file representing the
+                  classifier hyperparameters
 
     Returns
     -------
@@ -144,30 +46,42 @@ def build_model(training_set, validation_set, kernel_size=3, epochs=10,
                    epoch.
     '''
     #################################################################
+    # Get the hyperparameters from the cnn_configuration file
+    with open(config_path + 'cnn_config.yaml', 'r') as file:
+        hparam = yaml.load(file, Loader=yaml.FullLoader)
+    ##################################################################
     # Build CNN Model
-    kernel = (kernel_size, kernel_size)
+    kernel = (hparam['kernel_size'][0], hparam['kernel_size'][0])
+    input = (hparam['input_shape'][0], hparam['input_shape'][0],
+             hparam['input_shape'][1])
     model = Sequential()
-    model.add(Conv2D(8, kernel, activation=activation[0],
-                     input_shape=input_shape))
-    model.add(Conv2D(16, kernel, activation=activation[1]))
-    model.add(Conv2D(32, kernel, activation=activation[2]))
+    model.add(Conv2D(hparam['filter_size'][0], kernel,
+                     activation=hparam['activation'][0],
+                     input_shape=input))
+    model.add(Conv2D(2*hparam['filter_size'][0], kernel,
+                     activation=hparam['activation'][1]))
+    model.add(Conv2D(4*hparam['filter_size'][0], kernel,
+                     activation=hparam['activation'][2]))
     model.add(MaxPool2D(2, 2))
     model.add(Flatten())
-    model.add(Dense(2, activation='softmax'))
+    model.add(Dense(hparam['num_classes'][0], activation='softmax'))
     #################################################################
     # set up early stopping to automatically interrupt the model when the loss
     # function does not vary for 3 epochs
-    callback = callbacks.EarlyStopping(monitor='loss', patience=2)
+    callback = callbacks.EarlyStopping(monitor='loss',
+                                       patience=hparam['patience'][0])
 
     #################################################################
     # compile the optimizer and defined the learning function
-    model.compile(optimizer=Adam(lr=0.001), loss='categorical_crossentropy',
+    model.compile(optimizer=Adam(lr=hparam['learning_rate'][0]),
+                  loss='categorical_crossentropy',
                   metrics=['accuracy'])
     #################################################################
     # Start the learning step and plot the result of the training and
     # validation sets to determine how well the model learned
-    history = model.fit(training_set, epochs=epochs, callbacks=[callback],
-                        shuffle=True, validation_data=validation_set)
+    history = model.fit(training_set, epochs=hparam['epochs'][0],
+                        callbacks=[callback], shuffle=True,
+                        validation_data=validation_set)
     #################################################################
 
     return model, history
@@ -286,7 +200,7 @@ def report_on_metrics(model, test_set, target_names=['noisy', 'not_noisy']):
     return conf_matrix, report
 
 
-def save_load_model(filename, model=None, save=None, load=None):
+def save_load_model(filepath, model=None, save=None, load=None):
     '''Function to save and load the NN model
 
     Function that can save or load model depending on given parameters.
@@ -296,7 +210,7 @@ def save_load_model(filename, model=None, save=None, load=None):
     filename : str
                string indicating the filename for saving or loading model.
     network : neural_network
-              neural network variable that is to be saved or loaded.
+              trained neural network variable that is to be saved or loaded.
     save : bool
            boolean value if true saves the neural network model.
     load : bool
@@ -308,139 +222,11 @@ def save_load_model(filename, model=None, save=None, load=None):
                    model that is loaded from the specified location
     '''
     if save:
-        pickle.dump(model, open(filename+'.sav', 'wb'))
+        model.save(filepath)
         return 'the model was correctly saved'
     elif load:
-        loaded_model = pickle.load(open(filename+'.sav', 'rb'))
+        loaded_model = tf.keras.models.load_model(filepath)
         return loaded_model
-
-
-def hardy_simple_keras(path, epochs=10, plotting=False,
-                       save_threshold=0.95):
-    '''
-    Wrapper for the simple keras model (all functions above this)
-        This way the simple model can be created and run on a preset
-        image folder with one simple function call!
-        Designed to be looped over in the case of the transformation list.
-
-    I suppose we COULD allow for all of the variables herein to be set
-        (and use the defaults as defined in the functions...), but instead
-        I am choosing for now to hard-code some of those decisions.
-
-    Parameters
-    ----------
-    path: str
-          A string containing the path to the files to use for the learning
-
-    epochs: int
-            number of epochs to iterate over. Takes longer but produces better
-            final model.
-
-    plotting:   bool
-                decision, whether to generate the history plots for the model
-                using the plot_history function
-
-    save_threshold:     float (from 0 -> 1)
-                        the fraction of "evaluate testing" that must be
-                        correct to trigger a save_model (and save history)
-                        event.
-                        * NOTE: To never save, can simply enter a number >1.
-
-    Hard-Fixed Parameters
-    ---------------------
-    classes: list
-             A list containing strings of the classes the data is divided in.
-             The class name represent the folder name the files are contained
-             in... So just use all folders (which contain images?) in PATH.
-
-    target_size: tuple
-                 A tuple containing the dimentions of the image to be inputted
-                 in the model... For now we will use (50?) 64.
-    split: float
-            A number between 0 and 1 representing which percentage of the data
-            will compose the validation set. Here, hard-code 0.1?
-    batch_size: int
-                The number of files to group up into a batch,
-                    for here, we will hard-code "32"
-    color_mode: str
-                For now, use only "rgb"
-
-    Returns
-    -------
-    loaded_model : model
-                   model that is loaded from the specified location
-
-    '''
-    clock = time.perf_counter()
-    now_str = datetime.now().strftime('%y%m%d-%H-%M')
-    # ^ Used later for saving, and to
-    found_classes = []
-    for item in os.listdir(path):
-        '''
-        Get list of classes via flow-from-directory:
-            Any item in "Path" is a class if it is a folder with .png images
-            inside of it...
-        '''
-        if os.path.isdir(item):
-            # if it's a folder, check inside for png files
-            for file in os.listdir(os.path.join(path, item)):
-                if '.png' in file:
-                    found_classes.append(item)
-                    break
-                else:
-                    pass
-        else:
-            pass
-    assert len(found_classes) >= 2, "Could not find folders in " + path
-
-    training_set, validation_set = learning_set(path, split=0.1,
-                                                target_size=(64, 64),
-                                                classes=found_classes,
-                                                batch_size=32,
-                                                color_mode='rgb')
-
-    testing_set = test_set(path, target_size=(64, 64), classes=found_classes,
-                           batch_size=32, color_mode='rgb')
-
-    # Input shape NxNx3 for rgb? Either hard-code that or do logic...
-    model, model_history = build_model(training_set, validation_set,
-                                       kernel_size=3, epochs=epochs,
-                                       activation=['relu', 'relu', 'relu'],
-                                       input_shape=(64, 64, 3))
-
-    results = evaluate_model(model, testing_set)
-    # ^ What is shape and meaning of results? I need to investigate that...
-    #   Our docstring says that results[1] is the % correct from evaluate()?
-    #   So that is what I'll use for the save question...
-    conf_matrix, report = report_on_metrics(model, testing_set,
-                                            target_names=found_classes)
-    run_time = time.perf_counter() - clock  # Record Run-Time.
-    # Package the results into a single dictionary, to return with function
-    result_dict = {"result": results,
-                   "conf_matrix": conf_matrix,
-                   "report": report,
-                   "run_time": run_time
-                   }
-    if plotting:
-        plot_history(model_history)  # Returns plt.show()?? fig= ??
-    else:
-        pass
-    if results[1] >= save_threshold:
-        '''
-        This determines whether to save the model (and the results? Format?)
-            Note: today_str moved to top of the function.
-        '''
-
-        save_model_name = os.path.join(path, "model_" + now_str)
-        save_result_name = os.path.join(path, "results_" + now_str)
-
-        save_load_model(save_model_name, model=model, save=True)
-        save_load_model(save_result_name, model=result_dict, save=True)
-
-    # Final Return status - We have the model and the result dictionary.
-    # **Does it make sense to return the moedel if we're looping over this?
-    #       For now, sure... In future might ignore that...
-    return model, result_dict, now_str
 
 
 def build_tuner_model(hp):
@@ -511,7 +297,8 @@ def build_tuner_model(hp):
     return model
 
 
-def feature_map(img_path, model, classes, size, layer_num=None):
+def feature_map(image, model, classes, size, layer_num=None,
+                save=True, log_dir="./", image_path=None):
     '''
     The function outputs the feature map of given layer.
 
@@ -521,8 +308,9 @@ def feature_map(img_path, model, classes, size, layer_num=None):
 
     Parameter:
     ----------
-    imag_path: str
-               location of the image
+    image: str or numpy array
+           if string it opens the image from path provided. If
+           numpy array, it directly feeds it into feature maps
     model: neural network model
            trained neural network model to make prediction
     classes: int
@@ -533,6 +321,10 @@ def feature_map(img_path, model, classes, size, layer_num=None):
                if int, provides output only from a single layer. If
                None, provides output from all the layers. If 'last',
                it provides provides probablity for classifications.
+    save: bool
+          if True it saves the feature maps in the log_dir folder
+    log_dir: str
+             log directory representing the location of logs
 
     Returns:
     --------
@@ -544,9 +336,16 @@ def feature_map(img_path, model, classes, size, layer_num=None):
             if layer_num is int or None, pyplots are generated
 
     '''
+    if isinstance(image, str):
+        if image_path:
+            img_feature = load_img(image_path + image,
+                                   target_size=(size, size))
+            img_feature_array = img_to_array(img_feature)
+        else:
+            print('the path to the image was not provided')
+    else:
+        img_feature_array = image
 
-    img_feature = load_img(img_path, target_size=(size, size))
-    img_feature_array = img_to_array(img_feature)
     img_feature_array = expand_dims(img_feature_array, axis=0)
 
     list_layer_pos = []
@@ -557,7 +356,8 @@ def feature_map(img_path, model, classes, size, layer_num=None):
                 continue
             list_layer_pos.append(i)
 
-        feature_map_layers(img_feature_array, model, list_layer_pos)
+        feature_map_layers(img_feature_array, model, list_layer_pos,
+                           save, log_dir)
 
     elif layer_num == 'last':
         for i in range(len(model.layers)):
@@ -570,11 +370,13 @@ def feature_map(img_path, model, classes, size, layer_num=None):
 
     else:
         list_layer_pos.append(layer_num)
-        feature_map_layers(img_feature_array, model, list_layer_pos)
+        feature_map_layers(img_feature_array, model, list_layer_pos,
+                           save, log_dir)
     return
 
 
-def feature_map_layers(img_feature_array, model, list_layer_pos):
+def feature_map_layers(img_feature_array, model, list_layer_pos, save,
+                       log_dir):
     '''
     Nested function for feature_map(). Returns the pyplots for if layer_num
     is int or None in feature_map().
@@ -589,6 +391,10 @@ def feature_map_layers(img_feature_array, model, list_layer_pos):
            neural network model used to make prediction for the image
     list_layer_pos: list
                     list comprising of numbers representing the layer position
+    save: bool
+          if True it saves the feature maps in the log_dir folder
+    log_dir: str
+             log directory representing the location of logs
 
     Returns:
     --------
@@ -611,4 +417,141 @@ def feature_map_layers(img_feature_array, model, list_layer_pos):
             b = ax.add_subplot(6, 6, x)
             b.axis('off')
             plt.imshow(feature_map[0, :, :, x-1], cmap='gray')
+
+        if save:
+            name_feature_map = "_"+str(model.layers[item].name)+"_"
+            new_folder_path = "../report/feature_maps/feature_map"
+            if not os.path.exists(new_folder_path):
+                os.makedirs(new_folder_path)
+            ax.savefig(log_dir+new_folder_path+name_feature_map, dpi=100)
     return plt.show()
+
+
+# =============================================================================
+# def hardy_simple_keras(path, epochs=10, plotting=False,
+#                        save_threshold=0.95):
+#     '''
+#     Wrapper for the simple keras model (all functions above this)
+#         This way the simple model can be created and run on a preset
+#         image folder with one simple function call!
+#         Designed to be looped over in the case of the transformation list.
+#
+#     I suppose we COULD allow for all of the variables herein to be set
+#         (and use the defaults as defined in the functions...), but instead
+#         I am choosing for now to hard-code some of those decisions.
+#
+#     Parameters
+#     ----------
+#     path: str
+#           A string containing the path to the files to use for the learning
+#
+#     epochs: int
+#             number of epochs to iterate over. Takes longer but makes better
+#             final model.
+#
+#     plotting:   bool
+#                 decision, whether to generate the history plots for the model
+#                 using the plot_history function
+#
+#     save_threshold:     float (from 0 -> 1)
+#                         the fraction of "evaluate testing" that must be
+#                         correct to trigger a save_model (and save history)
+#                         event.
+#                         * NOTE: To never save, can simply enter a number >1.
+#
+#     Hard-Fixed Parameters
+#     ---------------------
+#     classes: list
+#              A list containing strings of the classes the data is divided in.
+#              The class name represent the folder name the files are contained
+#              in... So just use all folders (which contain images?) in PATH.
+#
+#     target_size: tuple
+#                  A tuple containing the dimentions of the image to be inputt
+#                  in the model... For now we will use (50?) 64.
+#     split: float
+#             A number between 0 and 1 representing which % of the data
+#             will compose the validation set. Here, hard-code 0.1?
+#     batch_size: int
+#                 The number of files to group up into a batch,
+#                     for here, we will hard-code "32"
+#     color_mode: str
+#                 For now, use only "rgb"
+#
+#     Returns
+#     -------
+#     loaded_model : model
+#                    model that is loaded from the specified location
+#
+#     '''
+#     clock = time.perf_counter()
+#     now_str = datetime.now().strftime('%y%m%d-%H-%M')
+#     # ^ Used later for saving, and to
+#     found_classes = []
+#     for item in os.listdir(path):
+#         '''
+#         Get list of classes via flow-from-directory:
+#             Any item in "Path" is a class if it is a folder with .png images
+#             inside of it...
+#         '''
+#         if os.path.isdir(item):
+#             # if it's a folder, check inside for png files
+#             for file in os.listdir(os.path.join(path, item)):
+#                 if '.png' in file:
+#                     found_classes.append(item)
+#                     break
+#                 else:
+#                     pass
+#         else:
+#             pass
+#     assert len(found_classes) >= 2, "Could not find folders in " + path
+#
+#     training_set, validation_set = learning_set(path, split=0.1,
+#                                                 target_size=(64, 64),
+#                                                 classes=found_classes,
+#                                                 batch_size=32,
+#                                                 color_mode='rgb')
+#
+#     testing_set = test_set(path, target_size=(64, 64), classes=found_classes,
+#                            batch_size=32, color_mode='rgb')
+#
+#     # Input shape NxNx3 for rgb? Either hard-code that or do logic...
+#     model, model_history = build_model(training_set, validation_set,
+#                                        kernel_size=3, epochs=epochs,
+#                                        activation=['relu', 'relu', 'relu'],
+#                                        input_shape=(64, 64, 3))
+#
+#     results = evaluate_model(model, testing_set)
+#     # ^ What is shape and meaning of results? I need to investigate that...
+#     #   Our docstring says that results[1] is the % correct from evaluate()?
+#     #   So that is what I'll use for the save question...
+#     conf_matrix, report = report_on_metrics(model, testing_set,
+#                                             target_names=found_classes)
+#     run_time = time.perf_counter() - clock  # Record Run-Time.
+#     # Package the results into a single dictionary, to return with function
+#     result_dict = {"result": results,
+#                    "conf_matrix": conf_matrix,
+#                    "report": report,
+#                    "run_time": run_time
+#                    }
+#     if plotting:
+#         plot_history(model_history)  # Returns plt.show()?? fig= ??
+#     else:
+#         pass
+#     if results[1] >= save_threshold:
+#         '''
+#         This determines whether to save the model (and the results? Format?)
+#             Note: today_str moved to top of the function.
+#         '''
+#
+#         save_model_name = os.path.join(path, "model_" + now_str)
+#         save_result_name = os.path.join(path, "results_" + now_str)
+#
+#         save_load_model(save_model_name, model=model, save=True)
+#         save_load_model(save_result_name, model=result_dict, save=True)
+#
+#     # Final Return status - We have the model and the result dictionary.
+#     # **Does it make sense to return the moedel if we're looping over this?
+#     #       For now, sure... In future might ignore that...
+#     return model, result_dict, now_str
+# =============================================================================
