@@ -5,10 +5,10 @@ import os
 import pickle
 import time
 
-# import hardy.handling.visualization as vis
-# import hardy.handling as handling
-import visualization as vis
-import handling
+import hardy.handling.visualization as vis
+import hardy.handling as handling
+# import visualization as vis
+# import handling
 
 
 def save_load_data(filename, data=None, save=None, load=None,
@@ -54,7 +54,7 @@ def _data_tuples_from_fnames(input_path='./', skiprows=6, classes=None):
     For each file, do a "smart-load" of the data, remove bad columns,
         and determine the classification from the file name.
     Then Return that line of data_tuples in the format of:
-        (SERIAL, DataFrame, LABEL)
+        (FileName (no extension), DataFrame, LABEL)
     """
     # Get list of classes for later
     list_of_tuples = []
@@ -126,7 +126,7 @@ def _data_tuples_from_fnames(input_path='./', skiprows=6, classes=None):
         else:
             # If File is not csv, ignore
             pass
-    t_mins = round(n_total/fread_rate/60,2)
+    t_mins = round(n_total/fread_rate/60, 2)
     print("\n\t Success!\t About {} Minutes...".format(t_mins))
     # (Because timer has no Newline Character!)
     return list_of_tuples
@@ -316,47 +316,45 @@ def rgb_list_to_DirFlow(rgb_tuples, basepath, newfolder="rbg_for_keras",
         for each_image in rgb_tuples:
             if each_image[2] == each_class:
                 # If this image is in the class, save it in this folder!
-                save_png = os.path.join(class_folder, each_image + '.png')
-
-
-
+                save_png = os.path.join(class_folder, each_image[0] + '.png')
+                plt.imsave(save_png, each_image[1])
     return basepath, newfolder
 
 
-def _safe_clear_dirflow(path):
+def _safe_clear_dirflow(the_path):
     """
     Safely check that the path contains ONLY folders of png files.
         if any other structure, will simply ERROR out.
     (for now, doesn't fix errors, just raises them)
     """
-    print("Clearing {}...".format(path))
-    assert os.isdir(path), "Didn't pass a folder to be cleaned"
-    for folder in os.listdir(path):
-        cat_folder = os.path.join(path, folder)
-        assert os.path(os.isdir(cat_folder)), \
+    print("Clearing {}...".format(the_path))
+    assert os.path.isdir(the_path), "Didn't pass a folder to be cleaned"
+    for folder in os.listdir(the_path):
+        cat_folder = os.path.join(the_path, folder)
+        assert os.path.isdir(cat_folder), \
             "Dir contains Non-Folder File!"
         for file in os.listdir(cat_folder):
             # For every file, confirm is PNG or error.
             # DONT DELETE YET, IN CASE OF ERRORS!
             assert ".png" in file, "Folder has Non PNG Contents!"
     # If we got though that with no error, then now we can delete!
-    for folder in os.listdir(path):
-        cat_folder = os.path.join(path, folder)
+    for folder in os.listdir(the_path):
+        cat_folder = os.path.join(the_path, folder)
         for file in os.listdir(cat_folder):
             os.remove(os.path.join(cat_folder, file))
         os.rmdir(cat_folder)
-    os.rmdir(path)
+    os.rmdir(the_path)
     return True
 
-
-
-# Testing Zone:
-Path_0 = "C:/Users/hurtd/Py/hardy/hardy/local_data/"
-EIS_fname_data = Path_0 + "200504_csv_EIS_simulaiton/"
-Simple_dir_data = Path_0 + "2020-4-24_0001/"
-
-EIS_data_tuples = _data_tuples_from_fnames(EIS_fname_data)
-EIS_rgb_tuples = rgb_list(EIS_data_tuples)
-EIS_folder_to_keras = rgb_list_to_DirFlow(EIS_rgb_tuples,
-                                          basepath = EIS_fname_data,
-                                          )
+# =============================================================================
+#
+# # Testing Zone:
+# Path_0 = "C:/Users/hurtd/Py/hardy/hardy/local_data/"
+# EIS_fname_data = Path_0 + "200504_csv_EIS_simulaiton/"
+# Simple_dir_data = Path_0 + "2020-4-24_0001/"
+#
+# EIS_data_tuples = _data_tuples_from_fnames(EIS_fname_data)
+# EIS_rgb_tuples = rgb_list(EIS_data_tuples, plot_format='RBGrbg')
+# EIS_folder_to_keras = rgb_list_to_DirFlow(EIS_rgb_tuples,
+#                                           basepath=EIS_fname_data)
+# =============================================================================
