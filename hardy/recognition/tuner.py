@@ -38,7 +38,7 @@ def build_tuner_model(hp):
     ####################################
     # Defining input size
 
-    inputs = tf.keras.Input(shape=(50, 50, 3))
+    inputs = tf.keras.Input(shape=(80, 80, 3))
     x = inputs
 
     ####################################
@@ -208,7 +208,7 @@ def report_generation(model, history, metrics, log_dir,
     of the trained CNN
     '''
 
-    if tuner:
+    if tuner is not None:
         best_hp = tuner.get_best_hyperparameters()[0].values
     else:
         assert (config_path), "Please,Provide the config path"

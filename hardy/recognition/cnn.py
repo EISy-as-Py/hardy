@@ -195,8 +195,8 @@ def report_on_metrics(model, test_set, target_names=['noisy', 'not_noisy']):
                                        target_names=target_names)
     else:
         conf_matrix = confusion_matrix(np.argmax(test_set.y, axis=1), y_pred)
-        report = classification_report(np.argmax(test_set.y, axis=1), y_pred,
-                                       target_names=target_names)
+        report = classification_report(np.argmax(test_set.y, axis=1), y_pred)
+
     print(conf_matrix)
     print('\n Classification Report')
 

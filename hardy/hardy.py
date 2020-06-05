@@ -1,5 +1,5 @@
-import hardy.recognition.cnn as cnn
-import hardy.recognition.tuner as tuner
+from hardy.recognition import cnn as cnn
+from hardy.recognition import tuner as tuner
 from hardy.handling import pre_processing as preprocessing
 # from hardy.handling import handling as handling
 from hardy.handling import to_catalogue as to_catalogue
@@ -53,16 +53,21 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
                                       run_name)
         model, history, metrics = tuner.best_model(tuned_model, training_set,
                                                    validation_set, test_set)
+        output_path = preprocessing.save_to_folder(input_path, project_name,
+                                                   run_name)
+        conf_matrix, report = cnn.report_on_metrics(model, test_set) 
+        tuner.report_generation(model, history, metrics, output_path,
+                                tuner=tuned_model, save_model=True)
     else:
         model, history = cnn.build_model(training_set, validation_set,
                                          config_path=config_path)
         metrics = cnn.evaluate_model(model, test_set)
 
-    output_path = preprocessing.save_to_folder(input_path, project_name,
-                                               run_name)
-    conf_matrix, report = cnn.report_on_metrics(model, test_set)
-    tuner.report_generation(model, history, metrics, output_path,
-                            tuner=None, save_model=True,
-                            config_path=config_path)
+        output_path = preprocessing.save_to_folder(input_path, project_name,
+                                                   run_name)
+        conf_matrix, report = cnn.report_on_metrics(model, test_set)
+        tuner.report_generation(model, history, metrics, output_path,
+                                tuner=None, save_model=True,
+                                config_path=config_path)
 
     return
