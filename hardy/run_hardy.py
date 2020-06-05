@@ -136,7 +136,7 @@ def data_wrapper(raw_datapath, tform_commands=None,
         clock = time.perf_counter()
         print("Processing Data...\t", end="")
     # Make the raw Dataframe Tuples List
-    raw_tuples_list = to_catalogue._data_from_fnames(raw_datapath)
+    raw_tuples_list = to_catalogue._data_tuples_from_fnames(raw_datapath)
     # Now perform trasnsform if given
     if tform_commands is None:
         tform_tuples_list = raw_tuples_list
@@ -146,7 +146,7 @@ def data_wrapper(raw_datapath, tform_commands=None,
                                                    rgb_format=plot_format)
     # Next make the rgb images Tuples List
     rgb_tuples_list = to_catalogue.rgb_list(tform_tuples_list,
-                                            rgb_format=plot_format)
+                                            plot_format=plot_format)
     # OK! Now we have image arrays finished!
     #     EITHER Return that list of image tuples
     #     OR save images and Return the path to those folders!

@@ -241,8 +241,8 @@ def import_tform_config(tform_config_path='.\tform_config.yaml', raw_df=None):
                 "Source Column given in '{}' out of Range".format(command) +\
                 " Of Raw DataFrame."
 
-    print("Successfully Loaded {} Transforms to Try!").format(
-        len(tform_command_list))
+    print("Successfully Loaded {} Transforms to Try!".format(
+        len(tform_command_list)))
     return tform_command_list, tform_command_dict
 
 
@@ -276,7 +276,7 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
 
     """
     # First get new column names:
-    old_names = list(raw_df.colums)
+    old_names = list(raw_df.columns)
 
     new_names = list(range(rgb_col_number))
     for command in tform_commands:
@@ -291,7 +291,7 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
     # And now, apply each transform and assign the output to the
     #   Column as instructed in that command
     for command in tform_commands:
-        target_raw = raw_df[command[2]]  # Get raw data (series?) from source
+        target_raw = raw_df[old_names[command[2]]]  # Get raw data (series?) from source
         tform_data = tform_1d1d[command[1]](target_raw)  # Perform the tform
         tform_df[new_names[command[0]]] = tform_data  # Save in output df
 
