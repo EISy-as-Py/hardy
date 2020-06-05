@@ -186,6 +186,7 @@ def report_on_metrics(model, test_set, target_names=['noisy', 'not_noisy']):
              a string containg the overall report of the performance
              of the model. Accuracy, recall and F1 scores are reported.
     '''
+    test_set.reset()
     Y_pred = model.predict_generator(test_set, len(test_set))
     y_pred = np.argmax(Y_pred, axis=1)
     print('Confusion Matrix \n')
