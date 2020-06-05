@@ -12,6 +12,7 @@ dependencies:
   - jupyter_console
   - jupyter_core
   - keras
+  - keras-tuner
   - matplotlib
   - mkl
   - mkl-service
