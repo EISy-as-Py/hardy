@@ -22,12 +22,42 @@ Current WIP:
     l_o_t(rgb) --> "keras preprocessed" data set.
 
 """
-# import hardy.handling.to_catalogue as catalogue
-# import hardy.arbitrage.arbitrage as arbitrage
+
+import hardy.handling.to_catalogue as catalogue
+import hardy.arbitrage.arbitrage as arbitrage
 
 
-def keras_ready_frompath(raw_datapath, tform_commands=None):
-    return None
+def keras_ready_from_path(raw_datapath, tform_commands=None,
+                          plot_format="RGBrgb", iterator_mode='arrays'):
+    """
+    Overall "One-Click" Wrapper to create the three "Keras Ready" Datasets
+        needed to train the model: "Training Set", "Validation Set" and
+        "Test Set", all in the same format which is created via the
+        Keras.Preprocessing.Data.Flow (<--- Not exact package/function)
+
+    Using From other Packages:
+      ARBITRAGE:
+          Tform_Tuples : Wrapper that takes in dataframe Tuples_list and
+                         returns an equal transformed tuples_list
+      TO_CATALOGUE:
+          c
+    """
+    # Make the raw Dataframe Tuples List
+    raw_tuples_list = catalogue._data_from_fnames(raw_datapath)
+    # Now perform trasnsform if given
+    if tform_commands is None:
+        tform_tuples_list = raw_tuples_list
+    else:
+        tform_tuples_list = arbitrage.tform_tuples(raw_tuples_list,
+                                                   tform_commands,
+                                                   rgb_format=plot_format)
+    # Next make the rgb images Tuples List
+    rgb_tuples_list = catalogue.rgb_list(tform_tuples_list,
+                                         rgb_format=plot_format)
+
+    # Write Optional Split based on ItMode, to optionally use the "to_dirFlow"
+    # path options.
+    return rgb_tuples_list
 
 
 def hold_out_test_set(path=None, number_of_files_per_class=100,
