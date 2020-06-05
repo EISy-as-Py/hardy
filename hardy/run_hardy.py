@@ -12,12 +12,13 @@ from hardy.arbitrage import arbitrage
 
 def hardy_multi_transform(  # Data and Config Paths
                           raw_datapath, tform_config_path,
-                          input_path, test_set_filenames,
-                          run_name, config_path,
+                          test_set_filenames,
+                          run_name, classifier_config_path,
                           # Optional for Data
                           iterator_mode='arrays', plot_format="RGBrgb",
                           print_out=True,
                           # Optional for Classifier
+                          num_test_files_class=300,
                           classifier='tuner', split=0.1, target_size=(80, 80),
                           batch_size=32, classes=['class_1', 'class_2'],
                           project_name='tuner_run'
@@ -69,8 +70,11 @@ def hardy_multi_transform(  # Data and Config Paths
         pass
     # ===========================
     # 1b) ANY OTHER SETUP?
-    #       -Do we split the Test files out here? I suppose so, right?
     # ===========================
+
+    test_set_filenames = preprocessing.hold_out_test_set(
+        input_path, number_of_files_per_class=num_test_set_class,
+        classes=classes)
 
     for tform_name in tform_command_list:
 
@@ -80,39 +84,36 @@ def hardy_multi_transform(  # Data and Config Paths
         tform_commands = tform_command_dict[tform_name]
 
         if iterator_mode == 'arrays':
+            image_data = data_wrapper(
+                raw_datapath, tform_commands=tform_commands,
+                plot_format=plot_format, iterator_mode=iterator_mode,
+                print_out=print_out)
             image_path = None
-            image_data = data_wrapper(raw_datapath, tform_commands,
-                                      plot_format, iterator_mode,
-                                      print_out)
         else:
             image_data = None
-            image_path = data_wrapper(raw_datapath, tform_commands,
-                                      plot_format, iterator_mode,
-                                      print_out)
+            image_path = data_wrapper(
+                raw_datapath, tform_commands=tform_commands,
+                plot_format=plot_format, iterator_mode=iterator_mode,
+                print_out=print_out)
 
         # ============================================
         # Section 3: Classifier Wrapper  (Setup + Run)
         # ============================================
 
-        if iterator_mode == 'arrays':
-            # Image PATH is none, but we can pass DATA
-            classifier_wrapper(input_path, test_set_filenames,
-                               run_name, config_path,
-                               image_data, classifier,
-                               iterator_mode, split,
-                               target_size, batch_size, image_path,
-                               classes, project_name)
-            # NO OUTPUT?
+        # Image PATH is none, but we can pass DATA
+        classifier_wrapper(raw_datapath, test_set_filenames,
+                           tform_name, classifier_config_path,
+                           image_data=image_data,
+                           classifier=classifier,
+                           iterator_mode=iterator_mode,
+                           split=split,
+                           target_size=target_size,
+                           batch_size=batch_size,
+                           image_path=image_path,
+                           classes=classes,
+                           project_name=project_name)
+        # NO OUTPUT? - it outputs the report file
 
-        else:
-            # Image DATA is None, but we can pass PATH
-            classifier_wrapper(input_path, test_set_filenames,
-                               run_name, config_path,
-                               image_data, classifier,
-                               iterator_mode, split,
-                               target_size, batch_size, image_path,
-                               classes, project_name)
-            # NO OUTPUT?
     return None
 
 
