@@ -6,6 +6,14 @@ import kerastuner as kt
 import tensorflow as tf
 
 
+class build_param():
+    def __init__(self, config_path):
+        with open(config_path + 'tuner_config.yaml', 'r') as file:
+            self.hparam = yaml.load(file, Loader=yaml.FullLoader)
+        global tuner_parameters
+        tuner_parameters = self.hparam
+
+
 def build_tuner_model(hp):
     '''
     Functions that builds a convolutional keras model with
@@ -25,8 +33,7 @@ def build_tuner_model(hp):
     ###################################
     # loading the configuration file for tuner
 
-    with open(r'./tuner_config.yaml') as file:
-        param = yaml.load(file, Loader=yaml.FullLoader)
+    param = tuner_parameters
 
     ####################################
     # Defining input size
@@ -74,7 +81,7 @@ def build_tuner_model(hp):
     return model
 
 
-def best_model(tuner, training_set, validation_set, test_set, epochs=3):
+def best_model(tuner, training_set, validation_set, test_set):
     '''
     Function that takes the tuner and builds up the model on the basis on best
     hyperparameters in the tuner
@@ -107,24 +114,26 @@ def best_model(tuner, training_set, validation_set, test_set, epochs=3):
              np array containing loss and accuracy for cross-validation of data
 
     '''
+    param = tuner_parameters
 
     best_hp = tuner.get_best_hyperparameters()[0]
-
+    early_stopping = tf.keras.callbacks.EarlyStopping(monitor='loss',
+                                                      patience=param['patience'
+                                                                     ][0])
     # best_hp_values = best_hp.values
 
     model = tuner.hypermodel.build(best_hp)
 
-    history = model.fit(training_set, epochs=epochs,
-                        validation_data=validation_set, verbose=0)
+    history = model.fit(training_set, epochs=param['epochs'][0], verbose=0,
+                        validation_data=validation_set,
+                        callbacks=[early_stopping])
 
     metrics = model.evaluate(test_set, verbose=0)
 
     return model, history, metrics
 
 
-def run_tuner(training_set, validation_set, project_name='untransformed',
-              epochs=1, trials=5, executions=3,
-              search_function='RandomSearch'):
+def run_tuner(training_set, validation_set, project_name='untransformed'):
     '''
     Function that runs the tuner using training set, validation set and
     hyperparameters defined in the config file
@@ -137,36 +146,27 @@ def run_tuner(training_set, validation_set, project_name='untransformed',
     validation_set: keras pointer
                     validation set data generated through keras flow from
                     directory function
-    epochs: int
-            number of times the model is trained over the training and
-            validation set
-    trials: int
-            number of times the tuner runs search over particular
-            hyperparameters
-    executions: int
-                number of times a trial is executed over particular
-                hyperparameters
-    search_function: str
-                     representing the type of search over the set of
-                     hyperparameters
+    project_name: str
+                  name to use for the log files of the tuner run
 
     Returns:
     --------
     tuner: keras tuner
     '''
+    param = tuner_parameters
 
-    ept = executions  # dummy variable representing execution per trial
-    # to satisfy flake8 requirement
     early_stopping = tf.keras.callbacks.EarlyStopping(monitor='loss',
-                                                      patience=2)
+                                                      patience=param['patience'
+                                                                     ][0])
 
-    tuner = getattr(kt.tuners, search_function)(build_tuner_model,
-                                                objective='val_accuracy',
-                                                max_trials=trials,
-                                                executions_per_trial=ept,
-                                                project_name=project_name)
+    tuner = getattr(kt.tuners, param['search_function'][0]
+                    )(build_tuner_model, objective='val_accuracy',
+                      max_trials=param['max_trials'][0],
+                      executions_per_trial=param['exec_per_trial'][0],
+                      project_name=project_name)
 
-    tuner.search(training_set, epochs=epochs, validation_data=validation_set,
+    tuner.search(training_set, epochs=param['epochs'][0],
+                 validation_data=validation_set,
                  verbose=2, callbacks=[early_stopping])
 
     return tuner

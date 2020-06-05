@@ -1,3 +1,25 @@
+#########################################################################
+# Configuration for runnign the tuner
+
+epochs:
+  - 3
+
+patience:
+  - 2
+
+# execution per trial
+max_trials:
+  - 5
+
+exec_per_trial:
+  - 3
+
+search_function:
+  - 'RandomSearch'
+
+#########################################################################
+# Configuration of search space
+
 layers:
   - 4
 

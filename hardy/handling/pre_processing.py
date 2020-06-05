@@ -211,7 +211,7 @@ def classes_folder_split(path, classes=['noise', ''],
     return list_of_folders
 
 
-def save_to_folder(input_path, project_name, transformation_name):
+def save_to_folder(input_path, project_name, run_name):
     '''
     Function that creates a new path to the folder for a specific
     transformation. The transformation folder will be nested in a
@@ -224,9 +224,9 @@ def save_to_folder(input_path, project_name, transformation_name):
     project_name : str
                    String representing the project name. This will be used to
                    name the folder containing the results from the hardy run
-    transformation_name : str
-                          String representing the transformation applied to
-                          the data
+    run_name : str
+               String representing the transformation applied to
+               the data
 
     Returns
     -------
@@ -240,7 +240,7 @@ def save_to_folder(input_path, project_name, transformation_name):
     if not os.path.exists(hardy_folder_path):
         os.makedirs(hardy_folder_path)
 
-    transformation_folder_path = hardy_folder_path + transformation_name + '/'
+    transformation_folder_path = hardy_folder_path + run_name + '/'
 
     if not os.path.exists(transformation_folder_path):
         os.makedirs(transformation_folder_path)
