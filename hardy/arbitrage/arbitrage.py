@@ -171,7 +171,7 @@ tform_1d1d = transform.list_1d1d  # Import dict of Transform functions
 tform_keys = list(tform_1d1d.keys())  # This is the list of f(n) keys
 
 
-def import_tform_config(raw_df, tform_config_path='.\tform_config.yaml'):
+def import_tform_config(tform_config_path='.\tform_config.yaml', raw_df=None):
     """
 
     Parameters
@@ -204,7 +204,11 @@ def import_tform_config(raw_df, tform_config_path='.\tform_config.yaml'):
             "transform" is command in transform.list_1d1d, and
             "source" is the raw data column to be used in the tform
     """
-    df_cols = len(raw_df.columns)
+    if raw_df is not None:
+        df_cols = len(raw_df.columns)
+    else:
+        df_cols = 100  # IF no Dataframe given, allow up to 100 columns!
+
     # Given an "Example" Dataframe (usually the first tuple in list?)
     # Get the number of columns available, to check that the commands
     #   are in the right range.
