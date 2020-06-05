@@ -12,7 +12,6 @@ from hardy.arbitrage import arbitrage
 
 def hardy_multi_transform(  # Data and Config Paths
                           raw_datapath, tform_config_path,
-                          test_set_filenames,
                           run_name, classifier_config_path,
                           # Optional for Data
                           iterator_mode='arrays', plot_format="RGBrgb",
