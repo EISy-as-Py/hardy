@@ -230,12 +230,12 @@ def report_generation(model, history, metrics, log_dir,
     validation_metrics_dict = {'test_loss': float(metrics[0]),
                                'test_accuracy': float(metrics[1])}
 
-    report_location = log_dir+'../report/'
+    report_location = log_dir+'/report/'
     if not os.path.exists(report_location):
         os.makedirs(report_location)
 
-    with open(report_location+datetime.datetime.now().strftime("%Y%m%d") +
-              ".yaml", 'w') as yaml_file:
+    with open(report_location+datetime.datetime.now().strftime(
+             "%y%m%d_%H%M") + ".yaml", 'w') as yaml_file:
         yaml.dump(best_hp, yaml_file)
         yaml.dump(metrics_accuracy_feed, yaml_file)
         yaml.dump(validation_metrics_dict, yaml_file)
