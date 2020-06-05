@@ -24,7 +24,9 @@ Current WIP:
 """
 
 import hardy.handling.to_catalogue as catalogue
-import hardy.arbitrage.arbitrage as arbitrage
+import hardy.arbitrage as arbitrage
+# import hardy.arbitrage.arbitrage as arbitrage
+# Figuring out what can actually load.....
 
 
 def keras_ready_from_path(raw_datapath, tform_commands=None,
