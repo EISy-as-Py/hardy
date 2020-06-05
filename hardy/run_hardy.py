@@ -73,7 +73,7 @@ def hardy_multi_transform(  # Data and Config Paths
     # ===========================
 
     test_set_filenames = preprocessing.hold_out_test_set(
-        input_path, number_of_files_per_class=num_test_set_class,
+        raw_datapath, number_of_files_per_class=num_test_files_class,
         classes=classes)
 
     for tform_name in tform_command_list:
