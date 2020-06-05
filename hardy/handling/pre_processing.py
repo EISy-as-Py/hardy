@@ -23,8 +23,8 @@ Current WIP:
 
 """
 
-import hardy.handling.to_catalogue as catalogue
-import hardy.arbitrage as arbitrage
+# import hardy.handling.to_catalogue as catalogue
+# import hardy.arbitrage as arbitrage
 # import hardy.arbitrage.arbitrage as arbitrage
 # Figuring out what can actually load.....
 

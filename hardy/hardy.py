@@ -218,7 +218,7 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
                                                    validation_set, test_set)
         output_path = preprocessing.save_to_folder(input_path, project_name,
                                                    run_name)
-        conf_matrix, report = cnn.report_on_metrics(model, test_set) 
+        conf_matrix, report = cnn.report_on_metrics(model, test_set)
         tuner.report_generation(model, history, metrics, output_path,
                                 tuner=tuned_model, save_model=True)
     else:
