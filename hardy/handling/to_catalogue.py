@@ -503,6 +503,10 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
         image_data = (image_data*255).astype('uint8')
         image_labels = np.array([image_list[i][:][2]
                                  for i in range(len(image_list))])
+        for i, label in enumerate(np.unique(image_labels)):
+            for j in range(len(image_labels)):
+                if image_labels[j] == label:
+                    image_labels[j] = i
         image_labels = keras.utils.to_categorical(image_labels, num_classes=2)
 
         training_set = data.flow(x=image_data, y=image_labels,
@@ -578,7 +582,10 @@ def test_set(path=None, target_size=(80, 80),
         image_labels = np.array([image_list[i][:][2]
                                  for i in range(len(image_list))])
         image_labels = keras.utils.to_categorical(image_labels, num_classes=2)
-
+        for i, label in enumerate(np.unique(image_labels)):
+            for j in range(len(image_labels)):
+                if image_labels[j] == label:
+                    image_labels[j] = i
         test_set = data.flow(x=image_data, y=image_labels,
                              batch_size=batch_size,
                              shuffle=False)

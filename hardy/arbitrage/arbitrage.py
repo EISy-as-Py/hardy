@@ -291,7 +291,8 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
     # And now, apply each transform and assign the output to the
     #   Column as instructed in that command
     for command in tform_commands:
-        target_raw = raw_df[old_names[command[2]]]  # Get raw data (series?) from source
+        target_raw = raw_df[old_names[command[2]]]
+        # Get raw data (series?) from source
         tform_data = tform_1d1d[command[1]](target_raw)  # Perform the tform
         tform_df[new_names[command[0]]] = tform_data  # Save in output df
 
