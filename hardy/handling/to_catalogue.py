@@ -387,8 +387,17 @@ def rgb_list_to_DirFlow(rgb_tuples, basepath, newfolder="rbg_for_keras",
             # So instead wrote a safety loop.
             _safe_clear_dirflow(newfolder_path)
         else:
-            raise AssertionError("Directory Full! Pass new 'newfolder'\n" +
-                                 "\t Or use 'delete_existing'=True")
+            n = 0
+            newer_folder = os.path.join(basepath, newfolder + "_{}".format(n))
+            while os.path.isdir(newer_folder) and n < 100:
+                n += 1
+                newer_folder = os.path.join(basepath,
+                                            newfolder + "_{}".format(n))
+            else:
+                pass
+            newfolder_path = newer_folder
+            print("Directory Full! \n" +
+                  "Creating New Dir @   {}".format(newer_folder))
     else:
         pass
 

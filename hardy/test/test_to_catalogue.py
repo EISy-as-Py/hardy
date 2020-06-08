@@ -70,3 +70,43 @@ class TestSimulationTools(unittest.TestCase):
                 "List-of-Tuples improperly importing data"
             assert type(row[2]) is str, "Class label is not a string?"
         pass
+
+    def test_rgb_list(self):
+        """
+        Testing the Tuple-List image visualization wrapper
+            Inputs the raw tuple-list from the prior wrapper
+            and performs the visualizations as called in the "standard"
+            methods.
+        """
+
+        data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
+
+        plot_tups = catalogue.rgb_list(data_tups)
+
+        for row in plot_tups:
+            assert type(row) is tuple, "List-of-Tuples has non-tuple?"
+            assert type(row[0]) is str, "File Name in Tuple is wrong format."
+            assert type(row[1]) is np.ndarray,\
+                "List-of-image-Tuples is not in np.ndarray format??"
+            assert type(row[2]) is str, "Class label is not a string?"
+        pass
+
+    def test_rgb_visualize(self):
+        """
+        Individual data frame image maker. This is included in prior wrapps
+            so doesn't really need much testing? but not sure how coveralls
+            works so I guess we'll do it.
+        """
+        data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
+
+        fdata = data_tups[0][1]
+        assert type(fdata) is pd.DataFrame, "Need testing dataframe"
+
+        image_arr = catalogue.rgb_visualize(fdata)
+
+        assert image_arr.shape[2] == 3,\
+            "Expected NxNx3 Image. Instead got {}".format(image_arr.shape)
+#
+
+
+#

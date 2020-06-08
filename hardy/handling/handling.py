@@ -254,7 +254,7 @@ def cats_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
     populations = {}  # Dictionary
 
     # Get file list either passed, or from path
-    if not file_list or path:
+    if not file_list and not path:
         raise AssertionError("Need either File List OR Path")
     elif file_list and path:
         print("Given List of Fnames, will Ignore Path")

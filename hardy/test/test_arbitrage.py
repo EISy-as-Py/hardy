@@ -6,7 +6,7 @@ import pandas as pd
 
 # import hardy.arbitrage.arbitrage as arbitrage
 from hardy.arbitrage import arbitrage
-
+from hardy.handling import handling
 
 data_path = './hardy/test/test_data/'
 tform_config_path = './hardy/test/test_data/test_tform_config.yaml'
@@ -19,7 +19,8 @@ sample_tuples = []
 
 for file in sample_data:
     fname = file[:-4]  # File name is the file without extension
-    raw_df = pd.read_csv(os.path.join(data_path, file), skiprows=6)
+    raw_df = handling._smart_read_csv(os.path.join(data_path, file),
+                                      try_skiprows=6)
     label = fname[-5:]  # Label is the last part of the fname (just testing)
     the_tuple = (fname, raw_df, label)
     sample_tuples.append(the_tuple)

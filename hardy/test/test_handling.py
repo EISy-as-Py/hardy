@@ -71,7 +71,8 @@ class TestSimulationTools(unittest.TestCase):
                                                       assumed!)
         """
         file = os.path.join(data_path, file_list[0])
-        thedata, rows = handling._smart_read_csv(full_fname=file)
+        thedata, rows = handling._smart_read_csv(full_fname=file,
+                                                 try_skiprows=6)
         assert type(thedata) is pd.DataFrame, "Error in Smart Data Reader"
         assert type(rows) is int, "Row Count of '{}' is not int?".format(rows)
 
@@ -83,7 +84,8 @@ class TestSimulationTools(unittest.TestCase):
         certain size, and has the right data types.
         """
         file = os.path.join(data_path, file_list[0])
-        thedata, rows = handling._smart_read_csv(full_fname=file)
+        thedata, rows = handling._smart_read_csv(full_fname=file,
+                                                 try_skiprows=6)
         testresult = handling.test_df(thedata)
         assert testresult, "Dataframe Test Failed?"
         pass
