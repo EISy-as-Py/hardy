@@ -62,10 +62,7 @@ def normalize_image(color_image_array):
         img = color_image_array[:, :, i]
         if np.count_nonzero(img) != 0:
             # normalizing data per channel
-            if img == 0:
-                normalized_image[:, :, i] = img
-            else:
-                normalized_image[:, :, i] = img / (np.amax(img, axis=0))
+            normalized_image[:, :, i] = img / (np.amax(img, axis=0))
         else:
             # skip any channel with all zero to avoid 'NaN' as output
             normalized_image[:, :, i] = img

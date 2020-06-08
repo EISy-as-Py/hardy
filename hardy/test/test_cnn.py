@@ -9,7 +9,7 @@ from hardy.handling.to_catalogue import learning_set, test_set
 # define variables to use for the following test:
 
 path = './hardy/test/test_image/'
-split = 0.1
+split = 0.25
 classes = ['class_1', 'class_2']
 batch_size = 1
 

@@ -1,7 +1,7 @@
 import os
 import random
 import shutil
-import time
+
 """
 NOTE: CURRENTLY OVERLAPPING WITH TO_CATALOGUE.
       GOAL IS TO SEPARATE EVENTUALLY BASED ON DEPENDANCY.
@@ -203,7 +203,6 @@ def save_to_folder(input_path, project_name, run_name):
                                   String representing the path to the newly
                                   generated path
     '''
-    date = time.strftime('%y%m%d', time.localtime())
 
     hardy_folder_path = input_path + project_name + '/'
     if not os.path.exists(hardy_folder_path):
