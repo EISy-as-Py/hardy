@@ -26,12 +26,42 @@ def hardy_multi_transform(  # Data and Config Paths
     OVERALL wrapper function, to pass initial configurations and allow
         all other internal functions to understand and call upon each other.
 
-    MAJOR INPUTS:
+    Parameters:
     -------------
+    raw_datapath : str
+                   path to the raw .csv files containing the data to classify
+    tform_config_path : str
+                        string containing the path to the yaml file
+                        containing the transformations to use and which
+                        data in the .csv file to perform it on
+    classifier_config_path : str
+                             string containing the path to the yaml file
+                             representing the classifier hyperparameters
+    iterator_mode : str
+                    option to use images from arrays directly or save the
+                    .png and use a directory iterator mode
+    plot_format : str
+                  option for standard or RGB color gradient
+    print_out : bool
+                option for printing out feedback on conputational time taken to
+                initialize the data and generate the images
+    num_test_files_class : int or float
+                            numebr of files per class to select for the test
+                            set
+    classifier : str
+                  option cnn or tuner
+    split : float
+            the percentage of the learning set to use for the validation step
+    target_size : tuple
+                  image target size. Presented as a tuble indicating number of
+                  pixels composing the two dimensions of the image (w x h)
+    batch_size : int
 
+    classes : list
+    project_name : str
 
-    MAJOR FUNCTION CALLS:  (see their related documentation)
-    ---------------------
+    Function Calls:  (see their related documentation)
+    ---------------
         import_tform_config :   f(n) of ARBITRAGE.py
                                 Import the list and dictionary of transforms
                                 to be looped through.
@@ -49,7 +79,8 @@ def hardy_multi_transform(  # Data and Config Paths
                                 Then sets up the model and the tuner,
                                 and runs the model test/train/tune loops
                                 as commanded.
-    OUTPUT:
+
+    Returns
     -------
 
 
@@ -213,7 +244,7 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
         output_path = preprocessing.save_to_folder(input_path, project_name,
                                                    run_name)
         tuned_model = tuner.run_tuner(training_set, validation_set,
-                                      project_name=output_path+run_name)
+                                      project_name=output_path)
         model, history, metrics = tuner.best_model(tuned_model, training_set,
                                                    validation_set, test_set)
         conf_matrix, report = cnn.report_on_metrics(model, test_set)

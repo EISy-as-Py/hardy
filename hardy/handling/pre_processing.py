@@ -205,7 +205,7 @@ def save_to_folder(input_path, project_name, run_name):
     '''
     date = time.strftime('%y%m%d', time.localtime())
 
-    hardy_folder_path = input_path + date + '/' + project_name + '/'
+    hardy_folder_path = input_path + project_name + '/'
     if not os.path.exists(hardy_folder_path):
         os.makedirs(hardy_folder_path)
 
