@@ -220,6 +220,10 @@ def report_generation(model, history, metrics, log_dir,
             os.makedirs(log_dir)
         model_location = log_dir+'best_model'
         model.save(model_location)
+        model_location_dict = {'model_location': model_location}
+    else:
+        model_location = 'None'
+        model_location_dict = {'model_location': model_location}
 
     metrics_accuracy = history.__dict__['history']
 
@@ -239,6 +243,6 @@ def report_generation(model, history, metrics, log_dir,
         yaml.dump(best_hp, yaml_file)
         yaml.dump(metrics_accuracy_feed, yaml_file)
         yaml.dump(validation_metrics_dict, yaml_file)
-        yaml.dump(model_location, yaml_file)
-
+        yaml.dump(model_location_dict, yaml_file)
+        yaml_file.close()
     return
