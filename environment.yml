@@ -1,6 +1,5 @@
 name: hardy
 channels:
-  - pytorch
   - conda-forge
   - defaults
 dependencies:
@@ -30,17 +29,13 @@ dependencies:
   - scipy
   - setuptools
   - scikit-learn
-  - sqlite
-  - sqlalchemy
   - tensorflow
   - testpath
   - tk
-  - torchvision
   - pip:
     - contextlib2
     - google-images-download
     - opt-einsum
-    - pyro-ppl
     - selenium
     - tqdm
     - urllib3
