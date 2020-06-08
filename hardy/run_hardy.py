@@ -56,9 +56,15 @@ def hardy_multi_transform(  # Data and Config Paths
                   image target size. Presented as a tuble indicating number of
                   pixels composing the two dimensions of the image (w x h)
     batch_size : int
+                 The number of files to group up into a batch
 
     classes : list
+              A list containing strings of the classes the data is divided in.
+              The class name represent the folder name the files are contained
+              in.
     project_name : str
+                   name of the folder to be created for storing the results of
+                   the tuning
 
     Function Calls:  (see their related documentation)
     ---------------
@@ -82,7 +88,9 @@ def hardy_multi_transform(  # Data and Config Paths
 
     Returns
     -------
-
+    * returns a folder containing subfolders, one for each trial run in the
+    hardy module. THese folders will containg a report on the run, as well as
+    the best classifier model
 
     """
     # ================================================
@@ -207,6 +215,46 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
         "arrays"  : Takes data as "List_of_Image_Tuples"
         "else"    : Takes data as "image_path" of sorted image folders
 
+    Parameters:
+    -------------
+    input_datapath : str
+                   path to the raw .csv files containing the data to classify
+    test_set_filenames : list
+                         The list containig the strings of filenames
+                         randomly selected to be part of the test set.
+    config_path : str
+                  string containing the path to the yaml file
+                  representing the classifier hyperparameters
+    run_name : str
+               name use to create a folder for storing the results of this run
+    iterator_mode : str
+                    option to use images from arrays directly or save the
+                    .png and use a directory iterator mode
+    plot_format : str
+                  option for standard or RGB color gradient
+    print_out : bool
+                option for printing out feedback on conputational time taken to
+                initialize the data and generate the images
+    num_test_files_class : int or float
+                            numebr of files per class to select for the test
+                            set
+    classifier : str
+                  option cnn or tuner
+    split : float
+            the percentage of the learning set to use for the validation step
+    target_size : tuple
+                  image target size. Presented as a tuble indicating number of
+                  pixels composing the two dimensions of the image (w x h)
+    batch_size : int
+                 The number of files to group up into a batch
+
+    classes : list
+              A list containing strings of the classes the data is divided in.
+              The class name represent the folder name the files are contained
+              in.
+    project_name : str
+                   name of the folder to be created for storing the results of
+                   the tuning
     '''
     if iterator_mode == 'arrays':
 
