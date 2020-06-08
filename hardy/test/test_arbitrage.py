@@ -2,7 +2,7 @@ import unittest
 
 # import numpy as np
 import os
-import pandas as pd
+# import pandas as pd
 
 # import hardy.arbitrage.arbitrage as arbitrage
 from hardy.arbitrage import arbitrage
