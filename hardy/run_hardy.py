@@ -285,6 +285,13 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
                                          iterator_mode='from_directory',
                                          batch_size=batch_size,)
 
+    print('training set : {} batches of {} files'.format(len(training_set),
+                                                         batch_size))
+    print('validation set : {} batches of {} files'.format(len(validation_set),
+                                                           batch_size))
+    print('test set : {} batches of {} files'.format(len(test_set),
+                                                     batch_size))
+
     if classifier == 'tuner':
         # warn search_function, 'no search function provided,
         # using default RandomSearch'
