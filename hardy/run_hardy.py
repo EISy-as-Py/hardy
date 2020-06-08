@@ -12,7 +12,7 @@ from hardy.arbitrage import arbitrage
 
 def hardy_multi_transform(  # Data and Config Paths
                           raw_datapath, tform_config_path,
-                          run_name, classifier_config_path,
+                          classifier_config_path,
                           # Optional for Data
                           iterator_mode='arrays', plot_format="RGBrgb",
                           print_out=True,
@@ -210,13 +210,12 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
         # warn search_function, 'no search function provided,
         # using default RandomSearch'
         tuner.build_param(config_path)
-        tuned_model = tuner.run_tuner(training_set, validation_set,
-                                      project_name=project_name +
-                                      run_name)
-        model, history, metrics = tuner.best_model(tuned_model, training_set,
-                                                   validation_set, test_set)
         output_path = preprocessing.save_to_folder(input_path, project_name,
                                                    run_name)
+        tuned_model = tuner.run_tuner(training_set, validation_set,
+                                      project_name=output_path+run_name)
+        model, history, metrics = tuner.best_model(tuned_model, training_set,
+                                                   validation_set, test_set)
         conf_matrix, report = cnn.report_on_metrics(model, test_set)
         tuner.report_generation(model, history, metrics, output_path,
                                 tuner=tuned_model, save_model=True)
