@@ -1,6 +1,6 @@
 import keras
 import unittest
-
+import pickle
 import numpy as np
 
 from hardy.recognition import cnn
@@ -57,3 +57,21 @@ class TestSimulationTools(unittest.TestCase):
         assert isinstance(conf_matrix, np.ndarray), \
             'the confusion matrix should be contained in a numpy array'
         assert isinstance(report, str), 'the report should be a string'
+
+    def test_feature_maps(self):
+        with open('./hardy/test/test_model/test_model.sav', 'rb') as file:
+            model = pickle.load(file)
+        image_name = '200504-0132_sim_one_current_noise_log-freq.png'
+        image_path = './hardy/test/test_image/class_1/'
+        last_layer = cnn.feature_map(image_name, model, 2, 80,
+                                     layer_num='last',
+                                     image_path=image_path)
+        assert isinstance(last_layer, np.ndarray), 'Invalid output generated'
+        assert isinstance(last_layer[0][0], np.float32),\
+            'The output returned is invalid'
+        assert isinstance(last_layer[0][1], np.float32),\
+            'The output returned is invalid'
+        assert last_layer[0][0] or last_layer[0][1] > 0,\
+            'The output returned is invalid'
+        assert last_layer[0][0] or last_layer[0][1] < 1,\
+            'The output returned is invalid'

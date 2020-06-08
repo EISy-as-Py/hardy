@@ -294,8 +294,8 @@ def feature_map(image, model, classes, size, layer_num=None,
                 continue
             list_layer_pos.append(i)
 
-        feature_map_layers(img_feature_array, model, list_layer_pos,
-                           save, log_dir)
+        return feature_map_layers(img_feature_array, model, list_layer_pos,
+                                  save, log_dir)
 
     elif layer_num == 'last':
         for i in range(len(model.layers)):
@@ -305,12 +305,11 @@ def feature_map(image, model, classes, size, layer_num=None,
                                   .output)
         feature_map = feature_map_model.predict(img_feature_array)
         print('The output from final layer is {}'.format(feature_map))
-
+        return feature_map
     else:
         list_layer_pos.append(layer_num)
-        feature_map_layers(img_feature_array, model, list_layer_pos,
-                           save, log_dir)
-    return
+        return feature_map_layers(img_feature_array, model, list_layer_pos,
+                                  save, log_dir)
 
 
 def feature_map_layers(img_feature_array, model, list_layer_pos, save,
