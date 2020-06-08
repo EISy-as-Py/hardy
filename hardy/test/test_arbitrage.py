@@ -9,7 +9,7 @@ from hardy.arbitrage import arbitrage
 
 
 data_path = './hardy/test/test_data/'
-tform_config_path ='./hardy/test/test_data/test_tform_config.yaml'
+tform_config_path = './hardy/test/test_data/test_tform_config.yaml'
 
 assert os.path.exists(data_path), \
     "Did not find Test Data Files at {}".format(data_path)
