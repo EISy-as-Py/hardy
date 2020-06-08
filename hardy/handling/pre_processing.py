@@ -23,11 +23,6 @@ Current WIP:
 
 """
 
-# import hardy.handling.to_catalogue as catalogue
-# import hardy.arbitrage as arbitrage
-# import hardy.arbitrage.arbitrage as arbitrage
-# Figuring out what can actually load.....
-
 
 def hold_out_test_set(path=None, number_of_files_per_class=100,
                       classes=['noise', ''], file_extension='.csv',
