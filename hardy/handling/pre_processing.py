@@ -110,8 +110,8 @@ def test_set_folder(path, test_set_filenames):
     path : str
            string containing the path where to create a test set folder
     test_set_filenames: list
-                            The list containig the strings of filenames
-                            randomly selected to be part of the test set.
+                        The list containig the strings of filenames
+                        randomly selected to be part of the test set.
 
     Returns
     -------
