@@ -23,7 +23,7 @@ class TestSimulationTools(unittest.TestCase):
         assert isinstance(param.hparam, dict), \
             'the parameter space in config file is not a dictionary'
 
-    def test_report_generation():
+    def test_report_generation(self):
 
         config_path = './hardy/recognition/'
         train, val = learning_set(path, split=split, classes=classes,
