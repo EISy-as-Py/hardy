@@ -357,9 +357,9 @@ def feature_map_layers(img_feature_array, model, list_layer_pos, save,
             plt.imshow(feature_map[0, :, :, x-1], cmap='gray')
 
         if save:
-            name_feature_map = "_"+str(model.layers[item].name)+"_"
-            new_folder_path = "../report/feature_maps/feature_map"
-            if not os.path.exists(new_folder_path):
-                os.makedirs(new_folder_path)
+            name_feature_map = "feature_map_"+str(model.layers[item].name)+"_"
+            new_folder_path = "/report/feature_maps/"
+            if not os.path.exists(log_dir+new_folder_path):
+                os.makedirs(log_dir+new_folder_path)
             ax.savefig(log_dir+new_folder_path+name_feature_map, dpi=100)
     return plt.show()
