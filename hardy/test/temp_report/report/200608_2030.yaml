@@ -1,0 +1,38 @@
+activation:
+- relu
+- relu
+- relu
+epochs:
+- 10
+filter_size:
+- 8
+input_shape:
+- 80
+- 3
+kernel_size:
+- 3
+learning_rate:
+- 0.01
+num_classes:
+- 2
+patience:
+- 2
+accuracy:
+- 0.5
+- 0.5
+- 0.5
+loss:
+- 34.280303955078125
+- 6502.53369140625
+- 2096.739990234375
+val_accuracy:
+- 0.5
+- 0.5
+- 0.5
+val_loss:
+- 6565.0888671875
+- 2156.381103515625
+- 362.9005126953125
+test_accuracy: 0.5
+test_loss: 362.9005126953125
+model_location: None

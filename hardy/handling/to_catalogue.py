@@ -59,7 +59,7 @@ Current Status:
 
 
 def save_load_data(filename, data=None, save=None, load=None,
-                   file_extension='.sav', location='./'):
+                   file_extension='.npy', location='./'):
     """Function to save and load data
 
     Function that can save or load data depending on given parameters.
@@ -87,7 +87,7 @@ def save_load_data(filename, data=None, save=None, load=None,
     """
     if save:
         pickle.dump(data, open(location + filename + file_extension, 'wb'))
-        return print('Successfully Pickled')
+        return 'Successfully Pickled'
     elif load:
         loaded_data = pickle.load(open(location + filename + file_extension,
                                   'rb'))

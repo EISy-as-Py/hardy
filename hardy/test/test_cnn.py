@@ -75,3 +75,12 @@ class TestSimulationTools(unittest.TestCase):
             'The output returned is invalid'
         assert last_layer[0][0] or last_layer[0][1] < 1,\
             'The output returned is invalid'
+
+    def test_plot_history(self):
+        pass
+
+    def test_save_load_model(self):
+        pass
+
+    def tesT_feature_map_layers(self):
+        pass
