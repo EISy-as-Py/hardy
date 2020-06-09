@@ -1,12 +1,12 @@
-import keras
+# import keras
 import unittest
-
-import numpy as np
-import pandas as pd
-
-from hardy.handling.to_catalogue import learning_set, test_set
-from hardy.handling import to_catalogue as catalogue
-from hardy.handling import pre_processing as preprocessing
+#
+# import numpy as np
+# import pandas as pd
+#
+# from hardy.handling.to_catalogue import learning_set, test_set
+# from hardy.handling import to_catalogue as catalogue
+# from hardy.handling import pre_processing as preprocessing
 
 path = './hardy/test/test_image/'
 data_path = './hardy/test/test_data/'
