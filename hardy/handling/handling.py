@@ -439,7 +439,7 @@ def _smart_read_csv(full_fname, try_skiprows, last_skiprows=None,
 
     # Finally, loop from n = 0 to maxrows until something passes!
     n = 0
-    while not load_success and n:
+    while not load_success and n <= maxskip:
         try:
             fdata = pd.read_csv(full_fname, skiprows=n)
             load_success = _test_df(fdata)

@@ -86,6 +86,6 @@ class TestSimulationTools(unittest.TestCase):
         file = os.path.join(data_path, file_list[0])
         thedata, rows = handling._smart_read_csv(full_fname=file,
                                                  try_skiprows=6)
-        testresult = handling.test_df(thedata)
+        testresult = handling._test_df(thedata)
         assert testresult, "Dataframe Test Failed?"
         pass
