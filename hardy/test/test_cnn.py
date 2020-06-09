@@ -5,6 +5,7 @@ import numpy as np
 
 from hardy.recognition import cnn
 from hardy.handling.to_catalogue import learning_set, test_set
+from keras.preprocessing.image import load_img, img_to_array
 
 # define variables to use for the following test:
 
@@ -66,15 +67,45 @@ class TestSimulationTools(unittest.TestCase):
         last_layer = cnn.feature_map(image_name, model, 2, 80,
                                      layer_num='last',
                                      image_path=image_path)
-        assert isinstance(last_layer, np.ndarray), 'Invalid output generated'
+        assert isinstance(last_layer, np.ndarray),\
+            'Invalid output type. Should be numpy.ndarray'
         assert isinstance(last_layer[0][0], np.float32),\
-            'The output returned is invalid'
+            'The returned output type is invalid'
         assert isinstance(last_layer[0][1], np.float32),\
-            'The output returned is invalid'
+            'The returned type is invalid'
         assert last_layer[0][0] or last_layer[0][1] > 0,\
-            'The output returned is invalid'
+            'The output should be between 0 and 1'
         assert last_layer[0][0] or last_layer[0][1] < 1,\
-            'The output returned is invalid'
+            'The output should be between 0 and 1'
+
+        cnn.feature_map(image_name, model, 2, 80, layer_num=None,
+                        image_path=image_path)
+        cnn.feature_map(image_name, model, 2, 80, layer_num=2,
+                        image_path=image_path)
+
+        # test for array data
+        image_load = load_img(image_path+image_name,
+                              target_size=(80, 80))
+
+        image_array = img_to_array(image_load)
+
+        last_layer_array = cnn.feature_map(
+            image_array, model, 2, 80, layer_num='last')
+
+        assert isinstance(last_layer_array, np.ndarray),\
+            'Returned output type must be numpy.ndarray'
+        assert isinstance(last_layer_array[0][0], np.float32),\
+            'The returned output type should be numpy.float32'
+        assert isinstance(last_layer_array[0][1], np.float32),\
+            'The returned type is invalid'
+        assert last_layer_array[0][0] or last_layer_array[0][1] > 0,\
+            'The output should be between 0 and 1'
+        assert last_layer_array[0][0] or last_layer_array[0][1] < 1,\
+            'The output should be between 0 and 1'
+
+        cnn.feature_map(image_array, model, 2, 80, layer_num=None)
+
+        cnn.feature_map(image_array, model, 2, 80, layer_num=2)
 
     def test_plot_history(self):
         pass
@@ -83,4 +114,5 @@ class TestSimulationTools(unittest.TestCase):
         pass
 
     def tesT_feature_map_layers(self):
+        # lines for this function runs when the feature map runs
         pass
