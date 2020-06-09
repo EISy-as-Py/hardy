@@ -6,6 +6,7 @@ import pandas as pd
 
 from hardy.handling.to_catalogue import learning_set, test_set
 from hardy.handling import to_catalogue as catalogue
+from hardy.handling import pre_processing as preprocessing
 
 path = './hardy/test/test_image/'
 data_path = './hardy/test/test_data/'
@@ -17,6 +18,7 @@ batch_size = 1
 class TestSimulationTools(unittest.TestCase):
 
     def test_learning_set(self):
+        # Directory iterator option
         train, val = learning_set(path, split=split,
                                   batch_size=batch_size,
                                   iterator_mode=None,
@@ -34,8 +36,21 @@ class TestSimulationTools(unittest.TestCase):
             'the validation set should be an image iterator type of object'
         assert isinstance(batch_size, int), \
             'the batch size should be an integer'
+        # array iterator option
+        data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
+        plot_tups = catalogue.rgb_list(data_tups)
+        train, val = learning_set(image_list=plot_tups, split=split,
+                                  batch_size=batch_size,
+                                  iterator_mode='arrays',
+                                  classes=classes)
+        assert isinstance(train, keras.preprocessing.image.NumpyArrayIterator
+                          ), \
+            'the training set should be an image iterator type of object'
+        assert isinstance(val, keras.preprocessing.image.NumpyArrayIterator),\
+            'the validation set should be an image iterator type of object'
 
     def test_test_set(self):
+        # Directory iterator option
         testing = test_set(path, batch_size=batch_size, iterator_mode=None,
                            classes=classes)
         assert isinstance(path, str), 'the path should be in a string format'
@@ -45,9 +60,24 @@ class TestSimulationTools(unittest.TestCase):
             assert isinstance(item, str), 'the class should be a string'
         assert isinstance(testing, keras.preprocessing.image.DirectoryIterator
                           ), 'the training set should be an image iterator'
+        # array iterator option
+        data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
+        plot_tups = catalogue.rgb_list(data_tups)
+        testing = test_set(image_list=plot_tups, batch_size=batch_size,
+                           iterator_mode='arrays', classes=classes)
+        assert isinstance(testing, keras.preprocessing.image.NumpyArrayIterator
+                          ), 'the training set should be an image iterator'
 
     def test_save_load_data(self):
         # Simple pickeling save / load function
+        data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
+        plot_tups = catalogue.rgb_list(data_tups)
+        data = catalogue.save_load_data('test_pickled_data', data=plot_tups,
+                                        save=True, location='./hardy/test/')
+        assert data == 'Successfully Pickled'
+        data = catalogue.save_load_data('test_pickled_data', data=plot_tups,
+                                        load=True, location='./hardy/test/')
+        assert isinstance(data, list), 'the data was correctly loaded'
         pass
 
     def test_data_tuples_from_fnames(self):
@@ -108,5 +138,21 @@ class TestSimulationTools(unittest.TestCase):
             "Expected NxNx3 Image. Instead got {}".format(image_arr.shape)
 #
 
+    def test_data_split(self):
+        num_files = 5
+        data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
 
-#
+        plot_tups = catalogue.rgb_list(data_tups)
+
+        test_set_filenames = preprocessing.hold_out_test_set(
+            data_path, number_of_files_per_class=num_files)
+        test_set_list, learning_set_list = catalogue.data_set_split(
+            plot_tups, test_set_filenames)
+        assert isinstance(test_set_filenames, list), 'format should be a list'
+        assert len(test_set_filenames) == 2*num_files, \
+            'the test set is not the correct length'
+        assert isinstance(test_set_list, list), 'format should be a list'
+        assert isinstance(learning_set_list, list), 'format should be a list'
+        assert len(test_set_list) == 2*num_files, \
+            'the test_set_list is not the correct length'
+        pass
