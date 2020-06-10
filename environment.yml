@@ -41,6 +41,6 @@ dependencies:
     - google-images-download
     - opt-einsum
     - selenium
-    - tqdm==4.41.1
+    - tqdm
     - urllib3
 prefix: /home/amoeez/anaconda3/envs/EISy-as-Py
