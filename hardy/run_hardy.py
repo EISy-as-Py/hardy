@@ -276,7 +276,7 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
         assert image_path, 'no path to the image folders was provided'
 
         training_set, validation_set = to_catalogue.learning_set(
-            image_path, plit=split, target_size=target_size,
+            image_path, split=split, target_size=target_size,
             iterator_mode='from_directory', batch_size=batch_size,
             classes=classes)
 
@@ -334,3 +334,4 @@ def print_time(duration):
         print("That Took {} Min !".format(round(duration/60, 2)))
     else:
         print("That Took {} Hrs !".format(round(duration/3600, 2)))
+    return duration

@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - coveralls
   - ipython
   - ipython_genutils
   - ipywidgets

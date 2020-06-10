@@ -88,12 +88,6 @@ class TestSimulationTools(unittest.TestCase):
             'The pooling layer is absent afer third activation'
         assert tuner_model.oracle.get_space().space[11].name == 'optimizer',\
             'Optimizer should come next to pooling layer'
-        assert tuner_model.oracle.get_space().space[12].name == 'filters_3',\
-            'Last activation layer must be activation_3'
-        assert tuner_model.oracle.get_space().space[13].name == \
-            'kernel_size_3', 'Last kernel_size must be kernel_size_3'
-        assert tuner_model.oracle.get_space().space[14].name == \
-            'activation_3', 'Last activation layer must be activation_3'
 
         # Deleting the log files
 
