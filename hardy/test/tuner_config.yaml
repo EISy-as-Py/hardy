@@ -1,0 +1,65 @@
+#########################################################################
+# Configuration for runnign the tuner
+
+epochs:
+  - 3
+
+patience:
+  - 2
+
+# execution per trial
+max_trials:
+  - 5
+
+exec_per_trial:
+  - 3
+
+search_function:
+  - 'RandomSearch'
+
+#########################################################################
+# Configuration of search space
+
+layers:
+  - 4
+
+filters:
+  - Int
+  - values:
+    - 2
+    - 4
+    - 8
+    - 16
+    - 32
+
+kernel_size:
+  - Int
+  - values:
+    - 3
+    - 5
+
+activation:
+  - Choice
+  - values:
+    - relu
+    - sigmoid
+
+pooling:
+  - Choice
+  - values:
+    - avg
+    - max
+
+optimizer:
+  - Choice
+  - values:
+    - adam
+    - SGD
+
+learning_rate:
+  - Choice
+  - values:
+    - 0.1e-4
+    - 0.1e-5
+    - 0.1e-6
+    - 0.1e-7

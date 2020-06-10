@@ -1,5 +1,6 @@
 # import keras
 import os
+import shutil
 import unittest
 import yaml
 
@@ -54,3 +55,48 @@ class TestSimulationTools(unittest.TestCase):
                 os.remove(report_dir+item)
 
     # shutil.rmtree(log_dir)
+
+    def test_run_tuner(self):
+        config_path = './hardy/test/'
+        tuner.build_param(config_path)
+
+        train, val = learning_set(path, split=split, classes=classes,
+                                  iterator_mode=None)
+        project_name = 'test_project'
+        tuner_model = tuner.run_tuner(train, val, project_name='test_project')
+        assert tuner_model.oracle.get_space().space[0].name == 'conv_layers',\
+            'The name of first layer must be conv_layer'
+        assert tuner_model.oracle.get_space().space[1].name == 'filters_0',\
+            'First filter must be filters_0'
+        assert tuner_model.oracle.get_space().space[2].name == \
+            'kernel_size_0', 'First kernel_size must be kernel_size_0'
+        assert tuner_model.oracle.get_space().space[3].name == 'activation_0',\
+            'First activation layer must be activation_0'
+        assert tuner_model.oracle.get_space().space[4].name == 'filters_1',\
+            'Second filter must be filters_1'
+        assert tuner_model.oracle.get_space().space[5].name == \
+            'kernel_size_1', 'Second kernel_size must be kernel_size_1'
+        assert tuner_model.oracle.get_space().space[6].name == 'activation_1',\
+            'Second activation layer must be activation_1'
+        assert tuner_model.oracle.get_space().space[7].name == 'filters_2',\
+            'Third filter must be filters_2'
+        assert tuner_model.oracle.get_space().space[8].name == \
+            'kernel_size_2', 'Third kernel_size must be kernel_size_2'
+        assert tuner_model.oracle.get_space().space[9].name == 'activation_2',\
+            'Third activation layer must be activation_2'
+        assert tuner_model.oracle.get_space().space[10].name == 'pooling',\
+            'The pooling layer is absent afer third activation'
+        assert tuner_model.oracle.get_space().space[11].name == 'optimizer',\
+            'Optimizer should come next to pooling layer'
+        assert tuner_model.oracle.get_space().space[12].name == 'filters_3',\
+            'Last activation layer must be activation_3'
+        assert tuner_model.oracle.get_space().space[13].name == \
+            'kernel_size_3', 'Last kernel_size must be kernel_size_3'
+        assert tuner_model.oracle.get_space().space[14].name == \
+            'activation_3', 'Last activation layer must be activation_3'
+
+        # Deleting the log files
+
+        shutil.rmtree('./'+project_name)
+
+        print('Successfully Deleted the log directory created under test')
