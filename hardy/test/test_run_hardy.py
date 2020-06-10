@@ -43,7 +43,7 @@ class TestSimulationTools(unittest.TestCase):
                         'The filetype returned in not a dictionary'
         # remove report files after checking they were
         # correctly created
-        shutil.rmtree(output_path+'../')
+        shutil.rmtree(data_path+'test_classifier/')
         print('the result folder was correctly deleted after testing')
         pass
 
