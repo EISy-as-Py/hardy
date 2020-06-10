@@ -139,7 +139,7 @@ class TestSimulationTools(unittest.TestCase):
 #
 
     def test_data_split(self):
-        num_files = 5
+        num_files = 3
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
 
         plot_tups = catalogue.rgb_list(data_tups)

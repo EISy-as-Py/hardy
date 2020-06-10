@@ -1,6 +1,8 @@
 import keras
 import unittest
 import pickle
+
+import matplotlib.pyplot as plt
 import numpy as np
 
 from hardy.recognition import cnn
@@ -77,10 +79,34 @@ class TestSimulationTools(unittest.TestCase):
             'The output returned is invalid'
 
     def test_plot_history(self):
+        train, val = learning_set(path, split=split, classes=classes,
+                                  iterator_mode=None)
+        model, history = cnn.build_model(train, val,
+                                         config_path='./hardy/recognition/')
+
+        _, ax = plt.subplots(1, 2)
+        ax = cnn.plot_history(history)
+        epochs, loss = ax[0].lines[0].get_xydata().T
+        assert (loss == history.history['loss']).all(), \
+            'the plot should containg the loss value per epoch'
+        epochs, acc = ax[1].lines[0].get_xydata().T
+        assert (acc == history.history['accuracy']).all(), \
+            'the plot should contain the accuracy value epoch'
         pass
 
     def test_save_load_model(self):
+        train, val = learning_set(path, split=split, classes=classes,
+                                  iterator_mode=None)
+        model, history = cnn.build_model(train, val,
+                                         config_path='./hardy/recognition/')
+
+        saved_model = cnn.save_load_model(
+            model=model, save=True, filepath='./hardy/test/model')
+        assert saved_model == 'the model was correctly saved'
+        model_loaded = cnn.save_load_model(
+            load=True, filepath='./hardy/test/model')
+        assert model_loaded, 'the model was not correctly loaded'
         pass
 
-    def tesT_feature_map_layers(self):
+    def test_feature_map_layers(self):
         pass

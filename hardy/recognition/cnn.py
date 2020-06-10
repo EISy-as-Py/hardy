@@ -131,7 +131,7 @@ def plot_history(model_history):
     ax[1].legend()
     ax[1].set_title('CNN Accuracy per Epoch')
 
-    return plt.show()
+    return ax
 
 
 def evaluate_model(model, testing_set):
@@ -361,4 +361,4 @@ def feature_map_layers(img_feature_array, model, list_layer_pos, save,
             if not os.path.exists(log_dir+new_folder_path):
                 os.makedirs(log_dir+new_folder_path)
             ax.savefig(log_dir+new_folder_path+name_feature_map, dpi=100)
-    return plt.show()
+    return ax

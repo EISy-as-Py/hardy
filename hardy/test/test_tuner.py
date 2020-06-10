@@ -45,7 +45,12 @@ class TestSimulationTools(unittest.TestCase):
             if item.endswith('.yaml'):
                 with open(report_dir+item, 'r') as file:
                     report = yaml.load(file, Loader=yaml.FullLoader)
+                    assert isinstance(report, dict),\
+                        'The filetype returned in not a dictionary'
+        # remove report files after checking they were
+        # correctly created
+        for item in report_location:
+            if item.endswith('.yaml'):
+                os.remove(report_dir+item)
 
-        assert isinstance(report, dict),\
-            'The filetype returned in not a dictionary'
     # shutil.rmtree(log_dir)
