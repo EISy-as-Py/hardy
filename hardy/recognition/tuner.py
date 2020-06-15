@@ -39,7 +39,7 @@ def build_tuner_model(hp):
     # Defining input size
     # need to put input shape in the config file
     input = (param['input_shape'][0], param['input_shape'][0],
-               param['input_shape'][1])
+             param['input_shape'][1])
     inputs = tf.keras.Input(shape=input)
     x = inputs
 
