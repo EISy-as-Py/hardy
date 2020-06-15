@@ -1,11 +1,15 @@
 #########################################################################
-# Configuration for runnign the tuner
+# Configuration for running the tuner
 
 epochs:
   - 3
 
 patience:
   - 2
+
+input_shape:
+- 80
+- 3
 
 # execution per trial
 max_trials:
