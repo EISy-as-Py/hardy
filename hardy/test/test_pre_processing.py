@@ -25,14 +25,14 @@ class TestSimulationTools(unittest.TestCase):
         assert len(np.unique(test_set_filenames)) == 2*num_files,\
             'the files selected to compose the test set should be unique'
         # from tuples
-        data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
+        # data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
 
-        plot_tups = catalogue.rgb_list(data_tups)
+        # plot_tups = catalogue.rgb_list(data_tups)
 
-        test_set_filenames = preprocessing.hold_out_test_set(
-            image_list=plot_tups, number_of_files_per_class=num_files,
-            iterator_mode='arrays')
-        assert isinstance(test_set_filenames, list), 'format should be a list'
+        # test_set_filenames = preprocessing.hold_out_test_set(
+        #     image_list=plot_tups, number_of_files_per_class=num_files,
+        #     iterator_mode='arrays')
+        # assert isinstance(test_set_filenames, list), 'format should be a list'
         # assert len(test_set_filenames) == 2*num_files, \
         #     'the test set is not the correct length'
         pass
