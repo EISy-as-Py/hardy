@@ -6,7 +6,7 @@ import numpy as np
 # import pandas as pd
 
 # from hardy.handling.to_catalogue import learning_set, test_set
-from hardy.handling import to_catalogue as catalogue
+# from hardy.handling import to_catalogue as catalogue
 from hardy.handling import pre_processing as preprocessing
 
 data_path = './hardy/test/test_folder_split/'
@@ -32,7 +32,8 @@ class TestSimulationTools(unittest.TestCase):
         # test_set_filenames = preprocessing.hold_out_test_set(
         #     image_list=plot_tups, number_of_files_per_class=num_files,
         #     iterator_mode='arrays')
-        # assert isinstance(test_set_filenames, list), 'format should be a list'
+        # assert isinstance(test_set_filenames, list),
+        # 'format should be a list'
         # assert len(test_set_filenames) == 2*num_files, \
         #     'the test set is not the correct length'
         pass
