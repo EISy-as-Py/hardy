@@ -155,6 +155,25 @@ from hardy.arbitrage import transformations as tforms
 
 
 class TestSimulationTools(unittest.TestCase):
+    def test_transform_1d_exp(self):
+        test_array = [1, 2, 3, 4, 5]
+        result = tforms.transform_1d_exp(test_array)
+
+        assert len(test_array) == len(result), "The returned size for\
+                array is invalid"
+        # assert isinstance(type(result), np.ndarray), "The output result\
+        #        type is not correct"
+
+    def test_transform_1d_reciprocal(self):
+        test_array = [1.0, 2.0, 3.0, 4.0, 5.0]
+        result = tforms.transform_1d_reciprocal(test_array)
+
+        assert len(test_array) == len(result), "The returned size for\
+                array is invalid"
+        # assert isinstance(type(result), np.ndarray), "The output result\
+        #        type is not correct"
+        # assert isinstance(type(result[0]), np.float64), "The output\
+        #        result type is not correct"
 
     def test_tform_1d_cwt(self):
         """
