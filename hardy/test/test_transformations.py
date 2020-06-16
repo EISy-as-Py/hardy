@@ -175,6 +175,33 @@ class TestSimulationTools(unittest.TestCase):
         # assert isinstance(type(result[0]), np.float64), "The output\
         #        result type is not correct"
 
+    def test_transform_1d_cumsum(self):
+        test_array = [1, 2, 3, 4, 5, 6]
+
+        result = tforms.transform_1d_cumsum(test_array)
+
+        assert len(test_array) == len(result), "The returned size for\
+                array is invalid"
+        assert result[-1] == 21, "The output return is not correct"
+
+    def test_transform_1d_derivative(self):
+        test_array = [1, 2, 3, 4, 5, 6]
+
+        result = tforms.transform_1d_derivative(test_array)
+
+        assert len(test_array) == len(result), "The returned size for\
+                array is invalid"
+        assert sum(result) == len(test_array), "The returned sum is\
+                not correct"
+
+        result = tforms.transform_1d_derivative(test_array,
+                                                spacing=1)
+
+        assert len(test_array) == len(result), "The returned size for\
+                array is invalid"
+        assert sum(result) == len(test_array), "The returned sum is\
+                not correct"
+
     def test_transform_array_multiplication(self):
         test_array_x = [2, 2, 3, 3, 4, 4]
         test_array_y = [4, 2, 3, 3, 4, 4]
