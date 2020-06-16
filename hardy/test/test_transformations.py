@@ -175,6 +175,19 @@ class TestSimulationTools(unittest.TestCase):
         # assert isinstance(type(result[0]), np.float64), "The output\
         #        result type is not correct"
 
+    def test_transform_array_multiplication(self):
+        test_array_x = [2, 2, 3, 3, 4, 4]
+        test_array_y = [2, 2, 3, 3, 4, 4]
+
+        result = tforms.transform_array_multiplication(test_array_x,
+                                                       test_array_y)
+        assert len(test_array_x) == len(result), "The returned size for\
+                array is invalid"
+
+        result = tforms.transform_array_multiplication(test_array_x)
+        assert len(test_array_x) == len(result), "The returned size for\
+                array is invalid"
+
     def test_tform_1d_cwt(self):
         """
         Testing Package for a 1-dimensional Continuous-Wavelet Transform

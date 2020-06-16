@@ -311,6 +311,32 @@ def transform_1d_cwt(raw_df, xy=0):
     return cwt_matrix
 
 
+def transform_array_multiplication(x, y=None):
+    ''' Function that multiplies two arrays x & y, element
+    by element. If y is None, it return x*x
+
+    Parameters:
+    -----------
+    x: numpy.array
+       numpy array representing the one array to be multiplied
+    y: numpy.array
+       numpy array representing the second array to be multiplied
+       if None it the module will square the x array
+
+    Returns:
+    --------
+    multi_array: numpy.array
+                 numpy array representing the one to one multiplication
+                 of two arrays
+    '''
+    if y:
+        multi_array = np.multiply(x, y)
+        return multi_array
+    else:
+        multi_array = np.multiply(x, x)
+        return multi_array
+
+
 list_1d1d = {
         "1d_raw": transform_1d_none,
         "1d_log": transform_1d_log,
@@ -320,7 +346,8 @@ list_1d1d = {
         "1d_derivative": transform_1d_derivative
         }
 list_1d2d = {
-        "1d_cwt": transform_1d_cwt
+        "1d_cwt": transform_1d_cwt,
+        "1d_multiply": transform_array_multiplication
         }
 
 
