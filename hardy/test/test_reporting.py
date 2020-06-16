@@ -1,5 +1,6 @@
 import plotly
 import shutil
+import unittest
 import hardy.data_reporting.reporting as reporting
 
 from hardy.handling.to_catalogue import learning_set
@@ -12,27 +13,29 @@ classes = ['class_1', 'class_2']
 batch_size = 1
 
 
-def test_report_plot():
-    config_path = './hardy/recognition/'
-    log_dir = './hardy/test/temp_report/report/'
+class TestSimulationTools(unittest.TestCase):
 
-    train, val = learning_set(path, split=split, classes=classes,
-                              iterator_mode=None)
+    def test_report_plot(self):
+        config_path = './hardy/recognition/'
+        log_dir = './hardy/test/temp_report/report/'
 
-    tuner.build_param(config_path)
+        train, val = learning_set(path, split=split, classes=classes,
+                                  iterator_mode=None)
 
-    tuned_model = tuner.run_tuner(train, val,
-                                  project_name='test_run')
-    model, history, metrics = tuner.best_model(tuned_model, train,
-                                               val, val)
+        tuner.build_param(config_path)
 
-    tuner.report_generation(model, history, metrics, log_dir,
-                            tuner=tuned_model, save_model=False)
+        tuned_model = tuner.run_tuner(train, val,
+                                      project_name='test_run')
+        model, history, metrics = tuner.best_model(tuned_model, train,
+                                                   val, val)
 
-    fig = reporting.report_plot('./hardy/test/temp_report/')
+        tuner.report_generation(model, history, metrics, log_dir,
+                                tuner=tuned_model, save_model=False)
 
-    assert isinstance(fig, plotly.graph_objs._figure.Figure),\
-        'The returned figure is not a plotly object'
+        fig = reporting.report_plot('./hardy/test/temp_report/')
 
-    shutil.rmtree('./hardy/test/temp_report')
-    shutil.rmtree('./test_run')
+        assert isinstance(fig, plotly.graph_objs._figure.Figure),\
+            'The returned figure is not a plotly object'
+
+        shutil.rmtree('./hardy/test/temp_report')
+        shutil.rmtree('./test_run')
