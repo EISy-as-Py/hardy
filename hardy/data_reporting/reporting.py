@@ -47,10 +47,10 @@ def report_plot(report_path):
     for keys in import_dict.items():
         n = 0
         for keys_1, values_1 in keys[1].items():
-            if 'activation_' in keys_1:
+            if 'activation' in keys_1:
                 n += 1
                 a_function = values_1
-            if 'kernel_size_' in keys_1:
+            if 'kernel_size' in keys_1:
                 k_size = values_1
             if 'optimizer' in keys_1:
                 optimize = values_1
@@ -86,4 +86,4 @@ def report_plot(report_path):
         paper_bgcolor='white'
     )
 
-    fig.show()
+    return fig
