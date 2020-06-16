@@ -1,6 +1,6 @@
 # add funcitons to summarize and visualize the summary reports from the
 # the hardy run
-import numpy as np
+# import numpy as np
 import os
 import pandas as pd
 import plotly.graph_objects as go
@@ -48,7 +48,7 @@ def report_plot(report_path):
         n = 0
         for keys_1, values_1 in keys[1].items():
             if 'activation_' in keys_1:
-                n+=1
+                n += 1
                 a_function = values_1
             if 'kernel_size_' in keys_1:
                 k_size = values_1
