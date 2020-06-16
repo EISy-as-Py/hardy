@@ -40,7 +40,7 @@ dependencies:
     - contextlib2
     - google-images-download
     - opt-einsum
-    - plotly=4.8.1
+    - plotly==4.8.1
     - selenium
     - tqdm
     - urllib3
