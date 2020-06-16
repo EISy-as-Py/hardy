@@ -1,10 +1,9 @@
 # add funcitons to summarize and visualize the summary reports from the
 # the hardy run
-# import numpy as np
+import numpy as np
 import os
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.express as px
 
 import yaml
 # def report_plot():
@@ -59,14 +58,16 @@ def report_plot(report_path):
             if 'test_accuracy' in keys_1:
                 accuracy = values_1
         data_dict[index] = [keys[0], n, k_size, a_function, optimize,
-                            pool, accuracy]
+                            pool, np.round(accuracy, 3)]
         index += 1
 
     df_test = pd.DataFrame.from_dict(data_dict, orient='index',
                                      columns=column_names)
 
     fig = go.Figure(data=go.Parcats(
-        line=dict(color=px.colors.qualitative.Pastel, colorscale='Electric'),
+        line=dict(color=['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090',
+                         '#ffffbf', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4',
+                         '#313695'], colorscale='Electric'),
         dimensions=list([
                     dict(label='Report Name', values=df_test['report_name']),
                     dict(label='Num layers', values=df_test['layers'],
@@ -83,7 +84,7 @@ def report_plot(report_path):
 
     fig.update_layout(
         plot_bgcolor='white',
-        paper_bgcolor='white'
+        paper_bgcolor='lavender'
     )
 
     return fig
