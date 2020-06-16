@@ -37,9 +37,10 @@ filters:
     - 32
 
 kernel_size:
-  - Int
+  - Choice
   - values:
     - 3
+    - 4
     - 5
 
 activation:
