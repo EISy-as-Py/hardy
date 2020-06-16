@@ -177,16 +177,20 @@ class TestSimulationTools(unittest.TestCase):
 
     def test_transform_array_multiplication(self):
         test_array_x = [2, 2, 3, 3, 4, 4]
-        test_array_y = [2, 2, 3, 3, 4, 4]
+        test_array_y = [4, 2, 3, 3, 4, 4]
 
         result = tforms.transform_array_multiplication(test_array_x,
                                                        test_array_y)
         assert len(test_array_x) == len(result), "The returned size for\
                 array is invalid"
+        assert test_array_x[0]*test_array_y[0] == result[0], "The returned\
+                multiplication output is not correct"
 
         result = tforms.transform_array_multiplication(test_array_x)
         assert len(test_array_x) == len(result), "The returned size for\
                 array is invalid"
+        assert test_array_x[0]*test_array_x[0] == result[0], "The returned\
+                multiplication output is not correct"
 
     def test_tform_1d_cwt(self):
         """
