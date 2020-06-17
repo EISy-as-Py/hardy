@@ -69,7 +69,8 @@ def build_tuner_model(hp):
         x = tf.keras.layers.GlobalMaxPooling2D()(x)
     else:
         x = tf.keras.layers.GlobalAveragePooling2D()(x)
-    outputs = tf.keras.layers.Dense(2, activation='softmax')(x)
+    outputs = tf.keras.layers.Dense(
+        param['num_classes'][0], activation='softmax')(x)
 
     model = tf.keras.Model(inputs, outputs)
 

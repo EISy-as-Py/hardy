@@ -1,6 +1,9 @@
 #########################################################################
 # Configuration for runnign the tuner
 
+num_classes:
+  - 2
+
 epochs:
   - 3
 
