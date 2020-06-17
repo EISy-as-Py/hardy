@@ -50,11 +50,11 @@ class TestSimulationTools(unittest.TestCase):
                         'The filetype returned in not a dictionary'
         # remove report files after checking they were
         # correctly created
-        for item in report_location:
-            if item.endswith('.yaml'):
-                os.remove(report_dir+item)
+        # for item in report_location:
+        #     if item.endswith('.yaml'):
+        #         os.remove(report_dir+item)
 
-    # shutil.rmtree(log_dir)
+        shutil.rmtree(log_dir)
 
     def test_run_tuner(self):
         config_path = './hardy/test/'
