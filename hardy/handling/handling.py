@@ -77,11 +77,11 @@ The zeroth-level functions, related to importing and setting up data.
 -------------------------------------------------------------------------------
 """
 import os.path
-from os import listdir
-
-import numpy as np
-import pandas as pd
 import tkinter
+
+import pandas as pd
+
+from os import listdir
 from tkinter.filedialog import askdirectory
 
 
@@ -449,7 +449,8 @@ def _smart_read_csv(full_fname, try_skiprows, last_skiprows=None,
         n += 1  # Increment skiprows every time we fail.
 
     assert len(list(fdata)) != 0, 'the csv was not correctly loaded'
-
+    if 'Unnamed: 0' in list(fdata):
+        fdata.pop('Unnamed: 0')
     return fdata, last_skiprows
 
 
@@ -465,31 +466,22 @@ def _test_df(fdata, columns_to_pass=2):
     """
     assert type(fdata) is pd.DataFrame, "Not Dataframe"
 
-    column_types = fdata.dtypes
-    good_columns = 0
-    for dtype in column_types:
-        if dtype is float:
-            good_columns += 1
-        elif dtype is np.dtype('float64') or np.dtype('float32'):
-            good_columns += 1
-        elif dtype is int:
-            good_columns += 1
-        else:
-            pass
-
-    if good_columns >= columns_to_pass:
-        return True  # GOOD Test!
+    if isinstance(fdata.iloc[0][0], str):
+        return False
     else:
-        return False  # BAD Test! Don't error, just continue!
+        column_types = fdata.dtypes
+        good_columns = 0
+        for dtype in column_types:
+            if dtype == 'float':
+                good_columns += 1
+            elif dtype == 'float64' or 'float32':
+                good_columns += 1
+            elif dtype == 'int':
+                good_columns += 1
+            else:
+                pass
 
-
-# =============================================================================
-# # TESTING ZONE
-# base_path = "C:/Users/hurtd/Py/hardy/hardy/local_data/"
-# test_linear = base_path + "2020-4-24_linear_0001.csv"
-# test_eis = base_path + "200504_csv_EIS_simulaiton/" +\
-#            "200504-0016_sim_one_current_noise.csv"
-#
-# fdata = _smart_read_csv(test_linear, try_skiprows=5)
-#
-# =============================================================================
+        if good_columns >= columns_to_pass:
+            return True  # GOOD Test!
+        else:
+            return False  # BAD Test! Don't error, just continue!
