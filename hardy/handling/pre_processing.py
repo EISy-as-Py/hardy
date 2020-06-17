@@ -57,44 +57,6 @@ def hold_out_test_set(path=None, number_of_files_per_class=100,
                              A list containig the strings of filenames
                              randomly selected to be part of the test set.
     '''
-
-    # Initialize a list that will contain the filenames of the files
-    # composing the test set
-    # test_set_filenames = []
-
-    # seperating test_set_filenames for input as arrays
-    # if iterator_mode == "arrays":
-    #     file_list_1 = [n[0] for n in image_list
-    #                    if n[0].endswith(classes[0])]
-    #     file_list_2 = [n[0] for n in image_list
-    #                    if not n[0].endswith(classes[0])]
-    #     for i in range(number_of_files_per_class):
-    #         chosen_file = random.choice(file_list_1)
-    #         file_list_1.remove(chosen_file)
-    #         test_set_filenames.append(str(chosen_file))
-    #         chosen_file = random.choice(file_list_2)
-    #         file_list_2.remove(chosen_file)
-    #         test_set_filenames.append(str(chosen_file))
-    # # These lines are hardcoded to allow for 2 classes only # #
-    # #  Rewrite to support a higher number of classes # #
-
-    # Randomly pick files that are labelled as noisy and append
-    #  them into the test_set list
-    # else:
-    #     file_list_1 = [n for n in os.listdir(path)
-    #                    if n.endswith(classes[0]+file_extension)]
-    #     file_list_2 = [n for n in os.listdir(path)
-    #                    if not n.endswith(classes[0]+file_extension)]
-    #     for i in range(number_of_files_per_class):
-    #         chosen_file = random.choice(file_list_1)
-    #         file_list_1.remove(chosen_file)
-    #         test_set_filenames.append(str(chosen_file.rstrip(
-    #                                       chosen_file[-4:])))
-
-    #         chosen_file = random.choice(file_list_2)
-    #         file_list_2.remove(chosen_file)
-    #         test_set_filenames.append(str(chosen_file.rstrip(
-    #                                       chosen_file[-4:])))
     classes.sort(reverse=True)
 
     test_set_filenames = []

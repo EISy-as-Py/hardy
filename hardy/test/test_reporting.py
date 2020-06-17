@@ -15,7 +15,7 @@ batch_size = 1
 
 class TestSimulationTools(unittest.TestCase):
 
-    def test_report_plot(self):
+    def test_summary_report(self):
         config_path = './hardy/recognition/'
         log_dir = './hardy/test/temp_report/report/'
 
@@ -32,9 +32,11 @@ class TestSimulationTools(unittest.TestCase):
         tuner.report_generation(model, history, metrics, log_dir,
                                 tuner=tuned_model, save_model=False)
 
-        fig = reporting.report_plot('./hardy/test/temp_report/')
+        fig1, fig2 = reporting.summary_report('./hardy/test/temp_report/')
 
-        assert isinstance(fig, plotly.graph_objs._figure.Figure),\
+        assert isinstance(fig1, plotly.graph_objs._figure.Figure),\
+            'The returned figure is not a plotly object'
+        assert isinstance(fig2, plotly.graph_objs._figure.Figure),\
             'The returned figure is not a plotly object'
 
         shutil.rmtree('./hardy/test/temp_report')
