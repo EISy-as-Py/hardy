@@ -109,11 +109,11 @@ def _data_tuples_from_fnames(input_path='./', skiprows=6, classes=None):
         # This tells us to find the categories on our own.
         #    See "Handling" package for these methods.
         classes = handling.cats_from_fnames(os.listdir(input_path))
-    elif type(classes) is int:
+    elif type(classes) is list:
         # OR simply pass an integer of how many to expect.
         # (in the instance above, default is to expect 2)
         classes = handling.cats_from_fnames(os.listdir(input_path),
-                                            expect=classes)
+                                            expect=len(classes))
     else:
         pass
 

@@ -293,3 +293,6 @@ def orthogonal_images_mlt(image_x, image_y, plot=True, save_image=None,
         plt.savefig('{}.png'.format(filename), dpi=100, bbox_inches='tight')
         plt.close()
     return combined_image
+
+
+# add new plotting functions here [ Maria !!]

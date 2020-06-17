@@ -1,6 +1,7 @@
 # from datetime import datetime
 import time
 import os.path
+import yaml
 
 import hardy.recognition.cnn as cnn
 import hardy.recognition.tuner as tuner
@@ -125,14 +126,16 @@ def hardy_multi_transform(  # Data and Config Paths
             image_data = data_wrapper(
                 raw_datapath, tform_commands=tform_commands,
                 plot_format=plot_format, iterator_mode=iterator_mode,
-                print_out=print_out)
+                print_out=print_out, run_name=tform_name,
+                project_name=project_name, classes=classes)
             image_path = None
         else:
             image_data = None
             image_path = data_wrapper(
                 raw_datapath, tform_commands=tform_commands,
                 plot_format=plot_format, iterator_mode=iterator_mode,
-                print_out=print_out)
+                print_out=print_out, run_name=tform_name,
+                project_name=project_name, classes=classes)
 
         # ============================================
         # Section 3: Classifier Wrapper  (Setup + Run)
@@ -155,9 +158,9 @@ def hardy_multi_transform(  # Data and Config Paths
     return None
 
 
-def data_wrapper(raw_datapath, tform_commands=None,
+def data_wrapper(raw_datapath, tform_commands=None, classes=None,
                  plot_format="RGBrgb", iterator_mode='arrays',
-                 print_out=True):
+                 print_out=True, project_name=None, run_name=None):
     """
     Overall "One-Click" Wrapper to create the three "Keras Ready" Datasets
         needed to train the model: "Training Set", "Validation Set" and
@@ -175,7 +178,8 @@ def data_wrapper(raw_datapath, tform_commands=None,
         clock = time.perf_counter()
         print("Processing Data...\t", end="")
     # Make the raw Dataframe Tuples List
-    raw_tuples_list = to_catalogue._data_tuples_from_fnames(raw_datapath)
+    raw_tuples_list = to_catalogue._data_tuples_from_fnames(
+        raw_datapath, classes=classes)
     # Now perform trasnsform if given
     if tform_commands is None:
         tform_tuples_list = raw_tuples_list
@@ -183,9 +187,32 @@ def data_wrapper(raw_datapath, tform_commands=None,
         tform_tuples_list = arbitrage.tform_tuples(raw_tuples_list,
                                                    tform_commands,
                                                    rgb_format=plot_format)
+
+    # save the tranformation info in a yaml file for final report
+    if project_name and run_name:
+        output = [[i, name.split('__')[0], name.split('__')[-1]] for
+                  i, name in enumerate(list(tform_tuples_list[0][1]))
+                  if isinstance(name, str)]
+    # save the tranform info in a dictionary
+        run_tform = {'run_name': run_name}
+        for i in range(len(output)):
+            run_tform['tform_' + str(i)] = output[i]
+        # generate a yaml file to store the trasnformation info
+        output_path = preprocessing.save_to_folder(raw_datapath, project_name,
+                                                   run_name)
+        report_location = output_path+'/report/'
+        if not os.path.exists(report_location):
+            os.makedirs(report_location)
+        with open(report_location+'run_tform_config.yaml',
+                  'w') as yaml_file:
+            yaml.dump(run_tform, yaml_file)
+            yaml_file.close()
+    else:
+        pass
     # Next make the rgb images Tuples List
     rgb_tuples_list = to_catalogue.rgb_list(tform_tuples_list,
                                             plot_format=plot_format)
+
     # OK! Now we have image arrays finished!
     #     EITHER Return that list of image tuples
     #     OR save images and Return the path to those folders!

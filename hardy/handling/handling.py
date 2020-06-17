@@ -447,6 +447,9 @@ def _smart_read_csv(full_fname, try_skiprows, last_skiprows=None,
         except pd.errors.ParserError:
             pass
         n += 1  # Increment skiprows every time we fail.
+
+    assert len(list(fdata)) != 0, 'the csv was not correctly loaded'
+
     return fdata, last_skiprows
 
 
