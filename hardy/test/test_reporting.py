@@ -16,7 +16,7 @@ batch_size = 1
 class TestSimulationTools(unittest.TestCase):
 
     def test_summary_report(self):
-        config_path = './hardy/recognition/'
+        config_path = './hardy/test/'
         log_dir = './hardy/test/temp_report/report/'
 
         train, val = learning_set(path, split=split, classes=classes,
