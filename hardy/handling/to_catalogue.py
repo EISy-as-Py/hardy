@@ -94,7 +94,7 @@ def save_load_data(filename, data=None, save=None, load=None,
         return loaded_data
 
 
-def _data_tuples_from_fnames(input_path='./', skiprows=6, classes=None):
+def _data_tuples_from_fnames(input_path='./', skiprows=0, classes=None):
     """
     Setting up the Data_tuples list, from ONE FOLDER with all of the data
         (OF different classes) inside of it.
