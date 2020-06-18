@@ -203,7 +203,13 @@ def orthogonal_images_add(image_x, image_y, plot=True, save_image=None,
     for channel in range(3):
         image_flip[:, :, channel] = image_y[:, :, channel].transpose()
 
-    combined_image = normalize_image(image_x + image_flip)
+    if np.count_nonzero(image_flip) == 0:
+        combined_image = image_x
+    elif np.count_nonzero(image_x) == 0:
+        combined_image = image_flip
+    else:
+
+        combined_image = normalize_image(image_x + image_flip)
 
     if plot:
         fig, ax = plt.subplots(figsize=[6, 6])
