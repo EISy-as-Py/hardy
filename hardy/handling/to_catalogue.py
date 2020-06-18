@@ -505,10 +505,10 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
                 if image_labels[j] == label:
                     image_labels[j] = i
 
-        assert len(np.unique(image_labels)) == len(np.unique(classes)), \
-            'The number of unique labels was found to be {},' + \
-            ' expected {}'.format(len(np.unique(image_labels)),
-                                  len(np.unique(classes)))
+        if len(np.unique(image_labels)) == len(np.unique(classes)):
+            print('The number of unique labels was found to be {},'
+                  ' expected {}'.format(len(np.unique(image_labels)),
+                                        len(np.unique(classes))))
 
         image_labels = keras.utils.to_categorical(
             image_labels, num_classes=len(np.unique(image_labels)))
@@ -602,10 +602,10 @@ def test_set(path=None, target_size=(80, 80),
             for j in range(len(image_labels)):
                 if image_labels[j] == label:
                     image_labels[j] = i
-        assert len(np.unique(image_labels)) == len(np.unique(classes)), \
-            'The number of unique labels was found to be {},' + \
-            ' expected {}'.format(len(np.unique(image_labels)),
-                                  len(np.unique(classes)))
+        if len(np.unique(image_labels)) == len(np.unique(classes)):
+            print('The number of unique labels was found to be {},'
+                  ' expected {}'.format(len(np.unique(image_labels)),
+                                        len(np.unique(classes))))
         image_labels = keras.utils.to_categorical(
             image_labels, num_classes=len(np.unique(image_labels)))
         test_set = data.flow(x=image_data, y=image_labels,
