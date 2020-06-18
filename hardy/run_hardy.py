@@ -291,11 +291,13 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
             image_data, test_set_filenames)
 
         training_set, validation_set = to_catalogue.learning_set(
-            image_list=learning_set_list, split=split, target_size=target_size,
+            image_list=learning_set_list, split=split,
+            classes=classes, target_size=target_size,
             iterator_mode='arrays', batch_size=batch_size)
 
         test_set = to_catalogue.test_set(image_list=test_set_list,
                                          target_size=target_size,
+                                         classes=classes,
                                          iterator_mode='arrays',
                                          batch_size=batch_size)
     else:

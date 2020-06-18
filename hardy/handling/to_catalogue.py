@@ -1,15 +1,15 @@
-import numpy as np
-# import pandas as pd
+import keras
 import pickle
 import os
 import time
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 import hardy.handling.visualization as vis
 import hardy.handling.handling as handling
 from keras.preprocessing.image import ImageDataGenerator
-import keras
+
 
 """
 To_Catalogue, functions for handling (?) data?
@@ -439,23 +439,6 @@ def _safe_clear_dirflow(the_path):
     os.rmdir(the_path)
     return True
 
-# =============================================================================
-#
-# # Testing Zone:
-# Path_0 = "C:/Users/hurtd/Py/hardy/hardy/local_data/"
-# EIS_fname_data = Path_0 + "200504_csv_EIS_simulaiton/"
-# Simple_dir_data = Path_0 + "2020-4-24_0001/"
-#
-# EIS_data_tuples = _data_tuples_from_fnames(EIS_fname_data)
-# EIS_rgb_tuples = rgb_list(EIS_data_tuples, plot_format='RBGrbg')
-# EIS_folder_to_keras = rgb_list_to_DirFlow(EIS_rgb_tuples,
-#                                           basepath=EIS_fname_data)
-# =============================================================================
-
-
-############################################################################
-# Generating the sets to use for the classification step
-
 
 def learning_set(path=None, split=0.1, target_size=(80, 80),
                  classes=['noisy', 'not_noisy'], batch_size=32,
@@ -484,8 +467,13 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
     color_mode: str
                 Either grayscale or rgb
     iterator_mode : str
+                    string indicating which Keras IamgeDataGenerator mode
+                    to use. Options are 'arrays' or 'images'. The first will
+                    use the "flow" option, the second will use
+                    "flow_from_directory" option
     image_list : list
-
+                 The list of tuples in the following format
+                 (filenames, image_array, label)
     Returns
     -------
     training_set:  Keras image iterator
@@ -503,8 +491,8 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
             channels = 1
 
         assert image_list, 'the image arrays should be provided'
-# Add checks for the image arrays- (filename, arrays, label)
-# assert im
+        # To Do :Add checks for the image arrays- (filename, arrays, label)
+
         image_arrays = np.array([image_list[i][1][:]
                                 for i in range(len(image_list))])
         image_data = image_arrays.reshape(image_arrays.shape[0], n,
@@ -516,7 +504,14 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
             for j in range(len(image_labels)):
                 if image_labels[j] == label:
                     image_labels[j] = i
-        image_labels = keras.utils.to_categorical(image_labels, num_classes=2)
+
+        assert len(np.unique(image_labels)) == len(np.unique(classes)), \
+            'The number of unique labels was found to be {},' + \
+            ' expected {}'.format(len(np.unique(image_labels)),
+                                  len(np.unique(classes)))
+
+        image_labels = keras.utils.to_categorical(
+            image_labels, num_classes=len(np.unique(image_labels)))
 
         training_set = data.flow(x=image_data, y=image_labels,
                                  batch_size=batch_size, subset='training')
@@ -565,6 +560,14 @@ def test_set(path=None, target_size=(80, 80),
                 The number of files to group up into a batch
     color_mode: str
                 Either grayscale or rgb
+    iterator_mode : str
+                    string indicating which Keras IamgeDataGenerator mode
+                    to use. Options are 'arrays' or 'images'. The first will
+                    use the "flow" option, the second will use
+                    "flow_from_directory" option
+    image_list : list
+                 The list of tuples in the following format
+                 (filenames, image_array, label)
 
     Returns
     -------
@@ -581,10 +584,15 @@ def test_set(path=None, target_size=(80, 80),
             channels = 1
 
         assert image_list, 'the image arrays should be provided'
-# Add checks for the image arrays- (filename, arrays, label)
-# assert im
+        # To Do : Add checks for the image arrays- (filename, arrays, label)
+
         image_arrays = np.array([image_list[i][1][:]
                                 for i in range(len(image_list))])
+
+        if len(image_arrays[0][1]) != target_size[0]:
+            print('The expected target size is {}, found {}'
+                  .format(len(image_arrays[0][1]), target_size[0]))
+            n = len(image_arrays[0][1])
         image_data = image_arrays.reshape(image_arrays.shape[0], n,
                                           n, channels).astype('float32')
         image_data = (image_data*255).astype('uint8')
@@ -594,7 +602,12 @@ def test_set(path=None, target_size=(80, 80),
             for j in range(len(image_labels)):
                 if image_labels[j] == label:
                     image_labels[j] = i
-        image_labels = keras.utils.to_categorical(image_labels, num_classes=2)
+        assert len(np.unique(image_labels)) == len(np.unique(classes)), \
+            'The number of unique labels was found to be {},' + \
+            ' expected {}'.format(len(np.unique(image_labels)),
+                                  len(np.unique(classes)))
+        image_labels = keras.utils.to_categorical(
+            image_labels, num_classes=len(np.unique(image_labels)))
         test_set = data.flow(x=image_data, y=image_labels,
                              batch_size=batch_size,
                              shuffle=False)
