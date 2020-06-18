@@ -343,11 +343,11 @@ list_1d1d = {
         "1d_exp": transform_1d_exp,
         "1d_reciprocal": transform_1d_reciprocal,
         "1d_cumsum": transform_1d_cumsum,
-        "1d_derivative": transform_1d_derivative
+        "1d_derivative": transform_1d_derivative,
+        "1d_multiply": transform_array_multiplication
         }
 list_1d2d = {
-        "1d_cwt": transform_1d_cwt,
-        "1d_multiply": transform_array_multiplication
+        "1d_cwt": transform_1d_cwt
         }
 
 
