@@ -1,3 +1,7 @@
+import io
+import cv2
+import time
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -301,4 +305,58 @@ def orthogonal_images_mlt(image_x, image_y, plot=True, save_image=None,
     return combined_image
 
 
-# add new plotting functions here [ Maria !!]
+def regular_plot(tform_df_tuple):
+    '''
+    Function that generates standard x-y plots
+
+    Parameters
+    ----------
+    tform_df_tuple : list
+                     The list of tuples in the following format
+                     (filenames, dataframe, label)
+
+    Returns
+    -------
+    img :  np.array
+           A numpy arrays representing the image. Iamge will be in rgb mode
+
+    '''
+    arrays_to_plot = []
+    for entry in list(tform_df_tuple):
+        if isinstance(entry, str):
+            arrays_to_plot.append(entry)
+
+    fig = plt.figure(figsize=(5, 5))
+    ax = fig.add_subplot(1, 1, 1)
+    for i in range(len(arrays_to_plot)-1):
+        ax.scatter(tform_df_tuple[arrays_to_plot[0]],
+                   tform_df_tuple[arrays_to_plot[i+1]])
+    ax.axis('off')
+    img = get_img_from_fig(fig)
+    plt.close()
+    return img
+
+
+def get_img_from_fig(fig, dpi=100):
+    '''
+    Transforms a matplotlib figure into an array
+
+    Parameters
+    ----------
+    fig : matplotlib figure
+          The figure containing the x-y plot of the data
+
+    Returns
+    -------
+    img :  np.array
+           A numpy arrays representing the image. Iamge will be in rgb mode
+
+    '''
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png", dpi=dpi)
+    buf.seek(0)
+    img_arr = np.frombuffer(buf.getvalue(), dtype=np.uint8)
+    buf.close()
+    img = cv2.imdecode(img_arr, 1)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    return img

@@ -238,6 +238,42 @@ def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
     return list_of_rgb_tuples
 
 
+def regular_plot_list(data_tuples):
+    '''
+    Returns a list of tuples containing the arrays of images
+    representing x-y plot
+
+    Parameters
+    ----------
+    data_tuples :   list of tuples
+                    The list of tuples in the following format
+                     (filenames, dataframe, label)
+
+    Returns
+    -------
+    list_of_rgb_tuples  :   list of tuples
+                            The list of tuples in the following format
+                            (filename, image array, label)
+    '''
+
+    print("Making regular plot Images from Data...", end='\t')
+    t = time.perf_counter()
+    list_of_plot_tuples = []
+    for data_tuple in data_tuples:
+        # For each dataframe given
+        fdata = data_tuple[1]
+
+        plot_image = vis.regular_plot(fdata)
+        # Need some check that the visualization worked?
+
+        plot_tuple = (data_tuple[0], plot_image, data_tuple[2])
+        list_of_plot_tuples.append(plot_tuple)
+
+    t_sec = round(time.perf_counter()-t, 2)
+    print("Success in {}seconds!".format(t_sec))
+    return list_of_plot_tuples
+
+
 def data_set_split(image_list, test_set_filenames):
     '''
     Function that splits the list of image arrays into a test set and a
@@ -307,7 +343,7 @@ def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
     '''
     if not column_names:
         column_names = list(fdata.columns)
-
+    # This plot_format [single / else] could be removed. Discuss it
     if plot_format == 'single':
         rgb_image = vis.rgb_plot(red_array=fdata[column_names[0]],
                                  blue_array=fdata[column_names[1]],

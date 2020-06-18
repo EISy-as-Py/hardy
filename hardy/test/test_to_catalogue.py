@@ -1,4 +1,5 @@
 import keras
+import os
 import unittest
 
 import numpy as np
@@ -78,6 +79,8 @@ class TestSimulationTools(unittest.TestCase):
         data = catalogue.save_load_data('test_pickled_data', data=plot_tups,
                                         load=True, location='./hardy/test/')
         assert isinstance(data, list), 'the data was correctly loaded'
+        os.remove('./hardy/test/test_pickled_data.npy')
+        print('compressed file correctly removed after testing')
         pass
 
     def test_data_tuples_from_fnames(self):
@@ -121,6 +124,26 @@ class TestSimulationTools(unittest.TestCase):
             assert type(row[2]) is str, "Class label is not a string?"
         pass
 
+    def test_regular_plot_list(self):
+        """
+        Testing the Tuple-List image visualization wrapper
+            Inputs the raw tuple-list from the prior wrapper
+            and performs the visualizations as called in the "standard"
+            methods.
+        """
+
+        data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
+
+        plot_tups = catalogue.regular_plot_list(data_tups)
+
+        for row in plot_tups:
+            assert type(row) is tuple, "List-of-Tuples has non-tuple?"
+            assert type(row[0]) is str, "File Name in Tuple is wrong format."
+            assert type(row[1]) is np.ndarray,\
+                "List-of-image-Tuples is not in np.ndarray format??"
+            assert type(row[2]) is str, "Class label is not a string?"
+        pass
+
     def test_rgb_visualize(self):
         """
         Individual data frame image maker. This is included in prior wrapps
@@ -136,7 +159,6 @@ class TestSimulationTools(unittest.TestCase):
 
         assert image_arr.shape[2] == 3,\
             "Expected NxNx3 Image. Instead got {}".format(image_arr.shape)
-#
 
     def test_data_split(self):
         num_files = 3
@@ -153,6 +175,4 @@ class TestSimulationTools(unittest.TestCase):
             'the test set is not the correct length'
         assert isinstance(test_set_list, list), 'format should be a list'
         assert isinstance(learning_set_list, list), 'format should be a list'
-        # assert len(test_set_list) == 2*num_files, \
-        #     'the test_set_list is not the correct length'
         pass
