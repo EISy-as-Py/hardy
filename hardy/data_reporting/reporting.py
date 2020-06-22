@@ -18,7 +18,8 @@ def report_dataframes(report_path):
     for i in range(len(categories)):
         yaml_path = report_path+categories[i]+'/report/'
         yaml_file_name = [file for file in os.listdir(yaml_path)
-                          if file != 'run_tform_config.yaml']
+                          if file != 'run_tform_config.yaml' and not
+                          file.startswith('.')]
         with open(yaml_path+yaml_file_name[0], 'r') as file:
             import_dict[categories[i]] = yaml.load(
                 file, Loader=yaml.FullLoader)
