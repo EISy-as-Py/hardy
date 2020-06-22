@@ -62,7 +62,10 @@ def report_dataframes(report_path):
                                            columns=column_names)
     history_df = pd.DataFrame.from_dict(history_dict, orient='index',
                                         columns=history_names)
-    return hyperparam_df, history_df
+    tform_rank_df = pd.DataFrame(
+        data=[data_dict['0'].values()[0], data_dict['0'].values()[-1]],
+        columns=[column_names[0], column_names[-1]])
+    return hyperparam_df, history_df, tform_rank_df
 
 
 def report_plots(hyperparam_df, history_df):
@@ -141,7 +144,7 @@ def report_plots(hyperparam_df, history_df):
     return fig1, fig2
 
 
-def summary_report(report_path):
+def summary_report_plots(report_path):
     '''The function that plots the parallel coordinates between report name,
     layers, optimizer, activation function, kernel size, pooling and accuracy.
 
@@ -154,6 +157,69 @@ def summary_report(report_path):
     --------
     plotly.graph
     '''
-    hyperparam_df, history_df = report_dataframes(report_path)
+    hyperparam_df, history_df, tform_rank_df = report_dataframes(report_path)
     fig1, fig2 = report_plots(hyperparam_df, history_df)
+
     return fig1, fig2
+
+
+def summary_report_tables(report_path):
+    '''The function that returns tables wiht the summary of the transformations
+    used and they performnce
+
+    Parameters:
+    -----------
+    report_path: str
+                 string representing the location of parent report directory
+
+    Returns:
+    --------
+    summary_df : pandas Dataframe
+                 Table containing information of the transformations run,
+                 which data series they were applied to and their plot format
+    tform_rank_df : pandas Dataframe
+                    Table containing information of the run anme and its
+                    overall performance
+    '''
+    hyperparam_df, history_df, tform_rank_df = report_dataframes(report_path)
+    summary_df = summary_dataframe(report_path)
+
+    return summary_df, tform_rank_df
+
+
+def summary_dataframe(report_path):
+    '''
+    '''
+    categories = [f for f in os.listdir(report_path) if not f.startswith('.')]
+    run_tform = {}
+    for i in range(len(categories)):
+        yaml_path = report_path+categories[i]+'/report/'
+        yaml_file_name = [file for file in os.listdir(yaml_path)
+                          if file == 'run_tform_config.yaml']
+    #     print(yaml_file_name)
+        with open(yaml_path+yaml_file_name[0], 'r') as file:
+            run_tform[categories[i]] = yaml.load(file,
+                                                 Loader=yaml.FullLoader)
+    run_name = []
+    series = []
+    transforms = []
+    columns = []
+    plot_code = []
+    for keys in run_tform.items():
+        n = 0
+        for keys_1, values_1 in keys[1].items():
+
+            if 'tform_' in keys_1:
+                series.append('series_'+str(n+1))
+                transforms.append(values_1[2])
+                columns.append(values_1[1])
+                rgb_code.append(values_1[0])
+                run_name.append(keys[1]['run_name'])
+                n += 1
+
+    summary_table = np.array([transforms, columns, plot_code]).transpose()
+    multi_index = [run_name, series]
+    summary_df = pd.DataFrame(summary_table, index=multi_index,
+                              columns=['transform', 'column', 'plot_code'])
+
+    return summary_df
