@@ -21,7 +21,7 @@ def hardy_multi_transform(  # Data and Config Paths
                           num_test_files_class=300,
                           classifier='tuner', split=0.1, target_size=(80, 80),
                           batch_size=32, classes=['class_1', 'class_2'],
-                          project_name='tuner_run'
+                          project_name='tuner_run', scale=1.0
                           ):
     """
     OVERALL wrapper function, to pass initial configurations and allow
@@ -127,7 +127,8 @@ def hardy_multi_transform(  # Data and Config Paths
                 raw_datapath, tform_commands=tform_commands,
                 plot_format=plot_format, iterator_mode=iterator_mode,
                 print_out=print_out, run_name=tform_name,
-                project_name=project_name, classes=classes)
+                project_name=project_name, classes=classes,
+                scale=scale)
             image_path = None
         else:
             image_data = None
@@ -160,7 +161,8 @@ def hardy_multi_transform(  # Data and Config Paths
 
 def data_wrapper(raw_datapath, tform_commands=None, classes=None,
                  plot_format="RGBrgb", iterator_mode='arrays',
-                 print_out=True, project_name=None, run_name=None):
+                 print_out=True, project_name=None, run_name=None,
+                 scale=1.0):
     """
     Overall "One-Click" Wrapper to create the three "Keras Ready" Datasets
         needed to train the model: "Training Set", "Validation Set" and
@@ -211,7 +213,7 @@ def data_wrapper(raw_datapath, tform_commands=None, classes=None,
         pass
     # Next make the rgb images Tuples List
     if plot_format == 'RGBrgb':
-        tuples_list = to_catalogue.rgb_list(tform_tuples_list,
+        tuples_list = to_catalogue.rgb_list(tform_tuples_list, scale=scale,
                                             plot_format=plot_format)
     else:
         tuples_list = to_catalogue.regular_plot_list(

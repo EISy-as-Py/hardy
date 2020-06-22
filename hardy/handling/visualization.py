@@ -4,6 +4,8 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+from skimage.transform import resize
+
 
 #######################################################################
 # Normalization Functions
@@ -27,15 +29,18 @@ def normalize(impedance_array):
                                   array should be values in the range
                                   zero to one.
     '''
-    temp_array = impedance_array.copy()
-    if np.amin(temp_array, axis=0) < 0:
-        temp_array += abs(np.amin(temp_array, axis=0))
-    if np.amax(temp_array, axis=0) > 1:
-        normalized_impedance_array = temp_array/np.amax(temp_array, axis=0)
+    if not np.any(impedance_array):
+        return impedance_array
     else:
-        normalized_impedance_array = temp_array
+        temp_array = impedance_array.copy()
+        if np.amin(temp_array, axis=0) < 0:
+            temp_array += abs(np.amin(temp_array, axis=0))
+        if np.amax(temp_array, axis=0) > 1:
+            normalized_impedance_array = temp_array/np.amax(temp_array, axis=0)
+        else:
+            normalized_impedance_array = temp_array
 
-    return normalized_impedance_array
+        return normalized_impedance_array
 
 
 def normalize_image(color_image_array):
@@ -76,7 +81,7 @@ def normalize_image(color_image_array):
 ######################################################################
 # Plotting Functions
 def rgb_plot(red_array=None, green_array=None, blue_array=None,
-             plot=True, save_image=None, filename=None,
+             plot=True, save_image=None, scale=1.0, filename=None,
              save_location=None):
     '''Returns a plot which represents the input data as a color gradient of
     one of the three color channels available: red, blue or green.
@@ -160,6 +165,9 @@ def rgb_plot(red_array=None, green_array=None, blue_array=None,
         filename = str(save_location+filename)
         plt.savefig('{}.png'.format(filename), dpi=100, bbox_inches='tight')
         plt.close()
+
+    resized_dimension = np.shape(rgb_plot)[0]*scale
+    rgb_plot = resize(rgb_plot, (resized_dimension, resized_dimension))
 
     return rgb_plot
 

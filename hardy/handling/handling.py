@@ -416,6 +416,8 @@ def _smart_read_csv(full_fname, try_skiprows, last_skiprows=None,
         max_skip        :   loop size. Will error if you skip this many rows.
 
     """
+    # print(full_fname)
+    # fdata = pd.read_csv(full_fname, skiprows=0)
     load_success = False
     # ^ We will use this to Track whether we did a successful load.
     #       Turn it TRUE if a load does not error, but Turn if FALSE

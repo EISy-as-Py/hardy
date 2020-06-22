@@ -277,7 +277,6 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
     """
     # First get new column names:
     old_names = list(raw_df.columns)
-
     new_names = list(range(rgb_col_number))
     for command in tform_commands:
         new_names[command[0]] = old_names[command[2]] + '__tform__' +\
