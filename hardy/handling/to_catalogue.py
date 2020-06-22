@@ -238,7 +238,7 @@ def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
     return list_of_rgb_tuples
 
 
-def regular_plot_list(data_tuples):
+def regular_plot_list(data_tuples, scale=1.0):
     '''
     Returns a list of tuples containing the arrays of images
     representing x-y plot
@@ -263,7 +263,7 @@ def regular_plot_list(data_tuples):
         # For each dataframe given
         fdata = data_tuple[1]
 
-        plot_image = vis.regular_plot(fdata)
+        plot_image = vis.regular_plot(fdata, scale=scale)
         # Need some check that the visualization worked?
 
         plot_tuple = (data_tuple[0], plot_image, data_tuple[2])

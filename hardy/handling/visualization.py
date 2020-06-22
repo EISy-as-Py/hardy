@@ -312,7 +312,7 @@ def orthogonal_images_mlt(image_x, image_y, plot=True, save_image=None,
     return combined_image
 
 
-def regular_plot(tform_df_tuple):
+def regular_plot(tform_df_tuple, scale=1.0):
     '''
     Function that generates standard x-y plots
 
@@ -339,12 +339,12 @@ def regular_plot(tform_df_tuple):
         ax.scatter(tform_df_tuple[arrays_to_plot[0]],
                    tform_df_tuple[arrays_to_plot[i+1]])
     ax.axis('off')
-    img = get_img_from_fig(fig)
+    img = get_img_from_fig(fig, scale=scale)
     plt.close()
     return img
 
 
-def get_img_from_fig(fig, dpi=100):
+def get_img_from_fig(fig, scale=1.0, dpi=100):
     '''
     Transforms a matplotlib figure into an array
 
@@ -366,4 +366,7 @@ def get_img_from_fig(fig, dpi=100):
     buf.close()
     img = cv2.imdecode(img_arr, 1)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    resized_dimension = np.shape(img)[0]*scale
+    img = resize(img, (resized_dimension, resized_dimension))
     return img

@@ -114,7 +114,6 @@ def report_plots(hyperparam_df, history_df):
             row=1, col=2, showlegend=False)
 
     fig1.update_layout(plot_bgcolor='lightslategray')
-    # fig1.show()
 
     # Generate Parallel Coordinates plot
     fig2 = go.Figure(data=go.Parcats(
@@ -138,7 +137,7 @@ def report_plots(hyperparam_df, history_df):
                        title='Parallel Coordinate Plot Comparison',
                        plot_bgcolor='lightblue',
                        paper_bgcolor='white')
-    # fig2.show()
+
     return fig1, fig2
 
 

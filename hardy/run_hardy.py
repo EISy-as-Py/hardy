@@ -217,7 +217,7 @@ def data_wrapper(raw_datapath, tform_commands=None, classes=None,
                                             plot_format=plot_format)
     else:
         tuples_list = to_catalogue.regular_plot_list(
-            tform_tuples_list)
+            tform_tuples_list, scale=scale)
 
     # OK! Now we have image arrays finished!
     #     EITHER Return that list of image tuples
