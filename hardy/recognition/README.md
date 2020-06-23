@@ -1,16 +1,16 @@
 ## Instructions for using Convolutional Neural Network Config files
 
+Each configuration file in the recognition folder provides the example Hyperparameter space over which Neural Network model is built
 
 ### Configuration file for CNN
 
-
-For the recognition section of the package, there are two separate configuration files:
+This file provides the input information along with the Hyperparameter space for Neural Network.
 
 * __cnn_config.yaml__
 
 
 _A configuration file which contains the hyperparameters to use in the single convolutional neural network.
-The configuration file is easy to fill out and interact with._ 
+The configuration file is easy to fill out and interact with._
 
 
 __Note__: Make sure that the hyperparameters found in the config. file are also used in the cnn model
@@ -18,6 +18,27 @@ __Note__: Make sure that the hyperparameters found in the config. file are also 
 
 <img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart_cnn_config.PNG" width=500 p align="center" />
 
+Currently supported keys for the <code>cnn_config.yaml</code> includes:
+
+<code>
+* kernel_size
+
+* epochs
+
+* activation
+
+* input_shape
+
+* filter_size
+
+* num_classes
+
+* learning_rate
+
+* patience
+</code>
+
+__Note__:The detailed information about the options can be found in the config file itself.
 
 ### Configuration file for Hyperparameter Optimization
 
