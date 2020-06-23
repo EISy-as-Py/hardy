@@ -29,7 +29,9 @@ The package HARDy can be installed using following steps:
 
 ## Usage:
 
-HARDy uses Keras for training Convolutional Neural Network & Keras-tuner for the hyperparameter optimization. The flow of information is shown in image below [insert flowdiagram]
+HARDy uses Keras for training Convolutional Neural Network & Keras-tuner for the hyperparameter optimization. The flow of information is shown in image below:
+
+<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/information_flow.PNG" width=500 p align="center" />
 
 An example jupyter notebook to run HARDy using single script is available at this link <a href=#><code>Example Notebook</code></a> 
 
