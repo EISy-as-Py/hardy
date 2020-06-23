@@ -50,9 +50,11 @@ A configuration file containing the hyperparamter search space for the tuning st
 
 The first part deals with defining the tuner run:   
 
+For definition of tuner run, following keys are currently supported:
+
 <img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart__tuner_config_run.PNG" width=450 p align="right" />
 
-For definition of tuner run, following keys are currently supported:
+
 ```
 -> num_classes
 
