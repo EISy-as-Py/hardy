@@ -5,16 +5,12 @@
 
 # Project HARDy
  
- _"Handling Arbitrary Recognition of Data, y not?"_
+ _"HARDy: Handling Arbitrary Recognition of Data in python"_
 A package to assist in discovery, research, and classification of YOUR data, no matter who you are! 
 
 ## Project Objective
 
 Numerical and visual transformation of experimental data to improve its classification and cataloging 
-
-Our favorite Links:
-* [Travis](https://travis-ci.org/github/EISy-as-Py/hardy)
-* [ReadtheDocs](www.google.com)
 
 ## Requirements:
 Package HARDy has following main dependencies:
@@ -35,7 +31,7 @@ The package HARDy can be installed using following steps:
 
 HARDy uses Keras for training Convolutional Neural Network & Keras-tuner for the hyperparameter optimization. The flow of information is shown in image below:
 
-<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/information_flow.png" width=500 align="center" />
+<p align="center"><img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/information_flow.png" width=700 alt="information flow of how the package works"/></p>
 
 An example jupyter notebook to run HARDy using single script is available at this link <a href=https://github.com/EISy-as-Py/hardy/blob/master/doc/example_HARDy_script.md>Example Notebook</code></a> 
 
@@ -50,7 +46,7 @@ The instructions for modifying or writing your own configuration file can be acc
 ## Visualization 
  In order to increase the density of data presented to the convolutional neural network and add a visual transfortmation of the data, we adopted a new plotting technique that takes advantage of how images are read by computers. Using color images, we were able to encode the experimental data in the pixel value, using different series per each image channel. The results are data- dense images, which are also pretty to look at.
  
- <img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/data_visualization.PNG" width=500 align="center" />
+ <p align="center"><img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/data_visualization.PNG" width=700 alt=" details on the proposed visual transformation to increased the images data density"/></p>
  
  
 ## Mission:
@@ -68,15 +64,15 @@ Our vision of the final product:
  ## Use Cases:
  The package is designed to deal wiht a diverse set of labeled data. These are some of the use cases we see benefitting from using the _HARDy_ package. 
  
- <img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/use_cases.PNG" width=500 align="center" />
+ <p align="center"><img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/use_cases.PNG" width=500 alt="possible use cases for the HARDy package"/></p>
  
  
- ## Modules and Goals:
+ ## Modules Overview:
  * __handling.py__         :  Functions related to configuration, importing/exporting, and other sorts of back-end useful tasks.
- * __arbitrage.py__        :  Data Pre-Analysis, Transformations, and other preparation to be fed into the learning algorythm.
- * __recognition.py__      :  The real Meat-and-Potatoes! Setup, Training, and output from whatever ML Algorithms we use.
- * __data_reporting.py__   :  Output and reporting of any/all discoveries, maybe with an eye to long-term evolution and improving the quality and speed of the program.
- * __yNot.py__             :  Home for everything else that seems useful but doesn't fall into one of the other functions! (Probably will contain any/all of the User Interface tools we may or may not work on).
+ * __arbitrage.py__        :  Data Pre-Analysis, Transformations, and other preparation to be fed into the learning algorithm.
+ * __recognition.py__      :  Setup, training and testing of single convolutional neural network (CNN) or hyperparameters optimization for CNNs.
+ * __data_reporting.py__   :  Output and reporting of any/all results. Tabular summary of runs, visual performance comparison, as well as parallel coordinate plots and feature maps 
+ * __yNot.py__             :  Home for everything else that seems useful but doesn't fall into one of the other functions! 
  
  
  
