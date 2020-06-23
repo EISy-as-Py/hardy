@@ -8,9 +8,10 @@
  _"Handling Arbitrary Recognition of Data, y not?"_
 A package to assist in discovery, research, and classification of YOUR data, no matter who you are! 
 
-Our favorite Links:
-* [Travis](https://travis-ci.org/github/EISy-as-Py/hardy)
-* [ReadtheDocs](www.google.com)
+## Installation:
+Use the following steps to install the HARDy package:
+* In the terminal run, <code>git clone https://github.com/EISy-as-Py/hardy.git<code>
+* 'pip' and 'conda' install is coming soon 
 
 WORK IN PROGRESS - Please feel free to provide feedback and expand on our vision!
 -----------------------------------------------------------------
