@@ -8,6 +8,10 @@
  _"Handling Arbitrary Recognition of Data, y not?"_
 A package to assist in discovery, research, and classification of YOUR data, no matter who you are! 
 
+## Project Objective
+
+Numerical and visual transformation of experimental data to improve its classification and cataloging 
+
 Our favorite Links:
 * [Travis](https://travis-ci.org/github/EISy-as-Py/hardy)
 * [ReadtheDocs](www.google.com)
@@ -33,7 +37,7 @@ HARDy uses Keras for training Convolutional Neural Network & Keras-tuner for the
 
 <img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/information_flow.png" width=500 p align="center" />
 
-An example jupyter notebook to run HARDy using single script is available at this link <a href=#><code>Example Notebook</code></a> 
+An example jupyter notebook to run HARDy using single script is available at this link <a href=https://github.com/EISy-as-Py/hardy/blob/master/doc/example_HARDy_script.md>Example Notebook</code></a> 
 
 To perform various transformations, training Neural Network and Hyperparameter Optimization, Hardy utilizes following <code>.yaml</code> configuration files:
 
@@ -43,6 +47,11 @@ To perform various transformations, training Neural Network and Hyperparameter O
 
 The instructions for modifying or writing your own configuration file can be accessed by clicking on the configuration files listed above.
 
+## Visualization 
+ In order to increase the density of data presented to the convolutional neural network and add a visual transfortmation of the data, we adopted a new plotting technique that takes advantage of how images are read by computers. Using color images, we were able to encode the experimental data in the pixel value, using different series per each image channel. The results are data- dense images, which are also pretty to look at.
+ 
+ <img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/data_visualization.png" width=500 p align="center" />
+ 
  
 ## Mission:
 We have been commissioned by Professor Lilo Pozzo to create a new tool for research and discovery, For her lab and for high throughput researchers everywhere. 
@@ -56,7 +65,12 @@ Our vision of the final product:
     * What Data "Fingerprints" should we pay the most attention to? 
  * Present a User Interface, to allow non-programmers to interact with and use the chosen classifier(s?) in their work.
  
-
+ ## Use Cases:
+ The package is designed to deal wiht a diverse set of labeled data. These are some of the use cases we see benefitting from using the _HARDy_ package. 
+ 
+ <img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/use_cases.png" width=500 p align="center" />
+ 
+ 
  ## Modules and Goals:
  * __handling.py__         :  Functions related to configuration, importing/exporting, and other sorts of back-end useful tasks.
  * __arbitrage.py__        :  Data Pre-Analysis, Transformations, and other preparation to be fed into the learning algorythm.
