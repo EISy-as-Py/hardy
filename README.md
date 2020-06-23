@@ -12,8 +12,36 @@ Our favorite Links:
 * [Travis](https://travis-ci.org/github/EISy-as-Py/hardy)
 * [ReadtheDocs](www.google.com)
 
-WORK IN PROGRESS - Please feel free to provide feedback and expand on our vision!
------------------------------------------------------------------
+## Requirements:
+Package HARDy has following main dependencies:
+1. Python => 3.6
+2. Tensorflow = 2.0
+
+The detailed list of dependencies is reflected in the <a href=https://github.com/EISy-as-Py/hardy/blob/master/environment.yml><code>environment.yml</code></a> file
+
+## Installation:
+The package HARDy can be installed using following steps:
+1. In your terminal, run <code>git clone https://github.com/EISy-as-Py/hardy.git</code>
+2. Change the directory to hardy root directory
+3. Run <code>python setup.py install</code> 
+4. To check installation run, <code>python -c "import hardy"</code> in your terminal
+
+
+## Usage:
+
+HARDy uses Keras for training Convolutional Neural Network & Keras-tuner for the hyperparameter optimization. The flow of information is shown in image below [insert flowdiagram]
+
+An example jupyter notebook to run HARDy using single script is available at this link <a href=#><code>Example Notebook</code></a> 
+
+To perform various transformations, training Neural Network and Hyperparameter Optimization, Hardy utilizes following <code>.yaml</code> configuration files:
+
+* <a href=https://github.com/EISy-as-Py/hardy/blob/master/hardy/arbitrage/README.md>tform_config.yaml</a>
+* <a href=https://github.com/EISy-as-Py/hardy/blob/master/hardy/recognition/README.md>cnn_config.yaml</a>
+* <a href=https://github.com/EISy-as-Py/hardy/blob/master/hardy/recognition/README.md>tuner_config.yaml</a>
+
+The instructions for modifying or writing your own configuration file can be accessed by clicking on the configuration files listed above.
+
+ 
 ## Mission:
 We have been commissioned by Professor Lilo Pozzo to create a new tool for research and discovery, For her lab and for high throughput researchers everywhere. 
 Our vision of the final product:
@@ -26,11 +54,11 @@ Our vision of the final product:
     * What Data "Fingerprints" should we pay the most attention to? 
  * Present a User Interface, to allow non-programmers to interact with and use the chosen classifier(s?) in their work.
  
- ------------------------------------------------------------------
+
  ## Modules and Goals:
  * __handling.py__         :  Functions related to configuration, importing/exporting, and other sorts of back-end useful tasks.
  * __arbitrage.py__        :  Data Pre-Analysis, Transformations, and other preparation to be fed into the learning algorythm.
- * __recognition.py__      :  The real Meat-and-Potatoes! Setup, Training, and output from whatever ML Algorythm(s?) we use.
+ * __recognition.py__      :  The real Meat-and-Potatoes! Setup, Training, and output from whatever ML Algorithms we use.
  * __data_reporting.py__   :  Output and reporting of any/all discoveries, maybe with an eye to long-term evolution and improving the quality and speed of the program.
  * __yNot.py__             :  Home for everything else that seems useful but doesn't fall into one of the other functions! (Probably will contain any/all of the User Interface tools we may or may not work on).
  

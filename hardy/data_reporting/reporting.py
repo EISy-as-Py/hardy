@@ -1,5 +1,6 @@
 # add funcitons to summarize and visualize the summary reports from the
 # the hardy run
+import numpy as np
 import os
 import yaml
 import numpy as np
@@ -135,7 +136,8 @@ def report_plots(hyperparam_df, history_df):
                   values=hyperparam_df['activation_function']),
              dict(label='Optimizer', values=hyperparam_df['optimizer']),
              dict(label='Pooling', values=hyperparam_df['pooling'].values),
-             dict(label='Accuracy', values=hyperparam_df['test_accuracy'],
+             dict(label='Accuracy',
+                  values=np.round(hyperparam_df['test_accuracy'], 3),
                   categoryorder='category descending'), ])))
 
     fig2.update_layout(dict(font=dict(size=12)),

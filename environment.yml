@@ -30,7 +30,6 @@ dependencies:
   - scipy
   - setuptools
   - scikit-learn
-  - tensorflow==2.0
   - testpath
   - tk
   - terminaltables
@@ -42,6 +41,7 @@ dependencies:
     - opt-einsum
     - plotly==4.8.1
     - selenium
+    - tensorflow==2.0
     - tqdm
     - urllib3
 prefix: /home/amoeez/anaconda3/envs/EISy-as-Py
