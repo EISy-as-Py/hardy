@@ -1,7 +1,7 @@
 ## Instructions for using Convolutional Neural Network Config files
 
 
-## Config for CNN
+### Configuration file for CNN
 
 
 For the recognition section of the package, there are two separate configuration files:
@@ -19,7 +19,7 @@ __Note__: Make sure that the hyperparameters found in the config. file are also 
 <img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart_cnn_config.PNG" width=500 p align="center" />
 
 
-## Config for Hyperparameter Optimization
+### Configuration file for Hyperparameter Optimization
 
 * __tuner_config.yaml__
     
