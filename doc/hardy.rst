@@ -6,10 +6,10 @@ Subpackages
 
 .. toctree::
 
-   hardy.classifier
-   hardy.data_processing
-   hardy.data_transformation
-   hardy.test
+   hardy.handling
+   hardy.arbitrage
+   hardy.recognition
+   hardy.data_reporting
 
 Submodules
 ----------

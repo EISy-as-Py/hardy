@@ -1,0 +1,989 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hardy.handling package &mdash; hardy.py 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> hardy.py
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">hardy</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">hardy.py</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>hardy.handling package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/hardy.handling.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="hardy-handling-package">
+<h1>hardy.handling package<a class="headerlink" href="#hardy-handling-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-hardy.handling.handling">
+<span id="hardy-handling-handling-module"></span><h2>hardy.handling.handling module<a class="headerlink" href="#module-hardy.handling.handling" title="Permalink to this headline">¶</a></h2>
+<p>Created on Tue Apr 21 19:03:40 2020
+&#64;author: hurtd</p>
+<dl>
+<dt>The zeroth-level functions, related to importing and setting up data.</dt><dd><blockquote>
+<div><p>The twin goals are to be fast, but also as broad and thoughtful about
+the data we may import as possible.</p>
+</div></blockquote>
+<dl>
+<dt>We may crib from work done in eisy/data_managment.py since we contributed</dt><dd><p>to both project.</p>
+</dd>
+<dt>__Note:__ Some of this may have Options to User-Interface,</dt><dd><p>which is great but should DEFAULT be off, so we don’t deal with it
+during Automated Processes!
+(Similarly, travis doesn’t like User-Interfacing…)</p>
+<p>ALSO: Many functions will be copied over from project EISy, which we
+wrote in March of 2020 and is similarly useful here.</p>
+</dd>
+<dt>__Timeline + <a href="#id1"><span class="problematic" id="id2">Milestones__</span></a>:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>2020-04-21: Basic 2D, 3D importer that works with</dt><dd><p>the simple files we’re using</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>2020-04-28: Importer that works with each of the Raw Data types</dt><dd><p>that we’re using as part of our part-1 program. __HAND OFF!__</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>2020-05-12: Debugging and Tests that cover some basic and logical</dt><dd><p>use-cases (header, Too-Many-Columns, etc)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>2020-06-09: “Smart-ish” handling of the use cases mentioned. This should</dt><dd><p>be the final __HAND <a href="#id1"><span class="problematic" id="id3">OFF__</span></a></p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt>__Current <a href="#id1"><span class="problematic" id="id4">Status__</span></a>:</dt><dd><ul class="simple">
+<li><p>(2020-04-14)</p></li>
+<li><p>Just creating files and setup, no progress yet</p></li>
+<li><p>Planning Functions, in compontent spec document (here!)</p></li>
+<li><p>Considering how much to Frankenstien from prior work.</p></li>
+</ul>
+</dd>
+</dl>
+<p>__Module <a href="#id1"><span class="problematic" id="id5">List__</span></a>:
+#### import_2d():</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>Basic file to import a csv that has two columns</dt><dd><p>(with or without column names?) - Essentially pd.read_csv,
+but with error handling to work better in our program and deal with index</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>INPUT: filepath/name, error-handling instructions</dt><dd><p>(interact=False, return2=True, etc)</p>
+</dd>
+</dl>
+</li>
+<li><p>OUTPUT: x_data, y_data  &lt;– Two (Tuples? Series? Discuss) 1D datasets</p></li>
+<li><dl class="simple">
+<dt>ACTIONS: Checks that the file is actualy 2D data -</dt><dd><p>if not, either asks for guidance, errors, or
+returns the first two columns depending on instructions</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<dl class="simple">
+<dt>#### import_3d():</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Basic file to import a csv that has three columns</dt><dd><p>(with or without column names?) - Essentially pd.read_csv,
+but with error handling to work better in our program</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>INPUT: filepath/name, error-handling instructions</dt><dd><p>(interact=False, return3=True)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>OUTPUT: x_data, y_data, z_data  &lt;– Three</dt><dd><p>(Tuples? Series? Discuss) 1D datasets</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>ACTIONS: Checks that the file is actualy 3D data - if not,</dt><dd><p>either asks for guidance, errors, or returns the
+first three columns depending on instructions</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt>#### get_classification_files():</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Our project will expect a specific though simple folder structure:</dt><dd><p>main __”/train/”__ data folder will have (2? more?)
+classification folders with the classifier names as the
+folder names - inside will be all the raw data in (csv?) format.</p>
+</dd>
+</dl>
+</li>
+<li><p>INPUT: Base folder containing classified data folders</p></li>
+<li><dl class="simple">
+<dt>OUTPUT: Dictionary, where keys are the classifications (folder names)</dt><dd><p>and each have a (tuple/list) of file names to load</p>
+</dd>
+</dl>
+</li>
+<li><p>ACTIONS: Checks the file and data format. May try and load one/more files?</p></li>
+<li><dl class="simple">
+<dt>NOTE: Should we estimate size of all files and eventually try and</dt><dd><p>estimate program-time? that may be useful…</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="section" id="section-1-files-to-import-list">
+<h3>—SECTION 1 : Files to Import List   —————————————–<a class="headerlink" href="#section-1-files-to-import-list" title="Permalink to this headline">¶</a></h3>
+<hr class="docutils" />
+<dl class="py function">
+<dt id="hardy.handling.handling.ask_file_list">
+<code class="sig-prename descclassname">hardy.handling.handling.</code><code class="sig-name descname">ask_file_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.handling.ask_file_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alternative to get_file_list, just makes a tkinter window and asks the user
+to select the files. Written easiy so we don’t have to remember tkinter</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.handling.cats_from_fnames">
+<code class="sig-prename descclassname">hardy.handling.handling.</code><code class="sig-name descname">cats_from_fnames</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_list</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">expect</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">print_ok</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">from_serials</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.handling.cats_from_fnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of file names, determine if there are classifying endings
+that split the data into “expect” (default 2) Groups.</p>
+<p>(Also report the population of those groups. Return it?)
+(Also, maybe give option to split the file names by category?</p>
+<blockquote>
+<div><p>If not, would default return_split=False)</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Option from_serials, to be used if the file name extensions are already</dt><dd><p>clipped off (aka we’re passing serial ID info instead of fnames)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.handling.check_dir_path">
+<code class="sig-prename descclassname">hardy.handling.handling.</code><code class="sig-name descname">check_dir_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dir_path</span></em>, <em class="sig-param"><span class="n">files_contain</span><span class="o">=</span><span class="default_value">['.csv']</span></em>, <em class="sig-param"><span class="n">n_required</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">raise_err</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.handling.check_dir_path" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Check if a directory contains the files you want:</dt><dd><dl class="simple">
+<dt>INPUTS:</dt><dd><ul class="simple">
+<li><p>Path to check (required)</p></li>
+<li><dl class="simple">
+<dt>LIST of strings to check. Files must contain ALL strings to pass.</dt><dd><p>(Default is set to look for .csv)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Number of successful files required to pass the test</dt><dd><p>(Default is 1 file)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Failure Handling. whether to Return Failure or raise an Error.</dt><dd><p>(Default is FALSE, which will not raise errors.)</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt>OUTPUTS:</dt><dd><ul class="simple">
+<li><p>BOOLEAN (T/F), did we find all the required files?</p></li>
+<li><p>Error Message, to use in selecting a folder if we failed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.handling.get_file_list">
+<code class="sig-prename descclassname">hardy.handling.handling.</code><code class="sig-name descname">get_file_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dir_path</span><span class="o">=</span><span class="default_value">'../local_data'</span></em>, <em class="sig-param"><span class="n">str_has</span><span class="o">=</span><span class="default_value">['.']</span></em>, <em class="sig-param"><span class="n">str_inc</span><span class="o">=</span><span class="default_value">['.']</span></em>, <em class="sig-param"><span class="n">ftype</span><span class="o">=</span><span class="default_value">'csv'</span></em>, <em class="sig-param"><span class="n">interact</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.handling.get_file_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of file paths to open, which fulfill certain criteria.
+(Alternative to single/multiselect File Dialog, or hard-coded file names</p>
+<blockquote>
+<div><dl class="simple">
+<dt>INPUTS:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Path to check initially.</dt><dd><p>(hard-coded default for now. can we globally config?)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Basic filter parameters, defaults just for testing now.</dt><dd><p>str_has: AND filter (Must contain all in list)
+str_inc: OR  filter (Must contain at least one)</p>
+</dd>
+</dl>
+</li>
+<li><p>File type to check for. Default csv</p></li>
+<li><p>whether to use file dialogs if the path fails, or just error out.</p></li>
+</ul>
+</dd>
+<dt>OUTPUTS:</dt><dd><ul class="simple">
+<li><p>TUPLE of file names that pass the tests (built as list)</p></li>
+<li><p>Final (successful) directory path used. (from cwd, or from base)</p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-hardy.handling.pre_processing">
+<span id="hardy-handling-pre-processing-module"></span><h2>hardy.handling.pre_processing module<a class="headerlink" href="#module-hardy.handling.pre_processing" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hardy.handling.pre_processing.classes_folder_split">
+<code class="sig-prename descclassname">hardy.handling.pre_processing.</code><code class="sig-name descname">classes_folder_split</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">classes</span><span class="o">=</span><span class="default_value">['noise', '']</span></em>, <em class="sig-param"><span class="n">class_folder</span><span class="o">=</span><span class="default_value">['noisy', 'not_noisy']</span></em>, <em class="sig-param"><span class="n">file_extension</span><span class="o">=</span><span class="default_value">'.png'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.pre_processing.classes_folder_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Functions that separates the files into folders
+representing each class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – string containing the path to the files where to create the
+training and validation sets folders</p></li>
+<li><p><strong>classes</strong> (<em>list</em>) – A list containing strings of the classes the data is divided in.
+The classes are contained in the filename as labels.</p></li>
+<li><p><strong>class_folder</strong> (<em>list</em>) – A list of string containing the name of the folders to be
+create to split the files into the right classes.</p></li>
+<li><p><strong>file_extension</strong> (<em>str</em>) – the extension of the file to be moved. The default value is
+.png</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>list_of_folders</strong> – A list of stings representing the path of the new folders
+created while splitting the data into classes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.pre_processing.hold_out_test_set">
+<code class="sig-prename descclassname">hardy.handling.pre_processing.</code><code class="sig-name descname">hold_out_test_set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">number_of_files_per_class</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">classes</span><span class="o">=</span><span class="default_value">['noise', '']</span></em>, <em class="sig-param"><span class="n">file_extension</span><span class="o">=</span><span class="default_value">'.csv'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.pre_processing.hold_out_test_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Functions that returns a list of filenames
+of the randomly selected files to compose the test set</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – string containing the path to the files to select from
+the test set from.</p></li>
+<li><p><strong>number_of_files_per_class</strong> (<em>int</em>) – The number of files to select from each class.</p></li>
+<li><p><strong>classes</strong> (<em>list</em>) – a list containing strings of the classes the data is divided in.
+The classes are contained in the filename as labels.</p></li>
+<li><p><strong>file_extension</strong> (<em>str</em>) – the extension of the file to read. The default value is
+.csv</p></li>
+<li><p><strong>image_list</strong> (<em>np.array</em>) – numpy array representing file names, image data and labels</p></li>
+<li><p><strong>iterator_mode</strong> (<em>str</em>) – string representing if the data provided is in arrays</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>test_set_serialnumbers</strong> – A list containig the strings of filenames
+randomly selected to be part of the test set.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.pre_processing.save_to_folder">
+<code class="sig-prename descclassname">hardy.handling.pre_processing.</code><code class="sig-name descname">save_to_folder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_path</span></em>, <em class="sig-param"><span class="n">project_name</span></em>, <em class="sig-param"><span class="n">run_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.pre_processing.save_to_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that creates a new path to the folder for a specific
+transformation. The transformation folder will be nested in a
+run folder named using the run date and the project name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_path</strong> (<em>str</em>) – String containing the path to the .csv files</p></li>
+<li><p><strong>project_name</strong> (<em>str</em>) – String representing the project name. This will be used to
+name the folder containing the results from the hardy run</p></li>
+<li><p><strong>run_name</strong> (<em>str</em>) – String representing the transformation applied to
+the data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>transformation_folder_path</strong> – String representing the path to the newly
+generated path</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.pre_processing.test_set_folder">
+<code class="sig-prename descclassname">hardy.handling.pre_processing.</code><code class="sig-name descname">test_set_folder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">test_set_filenames</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.pre_processing.test_set_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Functions that removes the files randomly chosen to be part of the
+test set and saves them intothe test_set folder</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – string containing the path where to create a test set folder</p></li>
+<li><p><strong>test_set_filenames</strong> (<em>list</em>) – The list containig the strings of filenames
+randomly selected to be part of the test set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>test_set_folder</strong> – A string containging the path to the test set folder.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hardy.handling.to_catalogue">
+<span id="hardy-handling-to-catalogue-module"></span><h2>hardy.handling.to_catalogue module<a class="headerlink" href="#module-hardy.handling.to_catalogue" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hardy.handling.to_catalogue.data_set_split">
+<code class="sig-prename descclassname">hardy.handling.to_catalogue.</code><code class="sig-name descname">data_set_split</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image_list</span></em>, <em class="sig-param"><span class="n">test_set_filenames</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.to_catalogue.data_set_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that splits the list of image arrays into a test set and a
+learning setto use for the classification step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_list</strong> (<em>list</em>) – A list of tuples containing the filenames, the arrays
+reoresenitng the images and their labels</p></li>
+<li><p><strong>test_set_filenames</strong> (<em>list</em>) – List of strings containig the filename of the datasets
+selected to the be in the test set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>test_set_list</strong> (<em>list</em>) – A list of tuples containing the filenames, the arrays
+reoresenitng the images and their labels to be used as
+the test set</p></li>
+<li><p><strong>learning_set_list</strong> (<em>list</em>) – A list of tuples containing the filenames, the arrays
+reoresenitng the images and their labels to be used as
+the learning set</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.to_catalogue.learning_set">
+<code class="sig-prename descclassname">hardy.handling.to_catalogue.</code><code class="sig-name descname">learning_set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">split</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">target_size</span><span class="o">=</span><span class="default_value">80, 80</span></em>, <em class="sig-param"><span class="n">classes</span><span class="o">=</span><span class="default_value">['noisy', 'not_noisy']</span></em>, <em class="sig-param"><span class="n">batch_size</span><span class="o">=</span><span class="default_value">32</span></em>, <em class="sig-param"><span class="n">color_mode</span><span class="o">=</span><span class="default_value">'rgb'</span></em>, <em class="sig-param"><span class="n">iterator_mode</span><span class="o">=</span><span class="default_value">'arrays'</span></em>, <em class="sig-param"><span class="n">image_list</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.to_catalogue.learning_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>A funciton that will create an iterator for the files representing the
+learning sets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – A string containing the path to the files to use for the learning set</p></li>
+<li><p><strong>split</strong> (<em>float</em>) – A number between 0 and 1 representing which percentage of the data
+will compose the validation set</p></li>
+<li><p><strong>target_size</strong> (<em>tuple</em>) – A tuple containing the dimentions of the image to be inputted
+in the model</p></li>
+<li><p><strong>classes</strong> (<em>list</em>) – A list containing strings of the classes the data is divided in.
+The class name represent the folder name the files are contained
+in.</p></li>
+<li><p><strong>batch_size</strong> (<em>int</em>) – The number of files to group up into a batch</p></li>
+<li><p><strong>color_mode</strong> (<em>str</em>) – Either grayscale or rgb</p></li>
+<li><p><strong>iterator_mode</strong> (<em>str</em>) – string indicating which Keras IamgeDataGenerator mode
+to use. Options are ‘arrays’ or ‘images’. The first will
+use the “flow” option, the second will use
+“flow_from_directory” option</p></li>
+<li><p><strong>image_list</strong> (<em>list</em>) – The list of tuples in the following format
+(filenames, image_array, label)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>training_set</strong> (<em>Keras image iterator</em>) – The training set containg labelled images</p></li>
+<li><p><strong>validation_set</strong> (<em>Keras image iterator</em>) – The training set containg labelled images</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.to_catalogue.regular_plot_list">
+<code class="sig-prename descclassname">hardy.handling.to_catalogue.</code><code class="sig-name descname">regular_plot_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_tuples</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.to_catalogue.regular_plot_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of tuples containing the arrays of images
+representing x-y plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_tuples</strong> (<em>list of tuples</em>) – <dl class="simple">
+<dt>The list of tuples in the following format</dt><dd><p>(filenames, dataframe, label)</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>list_of_rgb_tuples</strong> – The list of tuples in the following format
+(filename, image array, label)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of tuples</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.to_catalogue.rgb_list">
+<code class="sig-prename descclassname">hardy.handling.to_catalogue.</code><code class="sig-name descname">rgb_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_tuples</span></em>, <em class="sig-param"><span class="n">plot_format</span><span class="o">=</span><span class="default_value">'RgBrGb'</span></em>, <em class="sig-param"><span class="n">column_names</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">combine_method</span><span class="o">=</span><span class="default_value">'add'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.to_catalogue.rgb_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input a path of csv files (with some guidance),
+Plot them RGB-wise into images
+return a list of tuples as to be fed into the keras PreProcess f(n)</p>
+<dl>
+<dt>INPUTS:</dt><dd><dl class="simple">
+<dt>data_tuples<span class="classifier">list of tuples</span></dt><dd><p>following the convention:
+(SERIAL, DataFrame, LABEL)
+(see below…)</p>
+</dd>
+<dt>plot_format<span class="classifier">string</span></dt><dd><dl class="simple">
+<dt>to pass into rgb_visualize</dt><dd><p>“single”, “else”, or some “RGBrgb”…
+DEFAULT: “RgBrGb”? Discuss with group!!!</p>
+</dd>
+</dl>
+</dd>
+<dt>combine_method :string</dt><dd><p>to pass into rgb_visualize</p>
+</dd>
+<dt>column names<span class="classifier">list of strings (Optional)</span></dt><dd><dl class="simple">
+<dt>IF given, will drop all columns not in the</dt><dd><p>list given. (If no colums match, will ERROR.)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt>RETURNS</dt><dd><dl class="simple">
+<dt>list_of_rgb_tuples<span class="classifier">list of tuples</span></dt><dd><p>following the format: (SERIAL, IMG, LABEL)</p>
+</dd>
+<dt>SERIAL<span class="classifier">File name with the extension taken off</span></dt><dd><p>(We should parse with . not just [-4])…</p>
+</dd>
+</dl>
+<p>IMG         :   ndarray of NxNx3</p>
+<dl class="simple">
+<dt>LABEL<span class="classifier">Classification label, either from the passed list</span></dt><dd><p>or from the last part of the serial/filename:
+“123847_afsukjeh_*LABEL*.csv””</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.to_catalogue.rgb_list_to_DirFlow">
+<code class="sig-prename descclassname">hardy.handling.to_catalogue.</code><code class="sig-name descname">rgb_list_to_DirFlow</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rgb_tuples</span></em>, <em class="sig-param"><span class="n">basepath</span></em>, <em class="sig-param"><span class="n">newfolder</span><span class="o">=</span><span class="default_value">'rbg_for_keras'</span></em>, <em class="sig-param"><span class="n">delete_existing</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.to_catalogue.rgb_list_to_DirFlow" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Takes the list of tuples (as made in “rgb_list”) and creates the exact</dt><dd><p>file structure of saved PNG images that will be used in the
+“KERAS FLOW FROM DIRECTORY” method.</p>
+</dd>
+<dt>Also will save a log file in the base path (csv? or look for log?)</dt><dd><p>describing the</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.to_catalogue.rgb_visualize">
+<code class="sig-prename descclassname">hardy.handling.to_catalogue.</code><code class="sig-name descname">rgb_visualize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fdata</span></em>, <em class="sig-param"><span class="n">plot_format</span><span class="o">=</span><span class="default_value">'RGBrgb'</span></em>, <em class="sig-param"><span class="n">combine_method</span><span class="o">=</span><span class="default_value">'add'</span></em>, <em class="sig-param"><span class="n">column_names</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.to_catalogue.rgb_visualize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input a list of dataframes (already read and/or processed),
+Plot them RGB-wise into images
+return a list of tuples as to be fed into the keras PreProcess f(n)</p>
+<dl>
+<dt>INPUTS:</dt><dd><dl>
+<dt>plot_format<span class="classifier">EITHER ‘single’ (bodge, depreciate later)</span></dt><dd><p>OR some combination of “RGBrgb”, which will be
+the order of columns plotted:
+R = red   X-axis      r = red   Y-axis
+G = green X-axis      g = green Y-axis
+B = blue  X-axis      b = blue   Y-axis</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>X = do not plot (skip column)</p></li>
+</ul>
+<dl class="simple">
+<dt>** If RGBrgb letters are missing, simply pass</dt><dd><p>to the plotting function as “None”</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>The to-be-depreciated ‘single’ is thus:</dt><dd><p>“RB”</p>
+</dd>
+<dt>The As-written “else” is thus:</dt><dd><p>“Rb”</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>combine_method: “add” or “mlt” - which visualization fn to use</p>
+</dd>
+</dl>
+<p>RETURNS</p>
+<p>list_of_tuples  :   list of tuples, following: (SERIAL, IMG, LABEL)</p>
+<blockquote>
+<div><dl class="simple">
+<dt>SERIAL<span class="classifier">File name with the extension taken off</span></dt><dd><p>(We should parse with . not just [-4])</p>
+</dd>
+</dl>
+<p>IMG         :   ndarray of NxNx3</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.to_catalogue.save_load_data">
+<code class="sig-prename descclassname">hardy.handling.to_catalogue.</code><code class="sig-name descname">save_load_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">load</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">file_extension</span><span class="o">=</span><span class="default_value">'.npy'</span></em>, <em class="sig-param"><span class="n">location</span><span class="o">=</span><span class="default_value">'./'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.to_catalogue.save_load_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to save and load data</p>
+<p>Function that can save or load data depending on given parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – string indicating the filename for saving or loading dataset.</p></li>
+<li><p><strong>data</strong> (<em>list</em>) – dataset that is to be saved or loaded.</p></li>
+<li><p><strong>save</strong> (<em>bool</em>) – boolean value if true saves the compressed dataset.</p></li>
+<li><p><strong>load</strong> (<em>bool</em>) – boolean value if true loads the compressed dataset.</p></li>
+<li><p><strong>file_extension</strong> (<em>str</em>) – String containing the file extension to use</p></li>
+<li><p><strong>location</strong> (<em>str</em>) – string containing the path to the folder to save the
+pickled file in</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>loaded_data</strong> – dataset that is loaded from the specified location</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.to_catalogue.test_set">
+<code class="sig-prename descclassname">hardy.handling.to_catalogue.</code><code class="sig-name descname">test_set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">target_size</span><span class="o">=</span><span class="default_value">80, 80</span></em>, <em class="sig-param"><span class="n">classes</span><span class="o">=</span><span class="default_value">['noisy', 'not_noisy']</span></em>, <em class="sig-param"><span class="n">batch_size</span><span class="o">=</span><span class="default_value">32</span></em>, <em class="sig-param"><span class="n">color_mode</span><span class="o">=</span><span class="default_value">'rgb'</span></em>, <em class="sig-param"><span class="n">iterator_mode</span><span class="o">=</span><span class="default_value">'arrays'</span></em>, <em class="sig-param"><span class="n">image_list</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.to_catalogue.test_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>A funciton that will create an iterator for the files representing the
+test set</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – A string containing the path to the files to use for the test set</p></li>
+<li><p><strong>target_size</strong> (<em>tuple</em>) – A tuple containing the dimentions of the image to be inputted
+in the model</p></li>
+<li><p><strong>classes</strong> (<em>list</em>) – A list containing strings of the classes the data is divided in.
+The class name represent the folder name the files are contained
+in.</p></li>
+<li><p><strong>batch_size</strong> (<em>int</em>) – The number of files to group up into a batch</p></li>
+<li><p><strong>color_mode</strong> (<em>str</em>) – Either grayscale or rgb</p></li>
+<li><p><strong>iterator_mode</strong> (<em>str</em>) – string indicating which Keras IamgeDataGenerator mode
+to use. Options are ‘arrays’ or ‘images’. The first will
+use the “flow” option, the second will use
+“flow_from_directory” option</p></li>
+<li><p><strong>image_list</strong> (<em>list</em>) – The list of tuples in the following format
+(filenames, image_array, label)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>test_set</strong> – The testing set containg labelled images that was not part of
+the learning dataset</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Keras image iterator</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hardy.handling.version">
+<span id="hardy-handling-version-module"></span><h2>hardy.handling.version module<a class="headerlink" href="#module-hardy.handling.version" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-hardy.handling.visualization">
+<span id="hardy-handling-visualization-module"></span><h2>hardy.handling.visualization module<a class="headerlink" href="#module-hardy.handling.visualization" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hardy.handling.visualization.get_img_from_fig">
+<code class="sig-prename descclassname">hardy.handling.visualization.</code><code class="sig-name descname">get_img_from_fig</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fig</span></em>, <em class="sig-param"><span class="n">dpi</span><span class="o">=</span><span class="default_value">100</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.visualization.get_img_from_fig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms a matplotlib figure into an array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fig</strong> (<em>matplotlib figure</em>) – The figure containing the x-y plot of the data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>img</strong> – A numpy arrays representing the image. Iamge will be in rgb mode</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.visualization.normalize">
+<code class="sig-prename descclassname">hardy.handling.visualization.</code><code class="sig-name descname">normalize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">impedance_array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.visualization.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that returns a normalized impedance_array</p>
+<p>The function takes the maximum value of an array and divides each entry of
+the array by it. Additionally, if the minimum of the array is negative, it
+shifts it to zero, so that the resulting normalized array will have a range
+zero to one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>impedance_array</strong> (<em>array-like</em>) – the array to be normalized.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>normalized_impedance_array</strong> – the normalized array. All entries in this
+array should be values in the range
+zero to one.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.visualization.normalize_image">
+<code class="sig-prename descclassname">hardy.handling.visualization.</code><code class="sig-name descname">normalize_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">color_image_array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.visualization.normalize_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that normalizes a color image array.
+The color image array will ahve dimensions (n,n, 3).
+The ‘n’ value will depends on how big your image is</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>color_image_array</strong> (<em>array-like</em>) – a multidimentional array of shape (n,n,3)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>normalized_image</strong> – the normalized image array. All entries in this
+array should be values in the range zero to one.
+The image shape should still be (n,n,3)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.visualization.orthogonal_images_add">
+<code class="sig-prename descclassname">hardy.handling.visualization.</code><code class="sig-name descname">orthogonal_images_add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image_x</span></em>, <em class="sig-param"><span class="n">image_y</span></em>, <em class="sig-param"><span class="n">plot</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">save_image</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save_location</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.visualization.orthogonal_images_add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes two images and combines them by rotating one of
+them 90 degrees and adds the two up. The resulting array
+is then normalized by channel.
+Takes in two images of shape=(ARBITRARY, Data-axis, 3)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_x</strong> (<em>array-like</em>) – A multidimentional array of shape (n,n,3) with
+entries in range zero to one</p></li>
+<li><p><strong>image_y</strong> (<em>array-like</em>) – A multidimentional array of shape (n,n,3) with
+entries in range zero to one</p></li>
+<li><p><strong>plot</strong> (<em>bool</em>) – if True, the color gradient representation of the data will be
+displayed</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – The filename will be the same as the .csv containing the data
+used to create this plot.</p></li>
+<li><p><strong>save_location</strong> (<em>str</em>) – String containing the path of the forlder to use when
+saving the data and the image.</p></li>
+<li><p><strong>save_image</strong> (<em>bool</em>) – Option to save the output of the simuation as a plot
+in a .png file format.
+The filename used for the file will be the same
+as the raw data file created in this function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>combined_image</strong> – Plot representing the data as a color gradient on the
+x-axis and on the y-axis in one of the three basic
+colors: red, blue or green</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>matplotlib plot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.visualization.orthogonal_images_mlt">
+<code class="sig-prename descclassname">hardy.handling.visualization.</code><code class="sig-name descname">orthogonal_images_mlt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image_x</span></em>, <em class="sig-param"><span class="n">image_y</span></em>, <em class="sig-param"><span class="n">plot</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">save_image</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save_location</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.visualization.orthogonal_images_mlt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes two images and combines them by rotating one of
+them 90 degrees and multiplies them.
+Takes in two images of shape=(ARBITRARY, Data-axis, 3)</p>
+<dl class="simple">
+<dt>NOTE: If one axis of a color (Red X) has data but the other (Red Y)</dt><dd><p>has nothing, we should Replace the Zero-array with a Ones-Array!</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_x</strong> (<em>array-like</em>) – A multidimentional array of shape (n,n,3) with
+entries in range zero to one</p></li>
+<li><p><strong>image_y</strong> (<em>array-like</em>) – A multidimentional array of shape (n,n,3) with
+entries in range zero to one</p></li>
+<li><p><strong>plot</strong> (<em>bool</em>) – if True, the color gradient representation of the data will be
+displayed</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – The filename will be the same as the .csv containing the data
+used to create this plot.</p></li>
+<li><p><strong>save_location</strong> (<em>str</em>) – String containing the path of the forlder to use when
+saving the data and the image.</p></li>
+<li><p><strong>save_image</strong> (<em>bool</em>) – Option to save the output of the simuation as a plot
+in a .png file format.
+The filename used for the file will be the same
+as the raw data file created in this function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>combined_image</strong> – Plot representing the data as a color gradient on the
+x-axis and on the y-axis in one of the three basic
+colors: red, blue or green</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>matplotlib plot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.visualization.regular_plot">
+<code class="sig-prename descclassname">hardy.handling.visualization.</code><code class="sig-name descname">regular_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tform_df_tuple</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.visualization.regular_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that generates standard x-y plots</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tform_df_tuple</strong> (<em>list</em>) – The list of tuples in the following format
+(filenames, dataframe, label)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>img</strong> – A numpy arrays representing the image. Iamge will be in rgb mode</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hardy.handling.visualization.rgb_plot">
+<code class="sig-prename descclassname">hardy.handling.visualization.</code><code class="sig-name descname">rgb_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">red_array</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">green_array</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">blue_array</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">plot</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">save_image</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save_location</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hardy.handling.visualization.rgb_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a plot which represents the input data as a color gradient of
+one of the three color channels available: red, blue or green.</p>
+<p>This function represents the data as a color gradient in one of the three
+basic colors: red, blue or green. The color gradient is represented on the
+x-axis, leaving the y-axis as an arbitrary one. This means that the size or
+the scale of the y-axis do not have a numerical significance. The input
+arrays shoudld be of range zero to one. A minimum of one array should be
+provided. The final representation will be a square plot of the combined
+arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>red_array</strong> (<em>array</em>) – the data array to be plotted in the red channel.</p></li>
+<li><p><strong>green_array</strong> (<em>array</em>) – the data array to be plotted in the green channel.</p></li>
+<li><p><strong>blue_array</strong> (<em>array</em>) – the data array to be plotted in the blue channel.</p></li>
+<li><p><strong>plot</strong> (<em>bool</em>) – if True, the color gradient representation of the data will be
+displayed</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – The filename will be the same as the .csv containing the data
+used to create this plot.</p></li>
+<li><p><strong>save_location</strong> (<em>str</em>) – String containing the path of the forlder to use when
+saving the data and the image.</p></li>
+<li><p><strong>save_image</strong> (<em>bool</em>) – Option to save the output of the simuation as a plot
+in a .png file format.
+The filename used for the file will be the same
+as the raw data file created in this function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>rbg_plot</strong> – Plot representing the data as a color gradient on the x-axis
+in one of the three basic colors: red, blue or green</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>matplotlib plot</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hardy.handling">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-hardy.handling" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Maria Politi, Abdul Moeez,              David Hurt
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
