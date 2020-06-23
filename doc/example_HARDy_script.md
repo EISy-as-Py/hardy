@@ -33,4 +33,5 @@ _Note: the configuration path shown are the default path. These can be modified 
     num_test_files_class=750, target_size=(500, 500), iterator_mode='arrays',classifier='tuner',
     classes=['class_1', 'class_2', 'class_3'], project_name='my_project_name')</code></div>
 
+
 _Note: To see the detailed descriptions of the arguments and defaults values, look at the <a href=https://github.com/EISy-as-Py/hardy/blob/master/hardy/run_hardy.py>run_hardy.py docstrings </a>_ 
