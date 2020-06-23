@@ -6,9 +6,9 @@ Each configuration file in the recognition folder provides the example Hyperpara
 
 This file provides the input information along with the Hyperparameter space for Neural Network.
 
-* __cnn_config.yaml__
-
 <img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart_cnn_config.PNG" width=500 p align="right" />
+
+* __cnn_config.yaml__
 
 _A configuration file which contains the hyperparameters to use in the single convolutional neural network.
 The configuration file is easy to fill out and interact with._
