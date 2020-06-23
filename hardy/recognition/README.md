@@ -1,6 +1,6 @@
-## Instructions for using Convolutional Neural Network Config files
+## Instructions for using Convolutional Neural Network Configuration files
 
-Each configuration file in the recognition folder provides the example Hyperparameter space over which Neural Network model is built
+Each configuration file in the recognition folder provides the example Hyperparameter space over which Neural Network model is built. The configuration file can be placed anywhere in the system and relative path must be passed as argument in <code>run_hardy.hardy_multi_transform</code> module
 
 ### Configuration file for CNN
 
@@ -16,29 +16,31 @@ The configuration file is easy to fill out and interact with._
 __Note__: Make sure that the hyperparameters found in the config. file are also used in the cnn model
 
 
-<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart_cnn_config.PNG" width=500 p align="center" />
+<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart_cnn_config.PNG" width=300 p align="center" />
 
 Currently supported keys for the <code>cnn_config.yaml</code> includes:
 
 ```
-* kernel_size
+-> kernel_size
 
-* epochs
+-> epochs
 
-* activation
+-> activation
 
-* input_shape
+-> input_shape
 
-* filter_size
+-> filter_size
 
-* num_classes
+-> num_classes
 
-* learning_rate
+-> learning_rate
 
-* patience
+-> patience
 ```
 
-__Note__:The detailed information about the options can be found in the config file itself.
+__Note__: All this information must be entered to successfully execute the Machine Learning Step. The detailed information about the options for keys can be found in the config <a href=https://github.com/EISy-as-Py/hardy/blob/master/hardy/recognition/cnn_config.yaml>file</a> itself.
+
+<hr>
 
 ### Configuration file for Hyperparameter Optimization
 
@@ -46,12 +48,45 @@ __Note__:The detailed information about the options can be found in the config f
     
 A configuration file containing the hyperparamter search space for the tuning step. This should substitute the single cnn model. 
     
-The first part deals with defining the tuner run :    
-    
+The first part deals with defining the tuner run:    
 
-<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart__tuner_config_run.PNG" width=500 p align="center" />
+<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart__tuner_config_run.PNG" width=300 p align="center" />
 
+For definition of tuner run, following keys are currently supported:
+```
+-> num_classes
 
-The second section, deals with the actual hyperparameter search space to use in the tuning operation :
+-> epochs
 
-<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart__tuner_config_space.PNG" width=500 p align="center" />
+-> patience
+
+-> input_shape
+
+-> max_trials
+
+-> exec_per_trial
+
+-> search_function
+```
+The second section, deals with the actual hyperparameter search space to use in the tuning operation:
+
+<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart__tuner_config_space.PNG" width=300 p align="center" />
+
+For hyperparameters search space, following keys are currently supported:
+```
+-> layers
+
+-> filters
+
+-> kernel_size
+
+-> activation
+
+-> pooling
+
+-> optimizer
+
+-> learning_rate
+```
+
+__Note__: All this information must be entered to successfully execute the Hyperparameter Step. The detailed information about the options for keys can be found in the config <a href=https://github.com/EISy-as-Py/hardy/blob/master/hardy/recognition/tuner_config.yaml>file</a> itself.
