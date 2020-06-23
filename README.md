@@ -35,7 +35,7 @@ The package HARDy can be installed using following steps:
 
 HARDy uses Keras for training Convolutional Neural Network & Keras-tuner for the hyperparameter optimization. The flow of information is shown in image below:
 
-<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/information_flow.png" width=500 p align="center" />
+<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/information_flow.png" width=500 align="center" />
 
 An example jupyter notebook to run HARDy using single script is available at this link <a href=https://github.com/EISy-as-Py/hardy/blob/master/doc/example_HARDy_script.md>Example Notebook</code></a> 
 
@@ -50,7 +50,7 @@ The instructions for modifying or writing your own configuration file can be acc
 ## Visualization 
  In order to increase the density of data presented to the convolutional neural network and add a visual transfortmation of the data, we adopted a new plotting technique that takes advantage of how images are read by computers. Using color images, we were able to encode the experimental data in the pixel value, using different series per each image channel. The results are data- dense images, which are also pretty to look at.
  
- <img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/data_visualization.png" width=500 p align="center" />
+ <img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/data_visualization.PNG" width=500 align="center" />
  
  
 ## Mission:
@@ -68,7 +68,7 @@ Our vision of the final product:
  ## Use Cases:
  The package is designed to deal wiht a diverse set of labeled data. These are some of the use cases we see benefitting from using the _HARDy_ package. 
  
- <img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/use_cases.png" width=500 p align="center" />
+ <img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/use_cases.PNG" width=500 align="center" />
  
  
  ## Modules and Goals:
