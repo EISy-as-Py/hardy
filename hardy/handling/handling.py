@@ -4,10 +4,10 @@ Created on Tue Apr 21 19:03:40 2020
 
 
 The zeroth-level functions, related to importing and setting up data.
-    The twin goals are to be fast, but also as broad and thoughtful about
-    the data we may import as possible.
- We may crib from work done in eisy/data_managment.py since we contributed
-     to both project.
+The twin goals are to be fast, but also as broad and thoughtful about
+the data we may import as possible.
+We may crib from work done in eisy/data_managment.py since we contributed
+to both project.
 
  __Note:__ Some of this may have Options to User-Interface,
          which is great but should DEFAULT be off, so we don't deal with it
@@ -90,17 +90,28 @@ def get_file_list(dir_path='../local_data', str_has=['.'], str_inc=['.'],
     """
     Get a list of file paths to open, which fulfill certain criteria.
     (Alternative to single/multiselect File Dialog, or hard-coded file names
-        INPUTS:
-            * Path to check initially.
-                (hard-coded default for now. can we globally config?)
-            * Basic filter parameters, defaults just for testing now.
-                str_has: AND filter (Must contain all in list)
-                str_inc: OR  filter (Must contain at least one)
-            * File type to check for. Default csv
-            * whether to use file dialogs if the path fails, or just error out.
-        OUTPUTS:
-            * TUPLE of file names that pass the tests (built as list)
-            * Final (successful) directory path used. (from cwd, or from base)
+
+    Parameters
+    ----------
+    dir_path: str
+              Path to check initially.
+              (hard-coded default for now. can we globally config?)
+    str_has: numpy.array
+             Basic filter parameters, defaults just for testing now.
+             str_has: AND filter (Must contain all in list)
+    str_inc: numpy.array
+             OR  filter (Must contain at least one)
+    ftype: str
+           File type to check for. Default csv
+    interact: bool
+              whether to use file dialogs if the path fails, or just error out.
+
+    Returns
+    -------
+    files_wanted: tuple
+                  TUPLE of file names that pass the tests (built as list)
+    dir_path: str
+              Final (successful) directory path used. (from cwd, or from base)
 
     """
 
@@ -245,10 +256,10 @@ def cats_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
 
     (Also report the population of those groups. Return it?)
     (Also, maybe give option to split the file names by category?
-          If not, would default return_split=False)
+    If not, would default return_split=False)
 
     Option from_serials, to be used if the file name extensions are already
-        clipped off (aka we're passing serial ID info instead of fnames)
+    clipped off (aka we're passing serial ID info instead of fnames)
     """
     classification_list = []
     populations = {}  # Dictionary
