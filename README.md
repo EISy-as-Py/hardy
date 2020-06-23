@@ -17,13 +17,15 @@ Package HARDy has following main dependencies:
 1. Python => 3.6
 2. Tensorflow = 2.0
 
-The detailed dependecies are reflected in the <a href=https://github.com/EISy-as-Py/hardy/blob/master/environment.yml><code>environment.yml</code></a> file
+The detailed dependencies are reflected in the <a href=https://github.com/EISy-as-Py/hardy/blob/master/environment.yml><code>environment.yml</code></a> file
 
 ## Installation:
 The package HARDy can be installed using following steps:
 1. In your terminal, run <code>git clone https://github.com/EISy-as-Py/hardy.git</code>
 2. Change the directory to hardy root directory
 3. Run <code>python setup.py install</code> 
+4. To check installation run, <code>python -c "import hardy"</code> in your terminal
+
  
 WORK IN PROGRESS - Please feel free to provide feedback and expand on our vision!
 -----------------------------------------------------------------
