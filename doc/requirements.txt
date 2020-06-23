@@ -6,3 +6,4 @@ tqdm
 keras
 keras-tuner
 scikit-image
+plotly

@@ -122,7 +122,7 @@ DATA WILL BE PROCESSED IN THE "ARBITRAGE.py" FILE
   * OUTPUT: 2D? output matrix or Meshgrid - in X-Freq space
           (for each wavelet size, return the match(-1 to 1?)*amplitude
           at each X?)
-  * NOTE: This will have to be a group discussion- we need TEST DATA
+  * note: This will have to be a group discussion- we need TEST DATA
           that should work in this space, and then we can report that back!
 
  #### multi_transform():
@@ -132,7 +132,7 @@ DATA WILL BE PROCESSED IN THE "ARBITRAGE.py" FILE
   * INPUT: X, [Y if 2D], Multiple transforms to perform...
           Is this what classes are for??
   * OUTPUT: Data output from the final transform listed.
-  * NOTE: This is low-priority, and should only be done if we convince
+  * note: This is low-priority, and should only be done if we convince
           ourselves that it's useful... RELATED, if we get the "Smart"
           learning functionality, maybe we can combine things this way
 
@@ -142,13 +142,6 @@ DATA WILL BE PROCESSED IN THE "ARBITRAGE.py" FILE
   * OUTPUT:
 
 """
-# asdf
-
-# asdf
-
-# asdf
-
-# asdf
 
 import numpy as np
 import pandas as pd
@@ -157,6 +150,18 @@ from scipy import signal
 
 
 def transform_1d_none(raw_array):
+    ''' Function that provides returns data as it is
+
+    Parameters
+    ----------
+    raw_array: numpy.array
+               array representing data values
+
+    Returns
+    -------
+    raw_array: numpy.array
+               array representing data values
+    '''
     # Placeholder, to perform "no transform" and use the raw data in that
     # column
     return raw_array
@@ -171,15 +176,16 @@ def transform_1d_exp(raw_array):
 def transform_1d_log(raw_array):
     '''The function that outputs the natural log of input array
 
-    PARAMETERS:
-    -----------
+    Parameters
+    ----------
     raw_array: Input numpy array
 
-    RETURNS:
-    --------
+    Returns
+    -------
     log_array: np.ndarray
                natural log values of each element in the input array
     '''
+
     # NOTE: All Elements in array MUST be Positive!?
     #       IF Not, option to normalize first??
     assert min(raw_array) > 0, "Log will not accept negative values!"
@@ -190,12 +196,12 @@ def transform_1d_log(raw_array):
 def transform_1d_reciprocal(raw_array):
     '''The function the outputs the reciprocal of input array
 
-    PARAMETERS:
-    -----------
+    Parameters
+    ----------
     raw_array: Input numpy array
 
-    RETURNS:
-    --------
+    Returns
+    -------
     log_array: np.ndarray
                reciprocal values of each element in the input array
     '''
@@ -206,12 +212,12 @@ def transform_1d_reciprocal(raw_array):
 def transform_1d_cumsum(raw_array):
     '''The function return the cumulative sum of input array
 
-    PARAMETERS:
-    -----------
+    Parameters
+    ----------
     raw_array: Input numpy array
 
-    RETURNS:
-    --------
+    Returns
+    -------
     log_array: np.ndarray
                cumulative sum of values in the input array
     '''
@@ -223,13 +229,13 @@ def transform_1d_derivative(raw_array, spacing=0):
     ''' Function that outputs the gradient of 1-D array using
     numpy.gradient function
 
-    PARAMETERS:
-    -----------
+    Parameters
+    ----------
     raw_array: numpy array
     spacing: int representing the spacing between each datapoint
 
-    RETURNS:
-    --------
+    Returns
+    -------
     derivative_array: np.ndarray
                       array representing gradient at each datapoint
     '''
@@ -249,12 +255,12 @@ def transform_1d_cwt(raw_df, xy=0):
     Transform to execute a "Continuous Wavelet Transform" on a 1d data array
     pass it a raw XY data and tell it which column to use for the transform.
     See Documentaion on CWT transform:
-            https://docs.scipy.org/doc/scipy/reference/generated/
-            scipy.signal.cwt.html#scipy.signal.cwt
+    https://docs.scipy.org/doc/scipy/reference/generated/
+    scipy.signal.cwt.html#scipy.signal.cwt
     Note: I need to do testing to understand the in/outputs here...
-        *Plan is to simply hard-code a certain type of Wavelet to use... and
-        Output Data may not be able to be square... In that case, we will
-        discuss how to integrate this result with the compression of the data.
+    Plan is to simply hard-code a certain type of Wavelet to use... and
+    Output Data may not be able to be square... In that case, we will
+    discuss how to integrate this result with the compression of the data.
 
     Parameters
     ----------
@@ -315,16 +321,16 @@ def transform_array_multiplication(x, y=None):
     ''' Function that multiplies two arrays x & y, element
     by element. If y is None, it return x*x
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     x: numpy.array
        numpy array representing the one array to be multiplied
     y: numpy.array
        numpy array representing the second array to be multiplied
        if None it the module will square the x array
 
-    Returns:
-    --------
+    Returns
+    -------
     multi_array: numpy.array
                  numpy array representing the one to one multiplication
                  of two arrays
