@@ -60,7 +60,7 @@ Data To Plot on Demand and deliver to the Image Processing f(n)s
           transforms to do
   * OUTPUT: Pandas dataframe of X and Y with all of their transforms
           as requested.
-  * NOTE: There might be a better way to do this -
+  * note: There might be a better way to do this -
 
 #### generate_linear_transforms():
   * Creates a "sample" linear 2D dataset, possibly following
@@ -69,11 +69,11 @@ Data To Plot on Demand and deliver to the Image Processing f(n)s
           default True to perform "ALL"]
   * OUTPUT: pandas dataframe with all X-transformationa and all
           Y-transformations - (Maybe in Standard names? Maybe Not?)
-  * NOTE: This could get messy - And maybe use the same wrapping function
+  * note: This could get messy - And maybe use the same wrapping function
           above to perform the listed tranforms?
 
 ### *SECTION: Association Functions*
-  * NOTE: Not really planning these yet, that will be scoped or
+  * note: Not really planning these yet, that will be scoped or
           descoped based on Team Update by __2020-04-28__
 
 #### setup_correlation_matrix():
@@ -106,7 +106,7 @@ Data To Plot on Demand and deliver to the Image Processing f(n)s
   * OUTPUT: dictionary of Key,Values where each Key is a transform
           (or column key), and each Value is a "grade" to estimate
           how interesting we think the data may be
-  * NOTE: This is SUPER arbitrary and is the 'creative' part of the
+  * note: This is SUPER arbitrary and is the 'creative' part of the
           STRETCH-GOALS of the project.s!
 
  #### grade_all_files():
@@ -148,7 +148,7 @@ import hardy.arbitrage.transformations as transform
 
 
 """
-NOTE :  Almost All of these Functions are partly Obsolete because of the
+note :  Almost All of these Functions are partly Obsolete because of the
         to_config.py change in default data methods. So instead I'm updating
         to conform to the new standards. Some logic can be re-used.
 
@@ -172,13 +172,13 @@ tform_keys = list(tform_1d1d.keys())  # This is the list of f(n) keys
 
 
 def import_tform_config(tform_config_path='.\tform_config.yaml', raw_df=None):
-    """
+    """Function that imports the transformations from configuration
 
     Parameters
     ----------
     tform_config_path : Str, optional
-        Path of transform configuration file to
-        DESCRIPTION. The default is '.\tform_config.yaml'.
+                        Path of transform configuration file to
+                        DESCRIPTION. The default is '.\tform_config.yaml'.
 
     CHECKS
     ------
@@ -189,20 +189,24 @@ def import_tform_config(tform_config_path='.\tform_config.yaml', raw_df=None):
     Returns
     -------
     tform_command_list : list of str
-        Ordered list of transform commands to use.
-        Differs from the dict.keys() because this is ordered!
-        (May save Report with this string as the key, to be looked up?)
+                         Ordered list of transform commands to use.
+                         Differs from the dict.keys() because this is ordered!
+                         (May save Report with this string as the key,
+                         to be looked up?)
 
     tform_command_dict :  dict of List-of-Transform-tuples
-        Each key will return a list of transforms to do on this data loop.
-        Each "List of Transforms" as stated elsewhere contain:
-            (Index=0, transform, source),
-            (Index=1, transform, source),
-            (Index=2, transform, source),
-            etc. where:
-            "Index" is the output column destination,
-            "transform" is command in transform.list_1d1d, and
-            "source" is the raw data column to be used in the tform
+                          Each key will return a list of transforms
+                          to do on this data loop.
+                          Each "List of Transforms" as stated elsewhere
+                          contain:
+                          (Index=0, transform, source),
+                          (Index=1, transform, source),
+                          (Index=2, transform, source),
+                          etc. where:
+                          "Index" is the output column destination,
+                          "transform" is command in transform.list_1d1d, and
+                          "source" is the raw data column to be used in the
+                          tform
     """
     if raw_df is not None:
         df_cols = len(raw_df.columns)
@@ -247,32 +251,33 @@ def import_tform_config(tform_config_path='.\tform_config.yaml', raw_df=None):
 
 
 def apply_tform(raw_df, tform_commands, rgb_col_number=6):
-    """
+    """ Function that applies transformations
 
     Parameters
     ----------
     raw_df : pd.DataFrame of raw data from list_of_tuples
-        Un-Transformed data to apply transform to.
-        This will be a call of list_of_tuples[#][1], because as
-            defined elsewhere, each raw data has one tuple in list,
-            contains (Filename, DataFrame, classifier)
+             Un-Transformed data to apply transform to.
+             This will be a call of list_of_tuples[#][1], because as
+             defined elsewhere, each raw data has one tuple in list,
+             contains (Filename, DataFrame, classifier)
 
     tform_commands : List of Tform Commands
-        This will be a call of tform_command_dict[tform_command_list[#]],
-        Thus it will contain a list of tform commands:
-            (Index=0, transform, source),
-            (Index=1, transform, source),
-            (Index=2, transform, source),
-            As explained elsewhere
+                     This will be a call of tform_command_dict
+                     [tform_command_list[#]],
+                     Thus it will contain a list of tform commands:
+                     (Index=0, transform, source),
+                     (Index=1, transform, source),
+                     (Index=2, transform, source),
+                     As explained elsewhere
 
 
     Returns
     -------
     tform_df: pd.DataFrame
-        Each column is placed in "Index", and gets its name from "source"
-            (New name from SourceColumnName__tform__TformName)
-        Each column's data is ouput of the tform_1d1d function called
-            and the remainder are passed as zero (with # as col name?)
+              Each column is placed in "Index", and gets its name from "source"
+              (New name from SourceColumnName__tform__TformName)
+              Each column's data is ouput of the tform_1d1d function called
+              and the remainder are passed as zero (with # as col name?)
 
     """
     # First get new column names:
