@@ -1,5 +1,6 @@
 # add funcitons to summarize and visualize the summary reports from the
 # the hardy run
+import numpy as np
 import os
 import yaml
 
@@ -213,7 +214,7 @@ def summary_dataframe(report_path):
                 series.append('series_'+str(n+1))
                 transforms.append(values_1[2])
                 columns.append(values_1[1])
-                rgb_code.append(values_1[0])
+                plot_code.append(values_1[0])
                 run_name.append(keys[1]['run_name'])
                 n += 1
 
