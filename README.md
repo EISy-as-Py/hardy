@@ -35,9 +35,9 @@ An example jupyter notebook to run HARDy using single script is available at thi
 
 To perform various transformations, training Neural Network and Hyperparameter Optimization, Hardy utilizes following <code>.yaml</code> configuration files:
 
-* <a href=#>tform_config.yaml</a>
-* <a href=#>cnn_config.yaml</a>
-* <a href=#>tuner_config.yaml</a>
+* <a href=https://github.com/EISy-as-Py/hardy/blob/master/hardy/arbitrage/README.md>tform_config.yaml</a>
+* <a href=https://github.com/EISy-as-Py/hardy/blob/master/hardy/recognition/README.md>cnn_config.yaml</a>
+* <a href=https://github.com/EISy-as-Py/hardy/blob/master/hardy/recognition/README.md>tuner_config.yaml</a>
 
 The instructions for modifying or writing your own configuration file can be accessed by clicking on the configuration files listed above.
 
