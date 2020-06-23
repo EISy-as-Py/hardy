@@ -42,8 +42,6 @@ To perform various transformations, training Neural Network and Hyperparameter O
 The instructions for modifying or writing your own configuration file can be accessed by clicking on the configuration files listed above.
 
  
-WORK IN PROGRESS - Please feel free to provide feedback and expand on our vision!
------------------------------------------------------------------
 ## Mission:
 We have been commissioned by Professor Lilo Pozzo to create a new tool for research and discovery, For her lab and for high throughput researchers everywhere. 
 Our vision of the final product:
@@ -56,11 +54,11 @@ Our vision of the final product:
     * What Data "Fingerprints" should we pay the most attention to? 
  * Present a User Interface, to allow non-programmers to interact with and use the chosen classifier(s?) in their work.
  
- ------------------------------------------------------------------
+
  ## Modules and Goals:
  * __handling.py__         :  Functions related to configuration, importing/exporting, and other sorts of back-end useful tasks.
  * __arbitrage.py__        :  Data Pre-Analysis, Transformations, and other preparation to be fed into the learning algorythm.
- * __recognition.py__      :  The real Meat-and-Potatoes! Setup, Training, and output from whatever ML Algorythm(s?) we use.
+ * __recognition.py__      :  The real Meat-and-Potatoes! Setup, Training, and output from whatever ML Algorithms we use.
  * __data_reporting.py__   :  Output and reporting of any/all discoveries, maybe with an eye to long-term evolution and improving the quality and speed of the program.
  * __yNot.py__             :  Home for everything else that seems useful but doesn't fall into one of the other functions! (Probably will contain any/all of the User Interface tools we may or may not work on).
  
