@@ -37,7 +37,8 @@ Currently supported keys for the <code>cnn_config.yaml</code> includes:
 -> patience
 ```
 
-__Note__: All this information must be entered to successfully execute the Machine Learning Step. The detailed information about the options for keys can be found in the config <a href=https://github.com/EISy-as-Py/hardy/blob/master/hardy/recognition/cnn_config.yaml>file</a> itself.
+__Note__: All this information must be entered to successfully execute the Machine Learning Step. The detailed information about the options for keys can be found in the config 
+<a href=https://github.com/EISy-as-Py/hardy/blob/master/hardy/recognition/cnn_config.yaml>file</a> itself.
 
 <hr>
 
@@ -47,9 +48,9 @@ __Note__: All this information must be entered to successfully execute the Machi
     
 A configuration file containing the hyperparamter search space for the tuning step. This should substitute the single cnn model. 
 
-<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart__tuner_config_run.PNG" width=450 p align="right" />
+The first part deals with defining the tuner run:   
 
-The first part deals with defining the tuner run:    
+<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart__tuner_config_run.PNG" width=450 p align="right" />
 
 For definition of tuner run, following keys are currently supported:
 ```
