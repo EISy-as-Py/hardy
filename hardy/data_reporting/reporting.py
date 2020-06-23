@@ -2,6 +2,7 @@
 # the hardy run
 import os
 import yaml
+import numpy as np
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -32,8 +33,9 @@ def report_dataframes(report_path):
                      'test_accuracy']
 
     data_dict = {}
-    index = 0
+    rank_dict = {}
     history_dict = {}
+    index = 0
 
     for keys in import_dict.items():
         n = 0
@@ -51,6 +53,7 @@ def report_dataframes(report_path):
                 accuracy = values_1
         data_dict[index] = [keys[0], n, k_size, a_function,
                             optimize, pool, accuracy]
+        rank_dict[index] = [keys[0], accuracy]
         history_dict[index] = [keys[0], list(range(1, len(keys[1]['loss'])+1)),
                                keys[1]['loss'], keys[1]['val_loss'],
                                keys[1]['test_loss'],
@@ -62,9 +65,8 @@ def report_dataframes(report_path):
                                            columns=column_names)
     history_df = pd.DataFrame.from_dict(history_dict, orient='index',
                                         columns=history_names)
-    tform_rank_df = pd.DataFrame(
-        data=[data_dict['0'].values()[0], data_dict['0'].values()[-1]],
-        columns=[column_names[0], column_names[-1]])
+    tform_rank_df = pd.DataFrame.from_dict(
+        rank_dict, orient='index', columns=[column_names[0], column_names[-1]])
     return hyperparam_df, history_df, tform_rank_df
 
 
@@ -213,7 +215,7 @@ def summary_dataframe(report_path):
                 series.append('series_'+str(n+1))
                 transforms.append(values_1[2])
                 columns.append(values_1[1])
-                rgb_code.append(values_1[0])
+                plot_code.append(values_1[0])
                 run_name.append(keys[1]['run_name'])
                 n += 1
 
