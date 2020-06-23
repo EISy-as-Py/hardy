@@ -17,7 +17,7 @@ Package HARDy has following main dependencies:
 1. Python => 3.6
 2. Tensorflow = 2.0
 
-The detailed dependencies are reflected in the <a href=https://github.com/EISy-as-Py/hardy/blob/master/environment.yml><code>environment.yml</code></a> file
+The detailed list of dependencies is reflected in the <a href=https://github.com/EISy-as-Py/hardy/blob/master/environment.yml><code>environment.yml</code></a> file
 
 ## Installation:
 The package HARDy can be installed using following steps:
@@ -25,6 +25,21 @@ The package HARDy can be installed using following steps:
 2. Change the directory to hardy root directory
 3. Run <code>python setup.py install</code> 
 4. To check installation run, <code>python -c "import hardy"</code> in your terminal
+
+
+## Usage:
+
+HARDy uses Keras for training Convolutional Neural Network & Keras-tuner for the hyperparameter optimization. The flow of information is shown in image below [insert flowdiagram]
+
+An example jupyter notebook to run HARDy using single script is available at this link <a href=#><code>Example Notebook</code></a> 
+
+To perform various transformations, training Neural Network and Hyperparameter Optimization, Hardy utilizes following <code>.yaml</code> configuration files:
+
+* <a href=#>tform_config.yaml</a>
+* <a href=#>cnn_config.yaml</a>
+* <a href=#>tuner_config.yaml</a>
+
+The instructions for modifying or writing your own configuration file can be accessed by clicking on the configuration files listed above.
 
  
 WORK IN PROGRESS - Please feel free to provide feedback and expand on our vision!
