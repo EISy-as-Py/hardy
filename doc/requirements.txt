@@ -1,5 +1,8 @@
 numpy
 pandas
 matplotlib
-torch
+tensorflow=2.0
 tqdm
+keras
+keras-tuner
+scikit-image
