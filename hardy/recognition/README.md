@@ -4,7 +4,7 @@
 ## Config for CNN
 
 
-For the classifier section of the package, there are two separate configuration files:
+For the recognition section of the package, there are two separate configuration files:
 
 * __cnn_config.yaml__
 
@@ -16,18 +16,21 @@ The configuration file is easy to fill out and interact with._
 __Note__: Make sure that the hyperparameters found in the config. file are also used in the cnn model
 
 
-<img src="../../doc/Images/quickstart_cnn_config.PNG" width=500 p align="center" />
+<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart_cnn_config.PNG" width=500 p align="center" />
 
+
+## Config for Hyperparameter Optimization
 
 * __tuner_config.yaml__
     
 A configuration file containing the hyperparamter search space for the tuning step. This should substitute the single cnn model. 
     
-The first part deals wiht defining the tuner run :    
+The first part deals with defining the tuner run :    
     
-<img src="./doc/Images/Quickstart__tuner_config_run.PNG" width=500 p align="center" />
+
+<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart__tuner_config_run.PNG" width=500 p align="center" />
 
 
 The second section, deals with the actual hyperparameter search space to use in the tuning operation :
 
-<img src="../../doc/Images/Quickstart__tuner_config_space.PNG" width=500 p align="center" />
+<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart__tuner_config_space.PNG" width=500 p align="center" />
