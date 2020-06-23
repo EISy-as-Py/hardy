@@ -20,7 +20,7 @@ __Note__: Make sure that the hyperparameters found in the config. file are also 
 
 Currently supported keys for the <code>cnn_config.yaml</code> includes:
 
-'''
+```
 * kernel_size
 
 * epochs
@@ -36,7 +36,7 @@ Currently supported keys for the <code>cnn_config.yaml</code> includes:
 * learning_rate
 
 * patience
-'''
+```
 
 __Note__:The detailed information about the options can be found in the config file itself.
 
