@@ -151,8 +151,8 @@ def summary_report_plots(report_path):
     '''The function that plots the parallel coordinates between report name,
     layers, optimizer, activation function, kernel size, pooling and accuracy.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     report_path: str
                  string representing the location of parent report directory
 
@@ -170,13 +170,13 @@ def summary_report_tables(report_path):
     '''The function that returns tables wiht the summary of the transformations
     used and they performnce
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     report_path: str
                  string representing the location of parent report directory
 
-    Returns:
-    --------
+    Returns
+    -------
     summary_df : pandas Dataframe
                  Table containing information of the transformations run,
                  which data series they were applied to and their plot format
