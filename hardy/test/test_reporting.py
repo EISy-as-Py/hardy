@@ -32,7 +32,8 @@ class TestSimulationTools(unittest.TestCase):
         tuner.report_generation(model, history, metrics, log_dir,
                                 tuner=tuned_model, save_model=False)
 
-        fig1, fig2 = reporting.summary_report('./hardy/test/temp_report/')
+        fig1, fig2 = reporting.summary_report_plots(
+            './hardy/test/temp_report/')
 
         assert isinstance(fig1, plotly.graph_objs._figure.Figure),\
             'The returned figure is not a plotly object'
