@@ -1,0 +1,1 @@
+## Instructions for using Convolutional Neural Network Config files
