@@ -176,3 +176,7 @@ class TestSimulationTools(unittest.TestCase):
         assert isinstance(test_set_list, list), 'format should be a list'
         assert isinstance(learning_set_list, list), 'format should be a list'
         pass
+
+    def test_safe_clear_dirflow(self):
+        path_png = './hardy/test/test_image/test_set/'
+        catalogue._safe_clear_dirflow(path_png)

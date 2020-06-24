@@ -463,21 +463,24 @@ def _safe_clear_dirflow(the_path):
     """
     print("Clearing {}...".format(the_path))
     assert os.path.isdir(the_path), "Didn't pass a folder to be cleaned"
-    for folder in os.listdir(the_path):
+    list_dir = [f for f in os.listdir(the_path) if not f.startswith('.')]
+    for folder in list_dir:
         cat_folder = os.path.join(the_path, folder)
         assert os.path.isdir(cat_folder), \
             "Dir contains Non-Folder File!"
-        for file in os.listdir(cat_folder):
+        cat_folder_item = [f for f in os.listdir(cat_folder)
+                           if not f.startswith('.')]
+        for file in cat_folder_item:
             # For every file, confirm is PNG or error.
             # DONT DELETE YET, IN CASE OF ERRORS!
             assert ".png" in file, "Folder has Non PNG Contents!"
     # If we got though that with no error, then now we can delete!
-    for folder in os.listdir(the_path):
-        cat_folder = os.path.join(the_path, folder)
-        for file in os.listdir(cat_folder):
-            os.remove(os.path.join(cat_folder, file))
-        os.rmdir(cat_folder)
-    os.rmdir(the_path)
+    # for folder in os.listdir(the_path):
+    #     cat_folder = os.path.join(the_path, folder)
+    #     for file in os.listdir(cat_folder):
+    #         os.remove(os.path.join(cat_folder, file))
+    #     os.rmdir(cat_folder)
+    # os.rmdir(the_path)
     return True
 
 
