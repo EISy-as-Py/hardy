@@ -10,6 +10,7 @@ from hardy.handling import pre_processing as preprocessing
 
 path = './hardy/test/test_image/'
 data_path = './hardy/test/test_data/'
+tform_config_path = data_path + 'tform_config.yaml'
 config_path = './hardy/recognition/'
 split = 0.25
 classes = ['class_1', 'class_2']
@@ -18,7 +19,24 @@ batch_size = 1
 
 class TestSimulationTools(unittest.TestCase):
 
-    def test_data_wrapper(self):
+    def test_hardy_multi_transform(self):
+
+        run.hardy_multi_transform(
+            data_path, tform_config_path, config_path,
+            iterator_mode='arrays', classifier='cnn',
+            num_test_files_class=1, classes=['noise', 'one'], split=0.5,
+            batch_size=1, project_name='test_wrapper')
+        # output_path = preprocessing.save_to_folder(
+        #         data_path, 'test_wrapper', 'test_1')
+        # report_dir = output_path+'report/'
+        # report_location = os.listdir(report_dir)
+        # for item in report_location:
+        #     if item.endswith('.yaml'):
+        #         with open(report_dir+item, 'r') as file:
+        #             report = yaml.load(file, Loader=yaml.FullLoader)
+        #             assert isinstance(report, dict),\
+        #                 'The filetype returned in not a dictionary'
+        shutil.rmtree('./hardy/test/test_data/test_wrapper')
         pass
 
     def test_classifier_wrapper(self):

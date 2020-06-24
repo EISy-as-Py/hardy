@@ -427,38 +427,39 @@ def _smart_read_csv(full_fname, try_skiprows, last_skiprows=None,
         max_skip        :   loop size. Will error if you skip this many rows.
 
     """
-    load_success = False
+    # load_success = False
+    fdata = pd.read_csv(full_fname, skiprows=0)
     # ^ We will use this to Track whether we did a successful load.
     #       Turn it TRUE if a load does not error, but Turn if FALSE
     #       if a successful load does not pass the data tests.
-    try:
-        fdata = pd.read_csv(full_fname, skiprows=try_skiprows)
-        load_success = _test_df(fdata)
-        last_skiprows = try_skiprows
-    except pd.errors.ParserError:  # Error if file changes width
-        pass
-
-    # Second Try: "Last successful", if given.
-    if last_skiprows and not load_success:
-        try:
-            fdata = pd.read_csv(full_fname, skiprows=last_skiprows)
-            load_success = _test_df(fdata)
-        except pd.errors.ParserError:
-            pass
-    else:
-        pass
-
-    # Finally, loop from n = 0 to maxrows until something passes!
-    n = 0
-    while not load_success and n <= maxskip:
-        try:
-            fdata = pd.read_csv(full_fname, skiprows=n)
-            load_success = _test_df(fdata)
-            last_skiprows = n
-        except pd.errors.ParserError:
-            pass
-        n += 1  # Increment skiprows every time we fail.
-
+    # try:
+    #     fdata = pd.read_csv(full_fname, skiprows=try_skiprows)
+    #     load_success = _test_df(fdata)
+    #     last_skiprows = try_skiprows
+    # except pd.errors.ParserError:  # Error if file changes width
+    #     pass
+    #
+    # # Second Try: "Last successful", if given.
+    # if last_skiprows and not load_success:
+    #     try:
+    #         fdata = pd.read_csv(full_fname, skiprows=last_skiprows)
+    #         load_success = _test_df(fdata)
+    #     except pd.errors.ParserError:
+    #         pass
+    # else:
+    #     pass
+    #
+    # # Finally, loop from n = 0 to maxrows until something passes!
+    # n = 0
+    # while not load_success and n <= maxskip:
+    #     try:
+    #         fdata = pd.read_csv(full_fname, skiprows=n)
+    #         load_success = _test_df(fdata)
+    #         last_skiprows = n
+    #     except pd.errors.ParserError:
+    #         pass
+    #     n += 1  # Increment skiprows every time we fail.
+    last_skiprows = 0
     assert len(list(fdata)) != 0, 'the csv was not correctly loaded'
     if 'Unnamed: 0' in list(fdata):
         fdata.pop('Unnamed: 0')
