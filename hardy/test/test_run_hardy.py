@@ -11,7 +11,7 @@ from hardy.handling import pre_processing as preprocessing
 path = './hardy/test/test_image/'
 data_path = './hardy/test/test_data/'
 tform_config_path = data_path + 'tform_config.yaml'
-config_path = './hardy/recognition/'
+config_path = './hardy/test/'
 split = 0.25
 classes = ['class_1', 'class_2']
 batch_size = 1
@@ -23,7 +23,7 @@ class TestSimulationTools(unittest.TestCase):
 
         run.hardy_multi_transform(
             data_path, tform_config_path, config_path,
-            iterator_mode='arrays', classifier='cnn',
+            iterator_mode='arrays', classifier='tuner',
             num_test_files_class=1, classes=['noise', 'one'], split=0.5,
             batch_size=1, project_name='test_wrapper')
         # output_path = preprocessing.save_to_folder(
@@ -42,11 +42,12 @@ class TestSimulationTools(unittest.TestCase):
     def test_classifier_wrapper(self):
         num_files = 3
         run_name = 'test_1'
+        config_path = './hardy/recognition/'
         output_path = preprocessing.save_to_folder(
-            data_path, 'test_classifier', run_name)
+            path, 'test_classifier', run_name)
         test_set_filenames = preprocessing.hold_out_test_set(
             data_path, number_of_files_per_class=num_files)
-        run.classifier_wrapper(data_path, test_set_filenames, run_name,
+        run.classifier_wrapper(path, test_set_filenames, run_name,
                                config_path, classifier='cnn',
                                iterator_mode='folder',
                                split=split, classes=classes, image_path=path,
@@ -61,7 +62,7 @@ class TestSimulationTools(unittest.TestCase):
                         'The filetype returned in not a dictionary'
         # remove report files after checking they were
         # correctly created
-        shutil.rmtree(data_path+'test_classifier/')
+        shutil.rmtree(path+'test_classifier/')
         print('the result folder was correctly deleted after testing')
         pass
 
