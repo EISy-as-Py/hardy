@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/EISy-as-Py/hardy.svg?branch=master&kill_cache=1)](https://travis-ci.org/EISy-as-Py/hardy)
-[![Coverage Status](https://coveralls.io/repos/github/EISy-as-Py/hardy/badge.svg?branch=master&kill_cache=1)](https://coveralls.io/github/EISy-as-Py/hardy?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/EISy-as-Py/hardy/badge.svg?branch=master)](https://coveralls.io/github/EISy-as-Py/hardy?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/hardy/badge/?version=latest)](https://hardy.readthedocs.io/en/latest/?badge=latest)
 <img src=https://github.com/EISy-as-Py/hardy/blob/master/doc/images/EIS_Formats.PNG width=400 p align="right">
 
