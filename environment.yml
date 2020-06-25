@@ -31,6 +31,7 @@ dependencies:
   - setuptools
   - scikit-learn
   - scikit-image
+  - tensorflow==2.0
   - testpath
   - tk
   - terminaltables
