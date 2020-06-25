@@ -7,6 +7,7 @@ from hardy.arbitrage import transformations as tforms
 
 
 class TestSimulationTools(unittest.TestCase):
+
     def test_transform_1d_exp(self):
         test_array = [1, 2, 3, 4, 5]
         result = tforms.transform_1d_exp(test_array)
@@ -102,3 +103,15 @@ class TestSimulationTools(unittest.TestCase):
         result_1 = tforms.transform_1d_cwt(test_df, 1)
         result_y = tforms.transform_1d_cwt(test_df, "y")
         assert np.allclose(result_1, result_y), "Not accepting y as 1 input"
+
+    def test_2d_derivative(self):
+
+        x = [1, 2, 3, 4, 5, 6, 7, 8]
+        y = [9, 10, 11, 12, 13, 14, 15, 16]
+
+        check_result = [1, 1, 1, 1, 1, 1, 1]
+
+        slope = tforms.transform_2d_derivative(x, y)
+
+        assert np.allclose(slope, check_result), "The returned array for slope,\
+        contains incorrect elements"
