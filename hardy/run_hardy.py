@@ -169,12 +169,6 @@ def data_wrapper(raw_datapath, tform_commands=None, classes=None,
         "Test Set", all in the same format which is created via the
         Keras.Preprocessing.Data.Flow (<--- Not exact package/function)
 
-    Using From other Packages:
-      ARBITRAGE:
-          Tform_Tuples : Wrapper that takes in dataframe Tuples_list and
-                         returns an equal transformed tuples_list
-      TO_CATALOGUE:
-          c
     """
     if print_out:
         clock = time.perf_counter()

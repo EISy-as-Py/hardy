@@ -1,5 +1,9 @@
 numpy
 pandas
 matplotlib
-torch
+tensorflow
 tqdm
+keras
+keras-tuner
+scikit-image
+plotly

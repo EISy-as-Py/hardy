@@ -1,43 +1,51 @@
 import plotly
 import shutil
 import unittest
-import hardy.data_reporting.reporting as reporting
 
-from hardy.handling.to_catalogue import learning_set
-from hardy.recognition import tuner
+import hardy.data_reporting.reporting as reporting
+import pandas as pd
+
+from hardy import run_hardy as run
+
 # from hardy.handling import pre_processing as preprocessing
 
 path = './hardy/test/test_image/'
-split = 0.25
-classes = ['class_1', 'class_2']
-batch_size = 1
+data_path = './hardy/test/test_data/'
+tform_config_path = data_path + 'tform_config.yaml'
+config_path = './hardy/test/'
 
 
 class TestSimulationTools(unittest.TestCase):
 
-    def test_summary_report(self):
-        config_path = './hardy/test/'
-        log_dir = './hardy/test/temp_report/report/'
+    def test_summary_report_plots(self):
 
-        train, val = learning_set(path, split=split, classes=classes,
-                                  iterator_mode=None)
-
-        tuner.build_param(config_path)
-
-        tuned_model = tuner.run_tuner(train, val,
-                                      project_name='test_run')
-        model, history, metrics = tuner.best_model(tuned_model, train,
-                                                   val, val)
-
-        tuner.report_generation(model, history, metrics, log_dir,
-                                tuner=tuned_model, save_model=False)
-
-        fig1, fig2 = reporting.summary_report('./hardy/test/temp_report/')
+        run.hardy_multi_transform(
+            data_path, tform_config_path, config_path,
+            iterator_mode='arrays',
+            num_test_files_class=1, classes=['noise', 'one'], split=0.5,
+            classifier='tuner', batch_size=1, project_name='test_wrapper1')
+        report_path = './hardy/test/test_data/test_wrapper1/'
+        fig1, fig2 = reporting.summary_report_plots(
+            report_path)
 
         assert isinstance(fig1, plotly.graph_objs._figure.Figure),\
             'The returned figure is not a plotly object'
         assert isinstance(fig2, plotly.graph_objs._figure.Figure),\
             'The returned figure is not a plotly object'
 
-        shutil.rmtree('./hardy/test/temp_report')
-        shutil.rmtree('./test_run')
+        # shutil.rmtree('./hardy/test/temp_report')
+        # shutil.rmtree('./test_run')
+
+    def test_summary_report_tables(self):
+        report_path = './hardy/test/test_data/test_wrapper1/'
+
+        summary, tform_rank = reporting.summary_report_tables(
+            report_path)
+
+        assert isinstance(summary, pd.DataFrame),\
+            'The returned table is not a dataframe'
+        assert isinstance(tform_rank, pd.DataFrame),\
+            'The returned table is not a dataframe'
+
+        shutil.rmtree('./hardy/test/test_data/test_wrapper1')
+        # shutil.rmtree('./test_run')

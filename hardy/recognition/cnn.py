@@ -244,7 +244,7 @@ def feature_map(image, model, classes, size, layer_num=None,
     size to ouput the feature maps for a particular neural network
     model.
 
-    Parameter:
+    Parameters
     ----------
     image: str or numpy array
            if string it opens the image from path provided. If
@@ -264,8 +264,8 @@ def feature_map(image, model, classes, size, layer_num=None,
     log_dir: str
              log directory representing the location of logs
 
-    Returns:
-    --------
+    Returns
+    -------
 
     feature_map: int
                  if layer_num = 'last', feature_map is probability for
@@ -318,8 +318,8 @@ def feature_map_layers(img_feature_array, model, list_layer_pos, save,
     Nested function for feature_map(). Returns the pyplots for if layer_num
     is int or None in feature_map().
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
 
     image_feature_array: array
                          array in expanded dimension representing the image
@@ -333,8 +333,8 @@ def feature_map_layers(img_feature_array, model, list_layer_pos, save,
     log_dir: str
              log directory representing the location of logs
 
-    Returns:
-    --------
+    Returns
+    -------
 
     pyplot: matplotlib.pyplot
             pyplot representing the feature maps

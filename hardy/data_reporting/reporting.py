@@ -1,5 +1,6 @@
 # add funcitons to summarize and visualize the summary reports from the
 # the hardy run
+import numpy as np
 import os
 import yaml
 
@@ -32,8 +33,9 @@ def report_dataframes(report_path):
                      'test_accuracy']
 
     data_dict = {}
-    index = 0
+    rank_dict = {}
     history_dict = {}
+    index = 0
 
     for keys in import_dict.items():
         n = 0
@@ -51,6 +53,7 @@ def report_dataframes(report_path):
                 accuracy = values_1
         data_dict[index] = [keys[0], n, k_size, a_function,
                             optimize, pool, accuracy]
+        rank_dict[index] = [keys[0], accuracy]
         history_dict[index] = [keys[0], list(range(1, len(keys[1]['loss'])+1)),
                                keys[1]['loss'], keys[1]['val_loss'],
                                keys[1]['test_loss'],
@@ -62,9 +65,8 @@ def report_dataframes(report_path):
                                            columns=column_names)
     history_df = pd.DataFrame.from_dict(history_dict, orient='index',
                                         columns=history_names)
-    tform_rank_df = pd.DataFrame(
-        data=[data_dict['0'].values()[0], data_dict['0'].values()[-1]],
-        columns=[column_names[0], column_names[-1]])
+    tform_rank_df = pd.DataFrame.from_dict(
+        rank_dict, orient='index', columns=[column_names[0], column_names[-1]])
     return hyperparam_df, history_df, tform_rank_df
 
 
@@ -133,7 +135,8 @@ def report_plots(hyperparam_df, history_df):
                   values=hyperparam_df['activation_function']),
              dict(label='Optimizer', values=hyperparam_df['optimizer']),
              dict(label='Pooling', values=hyperparam_df['pooling'].values),
-             dict(label='Accuracy', values=hyperparam_df['test_accuracy'],
+             dict(label='Accuracy',
+                  values=np.round(hyperparam_df['test_accuracy'], 3),
                   categoryorder='category descending'), ])))
 
     fig2.update_layout(dict(font=dict(size=12)),
@@ -148,8 +151,8 @@ def summary_report_plots(report_path):
     '''The function that plots the parallel coordinates between report name,
     layers, optimizer, activation function, kernel size, pooling and accuracy.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     report_path: str
                  string representing the location of parent report directory
 
@@ -167,13 +170,13 @@ def summary_report_tables(report_path):
     '''The function that returns tables wiht the summary of the transformations
     used and they performnce
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     report_path: str
                  string representing the location of parent report directory
 
-    Returns:
-    --------
+    Returns
+    -------
     summary_df : pandas Dataframe
                  Table containing information of the transformations run,
                  which data series they were applied to and their plot format
@@ -213,7 +216,7 @@ def summary_dataframe(report_path):
                 series.append('series_'+str(n+1))
                 transforms.append(values_1[2])
                 columns.append(values_1[1])
-                rgb_code.append(values_1[0])
+                plot_code.append(values_1[0])
                 run_name.append(keys[1]['run_name'])
                 n += 1
 

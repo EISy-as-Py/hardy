@@ -97,11 +97,11 @@ def save_load_data(filename, data=None, save=None, load=None,
 def _data_tuples_from_fnames(input_path='./', skiprows=0, classes=None):
     """
     Setting up the Data_tuples list, from ONE FOLDER with all of the data
-        (OF different classes) inside of it.
+    (OF different classes) inside of it.
     For each file, do a "smart-load" of the data, remove bad columns,
-        and determine the classification from the file name.
+    and determine the classification from the file name.
     Then Return that line of data_tuples in the format of:
-        (FileName (no extension), DataFrame, LABEL)
+    (FileName (no extension), DataFrame, LABEL)
     """
     # Get list of classes for later
     list_of_tuples = []
@@ -187,35 +187,38 @@ def _data_tuples_from_fnames(input_path='./', skiprows=0, classes=None):
 def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
              combine_method='add', scale=1.0):
     '''
-        Input a path of csv files (with some guidance),
-        Plot them RGB-wise into images
-        return a list of tuples as to be fed into the keras PreProcess f(n)
+    Input a path of csv files (with some guidance),
+    Plot them RGB-wise into images
+    return a list of tuples as to be fed into the keras PreProcess f(n)
 
-        INPUTS:
-            data_tuples :   list of tuples
-                            following the convention:
-                            (SERIAL, DataFrame, LABEL)
-                            (see below...)
-            plot_format :   string
-                            to pass into rgb_visualize
-                                "single", "else", or some "RGBrgb"...
-                                DEFAULT: "RgBrGb"? Discuss with group!!!
-            combine_method :string
-                            to pass into rgb_visualize
+    Parameters
+    ----------
+    data_tuples :   list of tuples
+                    following the convention:
+                    (SERIAL, DataFrame, LABEL)
+                    (see below...)
+    plot_format :   string
+                    to pass into rgb_visualize
+                        "single", "else", or some "RGBrgb"...
+                        DEFAULT: "RgBrGb"? Discuss with group!!!
+    combine_method :string
+                    to pass into rgb_visualize
 
-            column names :  list of strings (Optional)
-                            IF given, will drop all columns not in the
-                                list given. (If no colums match, will ERROR.)
-        RETURNS
-            list_of_rgb_tuples  :   list of tuples
-                                    following the format: (SERIAL, IMG, LABEL)
-            SERIAL      :   File name with the extension taken off
-                                (We should parse with . not just [-4])...
-            IMG         :   ndarray of NxNx3
+    column names :  list of strings (Optional)
+                    IF given, will drop all columns not in the
+                        list given. (If no colums match, will ERROR.)
 
-            LABEL       :   Classification label, either from the passed list
-                                or from the last part of the serial/filename:
-                                "123847_afsukjeh_*LABEL*.csv""
+    Returns
+    -------
+    list_of_rgb_tuples  :   list of tuples
+                            following the format: (SERIAL, IMG, LABEL)
+    SERIAL      :   File name with the extension taken off
+                        (We should parse with . not just [-4])...
+    IMG         :   ndarray of NxNx3
+
+    LABEL       :   Classification label, either from the passed list
+                        or from the last part of the serial/filename:
+                        "123847_afsukjeh_*LABEL*.csv""
 
     '''
 
@@ -309,36 +312,38 @@ def data_set_split(image_list, test_set_filenames):
 def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
                   column_names=None, scale=1):
     '''
-        Input a list of dataframes (already read and/or processed),
-        Plot them RGB-wise into images
-        return a list of tuples as to be fed into the keras PreProcess f(n)
+    Input a list of dataframes (already read and/or processed),
+    Plot them RGB-wise into images
+    return a list of tuples as to be fed into the keras PreProcess f(n)
 
-        INPUTS:
-            plot_format :   EITHER 'single' (bodge, depreciate later)
-                            OR some combination of "RGBrgb", which will be
-                            the order of columns plotted:
-                            R = red   X-axis      r = red   Y-axis
-                            G = green X-axis      g = green Y-axis
-                            B = blue  X-axis      b = blue   Y-axis
-                             * X = do not plot (skip column)
-                             ** If RGBrgb letters are missing, simply pass
-                                to the plotting function as "None"
+    Parameters
+    ----------
+    plot_format :   EITHER 'single' (bodge, depreciate later)
+                    OR some combination of "RGBrgb", which will be
+                    the order of columns plotted:
+                    R = red   X-axis      r = red   Y-axis
+                    G = green X-axis      g = green Y-axis
+                    B = blue  X-axis      b = blue   Y-axis
+                    * X = do not plot (skip column)
+                    ** If RGBrgb letters are missing, simply pass
+                    to the plotting function as "None"
 
-                            The to-be-depreciated 'single' is thus:
-                                "RB"
-                            The As-written "else" is thus:
-                                "Rb"
+                    The to-be-depreciated 'single' is thus:
+                    "RB"
+                    The As-written "else" is thus:
+                    "Rb"
 
-            combine_method: "add" or "mlt" - which visualization fn to use
+    combine_method: "add" or "mlt" - which visualization fn to use
 
-        RETURNS
+    Returns
+    -------
 
-        list_of_tuples  :   list of tuples, following: (SERIAL, IMG, LABEL)
+    list_of_tuples: list of tuples, following: (SERIAL, IMG, LABEL)
 
-            SERIAL      :   File name with the extension taken off
-                                (We should parse with . not just [-4])
+    SERIAL: File name with the extension taken off
+            (We should parse with . not just [-4])
 
-            IMG         :   ndarray of NxNx3
+    IMG: ndarray of NxNx3
 
     '''
     if not column_names:
@@ -458,21 +463,24 @@ def _safe_clear_dirflow(the_path):
     """
     print("Clearing {}...".format(the_path))
     assert os.path.isdir(the_path), "Didn't pass a folder to be cleaned"
-    for folder in os.listdir(the_path):
+    list_dir = [f for f in os.listdir(the_path) if not f.startswith('.')]
+    for folder in list_dir:
         cat_folder = os.path.join(the_path, folder)
         assert os.path.isdir(cat_folder), \
             "Dir contains Non-Folder File!"
-        for file in os.listdir(cat_folder):
+        cat_folder_item = [f for f in os.listdir(cat_folder)
+                           if not f.startswith('.')]
+        for file in cat_folder_item:
             # For every file, confirm is PNG or error.
             # DONT DELETE YET, IN CASE OF ERRORS!
             assert ".png" in file, "Folder has Non PNG Contents!"
     # If we got though that with no error, then now we can delete!
-    for folder in os.listdir(the_path):
-        cat_folder = os.path.join(the_path, folder)
-        for file in os.listdir(cat_folder):
-            os.remove(os.path.join(cat_folder, file))
-        os.rmdir(cat_folder)
-    os.rmdir(the_path)
+    # for folder in os.listdir(the_path):
+    #     cat_folder = os.path.join(the_path, folder)
+    #     for file in os.listdir(cat_folder):
+    #         os.remove(os.path.join(cat_folder, file))
+    #     os.rmdir(cat_folder)
+    # os.rmdir(the_path)
     return True
 
 
