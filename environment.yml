@@ -40,6 +40,7 @@ dependencies:
   - pip:
     - contextlib2
     - google-images-download
+    - keras --no-deps
     - opt-einsum
     - plotly==4.8.1
     - selenium
