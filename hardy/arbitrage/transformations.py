@@ -250,6 +250,30 @@ def transform_1d_derivative(raw_array, spacing=0):
     return derivative_array
 
 
+def transform_2d_derivative(x, y):
+    """Function that outputs the slope between x and y data
+
+    Parameters
+    ----------
+    x: numpy.array
+       array representing values on x-axis
+    y: numpy.array
+       array representing values on y-axis
+
+    Returns
+    -------
+    slope_array: numpy.array
+                 array representing the slope between x and y
+    """
+
+    diff_x = np.diff(x)
+    diff_y = np.diff(y)
+
+    slope_array = diff_y/diff_x
+
+    return slope_array
+
+
 def transform_1d_cwt(raw_df, xy=0):
     """
     Transform to execute a "Continuous Wavelet Transform" on a 1d data array
