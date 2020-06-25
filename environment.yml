@@ -31,7 +31,6 @@ dependencies:
   - setuptools
   - scikit-learn
   - scikit-image
-  - tensorflow==2.0
   - testpath
   - tk
   - terminaltables
@@ -40,7 +39,7 @@ dependencies:
   - pip:
     - contextlib2
     - google-images-download
-    - keras --no-deps
+    - keras-tuner --no-deps
     - opt-einsum
     - plotly==4.8.1
     - selenium
