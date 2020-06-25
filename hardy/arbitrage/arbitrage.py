@@ -241,10 +241,13 @@ def import_tform_config(tform_config_path='.\tform_config.yaml', raw_df=None):
             assert each_tform[1] in tform_keys, \
                 "Transform '{}' Not Available ".format(each_tform[1]) +\
                 "from Tform_1d1d."
-            assert each_tform[2] >= 0 and each_tform[2] < df_cols, \
-                "Source Column given in '{}' out of Range".format(command) +\
-                " Of Raw DataFrame."
-
+            if type(each_tform[2]) == 'int':
+                assert each_tform[2] >= 0 and each_tform[2] < df_cols, \
+                    "Source Column given in '{}' out of Range" \
+                    .format(command) + " Of Raw DataFrame."
+            if type(each_tform[2]) == 'tuple':
+                assert 4 >= len(each_tform[2]), 'too many arguments' +\
+                    ' provided. Maximum of 4 allow at the moment.'
     print("Successfully Loaded {} Transforms to Try!".format(
         len(tform_command_list)))
     return tform_command_list, tform_command_dict
@@ -270,7 +273,6 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
                      (Index=2, transform, source),
                      As explained elsewhere
 
-
     Returns
     -------
     tform_df: pd.DataFrame
@@ -295,11 +297,23 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
     # And now, apply each transform and assign the output to the
     #   Column as instructed in that command
     for command in tform_commands:
-        target_raw = raw_df[old_names[command[2]]]
-        # Get raw data (series?) from source
-        tform_data = tform_1d1d[command[1]](target_raw)  # Perform the tform
-        tform_df[new_names[command[0]]] = tform_data  # Save in output df
-
+        if type(command[2]) == 'int':
+            target_raw = raw_df[old_names[command[2]]]
+            # Get raw data (series?) from source
+            # Perform the tform
+            tform_data = tform_1d1d[command[1]](target_raw)
+            # Save in output df
+            tform_df[new_names[command[0]]] = tform_data
+        if type(command[2]) == 'tuple':
+            if command[1] == '1d_power':
+                # the power trasnformation is in the form of x^(n)y^(m).
+                # the arguments should be inputted as (x, y, n, m)
+                data_series_1 = raw_df[old_names[command[2][0]]]
+                data_series_2 = raw_df[old_names[command[2][1]]]
+                n = command[2][2]
+                m = command[2][3]
+                target_raw = tform_1d1d[command[1]](
+                    data_series_1, data_series_2, n, m)
     return tform_df
 
 
