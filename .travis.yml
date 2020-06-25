@@ -27,7 +27,7 @@ before_install:
 install:
     - conda env create -q -n test-environment python=$TRAVIS_PYTHON_VERSION --file environment.yml
     - conda activate test-environment
-    - pip install --no-deps keras-tuner
+#    - pip install --no-deps keras-tuner
     - conda install --yes coverage coveralls flake8
 
 # a list of commands to run before the main script
