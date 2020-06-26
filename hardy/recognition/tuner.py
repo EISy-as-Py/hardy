@@ -51,16 +51,18 @@ def build_tuner_model(hp):
         'kernel_size', values=param['kernel_size'][1]['values']),
     kernel_size = (kernel[0], kernel[0])
 
+    filter = getattr(hp, param['filters'][0])
+    ('filters_' + str(i), min(param['filters'][1]['values']),
+     max(param['filters'][1]['values']), step=4, default=8)
+
     for i in range(hp.Int('conv_layers', 1, max(param['layers']),
                           default=3)):
         x = tf.keras.layers.Conv2D(
-            filters=getattr(hp, param['filters'][0])
-            ('filters_' + str(i), min(param['filters'][1]['values']),
-             max(param['filters'][1]['values']), step=4, default=8),
+            filters=filter*(i+1),
             kernel_size=kernel_size,
             activation=getattr(hp, param['activation'][0])
-            ('activation_' + str(i), values=param['activation'][1]['values']),
-            padding='same')(x)
+            ('activation_' + str(i+1), values=param['activation'][1]['values']
+             ), padding='same')(x)
 
     if getattr(hp,
                param['pooling'][0])('pooling',
