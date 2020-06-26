@@ -8,41 +8,48 @@ from hardy.arbitrage import transformations as tforms
 
 class TestSimulationTools(unittest.TestCase):
 
-    def test_transform_1d_exp(self):
+    def test_exp(self):
         test_array = [1, 2, 3, 4, 5]
-        result = tforms.transform_1d_exp(test_array)
+        result = tforms.exp(test_array)
 
         assert len(test_array) == len(result), "The returned size for\
                 array is invalid"
 
-    def test_transform_1d_reciprocal(self):
+    def test_log10(self):
+        test_array = [10, 100, 3, 4, 5]
+        result = tforms.log10(test_array)
+
+        assert len(test_array) == len(result), "The returned size for\
+                array is invalid"
+        assert result[0] == 1, 'the trasnformation was not correctly performed'
+
+    def test_reciprocal(self):
         test_array = [1.0, 2.0, 3.0, 4.0, 5.0]
-        result = tforms.transform_1d_reciprocal(test_array)
+        result = tforms.reciprocal(test_array)
 
         assert len(test_array) == len(result), "The returned size for\
                 array is invalid"
 
-    def test_transform_1d_cumsum(self):
+    def test_cumsum(self):
         test_array = [1, 2, 3, 4, 5, 6]
 
-        result = tforms.transform_1d_cumsum(test_array)
+        result = tforms.cumsum(test_array)
 
         assert len(test_array) == len(result), "The returned size for\
                 array is invalid"
         assert result[-1] == 21, "The output return is not correct"
 
-    def test_transform_1d_derivative(self):
+    def test_derivative_1d(self):
         test_array = [1, 2, 3, 4, 5, 6]
 
-        result = tforms.transform_1d_derivative(test_array)
+        result = tforms.derivative_1d(test_array)
 
         assert len(test_array) == len(result), "The returned size for\
                 array is invalid"
         assert sum(result) == len(test_array), "The returned sum is\
                 not correct"
 
-        result = tforms.transform_1d_derivative(test_array,
-                                                spacing=1)
+        result = tforms.derivative_1d(test_array, spacing=1)
 
         assert len(test_array) == len(result), "The returned size for\
                 array is invalid"
@@ -53,20 +60,19 @@ class TestSimulationTools(unittest.TestCase):
         test_array_x = [2, 2, 3, 3, 4, 4]
         test_array_y = [4, 2, 3, 3, 4, 4]
 
-        result = tforms.transform_array_multiplication(test_array_x,
-                                                       test_array_y)
+        result = tforms.power(test_array_x, y=test_array_y)
         assert len(test_array_x) == len(result), "The returned size for\
                 array is invalid"
         assert test_array_x[0]*test_array_y[0] == result[0], "The returned\
                 multiplication output is not correct"
 
-        result = tforms.transform_array_multiplication(test_array_x)
+        result = tforms.power(test_array_x)
         assert len(test_array_x) == len(result), "The returned size for\
                 array is invalid"
-        assert test_array_x[0]*test_array_x[0] == result[0], "The returned\
+        assert test_array_x[0] == result[0], "The returned\
                 multiplication output is not correct"
 
-    def test_tform_1d_cwt(self):
+    def test_cwt_1d(self):
         """
         Testing Package for a 1-dimensional Continuous-Wavelet Transform
         This is a type of Fourier transform, to demonstrate chaning frequency
@@ -100,18 +106,18 @@ class TestSimulationTools(unittest.TestCase):
         # Valid Test: Pass Test_df and the Y-axis transform to get output df
         # of the Y-test data.
 
-        result_1 = tforms.transform_1d_cwt(test_df, 1)
-        result_y = tforms.transform_1d_cwt(test_df, "y")
+        result_1 = tforms.cwt_1d(test_df, 1)
+        result_y = tforms.cwt_1d(test_df, "y")
         assert np.allclose(result_1, result_y), "Not accepting y as 1 input"
 
-    def test_2d_derivative(self):
+    def test_derivative_2d(self):
 
         x = [1, 2, 3, 4, 5, 6, 7, 8]
         y = [9, 10, 11, 12, 13, 14, 15, 16]
 
         check_result = [1, 1, 1, 1, 1, 1, 1]
 
-        slope = tforms.transform_2d_derivative(x, y)
+        slope = tforms.derivative_2d(x, y)
 
-        assert np.allclose(slope, check_result), "The returned array for slope,\
-        contains incorrect elements"
+        assert np.allclose(slope, check_result),\
+            "The returned array for slope, contains incorrect elements"

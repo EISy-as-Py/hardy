@@ -144,7 +144,7 @@ def _data_tuples_from_fnames(input_path='./', skiprows=0, classes=None):
             # Read data into pandas dataframe
             fdata, last_skiprows = \
                 handling._smart_read_csv(input_path+entry,
-                                         try_skiprows=skiprows,
+                                         skiprows=skiprows,
                                          last_skiprows=last_skiprows)
             # Now remove any columns with bad data types
             # (Strings, objects, etc)
@@ -400,59 +400,60 @@ def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
                                                   plot=False)
     return rgb_image
 
-
-def rgb_list_to_DirFlow(rgb_tuples, basepath, newfolder="rbg_for_keras",
-                        delete_existing=True):
-    """
-    Takes the list of tuples (as made in "rgb_list") and creates the exact
-        file structure of saved PNG images that will be used in the
-        "KERAS FLOW FROM DIRECTORY" method.
-
-    Also will save a log file in the base path (csv? or look for log?)
-        describing the
-    """
-    classes = []
-    for each_image in rgb_tuples:
-        if each_image[2] not in classes:
-            # Make a unique list of the classes...
-            classes.append(each_image[2])
-        else:
-            pass
-
-    newfolder_path = os.path.join(basepath, newfolder)
-    # Make new folder full path... But what if it exists?
-    if os.path.isdir(newfolder_path):
-        # Well, if "Delete Existing" is true, delete that folder.
-        if delete_existing:
-            # Loop through and delete all... DANGEROUS
-            # So instead wrote a safety loop.
-            _safe_clear_dirflow(newfolder_path)
-        else:
-            n = 0
-            newer_folder = os.path.join(basepath, newfolder + "_{}".format(n))
-            while os.path.isdir(newer_folder) and n < 100:
-                n += 1
-                newer_folder = os.path.join(basepath,
-                                            newfolder + "_{}".format(n))
-            else:
-                pass
-            newfolder_path = newer_folder
-            print("Directory Full! \n" +
-                  "Creating New Dir @   {}".format(newer_folder))
-    else:
-        pass
-
-    # Now, make folders and fill them with the images!
-    os.makedirs(newfolder_path)
-    for each_class in classes:
-        class_folder = os.path.join(newfolder_path, each_class)
-        os.makedirs(class_folder)
-        for each_image in rgb_tuples:
-            if each_image[2] == each_class:
-                # If this image is in the class, save it in this folder!
-                save_png = os.path.join(class_folder, each_image[0] + '.png')
-                plt.imsave(save_png, each_image[1])
-    return basepath, newfolder
+# The following funciton needs to be revised and connected
+#  to the amin code wrapping function
+# def rgb_list_to_DirFlow(rgb_tuples, basepath, newfolder="rbg_for_keras",
+#                         delete_existing=True):
+#     """
+#     Takes the list of tuples (as made in "rgb_list") and creates the exact
+#         file structure of saved PNG images that will be used in the
+#         "KERAS FLOW FROM DIRECTORY" method.
+#
+#     Also will save a log file in the base path (csv? or look for log?)
+#         describing the
+#     """
+#     classes = []
+#     for each_image in rgb_tuples:
+#         if each_image[2] not in classes:
+#             # Make a unique list of the classes...
+#             classes.append(each_image[2])
+#         else:
+#             pass
+#
+#     newfolder_path = os.path.join(basepath, newfolder)
+#     # Make new folder full path... But what if it exists?
+#     if os.path.isdir(newfolder_path):
+#         # Well, if "Delete Existing" is true, delete that folder.
+#         if delete_existing:
+#             # Loop through and delete all... DANGEROUS
+#             # So instead wrote a safety loop.
+#             _safe_clear_dirflow(newfolder_path)
+#         else:
+#             n = 0
+#            newer_folder = os.path.join(basepath, newfolder + "_{}".format(n))
+#             while os.path.isdir(newer_folder) and n < 100:
+#                 n += 1
+#                 newer_folder = os.path.join(basepath,
+#                                             newfolder + "_{}".format(n))
+#             else:
+#                 pass
+#             newfolder_path = newer_folder
+#             print("Directory Full! \n" +
+#                   "Creating New Dir @   {}".format(newer_folder))
+#     else:
+#         pass
+#
+#     # Now, make folders and fill them with the images!
+#     os.makedirs(newfolder_path)
+#     for each_class in classes:
+#         class_folder = os.path.join(newfolder_path, each_class)
+#         os.makedirs(class_folder)
+#         for each_image in rgb_tuples:
+#             if each_image[2] == each_class:
+#                 # If this image is in the class, save it in this folder!
+#                 save_png = os.path.join(class_folder, each_image[0] + '.png')
+#                 plt.imsave(save_png, each_image[1])
+#     return basepath, newfolder
 
 
 def _safe_clear_dirflow(the_path):

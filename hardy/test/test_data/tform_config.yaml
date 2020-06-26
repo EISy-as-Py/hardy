@@ -4,5 +4,5 @@ tform_command_list:
 
 tform_command_dict:
     "test_1":
-        - [0, '1d_raw', 6]
-        - [5, '1d_raw', 7]
+        - [0, 'raw', 6]
+        - [5, 'raw', 7]

@@ -25,19 +25,6 @@
 
 
 # =============================================================================
-# # List Of Transformation Commands:
-#    "list_1d1d = {
-#         "1d_raw": transform_1d_none,
-#         "1d_log": transform_1d_log,
-#         "1d_exp": transform_1d_exp,
-#         "1d_reciprocal": transform_1d_reciprocal,
-#         "1d_cumsum": transform_1d_cumsum,
-#         "1d_derivative": transform_1d_derivative
-#         }"
-# =============================================================================
-
-
-# =============================================================================
 #
 # # For Planning Purposes, Suggest you Investigate your Data's SOURCE columns
 # #   And Post Here to help in planning:
@@ -125,4 +112,3 @@ tform_command_dict:
         - [2, '1d_raw', 7]
         - [4, '1d_raw', 4]
         - [5, '1d_raw', 5]
-

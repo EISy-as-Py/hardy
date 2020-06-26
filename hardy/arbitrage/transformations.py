@@ -1,155 +1,9 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Apr 21 19:04:12 2020
-@author: hurtd
-
-The first-level functions, which will take input data
-    (either 2D, 3D, or eventually nD...), and perform transformations
-    to generate the full set of data-columns that we will test against!
-
-THIS FILE IS FOR MATHEMATICAL TRANSFORMATIONS THEMSELVES.
-DATA WILL BE PROCESSED IN THE "ARBITRAGE.py" FILE
-
- This package will contain several 'sections':
-  * __Transformation Functions:__ This is the mathematical side,
-              and to start out we will be able to perform a variety
-              of 1D or 2D transformations such as Log, Inverse, accumulate,
-              Integrate, derrive, etc.
-  * __Complex Transforms__: Some data transformations are combinations of
-              the ones above (you can integrate AFTER you log-ify,
-              for instance)
-
-
- __Timeline + Milestones__:
-  * 2020-04-21: List of the high-priority functions and
-                  Simple-Transformations, with progress and
-                  timeline to get them all done soon.
-  * 2020-04-28: Passing Tests and can __HAND OFF__ to the classifier - a
-                  DataFrame of "all" the transformed data columns.
-                  Recieve Handoff from handling, and begin to Integrate.
-  * 2020-05-12: Complex Transforms - consider what other things we may want,
-                  and discuss feedback with group
-  * 2020-06-09: Make Decision on Association functions and __HAND OFF__
-                  if so. Otherwise, simply focus on new group priorities
-  * 2020-06-23: IF yNot function is doing Configuration ideas, make
-                  Stretch-Goal learning gameplan... TBD...
-
- __Current Status__:
-  * (2020-04-14)
-  * Just creating files and setup, no progress yet
-  * Planning Functions, in compontent spec document (here!)
-  * Considering how much to Frankenstien from prior work. Configuration?
-
- __Module List__:
-
- ### *SECTION: Basic 1D Transformations*
-#### transform_log():
-  * INPUT: 1D data array with NO NEGATIVE VALUES
-  * OUTPUT: Logrythmic transform of that data
-  * Note: Consider shifting or abs() for negative data?
-          no? simply don't call log transform for negative data?
-
-#### transform_reciprocal():
-  * INPUT: 1D data array - Limits tbd?
-  * OUTPUT: all values inverted (1/x)
-  * Note: twice should return itself!
-
-#### transform_cumsum():
-  * INPUT: 1D data array -
-  * OUTPUT: cumulative sum of data (aka integrated with unit-steps)
-  * Note: Not in high priority list?
-
-#### transform_1d_derrivative():
-  * INPUT: 1D data array
-  * OUTPUT: the step-by-step delta (Note: copy last delta to retain length?)
-  * Note: Also not in high-priority list? Should also be able to complete
-          the loop w/ cumsum.
-#### transform_exp():
-  * INPUT: 1D data array - Limits?
-  * OUTPUT: e^x of each datapoint.
-  * Note: may be redundant in general with log? should be able to
-          complete that loop!
-
-#### transform_0to1():
-  * INPUT: 1D data array, data handling case instructions
-  * OUTPUT: that array shifted and scaled to the 0-to-1 basis
-          (by FIRST shifting to min=0, THEN scaling to max=1)
-  * Note: option to leave data alone if min is already 0-to-1,
-          or if max After Shift is already 0-to-1
-          (case: data begins 0.2-0.4, can either scale 0-1 or leave as is!)
-  * Note2: BETTER scaling is to devine 0 as -MAX(ABS(Data))
-          and 1 as +MAX(ABS(Data)). This maintains fidelity of absolute Y data
-
-#### transform_pm1():
-  * INPUT: 1D data array, data handling case instructions
-  * OUTPUT: that array shifted and scaled to the 0-to-1 basis
-          [THIS TIME: 0=(-,MaxAbs(X)), and 1 =(+MaxAbs(X))]
-
-
-### *SECTION: Basic 2D Transformations*
-
-#### transform_2D_int():
-  * INPUT: 2 equal size 1D arrays Y, X, to be integrated (Y)dx -
-          [Optional offset value? to use as the Plus-C]
-  * OUTPUT: The integral of Y dx (BOX? Trapz?) - offset if instructed to.
-  * Note: Error handling? What if not Sorted/Linear in X?
-          Should we sort by X first? (Or, what if reciprocating
-          data ie CV Sweeps?)
-
-#### transform_2D_der():
-  * INPUT: 2 equal size 1D arrays Y, X - Sorted? in either?
-  * OUTPUT: the Single-point derivatives dY/dX, also the offset so
-          you /could/ integrate it back again!
-  * Note: could use some sort of average or smoothing to reduce noise?
-          However that would be LOSSY DATA PRACTICE!
-
-#### transform_prod():
-  * INPUT: 2 equal size 1D arrays X, Y , [Optional Power arguments?
-          or do those in the 1D cases and use as inputs?]
-  * OUTPUT: Product of each x*y, maybe with power-math included (options)
-
-### *SECTION: More Complex Transformations*
- #### transform_fourier_wavelets():
-  * Ok so this is the only High-Priority one that I'm genuinely
-          concerned with... while you "CAN" try to do a transform on
-          a whole dataset, that gets noisy and lossy.
-    What I want to investigate is "Wavelet Filtering" Fourier transform,
-          which we learned about at a Data Sci seminar last quarter?
-          (Or otherwise, there's a whole realm of Signal-transforming
-          science, I can research that...)
-  * INPUT:  2 equal size 1D arrays X, Y - Sorted in X??
-          (Frequency range parameters? or is that the X-size?)
-  * OUTPUT: 2D? output matrix or Meshgrid - in X-Freq space
-          (for each wavelet size, return the match(-1 to 1?)*amplitude
-          at each X?)
-  * note: This will have to be a group discussion- we need TEST DATA
-          that should work in this space, and then we can report that back!
-
- #### multi_transform():
-  * Wrapping function, to perform multiple transformations all together...
-          Not sure which of these may be useful but I can see possible
-          value in knowing the integral of a log function, for example.
-  * INPUT: X, [Y if 2D], Multiple transforms to perform...
-          Is this what classes are for??
-  * OUTPUT: Data output from the final transform listed.
-  * note: This is low-priority, and should only be done if we convince
-          ourselves that it's useful... RELATED, if we get the "Smart"
-          learning functionality, maybe we can combine things this way
-
- #### transform___():
-  *
-  * INPUT:
-  * OUTPUT:
-
-"""
-
 import numpy as np
 import pandas as pd
 from scipy import signal
-# import matplotlib.pyplot as plt
 
 
-def transform_1d_none(raw_array):
+def raw(raw_array):
     ''' Function that provides returns data as it is
 
     Parameters
@@ -167,13 +21,13 @@ def transform_1d_none(raw_array):
     return raw_array
 
 
-def transform_1d_exp(raw_array):
+def exp(raw_array):
     # import numpy as np
     # Simple transform, returning the exponential value of each number
     return np.exp(raw_array)
 
 
-def transform_1d_log(raw_array):
+def nlog(raw_array):
     '''The function that outputs the natural log of input array
 
     Parameters
@@ -193,7 +47,27 @@ def transform_1d_log(raw_array):
     return log_array
 
 
-def transform_1d_reciprocal(raw_array):
+def log10(raw_array):
+    '''The function that outputs the natural log of input array
+
+    Parameters
+    ----------
+    raw_array: Input numpy array
+
+    Returns
+    -------
+    log_array: np.ndarray
+               natural log values of each element in the input array
+    '''
+
+    # NOTE: All Elements in array MUST be Positive!?
+    #       IF Not, option to normalize first??
+    assert min(raw_array) > 0, "Log will not accept negative values!"
+    log_array = np.log10(raw_array)
+    return log_array
+
+
+def reciprocal(raw_array):
     '''The function the outputs the reciprocal of input array
 
     Parameters
@@ -209,7 +83,7 @@ def transform_1d_reciprocal(raw_array):
     return reciprocal_array
 
 
-def transform_1d_cumsum(raw_array):
+def cumsum(raw_array):
     '''The function return the cumulative sum of input array
 
     Parameters
@@ -225,7 +99,7 @@ def transform_1d_cumsum(raw_array):
     return cumsum_array
 
 
-def transform_1d_derivative(raw_array, spacing=0):
+def derivative_1d(raw_array, spacing=0):
     ''' Function that outputs the gradient of 1-D array using
     numpy.gradient function
 
@@ -250,7 +124,7 @@ def transform_1d_derivative(raw_array, spacing=0):
     return derivative_array
 
 
-def transform_2d_derivative(x, y):
+def derivative_2d(x, y):
     """Function that outputs the slope between x and y data
 
     Parameters
@@ -274,7 +148,7 @@ def transform_2d_derivative(x, y):
     return slope_array
 
 
-def transform_1d_cwt(raw_df, xy=0):
+def cwt_1d(raw_df, xy=0):
     """
     Transform to execute a "Continuous Wavelet Transform" on a 1d data array
     pass it a raw XY data and tell it which column to use for the transform.
@@ -341,7 +215,7 @@ def transform_1d_cwt(raw_df, xy=0):
     return cwt_matrix
 
 
-def transform_array_multiplication(x, y=None):
+def power(x, y=None, n=1, m=1):
     ''' Function that multiplies two arrays x & y, element
     by element. If y is None, it return x*x
 
@@ -360,47 +234,22 @@ def transform_array_multiplication(x, y=None):
                  of two arrays
     '''
     if y:
-        multi_array = np.multiply(x, y)
+        multi_array = np.multiply(np.power(x, n), np.power(y, m))
         return multi_array
     else:
-        multi_array = np.multiply(x, x)
+        multi_array = np.power(x, n)
         return multi_array
 
 
-list_1d1d = {
-        "1d_raw": transform_1d_none,
-        "1d_log": transform_1d_log,
-        "1d_exp": transform_1d_exp,
-        "1d_reciprocal": transform_1d_reciprocal,
-        "1d_cumsum": transform_1d_cumsum,
-        "1d_derivative": transform_1d_derivative,
-        "1d_multiply": transform_array_multiplication
-        }
-list_1d2d = {
-        "1d_cwt": transform_1d_cwt
-        }
-
-
-"""
-# ==========================================================================
-# test zone (Note: Uncomment Matplotlib at top of file!
-
-x_linear = np.linspace(0, 20, 1000)
-y_test = 10 * np.sin(2 * np.pi * 0.1 * x_linear) + \
-            1 * np.sin(2 * np.pi * 5 * x_linear)
-test_df = pd.DataFrame(data={"Xlinear": x_linear, "Ytest": y_test})
-# Valid Test: Pass Test_df and the Y-axis transform to get output df
-# of the Y-test data.
-fig, ax = plt.subplots(2, 1)
-result_1 = transform_1d_cwt(test_df, 'y')
-ax[0].imshow(result_1, cmap='PRGn')
-ax[1].plot(x_linear, y_test)
-fig, ax2 = plt.subplots(2, 1)
-
-y_chirp = signal.chirp(x_linear, 2, 20, 0.001)
-result_2 = transform_1d_cwt(y_chirp)
-ax2[0].imshow(result_2, cmap='PRGn')
-ax2[1].plot(x_linear, y_chirp)
-# ==========================================================================
-
-"""
+# list_1d1d = {
+#         "1d_raw": transform_1d_none,
+#         "1d_log": transform_1d_log,
+#         "1d_exp": transform_1d_exp,
+#         "1d_reciprocal": transform_1d_reciprocal,
+#         "1d_cumsum": transform_1d_cumsum,
+#         "1d_derivative": transform_1d_derivative,
+#         "1d_multiply": transform_array_multiplication
+#         }
+# list_1d2d = {
+#         "1d_cwt": transform_1d_cwt
+#         }
