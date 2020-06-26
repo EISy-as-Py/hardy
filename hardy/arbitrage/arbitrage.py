@@ -134,7 +134,7 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
                 new_names[command[0]] = old_names[command[2][0]] +\
                     '__tform__' + command[1]
             else:
-                new_names[command[0]] = str(old_names[command[2][0]] + '*'
+                new_names[command[0]] = str(old_names[command[2][0]] + '*' +
                                             old_names[command[2][1]]) +\
                                           '__tform__' + command[1]
 
