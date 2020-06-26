@@ -26,16 +26,16 @@ class TestSimulationTools(unittest.TestCase):
             iterator_mode='arrays', classifier='tuner',
             num_test_files_class=1, classes=['noise', 'one'], split=0.5,
             batch_size=1, project_name='test_wrapper')
-        # output_path = preprocessing.save_to_folder(
-        #         data_path, 'test_wrapper', 'test_1')
-        # report_dir = output_path+'report/'
-        # report_location = os.listdir(report_dir)
-        # for item in report_location:
-        #     if item.endswith('.yaml'):
-        #         with open(report_dir+item, 'r') as file:
-        #             report = yaml.load(file, Loader=yaml.FullLoader)
-        #             assert isinstance(report, dict),\
-        #                 'The filetype returned in not a dictionary'
+        output_path = preprocessing.save_to_folder(
+                data_path, 'test_wrapper', 'test_1')
+        report_dir = output_path+'report/'
+        report_location = os.listdir(report_dir)
+        for item in report_location:
+            if item.endswith('.yaml'):
+                with open(report_dir+item, 'r') as file:
+                    report = yaml.load(file, Loader=yaml.FullLoader)
+                    assert isinstance(report, dict),\
+                        'The filetype returned in not a dictionary'
         shutil.rmtree('./hardy/test/test_data/test_wrapper')
         pass
 
