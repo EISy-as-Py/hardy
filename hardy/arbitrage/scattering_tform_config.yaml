@@ -15,51 +15,64 @@ tform_command_list:
     - "sqr_q_log_I"
     - "log_q_sqr_I"
     - "sqr_q_sqr_I"
+    - "der_q_log_I"
+    - "log_q_der_I"
+    - "der_q_der_I"
     - "multi_transform"
+
 
 
 
 tform_command_dict:
     "lin_q_lin_I":
-        - [0, '1d_raw', 0]
-        - [1, '1d_raw', 1]
+        - [0, 'raw', 1]
+        - [1, 'raw', 0]
     "lin_q_log_I":
-        - [0, '1d_raw', 0]
-        - [3, '1d_log', 1]
+        - [0, 'raw', 1]
+        - [2, 'nlog', 0]
     "log_q_lin_I":
-        - [0, '1d_log', 0]
-        - [1, '1d_raw', 1]
+        - [0, 'nlog', 1]
+        - [1, 'raw', 0]
     "log_q_log_I":
-        - [0, '1d_log', 0]
-        - [3, '1d_log', 1]
+        - [0, 'nlog', 1]
+        - [2, 'nlog', 0]
     "rec_q_lin_I":
-        - [2, '1d_reciprocal', 0]
-        - [3, '1d_raw', 1]
+        - [2, 'reciprocal', 1]
+        - [3, 'raw', 0]
     "rec_q_rec_I":
-        - [0, '1d_reciprocal', 0]
-        - [1, '1d_reciprocal', 1]
+        - [0, 'reciprocal', 1]
+        - [1, 'reciprocal', 0]
     "lin_q_rec_I":
-        - [0, '1d_raw', 0]
-        - [1, '1d_reciprocal', 1]
+        - [0, 'raw',1]
+        - [1, 'reciprocal', 0]
     "lin_q_sqr_I":
-        - [0, '1d_raw', 0]
-        - [1, '1d_multiply', 1]
+        - [0, 'raw', 1]
+        - [1, 'power', (0,none,2,1)]
     "sqr_q_lin_I":
-        - [3, '1d_multiply', 0]
-        - [1, '1d_raw', 1]
+        - [3, 'power', (0,none,2,1)]
+        - [1, 'raw', 0]
     "sqr_q_log_I":
-        - [5, '1d_multiply', 0]
-        - [1, '1d_log', 1]
+        - [5, 'power', (1,none,2,1)]
+        - [1, 'nlog', 0]
     "log_q_sqr_I":
-        - [0, '1d_log', 0]
-        - [1, '1d_multiply', 1]
+        - [0, 'nlog', 1]
+        - [1, 'power', (0,none,2,1)]
     "sqr_q_sqr_I":
-        - [0, '1d_multiply', 0]
-        - [1, '1d_multiply', 1]
+        - [0, 'power', (1,none,2,1)]
+        - [1, 'power', (0,none,2,1)]
     "multi_transform":
-        - [0, '1d_raw', 0]
-        - [1, '1d_log', 0]
-        - [2, '1d_derivative', 0]
-        - [3, '1d_raw', 1]
-        - [4, '1d_log', 1]
-        - [5, '1d_derivative', 1]
+        - [0, 'raw', 1]
+        - [1, 'nlog', 1]
+        - [2, 'derivative_1d', 1]
+        - [3, 'raw', 0]
+        - [4, 'nlog', 0]
+        - [5, 'derivative_1d', 0]
+    "der_q_log_I":
+        - [0, 'derivative_1d', 1]
+        - [1, 'nlog', 0]
+    "log_q_der_I":
+        - [0, 'nlog', 1]
+        - [2, 'derivative_1d', 0]
+    "der_q_der_I":
+        - [0, 'derivative_1d', 1]
+        - [1, 'derivative_1d', 0]

@@ -186,6 +186,10 @@ def summary_report_tables(report_path):
     '''
     hyperparam_df, history_df, tform_rank_df = report_dataframes(report_path)
     summary_df = summary_dataframe(report_path)
+    tform_rank_df.style.format(
+        "{:.3}", subset=["test_accuracy"])
+    # .style.apply(highlight_max(
+    # subset=["test_accuracy"], color='gold'))
 
     return summary_df, tform_rank_df
 

@@ -5,18 +5,18 @@ num_classes:
   - 4
 
 epochs:
-  - 3
+  - 30
 
 patience:
-  - 2
+  - 3
 
 input_shape:
-  - 50
+  - 100
   - 3
 
 # execution per trial
 max_trials:
-  - 5
+  - 3
 
 exec_per_trial:
   - 3
@@ -28,7 +28,7 @@ search_function:
 # Configuration of search space
 
 layers:
-  - 4
+  - 5
 
 filters:
   - Int

@@ -126,8 +126,17 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
     old_names = list(raw_df.columns)
     new_names = list(range(rgb_col_number))
     for command in tform_commands:
-        new_names[command[0]] = old_names[command[2]] + '__tform__' +\
-            command[1]
+        if type(command[2]) == 'int':
+            new_names[command[0]] = old_names[command[2]] + '__tform__' +\
+                command[1]
+        elif type(command[2]) == 'tuple' and command[1] == 'power':
+            if command[2][1] == 'None':
+                new_names[command[0]] = old_names[command[2][0]] +\
+                    '__tform__' + command[1]
+            else:
+                new_names[command[0]] = str(old_names[command[2][0]] + '*'
+                                            old_names[command[2][1]]) +\
+                                          '__tform__' + command[1]
 
     # Now initialize output df with zeros from length of first df column
     df_len = len(raw_df[old_names[0]])
@@ -146,7 +155,7 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
             # Save in output df
             tform_df[new_names[command[0]]] = tform_data
         if type(command[2]) == 'tuple':
-            if command[1] == '1d_power':
+            if command[1] == 'power':
                 # the power trasnformation is in the form of x^(n)y^(m).
                 # the arguments should be inputted as (x, y, n, m)
                 data_series_1 = raw_df[old_names[command[2][0]]]
