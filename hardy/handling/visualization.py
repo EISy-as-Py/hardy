@@ -4,6 +4,8 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+from skimage.transform import resize
+
 
 #######################################################################
 # Normalization Functions
@@ -77,7 +79,7 @@ def normalize_image(color_image_array):
 # Plotting Functions
 def rgb_plot(red_array=None, green_array=None, blue_array=None,
              plot=True, save_image=None, filename=None,
-             save_location=None):
+             save_location=None, scale=1.0):
     '''Returns a plot which represents the input data as a color gradient of
     one of the three color channels available: red, blue or green.
 
@@ -97,6 +99,8 @@ def rgb_plot(red_array=None, green_array=None, blue_array=None,
                   the data array to be plotted in the green channel.
     blue_array : array
                  the data array to be plotted in the blue channel.
+    scale :  float
+             percentage fo the image to reduce its size to.
     plot : bool
            if True, the color gradient representation of the data will be
            displayed
@@ -161,6 +165,8 @@ def rgb_plot(red_array=None, green_array=None, blue_array=None,
         plt.savefig('{}.png'.format(filename), dpi=100, bbox_inches='tight')
         plt.close()
 
+    resized_dimension = np.shape(rgb_plot)[0]*scale
+    rgb_plot = resize(rgb_plot, (resized_dimension, resized_dimension))
     return rgb_plot
 
 
@@ -237,9 +243,6 @@ def orthogonal_images_mlt(image_x, image_y, plot=True, save_image=None,
     NOTE: If one axis of a color (Red X) has data but the other (Red Y)
           has nothing, we should Replace the Zero-array with a Ones-Array!
 
-
-
-
     Parameters
     ----------
     image_x : array-like
@@ -304,7 +307,7 @@ def orthogonal_images_mlt(image_x, image_y, plot=True, save_image=None,
     return combined_image
 
 
-def regular_plot(tform_df_tuple):
+def regular_plot(tform_df_tuple, scale=1.0):
     '''
     Function that generates standard x-y plots
 
@@ -313,7 +316,8 @@ def regular_plot(tform_df_tuple):
     tform_df_tuple : list
                      The list of tuples in the following format
                      (filenames, dataframe, label)
-
+    scale :  float
+             percentage fo the image to reduce its size to.
     Returns
     -------
     img :  np.array
@@ -331,12 +335,12 @@ def regular_plot(tform_df_tuple):
         ax.scatter(tform_df_tuple[arrays_to_plot[0]],
                    tform_df_tuple[arrays_to_plot[i+1]])
     ax.axis('off')
-    img = get_img_from_fig(fig)
+    img = get_img_from_fig(fig, scale=scale)
     plt.close()
     return img
 
 
-def get_img_from_fig(fig, dpi=100):
+def get_img_from_fig(fig, scale=1.0, dpi=100):
     '''
     Transforms a matplotlib figure into an array
 
@@ -345,6 +349,8 @@ def get_img_from_fig(fig, dpi=100):
     fig : matplotlib figure
           The figure containing the x-y plot of the data
 
+    scale :  float
+             percentage fo the image to reduce its size to.
     Returns
     -------
     img :  np.array
@@ -358,4 +364,8 @@ def get_img_from_fig(fig, dpi=100):
     buf.close()
     img = cv2.imdecode(img_arr, 1)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    resized_dimension = np.shape(img)[0]*scale
+    img = resize(img, (resized_dimension, resized_dimension))
+
     return img

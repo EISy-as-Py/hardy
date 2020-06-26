@@ -18,7 +18,7 @@ def hardy_multi_transform(  # Data and Config Paths
                           iterator_mode='arrays', plot_format="RGBrgb",
                           print_out=True, skiprows=0,
                           # Optional for Classifier
-                          num_test_files_class=300,
+                          num_test_files_class=300, scale=1.0,
                           classifier='tuner', split=0.1, target_size=(80, 80),
                           batch_size=32, classes=['class_1', 'class_2'],
                           project_name='tuner_run'
@@ -51,6 +51,8 @@ def hardy_multi_transform(  # Data and Config Paths
                             set
     classifier : str
                   option cnn or tuner
+    scale :  float
+             percentage fo the image to reduce its size to.
     split : float
             the percentage of the learning set to use for the validation step
     target_size : tuple
@@ -126,7 +128,7 @@ def hardy_multi_transform(  # Data and Config Paths
             image_data = data_wrapper(
                 raw_datapath, tform_commands=tform_commands,
                 plot_format=plot_format, iterator_mode=iterator_mode,
-                print_out=print_out, run_name=tform_name,
+                print_out=print_out, run_name=tform_name, scale=scale,
                 project_name=project_name, classes=classes, skiprows=skiprows)
             image_path = None
         else:
@@ -134,7 +136,7 @@ def hardy_multi_transform(  # Data and Config Paths
             image_path = data_wrapper(
                 raw_datapath, tform_commands=tform_commands,
                 plot_format=plot_format, iterator_mode=iterator_mode,
-                print_out=print_out, run_name=tform_name,
+                print_out=print_out, run_name=tform_name, scale=scale,
                 project_name=project_name, classes=classes, skiprows=skiprows)
 
         # ============================================
@@ -161,7 +163,7 @@ def hardy_multi_transform(  # Data and Config Paths
 def data_wrapper(raw_datapath, tform_commands=None, classes=None,
                  plot_format="RGBrgb", iterator_mode='arrays',
                  print_out=True, project_name=None, run_name=None,
-                 skiprows=0):
+                 skiprows=0, scale=1.0):
     """
     Overall "One-Click" Wrapper to create the three "Keras Ready" Datasets
         needed to train the model: "Training Set", "Validation Set" and
@@ -206,11 +208,11 @@ def data_wrapper(raw_datapath, tform_commands=None, classes=None,
         pass
     # Next make the rgb images Tuples List
     if plot_format == 'RGBrgb':
-        tuples_list = to_catalogue.rgb_list(tform_tuples_list,
+        tuples_list = to_catalogue.rgb_list(tform_tuples_list, scale=scale,
                                             plot_format=plot_format)
     else:
         tuples_list = to_catalogue.regular_plot_list(
-            tform_tuples_list)
+            tform_tuples_list, scale=scale)
 
     # OK! Now we have image arrays finished!
     #     EITHER Return that list of image tuples

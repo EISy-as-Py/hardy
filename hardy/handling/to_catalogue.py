@@ -185,7 +185,7 @@ def _data_tuples_from_fnames(input_path='./', skiprows=0, classes=None):
 
 
 def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
-             combine_method='add'):
+             combine_method='add', scale=1.0):
     '''
     Input a path of csv files (with some guidance),
     Plot them RGB-wise into images
@@ -207,7 +207,8 @@ def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
     column names :  list of strings (Optional)
                     IF given, will drop all columns not in the
                         list given. (If no colums match, will ERROR.)
-
+    scale :  float
+             percentage fo the image to reduce its size to.
     Returns
     -------
     list_of_rgb_tuples  :   list of tuples
@@ -230,7 +231,7 @@ def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
         fdata = data_tuple[1]
 
         rgb_image = rgb_visualize(fdata, plot_format, combine_method,
-                                  column_names)
+                                  column_names, scale=scale)
         # Need some check that the visualization worked?
 
         rgb_tuple = (data_tuple[0], rgb_image, data_tuple[2])
@@ -241,7 +242,7 @@ def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
     return list_of_rgb_tuples
 
 
-def regular_plot_list(data_tuples):
+def regular_plot_list(data_tuples, scale=1.0):
     '''
     Returns a list of tuples containing the arrays of images
     representing x-y plot
@@ -251,7 +252,8 @@ def regular_plot_list(data_tuples):
     data_tuples :   list of tuples
                     The list of tuples in the following format
                      (filenames, dataframe, label)
-
+    scale :  float
+          percentage fo the image to reduce its size to.
     Returns
     -------
     list_of_rgb_tuples  :   list of tuples
@@ -266,7 +268,7 @@ def regular_plot_list(data_tuples):
         # For each dataframe given
         fdata = data_tuple[1]
 
-        plot_image = vis.regular_plot(fdata)
+        plot_image = vis.regular_plot(fdata, scale=scale)
         # Need some check that the visualization worked?
 
         plot_tuple = (data_tuple[0], plot_image, data_tuple[2])
@@ -310,7 +312,7 @@ def data_set_split(image_list, test_set_filenames):
 
 
 def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
-                  column_names=None):
+                  column_names=None, scale=1.0):
     '''
     Input a list of dataframes (already read and/or processed),
     Plot them RGB-wise into images
@@ -334,6 +336,8 @@ def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
                     "Rb"
 
     combine_method: "add" or "mlt" - which visualization fn to use
+    scale :  float
+             percentage fo the image to reduce its size to.
 
     Returns
     -------
@@ -352,12 +356,12 @@ def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
     if plot_format == 'single':
         rgb_image = vis.rgb_plot(red_array=fdata[column_names[0]],
                                  blue_array=fdata[column_names[1]],
-                                 plot=False)
+                                 plot=False, scale=scale)
     elif plot_format == "else":
         rgb_image_x = vis.rgb_plot(red_array=fdata[column_names[0]],
-                                   plot=False)
+                                   plot=False, scale=scale)
         rgb_image_y = vis.rgb_plot(blue_array=fdata[column_names[1]],
-                                   plot=False)
+                                   plot=False, scale=scale)
         rgb_image = vis.orthogonal_images_add(rgb_image_x, rgb_image_y,
                                               plot=False)
     else:
@@ -385,9 +389,9 @@ def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
             if b is None and plot_format[i] == "b":
                 b = fdata[column_names[i]]
         rgb_image_x = vis.rgb_plot(red_array=R, green_array=G,
-                                   blue_array=B, plot=False)
+                                   blue_array=B, plot=False, scale=scale)
         rgb_image_y = vis.rgb_plot(red_array=r, green_array=g,
-                                   blue_array=b, plot=False)
+                                   blue_array=b, plot=False, scale=scale)
 
         # Default to "Add", but check for the option of using the mlt fn.
         if combine_method == "mlt":
