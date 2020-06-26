@@ -51,9 +51,10 @@ def build_tuner_model(hp):
         'kernel_size', values=param['kernel_size'][1]['values']),
     kernel_size = (kernel[0], kernel[0])
 
-    filter = getattr(hp, param['filters'][0])
-    ('filters_' + str(i), min(param['filters'][1]['values']),
-     max(param['filters'][1]['values']), step=4, default=8)
+    filter = getattr(
+        hp, param['filters'][0])(
+            'filters', min(param['filters'][1]['values']),
+            max(param['filters'][1]['values']), step=4, default=8)
 
     for i in range(hp.Int('conv_layers', 1, max(param['layers']),
                           default=3)):
