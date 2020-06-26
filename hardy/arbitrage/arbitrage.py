@@ -153,8 +153,9 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
                 data_series_2 = raw_df[old_names[command[2][1]]]
                 n = command[2][2]
                 m = command[2][3]
-                target_raw = tform_1d1d[command[1]](
-                    data_series_1, data_series_2, n, m)
+                transform_function = getattr(transform, command[1])
+                tform_data = transform_function(
+                        data_series_1, data_series_2, n, m)
     return tform_df
 
 
@@ -195,35 +196,3 @@ def tform_tuples(list_of_tuples, tform_commands, rgb_format="RGBrgb"):
         transformed_tuples.append(tform_tup)
 
     return transformed_tuples
-
-
-#
-
-
-# =============================================================================
-# """
-# TESTING ZONE
-# """
-#
-# a=time.perf_counter()
-# test_dir = '../local_data/2020-4-21_0000'
-# test_tform_list = (
-#      (0, "1d_exp", 0),
-#      (1, "1d_none", 1),
-#      (2, "1d_cumsum", 1),
-#      )
-#
-# transformed_data, save_path = setup_tform_files(test_dir)
-# test_tform_data = load_and_transform_data(transformed_data, test_tform_list,
-#                                           save_path=save_path)
-#
-# print("Time was : {} seconds".format(round(time.perf_counter()-a,2)))
-# """
-# To-Do now:
-#    -make some sort of iterable to scan the data and determine GLOBAL features
-#    (like max and min, to deterimine what transforms are OK for each dataset)
-#    -Use this function to create a LIST of Transform_list possibilities, and
-#    iterate over that list (as we will be able to direct)
-#
-# """
-# =============================================================================

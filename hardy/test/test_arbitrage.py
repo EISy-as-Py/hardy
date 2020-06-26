@@ -20,7 +20,7 @@ for file in sample_data:
     if '.csv' in file:
         fname = file[:-4]  # File name is the file without extension
         raw_df = handling._smart_read_csv(os.path.join(data_path, file),
-                                          try_skiprows=0)
+                                          skiprows=0)
         raw_df = pd.read_csv(os.path.join(data_path, file), skiprows=0)
         label = fname[-5:]
         # ^ Label is the last part of the fname (just testing)

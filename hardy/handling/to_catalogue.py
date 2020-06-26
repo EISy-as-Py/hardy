@@ -3,7 +3,7 @@ import pickle
 import os
 import time
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import numpy as np
 
 import hardy.handling.visualization as vis
