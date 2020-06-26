@@ -24,8 +24,8 @@ for file in sample_data:
     if '.csv' in file:
         fname = file[:-4]  # File name is the file without extension
         raw_df = handling._smart_read_csv(os.path.join(data_path, file),
-                                          try_skiprows=6)
-        raw_df = pd.read_csv(os.path.join(data_path, file), skiprows=6)
+                                          skiprows=0)
+        raw_df = pd.read_csv(os.path.join(data_path, file), skiprows=0)
         label = fname[-5:]
         # ^ Label is the last part of the fname (just testing)
         the_tuple = (fname, raw_df, label)
@@ -73,18 +73,3 @@ class TestSimulationTools(unittest.TestCase):
             arbitrage.tform_tuples(sample_tuples, tform_example)
         except AssertionError:
             pass
-
-
-# =============================================================================
-# """
-# TESTING ZONE
-# """
-#
-# To-Do now:
-#    -make some sort of iterable to scan the data and determine GLOBAL features
-#    (like max and min, to deterimine what transforms are OK for each dataset)
-#    -Use this function to create a LIST of Transform_list possibilities, and
-#    iterate over that list (as we will be able to direct)
-#
-# """
-# =============================================================================
