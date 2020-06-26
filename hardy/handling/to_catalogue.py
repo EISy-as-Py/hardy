@@ -144,7 +144,7 @@ def _data_tuples_from_fnames(input_path='./', skiprows=0, classes=None):
             # Read data into pandas dataframe
             fdata, last_skiprows = \
                 handling._smart_read_csv(input_path+entry,
-                                         try_skiprows=skiprows,
+                                         skiprows=skiprows,
                                          last_skiprows=last_skiprows)
             # Now remove any columns with bad data types
             # (Strings, objects, etc)

@@ -16,7 +16,7 @@ def hardy_multi_transform(  # Data and Config Paths
                           classifier_config_path,
                           # Optional for Data
                           iterator_mode='arrays', plot_format="RGBrgb",
-                          print_out=True,
+                          print_out=True, skiprows=0,
                           # Optional for Classifier
                           num_test_files_class=300,
                           classifier='tuner', split=0.1, target_size=(80, 80),
@@ -127,7 +127,7 @@ def hardy_multi_transform(  # Data and Config Paths
                 raw_datapath, tform_commands=tform_commands,
                 plot_format=plot_format, iterator_mode=iterator_mode,
                 print_out=print_out, run_name=tform_name,
-                project_name=project_name, classes=classes)
+                project_name=project_name, classes=classes, skiprows=skiprows)
             image_path = None
         else:
             image_data = None
@@ -135,7 +135,7 @@ def hardy_multi_transform(  # Data and Config Paths
                 raw_datapath, tform_commands=tform_commands,
                 plot_format=plot_format, iterator_mode=iterator_mode,
                 print_out=print_out, run_name=tform_name,
-                project_name=project_name, classes=classes)
+                project_name=project_name, classes=classes, skiprows=skiprows)
 
         # ============================================
         # Section 3: Classifier Wrapper  (Setup + Run)
@@ -160,7 +160,8 @@ def hardy_multi_transform(  # Data and Config Paths
 
 def data_wrapper(raw_datapath, tform_commands=None, classes=None,
                  plot_format="RGBrgb", iterator_mode='arrays',
-                 print_out=True, project_name=None, run_name=None):
+                 print_out=True, project_name=None, run_name=None,
+                 skiprows=0):
     """
     Overall "One-Click" Wrapper to create the three "Keras Ready" Datasets
         needed to train the model: "Training Set", "Validation Set" and
@@ -173,7 +174,7 @@ def data_wrapper(raw_datapath, tform_commands=None, classes=None,
         print("Processing Data...\t", end="")
     # Make the raw Dataframe Tuples List
     raw_tuples_list = to_catalogue._data_tuples_from_fnames(
-        raw_datapath, classes=classes)
+        raw_datapath, classes=classes, skiprows=skiprows)
     # Now perform trasnsform if given
     if tform_commands is None:
         tform_tuples_list = raw_tuples_list

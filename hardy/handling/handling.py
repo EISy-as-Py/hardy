@@ -389,7 +389,7 @@ def cats_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
     return classification_list
 
 
-def _smart_read_csv(full_fname, try_skiprows, last_skiprows=None,
+def _smart_read_csv(full_fname, skiprows, last_skiprows=None,
                     size_to_load=None, maxskip=100):
     """
     Looping through pandas read_csv, checking the data
@@ -428,7 +428,7 @@ def _smart_read_csv(full_fname, try_skiprows, last_skiprows=None,
 
     """
     # load_success = False
-    fdata = pd.read_csv(full_fname, skiprows=0)
+    fdata = pd.read_csv(full_fname, skiprows=skiprows)
     # ^ We will use this to Track whether we did a successful load.
     #       Turn it TRUE if a load does not error, but Turn if FALSE
     #       if a successful load does not pass the data tests.
