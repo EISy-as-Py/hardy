@@ -113,5 +113,5 @@ class TestSimulationTools(unittest.TestCase):
 
         slope = tforms.transform_2d_derivative(x, y)
 
-        assert np.allclose(slope, check_result), "The returned array for slope,\
-        contains incorrect elements"
+        assert np.allclose(slope, check_result),\
+            "The returned array for slope, contains incorrect elements"
