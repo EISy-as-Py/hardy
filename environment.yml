@@ -29,6 +29,7 @@ dependencies:
   - python
   - scipy
   - setuptools
+  - scikit-image
   - scikit-learn
   - testpath
   - tk
