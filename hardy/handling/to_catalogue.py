@@ -566,14 +566,17 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
 
         if k_fold:
 
-            assert (k, fold) 'The number of folds needs to be provided'
+            assert k, 'The number of folds needs to be provided'
 
-            image_data_list = [(image_data, image_labels)]
+            image_data_list = [(image_data[i], image_labels[i])
+                               for i in range(len(image_data))]
+            print(np.shape(image_data_list))
             np.random.shuffle(image_data_list)
 
             num_validation_samples = len(image_data_list) // k
 
             # define the training and validation set for the given fold
+            print(fold)
             x_train = image_data_list[:num_validation_samples*fold][0] + \
                 image_data_list[num_validation_samples*(fold+1):][0]
             y_train = image_data_list[:num_validation_samples*fold][1] + \

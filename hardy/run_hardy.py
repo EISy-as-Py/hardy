@@ -22,7 +22,7 @@ def hardy_multi_transform(  # Data and Config Paths
                           classifier='tuner', split=0.1, target_size=(80, 80),
                           batch_size=32, classes=['class_1', 'class_2'],
                           project_name='tuner_run', k_fold=False, k=None,
-                          ):
+                          color_mode='rgb'):
     """
     OVERALL wrapper function, to pass initial configurations and allow
         all other internal functions to understand and call upon each other.
@@ -149,7 +149,7 @@ def hardy_multi_transform(  # Data and Config Paths
                            image_data=image_data,
                            classifier=classifier,
                            iterator_mode=iterator_mode,
-                           split=split,
+                           split=split, color_mode=color_mode,
                            target_size=target_size,
                            batch_size=batch_size,
                            image_path=image_path,
@@ -231,7 +231,7 @@ def data_wrapper(raw_datapath, tform_commands=None, classes=None,
 def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
                        image_data=None, classifier='tuner',
                        iterator_mode='arrays', split=0.1,
-                       target_size=(80, 80),
+                       target_size=(80, 80), color_mode='rgb',
                        batch_size=32, image_path=None,
                        classes=['class_1', 'class_2'],
                        project_name='tuner_run',
@@ -296,17 +296,20 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
             test_set = to_catalogue.test_set(image_list=test_set_list,
                                              target_size=target_size,
                                              classes=classes,
+                                             color_mode=color_mode,
                                              iterator_mode='arrays',
                                              batch_size=batch_size)
         else:
             training_set, validation_set = to_catalogue.learning_set(
                 image_list=learning_set_list, split=split,
                 classes=classes, target_size=target_size,
-                iterator_mode='arrays', batch_size=batch_size)
+                iterator_mode='arrays', batch_size=batch_size,
+                color_mode=color_mode)
 
             test_set = to_catalogue.test_set(image_list=test_set_list,
                                              target_size=target_size,
                                              classes=classes,
+                                             color_mode=color_mode,
                                              iterator_mode='arrays',
                                              batch_size=batch_size)
     else:
@@ -357,7 +360,7 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
                                  color_mode=color_mode,
                                  iterator_mode=iterator_mode,
                                  image_list=learning_set_list,
-                                 test_set=None, **kwargs)
+                                 test_set=None)
             output_path = preprocessing.save_to_folder(input_path,
                                                        project_name,
                                                        run_name)

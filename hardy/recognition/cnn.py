@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 
+from hardy.handling import to_catalogue
+
 from keras.layers import (Dense, Conv2D, MaxPool2D,
                           Flatten)
 from keras.models import Sequential
