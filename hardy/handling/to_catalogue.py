@@ -576,18 +576,21 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
             num_validation_samples = len(image_data_list) // k
 
             # define the training and validation set for the given fold
-            print(fold)
-            x_train = image_data_list[:num_validation_samples*fold][0] + \
-                image_data_list[num_validation_samples*(fold+1):][0]
-            y_train = image_data_list[:num_validation_samples*fold][1] + \
-                image_data_list[num_validation_samples*(fold+1):][1]
 
-            x_val = image_data_list[
-                num_validation_samples*fold: num_validation_samples*(fold+1)
-                ][0]
-            y_val = image_data_list[
-                num_validation_samples*fold: num_validation_samples*(fold+1)
-                ][1]
+            x_train = [image_data_list[i][0] for i in
+                       np.arange(0, num_validation_samples*fold) and
+                       np.arange(num_validation_samples*(fold+1),
+                                 len(image_data_list))]
+
+            y_train = [image_data_list[i][1] for i in
+                       np.arange(0, num_validation_samples*fold) and
+                       np.arange(num_validation_samples*(fold+1),
+                                 len(image_data_list))]
+
+            x_val = [image_data_list[i][0] for i in np.arange(
+                num_validation_samples*fold, num_validation_samples*(fold+1))]
+            y_val = [image_data_list[i][1] for i in np.arange(
+                num_validation_samples*fold, num_validation_samples*(fold+1))]
 
             data = ImageDataGenerator(**kwargs)
 
