@@ -491,7 +491,7 @@ def _safe_clear_dirflow(the_path):
 def learning_set(path=None, split=0.1, target_size=(80, 80),
                  classes=['noisy', 'not_noisy'], batch_size=32,
                  color_mode='rgb', iterator_mode='arrays',
-                 image_list=None, **kwargs):
+                 image_list=None, k_fold=None, k=None, fold=None, **kwargs):
     '''
     A funciton that will create an iterator for the files representing the
     learning sets
@@ -514,14 +514,18 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
                 The number of files to group up into a batch
     color_mode: str
                 Either grayscale or rgb
-    iterator_mode : str
+    iterator_mode: str
                     string indicating which Keras IamgeDataGenerator mode
                     to use. Options are 'arrays' or 'images'. The first will
                     use the "flow" option, the second will use
                     "flow_from_directory" option
-    image_list : list
+    image_list: list
                  The list of tuples in the following format
                  (filenames, image_array, label)
+    k_fold: Bool
+    k:  int
+    fold: int
+
     Returns
     -------
     training_set:  Keras image iterator
@@ -529,7 +533,6 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
     validation_set: Keras image iterator
                 The training set containg labelled images
     '''
-    data = ImageDataGenerator(validation_split=split, **kwargs)
 
     if iterator_mode == 'arrays':
         n = target_size[0]
@@ -561,12 +564,46 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
         image_labels = keras.utils.to_categorical(
             image_labels, num_classes=len(np.unique(image_labels)))
 
-        training_set = data.flow(x=image_data, y=image_labels,
-                                 batch_size=batch_size, subset='training')
-        validation_set = data.flow(x=image_data, y=image_labels,
-                                   batch_size=batch_size, subset='validation')
+        if k_fold:
+
+            assert (k, fold) 'The number of folds needs to be provided'
+
+            image_data_list = [(image_data, image_labels)]
+            np.random.shuffle(image_data_list)
+
+            num_validation_samples = len(image_data_list) // k
+
+            # define the training and validation set for the given fold
+            x_train = image_data_list[:num_validation_samples*fold][0] + \
+                image_data_list[num_validation_samples*(fold+1):][0]
+            y_train = image_data_list[:num_validation_samples*fold][1] + \
+                image_data_list[num_validation_samples*(fold+1):][1]
+
+            x_val = image_data_list[
+                num_validation_samples*fold: num_validation_samples*(fold+1)
+                ][0]
+            y_val = image_data_list[
+                num_validation_samples*fold: num_validation_samples*(fold+1)
+                ][1]
+
+            data = ImageDataGenerator(**kwargs)
+
+            training_set = data.flow(x=x_train, y=y_train,
+                                     batch_size=batch_size, subset='training')
+            validation_set = data.flow(x=x_val, y=y_val,
+                                       batch_size=batch_size,
+                                       subset='validation')
+        else:
+            data = ImageDataGenerator(validation_split=split, **kwargs)
+
+            training_set = data.flow(x=image_data, y=image_labels,
+                                     batch_size=batch_size, subset='training')
+            validation_set = data.flow(x=image_data, y=image_labels,
+                                       batch_size=batch_size,
+                                       subset='validation')
 
     else:
+        data = ImageDataGenerator(validation_split=split, **kwargs)
         training_set = data.flow_from_directory(path,
                                                 target_size=target_size,
                                                 classes=classes,

@@ -181,7 +181,8 @@ def run_tuner(training_set, validation_set, project_name='untransformed'):
 
 
 def report_generation(model, history, metrics, log_dir,
-                      tuner=None, save_model=True, config_path=None):
+                      tuner=None, save_model=True, config_path=None,
+                      k_fold=False, k=None):
     '''
     Function that generates the report based on tuner search
     and hyperparameters
@@ -252,5 +253,8 @@ def report_generation(model, history, metrics, log_dir,
         yaml.dump(metrics_accuracy_feed, yaml_file)
         yaml.dump(validation_metrics_dict, yaml_file)
         yaml.dump(model_location_dict, yaml_file)
+        if k_folds:
+            k_val = {'k_folds': k}
+            yaml.dump(k_val, yaml_file)
         yaml_file.close()
     return
