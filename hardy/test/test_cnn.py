@@ -121,7 +121,7 @@ class TestSimulationTools(unittest.TestCase):
         train, val = learning_set(path, split=split, classes=classes,
                                   iterator_mode=None)
         model, history = cnn.build_model(train, val,
-                                         config_path='./')
+                                         config_path='./hardy/test/')
 
         _, ax = plt.subplots(1, 2)
         ax = cnn.plot_history(history)

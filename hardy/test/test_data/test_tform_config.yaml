@@ -57,14 +57,6 @@ tform_command_list:
     - "Nyquist_like_Z_Z"
     - "Bode_like_LogF_ZPhase"
     - "NyBode_like_LogF_ZZ"
-    - "Raw_FZ_Z"
-    - "LogF_RawZZ"
-    - "Recip_FZZ"
-    - "Raw_FZPhase"
-    - "LogF_RawZPhase"
-    - "Recip_FZPhase"
-    - "Raw_FZZ_ZPhase"
-    - "LogF_ZZ_ZPhase"
 
 
 tform_command_dict:
@@ -73,56 +65,11 @@ tform_command_dict:
         - [5, '1d_raw', 7]
 
     "Bode_like_LogF_ZPhase":
-        - [0, '1d_log', 0]
+        - [0, '1d_nlog', 0]
         - [4, '1d_raw', 4]
         - [5, '1d_raw', 5]
 
     "NyBode_like_LogF_ZZ":
-        - [0, '1d_log', 0]
+        - [0, '1d_nlog', 0]
         - [4, '1d_raw', 6]
         - [5, '1d_raw', 7]
-
-    "Raw_FZ_Z":
-        - [0, '1d_raw', 0]
-        - [4, '1d_raw', 6]
-        - [5, '1d_raw', 7]
-
-    "LogF_RawZZ":
-        - [0, '1d_log', 0]
-        - [1, '1d_raw', 6]
-        - [5, '1d_raw', 7]
-
-    "Recip_FZZ":
-        - [0, '1d_reciprocal', 1]
-        - [1, '1d_reciprocal', 6]
-        - [5, '1d_reciprocal', 7]
-
-    "Raw_FZPhase":
-        - [0, '1d_raw', 0]
-        - [1, '1d_raw', 6]
-        - [5, '1d_raw', 7]
-
-    "LogF_RawZPhase":
-        - [0, '1d_log', 0]
-        - [1, '1d_raw', 4]
-        - [5, '1d_raw', 5]
-
-    "Recip_FZPhase":
-        - [0, '1d_reciprocal', 0]
-        - [1, '1d_reciprocal', 4]
-        - [5, '1d_reciprocal', 5]
-
-    "Raw_FZZ_ZPhase":
-        - [0, '1d_raw', 0]
-        - [1, '1d_raw', 6]
-        - [2, '1d_raw', 7]
-        - [3, '1d_raw', 4]
-        - [4, '1d_raw', 5]
-
-    "LogF_ZZ_ZPhase":
-        - [0, '1d_log', 0]
-        - [1, '1d_raw', 2]
-        - [2, '1d_raw', 7]
-        - [4, '1d_raw', 4]
-        - [5, '1d_raw', 5]
-

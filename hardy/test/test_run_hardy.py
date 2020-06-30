@@ -42,7 +42,7 @@ class TestSimulationTools(unittest.TestCase):
     def test_classifier_wrapper(self):
         num_files = 3
         run_name = 'test_1'
-        config_path = './hardy/recognition/'
+        config_path = './hardy/test/'
         output_path = preprocessing.save_to_folder(
             path, 'test_classifier', run_name)
         test_set_filenames = preprocessing.hold_out_test_set(

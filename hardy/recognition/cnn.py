@@ -83,10 +83,10 @@ def build_model(training_set, validation_set=None, config_path='./'):
     if validation_set:
         history = model.fit(training_set, epochs=hparam['epochs'][0],
                             callbacks=[callback], shuffle=True,
-                            validation_data=validation_set)
+                            validation_data=validation_set, verbose=2)
     else:
         history = model.fit(training_set, epochs=hparam['epochs'][0],
-                            callbacks=[callback], shuffle=True)
+                            callbacks=[callback], shuffle=True, verbose=2)
     #################################################################
 
     return model, history
