@@ -72,63 +72,63 @@ tform_command_list:
 
 tform_command_dict:
     "ReZ_ImZ":
-        - [0, '1d_raw', 7]
-        - [2, '1d_raw', 8]
+        - [0, '1d_raw', 6]
+        - [2, '1d_raw', 7]
 
     "log10_f_ReZ_ImZ":
         - [0, '1d_log10', 0]
-        - [1, '1d_raw', 7]
-        - [2, '1d_raw', 8]
+        - [1, '1d_raw', 6]
+        - [2, '1d_raw', 7]
 
     "log10_f_der_ReZ_der_ImZ":
         - [0, '1d_log10', 0]
-        - [1, '1d_derivative', 7]
-        - [2, '1d_derivative', 8]
+        - [1, '1d_derivative', 6]
+        - [2, '1d_derivative', 7]
 
     "der_ReZ_der_ImZ":
-        - [0, '1d_derivative', 7]
-        - [1, '1d_derivative', 8]
+        - [0, '1d_derivative', 6]
+        - [1, '1d_derivative', 7]
 
     "rec_ReZ_ImZ":
-        - [0, '1d_reciprocal', 7]
-        - [2, '1d_raw', 8]
+        - [0, '1d_reciprocal', 6]
+        - [2, '1d_raw', 7]
 
     "ReZ_rec_ImZ":
-        - [0, '1d_raw', 7]
-        - [2, '1d_reciprocal', 8]
+        - [0, '1d_raw', 6]
+        - [2, '1d_reciprocal', 7]
 
     "rec_ReZ_rec_ImZ":
-        - [0, '1d_reciprocal', 7]
-        - [1, '1d_reciprocal', 8]
+        - [0, '1d_reciprocal', 6]
+        - [1, '1d_reciprocal', 7]
 
     "sqr_ReZ_sqr_ImZ":
-        - [3, '1d_multiply', 7]
-        - [4, '1d_multiply', 8]
+        - [3, '1d_multiply', 6]
+        - [4, '1d_multiply', 7]
 
     "log10_ReZ_ImZ":
-        - [1, '1d_log10', 7]
-        - [2, '1d_raw', 8]
+        - [1, '1d_log10', 6]
+        - [2, '1d_raw', 7]
 
     "exp_ReZ_exp_ImZ":
-        - [1, '1d_exp', 7]
-        - [2, '1d_exp', 8]
+        - [1, '1d_exp', 6]
+        - [2, '1d_exp', 7]
 
     "exp_ReZ_ImZ":
-        - [1, '1d_exp', 7]
-        - [0, '1d_raw', 8]
+        - [1, '1d_exp', 6]
+        - [0, '1d_raw', 7]
 
     "ReZ_exp_ImZ":
-        - [0, '1d_raw', 7]
-        - [4, '1d_exp', 8]
+        - [0, '1d_raw', 6]
+        - [4, '1d_exp', 7]
 
     "sum_ReZ_ImZ":
-        - [5, '1d_cumsum', 7]
-        - [2, '1d_raw', 8]
+        - [5, '1d_cumsum', 6]
+        - [2, '1d_raw', 7]
 
     "ReZ_sum_ImZ":
-        - [0, '1d_raw', 7]
-        - [4, '1d_cumsum', 8]
+        - [0, '1d_raw', 6]
+        - [4, '1d_cumsum', 7]
 
     "sum_ReZ_sum_ImZ":
-        - [0, '1d_cumsum', 7]
-        - [1, '1d_cumsum', 8]
+        - [0, '1d_cumsum', 6]
+        - [1, '1d_cumsum', 7]
