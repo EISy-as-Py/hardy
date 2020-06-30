@@ -27,7 +27,7 @@ def transform_1d_exp(raw_array):
     return np.exp(raw_array)
 
 
-def transform_1d_log(raw_array):
+def transform_1d_nlog(raw_array):
     '''The function that outputs the natural log of input array
 
     Parameters
@@ -47,6 +47,26 @@ def transform_1d_log(raw_array):
     return log_array
 
 
+def transform_1d_log10(raw_array):
+    '''The function that outputs the natural log of input array
+
+    Parameters
+    ----------
+    raw_array: Input numpy array
+
+    Returns
+    -------
+    log_array: np.ndarray
+               log values of each element in the input array
+    '''
+
+    # NOTE: All Elements in array MUST be Positive!?
+    #       IF Not, option to normalize first??
+    assert min(raw_array) > 0, "Log will not accept negative values!"
+    log_array = np.log10(raw_array)
+    return log_array
+
+
 def transform_1d_reciprocal(raw_array):
     '''The function the outputs the reciprocal of input array
 
@@ -56,7 +76,7 @@ def transform_1d_reciprocal(raw_array):
 
     Returns
     -------
-    log_array: np.ndarray
+    reciprocal_array: np.ndarray
                reciprocal values of each element in the input array
     '''
     reciprocal_array = np.reciprocal(raw_array)
@@ -72,7 +92,7 @@ def transform_1d_cumsum(raw_array):
 
     Returns
     -------
-    log_array: np.ndarray
+    cumsum _array: np.ndarray
                cumulative sum of values in the input array
     '''
     cumsum_array = np.cumsum(raw_array)
@@ -223,7 +243,8 @@ def transform_array_multiplication(x, y=None):
 
 list_1d1d = {
         "1d_raw": transform_1d_none,
-        "1d_log": transform_1d_log,
+        "1d_nlog": transform_1d_nlog,
+        "1d_log10": transform_1d_log10,
         "1d_exp": transform_1d_exp,
         "1d_reciprocal": transform_1d_reciprocal,
         "1d_cumsum": transform_1d_cumsum,

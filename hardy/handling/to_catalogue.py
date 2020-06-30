@@ -546,6 +546,7 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
 
         image_arrays = np.array([image_list[i][1][:]
                                 for i in range(len(image_list))])
+        print(' image_arrays shape : {}'.format(np.shape(image_arrays)))
         image_data = image_arrays.reshape(image_arrays.shape[0], n,
                                           n, channels).astype('float32')
         image_data = (image_data*255).astype('uint8')
@@ -556,7 +557,7 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
                 if image_labels[j] == label:
                     image_labels[j] = i
 
-        if len(np.unique(image_labels)) == len(np.unique(classes)):
+        if len(np.unique(image_labels)) != len(np.unique(classes)):
             print('The number of unique labels was found to be {},'
                   ' expected {}'.format(len(np.unique(image_labels)),
                                         len(np.unique(classes))))
@@ -701,6 +702,8 @@ def test_set(path=None, target_size=(80, 80),
             print('The expected target size is {}, found {}'
                   .format(len(image_arrays[0][1]), target_size[0]))
             n = len(image_arrays[0][1])
+        print(len(image_arrays[0][1]))
+        print(image_arrays[0][1])
         image_data = image_arrays.reshape(image_arrays.shape[0], n,
                                           n, channels).astype('float32')
         image_data = (image_data*255).astype('uint8')
@@ -710,7 +713,7 @@ def test_set(path=None, target_size=(80, 80),
             for j in range(len(image_labels)):
                 if image_labels[j] == label:
                     image_labels[j] = i
-        if len(np.unique(image_labels)) == len(np.unique(classes)):
+        if len(np.unique(image_labels)) != len(np.unique(classes)):
             print('The number of unique labels was found to be {},'
                   ' expected {}'.format(len(np.unique(image_labels)),
                                         len(np.unique(classes))))

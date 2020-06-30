@@ -18,7 +18,7 @@ activation:
 - 'relu'
 
 input_shape:
-- 80
+- 120
 - 3
 
 filter_size:
