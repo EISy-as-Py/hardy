@@ -36,8 +36,11 @@ def report_dataframes(report_path):
     rank_dict = {}
     history_dict = {}
     index = 0
+    ############################################
+    # Temporary solution, needs to be updated
     optimize = 'adam'
     pool = 'max'
+    ############################################
 
     for keys in import_dict.items():
         n = 0
@@ -57,6 +60,7 @@ def report_dataframes(report_path):
                             optimize, pool, accuracy]
         rank_dict[index] = [keys[0], accuracy]
         try:
+            # For tuner
             history_dict[index] = [keys[0], list(range(1,
                                                  len(keys[1]['loss'])+1)),
                                    keys[1]['loss'], keys[1]['val_loss'],
@@ -65,6 +69,7 @@ def report_dataframes(report_path):
                                    keys[1]['val_accuracy'],
                                    keys[1]['test_accuracy']]
         except KeyError:
+            # For pre-defined CNN
             history_dict[index] = [keys[0], list(range(1,
                                                  len(keys[1]['loss'])+1)),
                                    keys[1]['loss'],
