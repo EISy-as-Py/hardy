@@ -37,8 +37,8 @@ raw_df = sample_tuples[0][1]
 # Use first (0th) tuple, DF in position 1.
 
 tform_example = [[0, '1d_raw', 0],
-                 [1, '1d_log', 1],
-                 [5, '1d_log', 2]]
+                 [1, '1d_nlog', 1],
+                 [5, '1d_nlog', 2]]
 
 
 class TestSimulationTools(unittest.TestCase):

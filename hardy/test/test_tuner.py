@@ -26,7 +26,7 @@ class TestSimulationTools(unittest.TestCase):
 
     def test_report_generation(self):
 
-        config_path = './hardy/hardy/test/'
+        config_path = './hardy/test/'
         train, val = learning_set(path, split=split, classes=classes,
                                   iterator_mode=None)
         model, history = cnn.build_model(train, val,
