@@ -613,7 +613,7 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
                 data = ImageDataGenerator(**kwargs)
 
                 training_set = data.flow(x=image_data, y=image_labels,
-                                         batch_size=batch_size)
+                                         batch_size=batch_size, shuffle=False)
                 validation_set = []
             else:
                 data = ImageDataGenerator(validation_split=split, **kwargs)

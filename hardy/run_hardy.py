@@ -360,7 +360,7 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
                                  color_mode=color_mode,
                                  iterator_mode=iterator_mode,
                                  image_list=learning_set_list,
-                                 test_set=None)
+                                 test_set=test_set)
             output_path = preprocessing.save_to_folder(input_path,
                                                        project_name,
                                                        run_name)
