@@ -561,45 +561,54 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
                   ' expected {}'.format(len(np.unique(image_labels)),
                                         len(np.unique(classes))))
 
-        image_labels = keras.utils.to_categorical(
-            image_labels, num_classes=len(np.unique(image_labels)))
-
         if k_fold:
 
             assert k, 'The number of folds needs to be provided'
 
             image_data_list = [(image_data[i], image_labels[i])
                                for i in range(len(image_data))]
-            print(np.shape(image_data_list))
             np.random.shuffle(image_data_list)
 
             num_validation_samples = len(image_data_list) // k
-
             # define the training and validation set for the given fold
 
-            x_train = [image_data_list[i][0] for i in
-                       np.arange(0, num_validation_samples*fold) and
-                       np.arange(num_validation_samples*(fold+1),
-                                 len(image_data_list))]
+            x_train = np.array(
+                [image_data_list[i][0] for i in np.concatenate(
+                    (np.arange(0, num_validation_samples*fold),
+                     np.arange(num_validation_samples*(fold+1),
+                               len(image_data_list))))])
 
             y_train = [image_data_list[i][1] for i in
-                       np.arange(0, num_validation_samples*fold) and
-                       np.arange(num_validation_samples*(fold+1),
-                                 len(image_data_list))]
+                       np.concatenate((
+                           np.arange(0, num_validation_samples*fold),
+                           np.arange(num_validation_samples*(fold+1),
+                                     len(image_data_list))))]
+            y_train = keras.utils.to_categorical(
+                y_train, num_classes=len(np.unique(image_labels)))
 
-            x_val = [image_data_list[i][0] for i in np.arange(
-                num_validation_samples*fold, num_validation_samples*(fold+1))]
-            y_val = [image_data_list[i][1] for i in np.arange(
-                num_validation_samples*fold, num_validation_samples*(fold+1))]
+            x_val = np.array(
+                [image_data_list[i][0] for i in np.arange(
+                    num_validation_samples*fold,
+                    num_validation_samples*(fold+1))])
+
+            y_val = [image_data_list[i][1] for i in
+                     np.arange(num_validation_samples*fold,
+                     num_validation_samples*(fold+1))]
+            y_val = keras.utils.to_categorical(
+                y_val, num_classes=len(np.unique(image_labels)))
 
             data = ImageDataGenerator(**kwargs)
 
             training_set = data.flow(x=x_train, y=y_train,
-                                     batch_size=batch_size, subset='training')
+                                     shuffle=False,
+                                     batch_size=batch_size)
             validation_set = data.flow(x=x_val, y=y_val,
-                                       batch_size=batch_size,
-                                       subset='validation')
+                                       shuffle=False,
+                                       batch_size=batch_size)
         else:
+            image_labels = keras.utils.to_categorical(
+                image_labels, num_classes=len(np.unique(image_labels)))
+
             data = ImageDataGenerator(validation_split=split, **kwargs)
 
             training_set = data.flow(x=image_data, y=image_labels,

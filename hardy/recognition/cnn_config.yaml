@@ -8,7 +8,7 @@ kernel_size:
 - 3
 
 epochs:
-- 10
+- 3
 
 # Make sure that if the number of layers changes in the build_model funciton,
 # the number of actvation function increases/decreases accordingly.

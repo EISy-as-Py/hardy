@@ -385,11 +385,11 @@ def k_fold_model(k, config_path='./', target_size=(80, 80),
             color_mode=color_mode, iterator_mode='arrays',
             image_list=image_list, k_fold=True, k=k, fold=fold, **kwargs)
         model, history = build_model(train_data, config_path=config_path)
-        validation_score.append(evaluate_model(model, val_data))
+        validation_score.append(evaluate_model(model, val_data)[1])
 
     validation_score = np.average(validation_score)
     print('The average model accuracy is {} for {} number of folds'.format(
-        np.round(validation_score[1], 3), k))
+        np.round(validation_score, 3), k))
 
     # Retrain the model with the entirety of the data set
     # and return its performance
