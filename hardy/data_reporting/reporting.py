@@ -36,6 +36,8 @@ def report_dataframes(report_path):
     rank_dict = {}
     history_dict = {}
     index = 0
+    optimize = 'adam'
+    pool = 'max'
 
     for keys in import_dict.items():
         n = 0
@@ -54,11 +56,24 @@ def report_dataframes(report_path):
         data_dict[index] = [keys[0], n, k_size, a_function,
                             optimize, pool, accuracy]
         rank_dict[index] = [keys[0], accuracy]
-        history_dict[index] = [keys[0], list(range(1, len(keys[1]['loss'])+1)),
-                               keys[1]['loss'], keys[1]['val_loss'],
-                               keys[1]['test_loss'],
-                               keys[1]['accuracy'], keys[1]['val_accuracy'],
-                               keys[1]['test_accuracy']]
+        try:
+            history_dict[index] = [keys[0], list(range(1,
+                                                 len(keys[1]['loss'])+1)),
+                                   keys[1]['loss'], keys[1]['val_loss'],
+                                   keys[1]['test_loss'],
+                                   keys[1]['accuracy'],
+                                   keys[1]['val_accuracy'],
+                                   keys[1]['test_accuracy']]
+        except KeyError:
+            history_dict[index] = [keys[0], list(range(1,
+                                                 len(keys[1]['loss'])+1)),
+                                   keys[1]['loss'],
+                                   keys[1]['test_loss'],
+                                   keys[1]['accuracy'],
+                                   keys[1]['test_accuracy']]
+            history_names = ['report_name', 'epochs', 'train_loss',
+                             'test_loss', 'train_accuracy',
+                             'test_accuracy']
         index += 1
 
     hyperparam_df = pd.DataFrame.from_dict(data_dict, orient='index',
