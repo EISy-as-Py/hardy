@@ -253,7 +253,7 @@ def report_generation(model, history, metrics, log_dir,
         yaml.dump(metrics_accuracy_feed, yaml_file)
         yaml.dump(validation_metrics_dict, yaml_file)
         yaml.dump(model_location_dict, yaml_file)
-        if k_folds:
+        if k_fold:
             k_val = {'k_folds': k}
             yaml.dump(k_val, yaml_file)
         yaml_file.close()

@@ -609,13 +609,21 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
             image_labels = keras.utils.to_categorical(
                 image_labels, num_classes=len(np.unique(image_labels)))
 
-            data = ImageDataGenerator(validation_split=split, **kwargs)
+            if split == 0:
+                data = ImageDataGenerator(**kwargs)
 
-            training_set = data.flow(x=image_data, y=image_labels,
-                                     batch_size=batch_size, subset='training')
-            validation_set = data.flow(x=image_data, y=image_labels,
-                                       batch_size=batch_size,
-                                       subset='validation')
+                training_set = data.flow(x=image_data, y=image_labels,
+                                         batch_size=batch_size)
+                validation_set = []
+            else:
+                data = ImageDataGenerator(validation_split=split, **kwargs)
+
+                training_set = data.flow(x=image_data, y=image_labels,
+                                         batch_size=batch_size,
+                                         subset='training')
+                validation_set = data.flow(x=image_data, y=image_labels,
+                                           batch_size=batch_size,
+                                           subset='validation')
 
     else:
         data = ImageDataGenerator(validation_split=split, **kwargs)
