@@ -1,0 +1,38 @@
+##############################################################################
+# Configuration file for the convolutional neural network used in the
+# cnn.py file. Make sure that if additional hyperparamters are added to this
+# configuration file, they are also present in the cnn.build_model function
+#############################################################################
+
+kernel_size:
+- 3
+
+epochs:
+- 3
+
+# Make sure that if the number of layers changes in the build_model funciton,
+# the number of actvation function increases/decreases accordingly.
+activation:
+- 'relu'
+- 'relu'
+- 'relu'
+
+input_shape:
+- 120
+- 3
+
+filter_size:
+- 8
+
+num_classes:
+- 2
+
+# This refers to the optimizer learning rate. The default is 'Adam'
+learning_rate:
+- 0.01
+
+# This refers to the number of epochs after which the model will stop
+# if there was no improvement in the loss funciton.
+# [used in the callback funciton]
+patience:
+- 2
