@@ -219,9 +219,9 @@ def save_load_model(filepath, model=None, save=None, load=None):
 
     Parameters
     ----------
-    filename : str
+    filepath : str
                string indicating the filename for saving or loading model.
-    network : neural_network
+    model : neural_network
               trained neural network variable that is to be saved or loaded.
     save : bool
            boolean value if true saves the neural network model.
