@@ -36,6 +36,11 @@ def report_dataframes(report_path):
     rank_dict = {}
     history_dict = {}
     index = 0
+    ############################################
+    # Temporary solution, needs to be updated
+    optimize = 'adam'
+    pool = 'max'
+    ############################################
 
     for keys in import_dict.items():
         n = 0
@@ -52,13 +57,28 @@ def report_dataframes(report_path):
             if 'test_accuracy' in keys_1:
                 accuracy = values_1
         data_dict[index] = [keys[0], n, k_size, a_function,
-                            optimize, pool, accuracy]
-        rank_dict[index] = [keys[0], accuracy]
-        history_dict[index] = [keys[0], list(range(1, len(keys[1]['loss'])+1)),
-                               keys[1]['loss'], keys[1]['val_loss'],
-                               keys[1]['test_loss'],
-                               keys[1]['accuracy'], keys[1]['val_accuracy'],
-                               keys[1]['test_accuracy']]
+                            optimize, pool, np.round(accuracy, 3)]
+        rank_dict[index] = [keys[0], np.round(accuracy, 3)]
+        try:
+            # For tuner
+            history_dict[index] = [keys[0], list(range(1,
+                                                 len(keys[1]['loss'])+1)),
+                                   keys[1]['loss'], keys[1]['val_loss'],
+                                   keys[1]['test_loss'],
+                                   keys[1]['accuracy'],
+                                   keys[1]['val_accuracy'],
+                                   keys[1]['test_accuracy']]
+        except KeyError:
+            # For pre-defined CNN
+            history_dict[index] = [keys[0], list(range(1,
+                                                 len(keys[1]['loss'])+1)),
+                                   keys[1]['loss'],
+                                   keys[1]['test_loss'],
+                                   keys[1]['accuracy'],
+                                   keys[1]['test_accuracy']]
+            history_names = ['report_name', 'epochs', 'train_loss',
+                             'test_loss', 'train_accuracy',
+                             'test_accuracy']
         index += 1
 
     hyperparam_df = pd.DataFrame.from_dict(data_dict, orient='index',
@@ -87,7 +107,9 @@ def report_plots(hyperparam_df, history_df):
 
     # Define the color palette to use
     color = ['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
-             '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695']
+             '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695',
+             '#8e0152', '#c51b7d', '#de77ae', '#f1b6da', '#fde0ef', '#f7f7f7',
+             '#e6f5d0', ' #b8e186', '#7fbc41', '#4d9221', '#276419']
 
     # Let's plot the trainig and validation loss and accuracy
 
@@ -100,17 +122,17 @@ def report_plots(hyperparam_df, history_df):
             marker=dict(size=8, color=color[i], colorscale='Electric'),
             row=1, col=1)
         fig1.add_scatter(
-            x=history_df['epochs'][i], y=history_df['val_loss'][i],
-            mode='markers', legendgroup=history_df['report_name'][i],
-            name=history_df['report_name'][i],
-            marker=dict(size=8, color=color[i], colorscale='Electric'),
-            row=1, col=1, showlegend=False)
-        fig1.add_scatter(
             x=history_df['epochs'][i], y=history_df['train_accuracy'][i],
             mode='lines', legendgroup=history_df['report_name'][i],
             name=history_df['report_name'][i],
             marker=dict(size=8, color=color[i], colorscale='Electric'),
             row=1, col=2, showlegend=False)
+        fig1.add_scatter(
+            x=history_df['epochs'][i], y=history_df['val_loss'][i],
+            mode='markers', legendgroup=history_df['report_name'][i],
+            name=history_df['report_name'][i],
+            marker=dict(size=8, color=color[i], colorscale='Electric'),
+            row=1, col=1, showlegend=False)
         fig1.add_scatter(
             x=history_df['epochs'][i], y=history_df['val_accuracy'][i],
             mode='markers', legendgroup=history_df['report_name'][i],
@@ -123,8 +145,11 @@ def report_plots(hyperparam_df, history_df):
     # Generate Parallel Coordinates plot
     fig2 = go.Figure(data=go.Parcats(
         line=dict(color=['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090',
-                         '#ffffbf', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4',
-                         '#313695'], colorscale='Electric'),
+                         '#ffffbf', '#e0f3f8', '#abd9e9', '#74add1',
+                         '#4575b4', '#313695',  '#8e0152', '#c51b7d',
+                         '#de77ae', '#f1b6da', '#fde0ef', '#f7f7f7',
+                         '#e6f5d0', ' #b8e186', '#7fbc41', '#4d9221',
+                         '#276419'], colorscale='Electric'),
         dimensions=list(
             [dict(label='Report Name', values=hyperparam_df['report_name']),
              dict(label='Num layers', values=hyperparam_df['layers'],
@@ -186,8 +211,8 @@ def summary_report_tables(report_path):
     '''
     hyperparam_df, history_df, tform_rank_df = report_dataframes(report_path)
     summary_df = summary_dataframe(report_path)
-    tform_rank_df.style.format(
-        "{:.3}", subset=["test_accuracy"])
+    # tform_rank_df.style.format(
+    #     "{:.3}", subset=["test_accuracy"])
     # .style.apply(highlight_max(
     # subset=["test_accuracy"], color='gold'))
 
