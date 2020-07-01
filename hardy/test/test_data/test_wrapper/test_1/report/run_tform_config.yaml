@@ -1,0 +1,9 @@
+run_name: test_1
+tform_0:
+- 0
+- Re_Z_noise [ohm]
+- 1d_raw
+tform_1:
+- 5
+- Im_Z_noise [ohm]
+- 1d_raw
