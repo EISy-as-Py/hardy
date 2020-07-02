@@ -384,10 +384,16 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
                                     tuner=None, save_model=True,
                                     config_path=config_path)
 
-    performance_evaluation = reporting.model_analysis(model, test_set,
-                                                      test_set_list)
-    performance_evaluation.to_csv(
-        output_path+'report/model_evaluation.csv')
+    if iterator_mode == 'arrays':
+        performance_evaluation = reporting.model_analysis(model, test_set,
+                                                          test_set_list)
+        performance_evaluation.to_csv(
+            output_path+'report/model_evaluation.csv')
+    else:
+        performance_evaluation = reporting.model_analysis(model, test_set)
+
+        performance_evaluation.to_csv(
+            output_path+'report/model_evaluation.csv')
     return
 
 

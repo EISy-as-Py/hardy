@@ -27,7 +27,7 @@ class TestSimulationTools(unittest.TestCase):
         run.hardy_multi_transform(
             data_path, tform_config_path, config_path,
             iterator_mode='arrays',
-            num_test_files_class=1, classes=['noise', 'one'], split=0.5,
+            num_test_files_class=1, classes=['noise', 'one'], split=0.25,
             classifier='tuner', batch_size=1, project_name='test_wrapper1')
         report_path = './hardy/test/test_data/test_wrapper1/'
         fig1, fig2 = reporting.summary_report_plots(
@@ -57,7 +57,7 @@ class TestSimulationTools(unittest.TestCase):
 
     def test_model_analysis(self):
 
-        num_files = 3
+        num_files = 1
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
 
         plot_tups = catalogue.rgb_list(data_tups)

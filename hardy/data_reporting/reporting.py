@@ -11,7 +11,8 @@ from plotly.subplots import make_subplots
 
 def report_dataframes(report_path):
 
-    categories = [f for f in os.listdir(report_path) if not f.startswith('.')]
+    categories = [f for f in os.listdir(report_path) if not f.startswith('.')
+                  or f.endswith('.csv')]
 
     import_dict = {}
 
@@ -19,7 +20,7 @@ def report_dataframes(report_path):
         yaml_path = report_path+categories[i]+'/report/'
         yaml_file_name = [file for file in os.listdir(yaml_path)
                           if file != 'run_tform_config.yaml' and not
-                          file.startswith('.')]
+                          (file.startswith('.') or file.endswith('.csv'))]
         with open(yaml_path+yaml_file_name[0], 'r') as file:
             import_dict[categories[i]] = yaml.load(
                 file, Loader=yaml.FullLoader)
@@ -221,7 +222,8 @@ def summary_report_tables(report_path):
 def summary_dataframe(report_path):
     '''
     '''
-    categories = [f for f in os.listdir(report_path) if not f.startswith('.')]
+    categories = [f for f in os.listdir(report_path) if not f.startswith('.')
+                  or f.endswith('.csv')]
     run_tform = {}
     for i in range(len(categories)):
         yaml_path = report_path+categories[i]+'/report/'
@@ -256,7 +258,7 @@ def summary_dataframe(report_path):
     return summary_df
 
 
-def model_analysis(model, testing_set, test_set_list):
+def model_analysis(model, test_set, test_set_list=None):
 
     ''' The function that provides analysis of a trained model for
     its predicted output and actual output
@@ -268,7 +270,7 @@ def model_analysis(model, testing_set, test_set_list):
     test_set_list: list
                     list representing the file names, images and labels
                     for test set.
-    testing_set: keras.ImageDataGenerator iterator
+    test_set: keras.ImageDataGenerator iterator
                  the interator instance created using the
                  keras.ImageDataGenerator. This can either be a
                  NumpyArrayIterator or a DirectoryIterator
@@ -279,7 +281,7 @@ def model_analysis(model, testing_set, test_set_list):
             dataframe having filenames, actual labels,
             predicted labels and probability for decision
     '''
-    predictions = model.predict(testing_set)
+    predictions = model.predict(test_set)
 
     predicted_class_indices = np.argmax(predictions, axis=1)
 
@@ -289,7 +291,7 @@ def model_analysis(model, testing_set, test_set_list):
 
     labels_dict = {}
 
-    if type(testing_set) == NumpyArrayIterator:
+    if type(test_set) == NumpyArrayIterator:
         labels = []
         for i in range(len(test_set_list)):
             labels.append(test_set_list[i][:][2])
@@ -299,17 +301,24 @@ def model_analysis(model, testing_set, test_set_list):
                 if labels[j] == label:
                     labels_dict.update({i: label})
 
+        filenames = [n[0][:][:] for n in test_set_list]
+
     else:
-        labels = (testing_set.class_indices)
+        labels = (test_set.class_indices)
 
         labels_dict = dict((v, k) for k, v in labels.items())
 
+        filenames = test_set.filenames
+
     predicted_labels = [labels_dict[k] for k in predicted_class_indices]
 
-    filenames = [n[0][:][:] for n in test_set_list]
-
-    result = pd.DataFrame({"Filenames": filenames, "Actual_Labels": labels,
-                           "Predicted_Labels": predicted_labels,
-                           "Probabilities": probabilities})
+    # columns = ["Filenames", "Actual_Labels", "Predicted_Labels",
+    #            "Probabilities"]
+    result = pd.DataFrame.from_dict({"Filenames": filenames,
+                                     "Actual_Labels": labels,
+                                     "Predicted_Labels": predicted_labels,
+                                     "Probabilities": probabilities})
+    # result = pd.DataFrame(data=(filenames, labels, predicted_labels,
+    #                             probabilities), columns=columns)
 
     return result
