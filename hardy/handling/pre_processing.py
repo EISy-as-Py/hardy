@@ -24,7 +24,7 @@ Current WIP:
 """
 
 
-def hold_out_test_set(path=None, number_of_files_per_class=100,
+def hold_out_test_set(path=None, number_of_files_per_class=100, seed=None,
                       classes=['noise', ''], file_extension='.csv'):
     '''
     Functions that returns a list of filenames
@@ -62,6 +62,9 @@ def hold_out_test_set(path=None, number_of_files_per_class=100,
     test_set_filenames = []
 
     whole_list = os.listdir(path)
+
+    if seed:
+        random.seed(seed)
 
     for i in range(len(classes)):
 
