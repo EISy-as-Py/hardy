@@ -23,7 +23,7 @@ def hardy_multi_transform(  # Data and Config Paths
                           classifier='tuner', split=0.1, target_size=(80, 80),
                           batch_size=32, classes=['class_1', 'class_2'],
                           project_name='tuner_run', k_fold=False, k=None,
-                          color_mode='rgb'):
+                          color_mode='rgb', seed=None):
     """
     OVERALL wrapper function, to pass initial configurations and allow
         all other internal functions to understand and call upon each other.
@@ -116,7 +116,7 @@ def hardy_multi_transform(  # Data and Config Paths
 
     test_set_filenames = preprocessing.hold_out_test_set(
         raw_datapath, number_of_files_per_class=num_test_files_class,
-        classes=classes)
+        classes=classes, seed=seed)
 
     for tform_name in tform_command_list:
 
