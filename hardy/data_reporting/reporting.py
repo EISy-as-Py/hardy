@@ -1,5 +1,3 @@
-# add funcitons to summarize and visualize the summary reports from the
-# the hardy run
 import numpy as np
 import os
 import yaml
@@ -7,6 +5,7 @@ import yaml
 import pandas as pd
 import plotly.graph_objects as go
 
+from keras.preprocessing.image import NumpyArrayIterator
 from plotly.subplots import make_subplots
 
 
@@ -255,3 +254,62 @@ def summary_dataframe(report_path):
                               columns=['transform', 'column', 'plot_code'])
 
     return summary_df
+
+
+def model_analysis(model, testing_set, test_set_list):
+
+    ''' The function that provides analysis of a trained model for
+    its predicted output and actual output
+
+    Parameters
+    ----------
+    model: keras.model
+            a keras instance of the trained model to use for the prediction
+    test_set_list: list
+                    list representing the file names, images and labels
+                    for test set.
+    testing_set: keras.ImageDataGenerator iterator
+                 the interator instance created using the
+                 keras.ImageDataGenerator. This can either be a
+                 NumpyArrayIterator or a DirectoryIterator
+
+    Returns
+    -------
+    result: pandas.DataFrame
+            dataframe having filenames, actual labels,
+            predicted labels and probability for decision
+    '''
+    predictions = model.predict(testing_set)
+
+    predicted_class_indices = np.argmax(predictions, axis=1)
+
+    probabilities = []
+    for n in range(len(predictions)):
+        probabilities.append(np.round(predictions[n], 3))
+
+    labels_dict = {}
+
+    if type(testing_set) == NumpyArrayIterator:
+        labels = []
+        for i in range(len(test_set_list)):
+            labels.append(test_set_list[i][:][2])
+
+        for i, label in enumerate(np.unique(labels)):
+            for j in range(len(labels)):
+                if labels[j] == label:
+                    labels_dict.update({i: label})
+
+    else:
+        labels = (testing_set.class_indices)
+
+        labels_dict = dict((v, k) for k, v in labels.items())
+
+    predicted_labels = [labels_dict[k] for k in predicted_class_indices]
+
+    filenames = [n[0][:][:] for n in test_set_list]
+
+    result = pd.DataFrame({"Filenames": filenames, "Actual_Labels": labels,
+                           "Predicted_Labels": predicted_labels,
+                           "Probabilities": probabilities})
+
+    return result

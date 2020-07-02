@@ -5,8 +5,9 @@ import yaml
 
 import hardy.recognition.cnn as cnn
 import hardy.recognition.tuner as tuner
+import hardy.data_reporting.reporting as reporting
+
 from hardy.handling import pre_processing as preprocessing
-# from hardy.handling import handling as handling
 from hardy.handling import to_catalogue as to_catalogue
 from hardy.arbitrage import arbitrage
 
@@ -383,6 +384,10 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
                                     tuner=None, save_model=True,
                                     config_path=config_path)
 
+    performance_evaluation = reporting.model_analysis(model, test_set,
+                                                      test_set_list)
+    performance_evaluation.to_csv(
+        output_path+'report/model_evaluation.csv')
     return
 
 
