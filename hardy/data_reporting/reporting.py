@@ -304,21 +304,22 @@ def model_analysis(model, test_set, test_set_list=None):
         filenames = [n[0][:][:] for n in test_set_list]
 
     else:
-        labels = (test_set.class_indices)
-
-        labels_dict = dict((v, k) for k, v in labels.items())
+        labels_indices = (test_set.class_indices)
+        labels_dict = dict((v, k) for k, v in labels_indices.items())
 
         filenames = test_set.filenames
 
+        labels = []
+        for i in range(len(filenames)):
+            for key, value in labels_indices.items():
+                if key in filenames[i]:
+                    labels.append(key)
+
     predicted_labels = [labels_dict[k] for k in predicted_class_indices]
 
-    # columns = ["Filenames", "Actual_Labels", "Predicted_Labels",
-    #            "Probabilities"]
     result = pd.DataFrame.from_dict({"Filenames": filenames,
                                      "Actual_Labels": labels,
                                      "Predicted_Labels": predicted_labels,
                                      "Probabilities": probabilities})
-    # result = pd.DataFrame(data=(filenames, labels, predicted_labels,
-    #                             probabilities), columns=columns)
 
     return result
