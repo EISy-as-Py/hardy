@@ -10,6 +10,9 @@ kernel_size:
 epochs:
 - 3
 
+layers:
+- 3
+
 # Make sure that if the number of layers changes in the build_model funciton,
 # the number of actvation function increases/decreases accordingly.
 activation:
@@ -22,14 +25,14 @@ input_shape:
 - 3
 
 filter_size:
-- 8
+- 2
 
 num_classes:
 - 2
 
 # This refers to the optimizer learning rate. The default is 'Adam'
 learning_rate:
-- 0.01
+- 0.001
 
 # This refers to the number of epochs after which the model will stop
 # if there was no improvement in the loss funciton.

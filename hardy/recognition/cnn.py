@@ -56,13 +56,16 @@ def build_model(training_set, validation_set=None, config_path='./'):
     input = (hparam['input_shape'][0], hparam['input_shape'][0],
              hparam['input_shape'][1])
     model = Sequential()
-    model.add(Conv2D(hparam['filter_size'][0], kernel,
-                     activation=hparam['activation'][0],
-                     input_shape=input))
-    model.add(Conv2D(2*hparam['filter_size'][0], kernel,
-                     activation=hparam['activation'][1]))
-    model.add(Conv2D(4*hparam['filter_size'][0], kernel,
-                     activation=hparam['activation'][2]))
+    for i in range(hparam['layers'][0]):
+        model.add(Conv2D(np.power(2, i)*hparam['filter_size'][0], kernel,
+                         activation=hparam['activation'][i],
+                         input_shape=input))
+    # model.add(Conv2D(2*hparam['filter_size'][0], kernel,
+    #                  activation=hparam['activation'][1]))
+    # model.add(Conv2D(4*hparam['filter_size'][0], kernel,
+    #                  activation=hparam['activation'][2]))
+    # model.add(Conv2D(8*hparam['filter_size'][0], kernel,
+    #                  activation=hparam['activation'][3]))
     model.add(MaxPool2D(2, 2))
     model.add(Flatten())
     model.add(Dense(hparam['num_classes'][0], activation='softmax'))
