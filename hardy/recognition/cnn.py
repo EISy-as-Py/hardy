@@ -71,7 +71,7 @@ def build_model(training_set, validation_set=None, config_path='./'):
 
     #################################################################
     # compile the optimizer and defined the learning function
-    model.compile(optimizer=hparam['optimizer'][0](
+    model.compile(getattr(keras.optimizers, hparam['optimizer'][0])(
                   lr=hparam['learning_rate'][0]),
                   loss='categorical_crossentropy',
                   metrics=['accuracy'])

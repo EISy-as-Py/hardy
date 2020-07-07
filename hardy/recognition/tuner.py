@@ -171,10 +171,11 @@ def run_tuner(training_set, validation_set, project_name='untransformed'):
         tuner = getattr(kt.tuners, param['search_function'][0]
                         )(build_tuner_model, objective='val_accuracy',
                           max_trials=param['max_trials'][0],
-                          alpha=param['alpha'][0],
-                          beta=param['beta'][0],
+                          # alpha=param['alpha'][0],
+                          # beta=param['beta'][0],
                           executions_per_trial=param['exec_per_trial'][0],
                           project_name=project_name)
+
     else:
         tuner = getattr(kt.tuners, param['search_function'][0]
                         )(build_tuner_model, objective='val_accuracy',
