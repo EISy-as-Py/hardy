@@ -167,11 +167,20 @@ def run_tuner(training_set, validation_set, project_name='untransformed'):
                                                       patience=param['patience'
                                                                      ][0])
 
-    tuner = getattr(kt.tuners, param['search_function'][0]
-                    )(build_tuner_model, objective='val_accuracy',
-                      max_trials=param['max_trials'][0],
-                      executions_per_trial=param['exec_per_trial'][0],
-                      project_name=project_name)
+    if param['search_function'][0] == 'BayesianOptimization':
+        tuner = getattr(kt.tuners, param['search_function'][0]
+                        )(build_tuner_model, objective='val_accuracy',
+                          max_trials=param['max_trials'][0],
+                          alpha=param['alpha'][0],
+                          beta=param['beta'][0],
+                          executions_per_trial=param['exec_per_trial'][0],
+                          project_name=project_name)
+    else:
+        tuner = getattr(kt.tuners, param['search_function'][0]
+                        )(build_tuner_model, objective='val_accuracy',
+                          max_trials=param['max_trials'][0],
+                          executions_per_trial=param['exec_per_trial'][0],
+                          project_name=project_name)
 
     tuner.search(training_set, epochs=param['epochs'][0],
                  validation_data=validation_set,

@@ -8,10 +8,9 @@ import tensorflow as tf
 
 from hardy.handling import to_catalogue
 
-from keras.layers import (Dense, Conv2D, MaxPool2D,
-                          Flatten)
+from keras.layers import (Dense, Conv2D, Flatten)
 from keras.models import Sequential
-from keras.optimizers import Adam
+# from keras.optimizers import Adam
 from sklearn.metrics import classification_report, confusion_matrix
 from tensorflow.keras import callbacks
 from keras.preprocessing.image import load_img
@@ -60,13 +59,8 @@ def build_model(training_set, validation_set=None, config_path='./'):
         model.add(Conv2D(np.power(2, i)*hparam['filter_size'][0], kernel,
                          activation=hparam['activation'][i],
                          input_shape=input))
-    # model.add(Conv2D(2*hparam['filter_size'][0], kernel,
-    #                  activation=hparam['activation'][1]))
-    # model.add(Conv2D(4*hparam['filter_size'][0], kernel,
-    #                  activation=hparam['activation'][2]))
-    # model.add(Conv2D(8*hparam['filter_size'][0], kernel,
-    #                  activation=hparam['activation'][3]))
-    model.add(MaxPool2D(2, 2))
+
+    model.add(getattr(keras.layers, hparam['pooling'][0])(2, 2))
     model.add(Flatten())
     model.add(Dense(hparam['num_classes'][0], activation='softmax'))
     #################################################################
@@ -77,7 +71,8 @@ def build_model(training_set, validation_set=None, config_path='./'):
 
     #################################################################
     # compile the optimizer and defined the learning function
-    model.compile(optimizer=Adam(lr=hparam['learning_rate'][0]),
+    model.compile(optimizer=hparam['optimizer'][0](
+                  lr=hparam['learning_rate'][0]),
                   loss='categorical_crossentropy',
                   metrics=['accuracy'])
     #################################################################

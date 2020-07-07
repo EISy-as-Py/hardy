@@ -21,6 +21,9 @@ activation:
 - 'sigmoid'
 - 'sigmoid'
 
+pooling:
+- 'MaxPool2D'
+
 input_shape:
 - 120
 - 3
@@ -28,11 +31,13 @@ input_shape:
 filter_size:
 - 4
 
-
 num_classes:
 - 2
 
-# This refers to the optimizer learning rate. The default is 'Adam'
+# This refers to the optimizer learning rate.
+optimizer:
+- 'Adam'
+
 learning_rate:
 - 0.1e-3
 

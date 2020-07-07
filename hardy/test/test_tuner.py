@@ -70,22 +70,22 @@ class TestSimulationTools(unittest.TestCase):
             'The name of first layer must be filters'
         assert tuner_model.oracle.get_space().space[2].name == 'conv_layers',\
             'First filter must be conv_layers'
-        # assert tuner_model.oracle.get_space().space[3].name == 'activation_0'
-        # ,'First activation layer must be activation_0'
-        # assert tuner_model.oracle.get_space().space[4].name == 'filters_1'
-        # , 'Second filter must be filters_1'
-        # assert tuner_model.oracle.get_space().space[5].name == 'activation_1'
-        # ,'Second activation layer must be activation_1'
-        # assert tuner_model.oracle.get_space().space[6].name == 'filters_2',\
-        #     'Third filter must be filters_2'
-        # assert tuner_model.oracle.get_space().space[7].name == 'activation_2'
-        # ,'Third activation layer must be activation_2'
-        # assert tuner_model.oracle.get_space().space[8].name == 'pooling',\
-        #     'The pooling layer is absent afer third activation'
-        # assert tuner_model.oracle.get_space().space[9].name == 'optimizer',\
-        #     'Optimizer should come next to pooling layer'
 
         # Deleting the log files
+
+        shutil.rmtree('./'+project_name)
+
+        print('Successfully Deleted the log directory created under test')
+        # Generate test for BayesianOptimization search function
+        config_path = './hardy/test/test_data/'
+        tuner.build_param(config_path)
+        tuner_model = tuner.run_tuner(train, val, project_name='test_project')
+        assert tuner_model.oracle.get_space().space[0].name == \
+            'kernel_size', 'The first entry should be the kernel size'
+        assert tuner_model.oracle.get_space().space[1].name == 'filters',\
+            'The name of first layer must be filters'
+        assert tuner_model.oracle.get_space().space[2].name == 'conv_layers',\
+            'First filter must be conv_layers'
 
         shutil.rmtree('./'+project_name)
 
