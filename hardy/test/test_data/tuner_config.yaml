@@ -2,7 +2,7 @@
 # Configuration for runnign the tuner
 
 num_classes:
-  - 2
+  - 4
 
 epochs:
   - 3
@@ -11,7 +11,7 @@ patience:
   - 2
 
 input_shape:
-  - 80
+  - 50
   - 3
 
 # execution per trial
