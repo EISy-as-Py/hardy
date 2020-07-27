@@ -124,7 +124,7 @@ def derivative_1d(raw_array, spacing=0):
     return derivative_array
 
 
-def derivative_2d(x, y):
+def derivative_2d(x, y, meta_data=None):
     """Function that outputs the slope between x and y data
 
     Parameters
@@ -144,6 +144,8 @@ def derivative_2d(x, y):
     diff_y = np.diff(y)
 
     slope_array = diff_y/diff_x
+
+    slope_array = np.concatenate((slope_array, np.array([0])))
 
     return slope_array
 
@@ -215,29 +217,35 @@ def cwt_1d(raw_df, xy=0):
     return cwt_matrix
 
 
-def power(x, y=None, n=1, m=1):
-    ''' Function that multiplies two arrays x & y, element
+def power(x, y=None, meta_data=None):
+    ''' Function that multiplies two arrays x^m & y^n, element
     by element. If y is None, it return x*x
 
     Parameters
     ----------
     x: numpy.array
-       numpy array representing the one array to be multiplied
+        numpy array representing the one array to be multiplied
     y: numpy.array
-       numpy array representing the second array to be multiplied
-       if None it the module will square the x array
+        numpy array representing the second array to be multiplied
+        if None it the module will square the x array
 
     Returns
     -------
     multi_array: numpy.array
-                 numpy array representing the one to one multiplication
-                 of two arrays
+                    numpy array representing the one to one multiplication
+                    of two arrays
     '''
-    if y:
-        multi_array = np.multiply(np.power(x, n), np.power(y, m))
+    if meta_data:
+        m = meta_data[0]
+        n = meta_data[1]
+    else:
+        m = 1
+        n = 1
+    if y and n:
+        multi_array = np.multiply(np.power(x, m), np.power(y, n))
         return multi_array
     else:
-        multi_array = np.power(x, n)
+        multi_array = np.power(x, m)
         return multi_array
 
 

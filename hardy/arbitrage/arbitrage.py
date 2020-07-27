@@ -154,17 +154,19 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
             tform_data = transform_function(target_raw)
             # Save in output df
             tform_df[new_names[command[0]]] = tform_data
-        if type(command[2]) == 'tuple':
-            if command[1] == 'power':
-                # the power trasnformation is in the form of x^(n)y^(m).
-                # the arguments should be inputted as (x, y, n, m)
-                data_series_1 = raw_df[old_names[command[2][0]]]
-                data_series_2 = raw_df[old_names[command[2][1]]]
-                n = command[2][2]
-                m = command[2][3]
-                transform_function = getattr(transform, command[1])
-                tform_data = transform_function(
-                        data_series_1, data_series_2, n, m)
+        if type(command[2]) == 'list':
+            # if command[1] == 'power':
+            # the power trasnformation is in the form of x^(n)y^(m).
+            # the arguments should be inputted as (x, y, n, m)
+            data_series_1 = raw_df[old_names[command[2][0]]]
+            data_series_2 = raw_df[old_names[command[2][1]]]
+            if len(command[2]) == 2:
+                meta_data = None
+            else:
+                meta_data = command[2][2:]
+            transform_function = getattr(transform, command[1])
+            tform_data = transform_function(
+                    data_series_1, data_series_2, meta_data)
     return tform_df
 
 

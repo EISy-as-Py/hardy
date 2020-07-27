@@ -115,9 +115,9 @@ class TestSimulationTools(unittest.TestCase):
         x = [1, 2, 3, 4, 5, 6, 7, 8]
         y = [9, 10, 11, 12, 13, 14, 15, 16]
 
-        check_result = [1, 1, 1, 1, 1, 1, 1]
+        check_result = [1, 1, 1, 1, 1, 1, 1, 0]
 
-        slope = tforms.derivative_2d(x, y)
+        slope = tforms.derivative_2d(x, y, meta_data=None)
 
         assert np.allclose(slope, check_result),\
             "The returned array for slope, contains incorrect elements"
