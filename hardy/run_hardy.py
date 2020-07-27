@@ -5,8 +5,9 @@ import yaml
 
 import hardy.recognition.cnn as cnn
 import hardy.recognition.tuner as tuner
+import hardy.data_reporting.reporting as reporting
+
 from hardy.handling import pre_processing as preprocessing
-# from hardy.handling import handling as handling
 from hardy.handling import to_catalogue as to_catalogue
 from hardy.arbitrage import arbitrage
 
@@ -16,13 +17,13 @@ def hardy_multi_transform(  # Data and Config Paths
                           classifier_config_path,
                           # Optional for Data
                           iterator_mode='arrays', plot_format="RGBrgb",
-                          print_out=True,
+                          print_out=True, skiprows=0,
                           # Optional for Classifier
-                          num_test_files_class=300,
+                          num_test_files_class=300, scale=1.0,
                           classifier='tuner', split=0.1, target_size=(80, 80),
                           batch_size=32, classes=['class_1', 'class_2'],
-                          project_name='tuner_run', scale=1.0,
-                          skiprows=0):
+                          project_name='tuner_run', k_fold=False, k=None,
+                          color_mode='rgb', seed=None):
     """
     OVERALL wrapper function, to pass initial configurations and allow
         all other internal functions to understand and call upon each other.
@@ -51,6 +52,8 @@ def hardy_multi_transform(  # Data and Config Paths
                             set
     classifier : str
                   option cnn or tuner
+    scale :  float
+             percentage fo the image to reduce its size to.
     split : float
             the percentage of the learning set to use for the validation step
     target_size : tuple
@@ -113,7 +116,7 @@ def hardy_multi_transform(  # Data and Config Paths
 
     test_set_filenames = preprocessing.hold_out_test_set(
         raw_datapath, number_of_files_per_class=num_test_files_class,
-        classes=classes)
+        classes=classes, seed=seed)
 
     for tform_name in tform_command_list:
 
@@ -126,18 +129,16 @@ def hardy_multi_transform(  # Data and Config Paths
             image_data = data_wrapper(
                 raw_datapath, tform_commands=tform_commands,
                 plot_format=plot_format, iterator_mode=iterator_mode,
-                print_out=print_out, run_name=tform_name,
-                project_name=project_name, classes=classes,
-                scale=scale, skiprows=skiprows)
+                print_out=print_out, run_name=tform_name, scale=scale,
+                project_name=project_name, classes=classes, skiprows=skiprows)
             image_path = None
         else:
             image_data = None
             image_path = data_wrapper(
                 raw_datapath, tform_commands=tform_commands,
                 plot_format=plot_format, iterator_mode=iterator_mode,
-                print_out=print_out, run_name=tform_name,
-                project_name=project_name, classes=classes,
-                skiprows=skiprows)
+                print_out=print_out, run_name=tform_name, scale=scale,
+                project_name=project_name, classes=classes, skiprows=skiprows)
 
         # ============================================
         # Section 3: Classifier Wrapper  (Setup + Run)
@@ -149,12 +150,12 @@ def hardy_multi_transform(  # Data and Config Paths
                            image_data=image_data,
                            classifier=classifier,
                            iterator_mode=iterator_mode,
-                           split=split,
+                           split=split, color_mode=color_mode,
                            target_size=target_size,
                            batch_size=batch_size,
                            image_path=image_path,
                            classes=classes,
-                           project_name=project_name)
+                           project_name=project_name, k_fold=k_fold, k=k)
         # NO OUTPUT? - it outputs the report file
 
     return None
@@ -163,7 +164,11 @@ def hardy_multi_transform(  # Data and Config Paths
 def data_wrapper(raw_datapath, tform_commands=None, classes=None,
                  plot_format="RGBrgb", iterator_mode='arrays',
                  print_out=True, project_name=None, run_name=None,
+<<<<<<< HEAD
                  scale=1.0, skiprows=0):
+=======
+                 skiprows=0, scale=1.0):
+>>>>>>> a2d556cd3f10a81b3f3875c672528cd786a29be1
     """
     Overall "One-Click" Wrapper to create the three "Keras Ready" Datasets
         needed to train the model: "Training Set", "Validation Set" and
@@ -231,10 +236,11 @@ def data_wrapper(raw_datapath, tform_commands=None, classes=None,
 def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
                        image_data=None, classifier='tuner',
                        iterator_mode='arrays', split=0.1,
-                       target_size=(80, 80),
+                       target_size=(80, 80), color_mode='rgb',
                        batch_size=32, image_path=None,
                        classes=['class_1', 'class_2'],
-                       project_name='tuner_run', **kwarg):
+                       project_name='tuner_run',
+                       k_fold=False, k=None, **kwarg):
     '''
     Single "Universal" Wrapping function to setup and run the CNN and Tuner
     on any properly labeled image set.
@@ -291,16 +297,26 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
         test_set_list, learning_set_list = to_catalogue.data_set_split(
             image_data, test_set_filenames)
 
-        training_set, validation_set = to_catalogue.learning_set(
-            image_list=learning_set_list, split=split,
-            classes=classes, target_size=target_size,
-            iterator_mode='arrays', batch_size=batch_size)
+        if k_fold:
+            test_set = to_catalogue.test_set(image_list=test_set_list,
+                                             target_size=target_size,
+                                             classes=classes,
+                                             color_mode=color_mode,
+                                             iterator_mode='arrays',
+                                             batch_size=batch_size)
+        else:
+            training_set, validation_set = to_catalogue.learning_set(
+                image_list=learning_set_list, split=split,
+                classes=classes, target_size=target_size,
+                iterator_mode='arrays', batch_size=batch_size,
+                color_mode=color_mode)
 
-        test_set = to_catalogue.test_set(image_list=test_set_list,
-                                         target_size=target_size,
-                                         classes=classes,
-                                         iterator_mode='arrays',
-                                         batch_size=batch_size)
+            test_set = to_catalogue.test_set(image_list=test_set_list,
+                                             target_size=target_size,
+                                             classes=classes,
+                                             color_mode=color_mode,
+                                             iterator_mode='arrays',
+                                             batch_size=batch_size)
     else:
 
         assert image_path, 'no path to the image folders was provided'
@@ -313,14 +329,17 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
         test_set = to_catalogue.test_set(image_path, target_size=target_size,
                                          classes=classes,
                                          iterator_mode='from_directory',
-                                         batch_size=batch_size,)
-
-    print('training set : {} batches of {} files'.format(len(training_set),
+                                         batch_size=batch_size)
+    if k_fold:
+        print('test set : {} batches of {} files'.format(len(test_set),
                                                          batch_size))
-    print('validation set : {} batches of {} files'.format(len(validation_set),
-                                                           batch_size))
-    print('test set : {} batches of {} files'.format(len(test_set),
-                                                     batch_size))
+    else:
+        print('training set : {} batches of {} files'.format(len(training_set),
+                                                             batch_size))
+        print('validation set : {} batches of {} files'.format(
+            len(validation_set), batch_size))
+        print('test set : {} batches of {} files'.format(len(test_set),
+                                                         batch_size))
 
     if classifier == 'tuner':
         # warn search_function, 'no search function provided,
@@ -336,17 +355,49 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
         tuner.report_generation(model, history, metrics, output_path,
                                 tuner=tuned_model, save_model=True)
     else:
-        model, history = cnn.build_model(training_set, validation_set,
-                                         config_path=config_path)
-        metrics = cnn.evaluate_model(model, test_set)
+        if k_fold:
 
-        output_path = preprocessing.save_to_folder(input_path, project_name,
-                                                   run_name)
-        conf_matrix, report = cnn.report_on_metrics(model, test_set)
-        tuner.report_generation(model, history, metrics, output_path,
-                                tuner=None, save_model=True,
-                                config_path=config_path)
+            assert k, 'the number of folds needs to be provided'
+            validation_score, model, history, final_score = \
+                cnn.k_fold_model(k, config_path=config_path,
+                                 target_size=target_size,
+                                 classes=classes, batch_size=batch_size,
+                                 color_mode=color_mode,
+                                 iterator_mode=iterator_mode,
+                                 image_list=learning_set_list,
+                                 test_set=test_set)
+            output_path = preprocessing.save_to_folder(input_path,
+                                                       project_name,
+                                                       run_name)
+            conf_matrix, report = cnn.report_on_metrics(model, test_set)
+            tuner.report_generation(model, history, final_score, output_path,
+                                    tuner=None, save_model=True,
+                                    config_path=config_path, k_fold=k_fold,
+                                    k=k)
 
+        else:
+            model, history = cnn.build_model(training_set, validation_set,
+                                             config_path=config_path)
+            metrics = cnn.evaluate_model(model, test_set)
+
+            output_path = preprocessing.save_to_folder(input_path,
+                                                       project_name,
+                                                       run_name)
+            conf_matrix, report = cnn.report_on_metrics(model, test_set)
+            tuner.report_generation(model, history, metrics, output_path,
+                                    tuner=None, save_model=True,
+                                    config_path=config_path)
+
+    if iterator_mode == 'arrays':
+        performance_evaluation = reporting.model_analysis(model, test_set,
+                                                          test_set_list)
+        performance_evaluation.to_csv(
+            output_path+'report/model_evaluation.csv')
+    else:
+        performance_evaluation = reporting.model_analysis(model, test_set)
+
+        performance_evaluation.to_csv(
+            output_path+'report/model_evaluation.csv')
     return
 
 

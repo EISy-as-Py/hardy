@@ -316,10 +316,6 @@ def _smart_read_csv(full_fname, skiprows=0, last_skiprows=None,
     """
     Looping through pandas read_csv, checking the data
         and trying again if it's bad.
-    Our hard-coded "Skiprows=6" requires the user to know too much
-        a-priori about the data and can lead to frustrating errors.
-    I wrote this a week ago and somehow it was git deleted from the
-        git to_catalogue.py... Oh well it belongs here instead.
     Note:
         Will Return ONLY columns which are interger or floats.
             No lists, no strings, no silly things.

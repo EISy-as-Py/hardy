@@ -1,0 +1,85 @@
+#########################################################################
+# Configuration for runnign the tuner
+
+num_classes:
+  - 4
+
+epochs:
+  - 3
+
+patience:
+  - 2
+
+input_shape:
+  - 50
+  - 3
+
+# execution per trial
+max_trials:
+  - 5
+
+exec_per_trial:
+  - 3
+
+
+###########################################################################
+# Define the search function
+
+search_function:
+  - 'BayesianOptimization'
+
+# These values of alpha and beta are the default values used in the keras-tuner
+# BayesianOptimization tuner search function. IF search funciton is set to BO,
+# the values of alpha and beta will need to be indicated as well
+alpha:
+  - 1e-4
+beta:
+  - 2.6
+
+#########################################################################
+# Configuration of search space
+
+layers:
+  - 4
+
+filters:
+  - Int
+  - values:
+    - 2
+    - 4
+    - 8
+    - 16
+    - 32
+
+kernel_size:
+  - Choice
+  - values:
+    - 3
+    - 4
+    - 5
+
+activation:
+  - Choice
+  - values:
+    - relu
+    - sigmoid
+
+pooling:
+  - Choice
+  - values:
+    - avg
+    - max
+
+optimizer:
+  - Choice
+  - values:
+    - adam
+    - SGD
+
+learning_rate:
+  - Choice
+  - values:
+    - 0.1e-4
+    - 0.1e-5
+    - 0.1e-6
+    - 0.1e-7

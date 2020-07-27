@@ -26,7 +26,7 @@ class TestSimulationTools(unittest.TestCase):
         train, val = learning_set(path, split=split, classes=classes,
                                   iterator_mode=None)
         model, history = cnn.build_model(train, val,
-                                         config_path='./hardy/recognition/')
+                                         config_path='./hardy/test/')
         assert isinstance(train, keras.preprocessing.image.DirectoryIterator),\
             'the training set should be an image iterator type of object'
         assert isinstance(val, keras.preprocessing.image.DirectoryIterator),\
@@ -43,7 +43,7 @@ class TestSimulationTools(unittest.TestCase):
         testing = test_set(path, batch_size=batch_size, classes=classes,
                            iterator_mode=None)
         model, history = cnn.build_model(train, val,
-                                         config_path='./hardy/recognition/')
+                                         config_path='./hardy/test/')
         results = cnn.evaluate_model(model, testing)
         assert isinstance(results, list), \
             'model performance should be store in a list'
@@ -56,7 +56,7 @@ class TestSimulationTools(unittest.TestCase):
         testing = test_set(path, batch_size=batch_size, classes=classes,
                            iterator_mode=None)
         model, history = cnn.build_model(train, val,
-                                         config_path='./hardy/recognition/')
+                                         config_path='./hardy/test/')
         conf_matrix, report = cnn.report_on_metrics(
                                 model, testing,
                                 target_names=['noisy', 'not_noisy'])
@@ -121,7 +121,7 @@ class TestSimulationTools(unittest.TestCase):
         train, val = learning_set(path, split=split, classes=classes,
                                   iterator_mode=None)
         model, history = cnn.build_model(train, val,
-                                         config_path='./hardy/recognition/')
+                                         config_path='./hardy/test/')
 
         _, ax = plt.subplots(1, 2)
         ax = cnn.plot_history(history)
@@ -137,7 +137,7 @@ class TestSimulationTools(unittest.TestCase):
         train, val = learning_set(path, split=split, classes=classes,
                                   iterator_mode=None)
         model, history = cnn.build_model(train, val,
-                                         config_path='./hardy/recognition/')
+                                         config_path='./hardy/test/')
 
         saved_model = cnn.save_load_model(
             model=model, save=True, filepath='./hardy/test/model')

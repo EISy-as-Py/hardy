@@ -76,7 +76,7 @@ def reciprocal(raw_array):
 
     Returns
     -------
-    log_array: np.ndarray
+    reciprocal_array: np.ndarray
                reciprocal values of each element in the input array
     '''
     reciprocal_array = np.reciprocal(raw_array)
@@ -92,7 +92,7 @@ def cumsum(raw_array):
 
     Returns
     -------
-    log_array: np.ndarray
+    cumsum _array: np.ndarray
                cumulative sum of values in the input array
     '''
     cumsum_array = np.cumsum(raw_array)

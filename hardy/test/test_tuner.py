@@ -26,7 +26,7 @@ class TestSimulationTools(unittest.TestCase):
 
     def test_report_generation(self):
 
-        config_path = './hardy/recognition/'
+        config_path = './hardy/test/'
         train, val = learning_set(path, split=split, classes=classes,
                                   iterator_mode=None)
         model, history = cnn.build_model(train, val,
@@ -74,5 +74,21 @@ class TestSimulationTools(unittest.TestCase):
         # Deleting the log files
 
         shutil.rmtree('./'+project_name)
+
+        print('Successfully Deleted the log directory created under test')
+        # Generate test for BayesianOptimization search function
+        # config_path = './hardy/test/test_data/'
+        # tuner.build_param(config_path)
+        # tuner_model = tuner.run_tuner(train, val, project_name='test_project'
+        # )
+        # assert tuner_model.oracle.get_space().space[0].name == \
+        #     'kernel_size', 'The first entry should be the kernel size'
+        # assert tuner_model.oracle.get_space().space[1].name == 'filters',\
+        #     'The name of first layer must be filters'
+        # assert tuner_model.oracle.get_space().space[2].name == 'conv_layers',
+        # \
+        #     'First filter must be conv_layers'
+
+        # shutil.rmtree('./'+project_name)
 
         print('Successfully Deleted the log directory created under test')

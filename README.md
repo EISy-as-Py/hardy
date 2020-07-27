@@ -12,6 +12,9 @@ A package to assist in discovery, research, and classification of YOUR data, no 
 
 Numerical and visual transformation of experimental data to improve its classification and cataloging 
 
+This project was part of DIRECT Capstone Project at University of Washington and was presented at the showcase, follow this 
+<a href=https://prezi.com/view/5ugf5HyDxZevQlOHmuyO/>link </a>  for the presentation
+
 ## Requirements:
 Package HARDy has following main dependencies:
 1. Python => 3.6
@@ -75,5 +78,7 @@ Our vision of the final product:
  * __yNot.py__             :  Home for everything else that seems useful but doesn't fall into one of the other functions! 
  
  
+ ## Acknowledgment 
  
+ Maria Politi acknowledges support from the National Science Foundation through NSF-CBET grant 1917340
  

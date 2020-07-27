@@ -207,7 +207,8 @@ def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
     column names :  list of strings (Optional)
                     IF given, will drop all columns not in the
                         list given. (If no colums match, will ERROR.)
-
+    scale :  float
+             percentage fo the image to reduce its size to.
     Returns
     -------
     list_of_rgb_tuples  :   list of tuples
@@ -251,7 +252,8 @@ def regular_plot_list(data_tuples, scale=1.0):
     data_tuples :   list of tuples
                     The list of tuples in the following format
                      (filenames, dataframe, label)
-
+    scale :  float
+          percentage fo the image to reduce its size to.
     Returns
     -------
     list_of_rgb_tuples  :   list of tuples
@@ -310,7 +312,7 @@ def data_set_split(image_list, test_set_filenames):
 
 
 def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
-                  column_names=None, scale=1):
+                  column_names=None, scale=1.0):
     '''
     Input a list of dataframes (already read and/or processed),
     Plot them RGB-wise into images
@@ -334,6 +336,8 @@ def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
                     "Rb"
 
     combine_method: "add" or "mlt" - which visualization fn to use
+    scale :  float
+             percentage fo the image to reduce its size to.
 
     Returns
     -------
@@ -488,7 +492,7 @@ def _safe_clear_dirflow(the_path):
 def learning_set(path=None, split=0.1, target_size=(80, 80),
                  classes=['noisy', 'not_noisy'], batch_size=32,
                  color_mode='rgb', iterator_mode='arrays',
-                 image_list=None, **kwargs):
+                 image_list=None, k_fold=None, k=None, fold=None, **kwargs):
     '''
     A funciton that will create an iterator for the files representing the
     learning sets
@@ -511,14 +515,18 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
                 The number of files to group up into a batch
     color_mode: str
                 Either grayscale or rgb
-    iterator_mode : str
+    iterator_mode: str
                     string indicating which Keras IamgeDataGenerator mode
                     to use. Options are 'arrays' or 'images'. The first will
                     use the "flow" option, the second will use
                     "flow_from_directory" option
-    image_list : list
+    image_list: list
                  The list of tuples in the following format
                  (filenames, image_array, label)
+    k_fold: Bool
+    k:  int
+    fold: int
+
     Returns
     -------
     training_set:  Keras image iterator
@@ -526,7 +534,6 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
     validation_set: Keras image iterator
                 The training set containg labelled images
     '''
-    data = ImageDataGenerator(validation_split=split, **kwargs)
 
     if iterator_mode == 'arrays':
         n = target_size[0]
@@ -540,6 +547,7 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
 
         image_arrays = np.array([image_list[i][1][:]
                                 for i in range(len(image_list))])
+
         image_data = image_arrays.reshape(image_arrays.shape[0], n,
                                           n, channels).astype('float32')
         image_data = (image_data*255).astype('uint8')
@@ -550,20 +558,77 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
                 if image_labels[j] == label:
                     image_labels[j] = i
 
-        if len(np.unique(image_labels)) == len(np.unique(classes)):
+        if len(np.unique(image_labels)) != len(np.unique(classes)):
             print('The number of unique labels was found to be {},'
                   ' expected {}'.format(len(np.unique(image_labels)),
                                         len(np.unique(classes))))
 
-        image_labels = keras.utils.to_categorical(
-            image_labels, num_classes=len(np.unique(image_labels)))
+        if k_fold:
 
-        training_set = data.flow(x=image_data, y=image_labels,
-                                 batch_size=batch_size, subset='training')
-        validation_set = data.flow(x=image_data, y=image_labels,
-                                   batch_size=batch_size, subset='validation')
+            assert k, 'The number of folds needs to be provided'
+
+            image_data_list = [(image_data[i], image_labels[i])
+                               for i in range(len(image_data))]
+            np.random.shuffle(image_data_list)
+
+            num_validation_samples = len(image_data_list) // k
+            # define the training and validation set for the given fold
+
+            x_train = np.array(
+                [image_data_list[i][0] for i in np.concatenate(
+                    (np.arange(0, num_validation_samples*fold),
+                     np.arange(num_validation_samples*(fold+1),
+                               len(image_data_list))))])
+
+            y_train = [image_data_list[i][1] for i in
+                       np.concatenate((
+                           np.arange(0, num_validation_samples*fold),
+                           np.arange(num_validation_samples*(fold+1),
+                                     len(image_data_list))))]
+            y_train = keras.utils.to_categorical(
+                y_train, num_classes=len(np.unique(image_labels)))
+
+            x_val = np.array(
+                [image_data_list[i][0] for i in np.arange(
+                    num_validation_samples*fold,
+                    num_validation_samples*(fold+1))])
+
+            y_val = [image_data_list[i][1] for i in
+                     np.arange(num_validation_samples*fold,
+                     num_validation_samples*(fold+1))]
+            y_val = keras.utils.to_categorical(
+                y_val, num_classes=len(np.unique(image_labels)))
+
+            data = ImageDataGenerator(**kwargs)
+
+            training_set = data.flow(x=x_train, y=y_train,
+                                     shuffle=False,
+                                     batch_size=batch_size)
+            validation_set = data.flow(x=x_val, y=y_val,
+                                       shuffle=False,
+                                       batch_size=batch_size)
+        else:
+            image_labels = keras.utils.to_categorical(
+                image_labels, num_classes=len(np.unique(image_labels)))
+
+            if split == 0:
+                data = ImageDataGenerator(**kwargs)
+
+                training_set = data.flow(x=image_data, y=image_labels,
+                                         batch_size=batch_size, shuffle=False)
+                validation_set = []
+            else:
+                data = ImageDataGenerator(validation_split=split, **kwargs)
+
+                training_set = data.flow(x=image_data, y=image_labels,
+                                         batch_size=batch_size,
+                                         subset='training')
+                validation_set = data.flow(x=image_data, y=image_labels,
+                                           batch_size=batch_size,
+                                           subset='validation')
 
     else:
+        data = ImageDataGenerator(validation_split=split, **kwargs)
         training_set = data.flow_from_directory(path,
                                                 target_size=target_size,
                                                 classes=classes,
@@ -638,6 +703,7 @@ def test_set(path=None, target_size=(80, 80),
             print('The expected target size is {}, found {}'
                   .format(len(image_arrays[0][1]), target_size[0]))
             n = len(image_arrays[0][1])
+
         image_data = image_arrays.reshape(image_arrays.shape[0], n,
                                           n, channels).astype('float32')
         image_data = (image_data*255).astype('uint8')
@@ -647,7 +713,7 @@ def test_set(path=None, target_size=(80, 80),
             for j in range(len(image_labels)):
                 if image_labels[j] == label:
                     image_labels[j] = i
-        if len(np.unique(image_labels)) == len(np.unique(classes)):
+        if len(np.unique(image_labels)) != len(np.unique(classes)):
             print('The number of unique labels was found to be {},'
                   ' expected {}'.format(len(np.unique(image_labels)),
                                         len(np.unique(classes))))

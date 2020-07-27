@@ -81,8 +81,8 @@ def normalize_image(color_image_array):
 ######################################################################
 # Plotting Functions
 def rgb_plot(red_array=None, green_array=None, blue_array=None,
-             plot=True, save_image=None, scale=1.0, filename=None,
-             save_location=None):
+             plot=True, save_image=None, filename=None,
+             save_location=None, scale=1.0):
     '''Returns a plot which represents the input data as a color gradient of
     one of the three color channels available: red, blue or green.
 
@@ -102,6 +102,8 @@ def rgb_plot(red_array=None, green_array=None, blue_array=None,
                   the data array to be plotted in the green channel.
     blue_array : array
                  the data array to be plotted in the blue channel.
+    scale :  float
+             percentage fo the image to reduce its size to.
     plot : bool
            if True, the color gradient representation of the data will be
            displayed
@@ -168,7 +170,6 @@ def rgb_plot(red_array=None, green_array=None, blue_array=None,
 
     resized_dimension = np.shape(rgb_plot)[0]*scale
     rgb_plot = resize(rgb_plot, (resized_dimension, resized_dimension))
-
     return rgb_plot
 
 
@@ -245,9 +246,6 @@ def orthogonal_images_mlt(image_x, image_y, plot=True, save_image=None,
     NOTE: If one axis of a color (Red X) has data but the other (Red Y)
           has nothing, we should Replace the Zero-array with a Ones-Array!
 
-
-
-
     Parameters
     ----------
     image_x : array-like
@@ -321,7 +319,8 @@ def regular_plot(tform_df_tuple, scale=1.0):
     tform_df_tuple : list
                      The list of tuples in the following format
                      (filenames, dataframe, label)
-
+    scale :  float
+             percentage fo the image to reduce its size to.
     Returns
     -------
     img :  np.array
@@ -353,6 +352,8 @@ def get_img_from_fig(fig, scale=1.0, dpi=100):
     fig : matplotlib figure
           The figure containing the x-y plot of the data
 
+    scale :  float
+             percentage fo the image to reduce its size to.
     Returns
     -------
     img :  np.array

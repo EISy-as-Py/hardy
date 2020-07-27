@@ -29,12 +29,14 @@ dependencies:
   - python
   - scipy
   - setuptools
+  - scikit-image
   - scikit-learn
   - scikit-image
   - tensorflow==2.0
   - testpath
   - tk
   - terminaltables
+  - tensorflow==2.0
   - tabulate
   - colorama
   - pip:

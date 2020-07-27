@@ -44,14 +44,6 @@ tform_command_list:
     - "Nyquist_like_Z_Z"
     - "Bode_like_LogF_ZPhase"
     - "NyBode_like_LogF_ZZ"
-    - "Raw_FZ_Z"
-    - "LogF_RawZZ"
-    - "Recip_FZZ"
-    - "Raw_FZPhase"
-    - "LogF_RawZPhase"
-    - "Recip_FZPhase"
-    - "Raw_FZZ_ZPhase"
-    - "LogF_ZZ_ZPhase"
 
 
 tform_command_dict:

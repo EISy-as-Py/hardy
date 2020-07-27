@@ -1,5 +1,3 @@
-# add funcitons to summarize and visualize the summary reports from the
-# the hardy run
 import numpy as np
 import os
 import yaml
@@ -7,12 +5,14 @@ import yaml
 import pandas as pd
 import plotly.graph_objects as go
 
+from keras.preprocessing.image import NumpyArrayIterator
 from plotly.subplots import make_subplots
 
 
 def report_dataframes(report_path):
 
-    categories = [f for f in os.listdir(report_path) if not f.startswith('.')]
+    categories = [f for f in os.listdir(report_path) if not f.startswith('.')
+                  or f.endswith('.csv')]
 
     import_dict = {}
 
@@ -20,7 +20,7 @@ def report_dataframes(report_path):
         yaml_path = report_path+categories[i]+'/report/'
         yaml_file_name = [file for file in os.listdir(yaml_path)
                           if file != 'run_tform_config.yaml' and not
-                          file.startswith('.')]
+                          (file.startswith('.') or file.endswith('.csv'))]
         with open(yaml_path+yaml_file_name[0], 'r') as file:
             import_dict[categories[i]] = yaml.load(
                 file, Loader=yaml.FullLoader)
@@ -36,6 +36,11 @@ def report_dataframes(report_path):
     rank_dict = {}
     history_dict = {}
     index = 0
+    ############################################
+    # Temporary solution, needs to be updated
+    optimize = 'adam'
+    pool = 'max'
+    ############################################
 
     for keys in import_dict.items():
         n = 0
@@ -52,13 +57,28 @@ def report_dataframes(report_path):
             if 'test_accuracy' in keys_1:
                 accuracy = values_1
         data_dict[index] = [keys[0], n, k_size, a_function,
-                            optimize, pool, accuracy]
-        rank_dict[index] = [keys[0], accuracy]
-        history_dict[index] = [keys[0], list(range(1, len(keys[1]['loss'])+1)),
-                               keys[1]['loss'], keys[1]['val_loss'],
-                               keys[1]['test_loss'],
-                               keys[1]['accuracy'], keys[1]['val_accuracy'],
-                               keys[1]['test_accuracy']]
+                            optimize, pool, np.round(accuracy, 3)]
+        rank_dict[index] = [keys[0], np.round(accuracy, 3)]
+        try:
+            # For tuner
+            history_dict[index] = [keys[0], list(range(1,
+                                                 len(keys[1]['loss'])+1)),
+                                   keys[1]['loss'], keys[1]['val_loss'],
+                                   keys[1]['test_loss'],
+                                   keys[1]['accuracy'],
+                                   keys[1]['val_accuracy'],
+                                   keys[1]['test_accuracy']]
+        except KeyError:
+            # For pre-defined CNN
+            history_dict[index] = [keys[0], list(range(1,
+                                                 len(keys[1]['loss'])+1)),
+                                   keys[1]['loss'],
+                                   keys[1]['test_loss'],
+                                   keys[1]['accuracy'],
+                                   keys[1]['test_accuracy']]
+            history_names = ['report_name', 'epochs', 'train_loss',
+                             'test_loss', 'train_accuracy',
+                             'test_accuracy']
         index += 1
 
     hyperparam_df = pd.DataFrame.from_dict(data_dict, orient='index',
@@ -87,7 +107,9 @@ def report_plots(hyperparam_df, history_df):
 
     # Define the color palette to use
     color = ['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
-             '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695']
+             '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695',
+             '#8e0152', '#c51b7d', '#de77ae', '#f1b6da', '#fde0ef', '#f7f7f7',
+             '#e6f5d0', ' #b8e186', '#7fbc41', '#4d9221', '#276419']
 
     # Let's plot the trainig and validation loss and accuracy
 
@@ -100,17 +122,17 @@ def report_plots(hyperparam_df, history_df):
             marker=dict(size=8, color=color[i], colorscale='Electric'),
             row=1, col=1)
         fig1.add_scatter(
-            x=history_df['epochs'][i], y=history_df['val_loss'][i],
-            mode='markers', legendgroup=history_df['report_name'][i],
-            name=history_df['report_name'][i],
-            marker=dict(size=8, color=color[i], colorscale='Electric'),
-            row=1, col=1, showlegend=False)
-        fig1.add_scatter(
             x=history_df['epochs'][i], y=history_df['train_accuracy'][i],
             mode='lines', legendgroup=history_df['report_name'][i],
             name=history_df['report_name'][i],
             marker=dict(size=8, color=color[i], colorscale='Electric'),
             row=1, col=2, showlegend=False)
+        fig1.add_scatter(
+            x=history_df['epochs'][i], y=history_df['val_loss'][i],
+            mode='markers', legendgroup=history_df['report_name'][i],
+            name=history_df['report_name'][i],
+            marker=dict(size=8, color=color[i], colorscale='Electric'),
+            row=1, col=1, showlegend=False)
         fig1.add_scatter(
             x=history_df['epochs'][i], y=history_df['val_accuracy'][i],
             mode='markers', legendgroup=history_df['report_name'][i],
@@ -123,8 +145,11 @@ def report_plots(hyperparam_df, history_df):
     # Generate Parallel Coordinates plot
     fig2 = go.Figure(data=go.Parcats(
         line=dict(color=['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090',
-                         '#ffffbf', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4',
-                         '#313695'], colorscale='Electric'),
+                         '#ffffbf', '#e0f3f8', '#abd9e9', '#74add1',
+                         '#4575b4', '#313695',  '#8e0152', '#c51b7d',
+                         '#de77ae', '#f1b6da', '#fde0ef', '#f7f7f7',
+                         '#e6f5d0', ' #b8e186', '#7fbc41', '#4d9221',
+                         '#276419'], colorscale='Electric'),
         dimensions=list(
             [dict(label='Report Name', values=hyperparam_df['report_name']),
              dict(label='Num layers', values=hyperparam_df['layers'],
@@ -186,8 +211,8 @@ def summary_report_tables(report_path):
     '''
     hyperparam_df, history_df, tform_rank_df = report_dataframes(report_path)
     summary_df = summary_dataframe(report_path)
-    tform_rank_df.style.format(
-        "{:.3}", subset=["test_accuracy"])
+    # tform_rank_df.style.format(
+    #     "{:.3}", subset=["test_accuracy"])
     # .style.apply(highlight_max(
     # subset=["test_accuracy"], color='gold'))
 
@@ -197,7 +222,8 @@ def summary_report_tables(report_path):
 def summary_dataframe(report_path):
     '''
     '''
-    categories = [f for f in os.listdir(report_path) if not f.startswith('.')]
+    categories = [f for f in os.listdir(report_path) if not f.startswith('.')
+                  or f.endswith('.csv')]
     run_tform = {}
     for i in range(len(categories)):
         yaml_path = report_path+categories[i]+'/report/'
@@ -230,3 +256,70 @@ def summary_dataframe(report_path):
                               columns=['transform', 'column', 'plot_code'])
 
     return summary_df
+
+
+def model_analysis(model, test_set, test_set_list=None):
+
+    ''' The function that provides analysis of a trained model for
+    its predicted output and actual output
+
+    Parameters
+    ----------
+    model: keras.model
+            a keras instance of the trained model to use for the prediction
+    test_set_list: list
+                    list representing the file names, images and labels
+                    for test set.
+    test_set: keras.ImageDataGenerator iterator
+                 the interator instance created using the
+                 keras.ImageDataGenerator. This can either be a
+                 NumpyArrayIterator or a DirectoryIterator
+
+    Returns
+    -------
+    result: pandas.DataFrame
+            dataframe having filenames, actual labels,
+            predicted labels and probability for decision
+    '''
+    predictions = model.predict(test_set)
+
+    predicted_class_indices = np.argmax(predictions, axis=1)
+
+    probabilities = []
+    for n in range(len(predictions)):
+        probabilities.append(np.round(predictions[n], 3))
+
+    labels_dict = {}
+
+    if type(test_set) == NumpyArrayIterator:
+        labels = []
+        for i in range(len(test_set_list)):
+            labels.append(test_set_list[i][:][2])
+
+        for i, label in enumerate(np.unique(labels)):
+            for j in range(len(labels)):
+                if labels[j] == label:
+                    labels_dict.update({i: label})
+
+        filenames = [n[0][:][:] for n in test_set_list]
+
+    else:
+        labels_indices = (test_set.class_indices)
+        labels_dict = dict((v, k) for k, v in labels_indices.items())
+
+        filenames = test_set.filenames
+
+        labels = []
+        for i in range(len(filenames)):
+            for key, value in labels_indices.items():
+                if key in filenames[i]:
+                    labels.append(key)
+
+    predicted_labels = [labels_dict[k] for k in predicted_class_indices]
+
+    result = pd.DataFrame.from_dict({"Filenames": filenames,
+                                     "Actual_Labels": labels,
+                                     "Predicted_Labels": predicted_labels,
+                                     "Probabilities": probabilities})
+
+    return result

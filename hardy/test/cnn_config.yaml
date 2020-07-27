@@ -8,28 +8,27 @@ kernel_size:
 - 3
 
 epochs:
-- 30
+- 3
 
 layers:
-- 4
+- 3
 
-# Make sure that if the number of layers changes,
-# the number of actvation functions should increase/decrease accordingly.
+# Make sure that if the number of layers changes in the build_model funciton,
+# the number of actvation function increases/decreases accordingly.
 activation:
 - 'relu'
 - 'relu'
-- 'sigmoid'
-- 'sigmoid'
+- 'relu'
 
 pooling:
 - 'MaxPool2D'
 
 input_shape:
-- 120
+- 80
 - 3
 
 filter_size:
-- 4
+- 2
 
 num_classes:
 - 2
@@ -39,10 +38,10 @@ optimizer:
 - 'Adam'
 
 learning_rate:
-- 0.1e-3
+- 0.001
 
 # This refers to the number of epochs after which the model will stop
 # if there was no improvement in the loss funciton.
 # [used in the callback funciton]
 patience:
-- 3
+- 2

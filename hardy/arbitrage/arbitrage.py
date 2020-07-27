@@ -7,6 +7,26 @@ import pandas as pd
 # Imports must be changed depending on Package vs GIT build....
 import hardy.arbitrage.transformations as transform
 
+"""
+note :  Almost All of these Functions are partly Obsolete because of the
+        to_config.py change in default data methods. So instead I'm updating
+        to conform to the new standards. Some logic can be re-used.
+
+        Most importantly, we are working with data in the "List_of_Tuples"
+        Format, where each data item is passed as a list of the following:
+            (ID_String, DataFrame, Classify_string(or int?))
+        Later this data is transformed into image list_of_rgb:
+            (ID_String, RGB-3D-Array, Classify_string(or int?)
+        These ARBITRAGE functions are designed to "intercept" the DataFrame
+            List_of_Tuples and return an EQUALLY FORMATTED one where each
+            df is replaced with the one created by the transform list passed.
+
+        WE ARE NO LONGER READING FILES IN THIS PACKAGE.
+        This will ALL be imported BY the preprocessing.py package, which
+        will contain all loops to Read, Arbitrate, and Create CNN-readable
+        Data list.
+"""
+
 # tform_1d1d = transform.list_1d1d  # Import dict of Transform functions
 # tform_keys = list(tform_1d1d.keys())  # This is the list of f(n) keys
 

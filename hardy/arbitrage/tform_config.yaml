@@ -41,74 +41,81 @@
 # =============================================================================
 
 tform_command_list:
-    - "Nyquist_like_Z_Z"
-    - "Bode_like_LogF_ZPhase"
-    - "NyBode_like_LogF_ZZ"
-    - "Raw_FZ_Z"
-    - "LogF_RawZZ"
-    - "Recip_FZZ"
-    - "Raw_FZPhase"
-    - "LogF_RawZPhase"
-    - "Recip_FZPhase"
-    - "Raw_FZZ_ZPhase"
-    - "LogF_ZZ_ZPhase"
-
+    - "ReZ_ImZ"
+    - "log10_f_ReZ_ImZ"
+    - "log10_f_der_ReZ_der_ImZ"
+    - "der_ReZ_der_ImZ"
+    - "rec_ReZ_ImZ"
+    - "ReZ_rec_ImZ"
+    - "rec_ReZ_rec_ImZ"
+    - "sqr_ReZ_sqr_ImZ"
+    - "log10_ReZ_ImZ"
+    - "exp_ReZ_exp_ImZ"
+    - "exp_ReZ_ImZ"
+    - "ReZ_exp_ImZ"
+    - "sum_ReZ_ImZ"
+    - "ReZ_sum_ImZ"
+    - "sum_ReZ_sum_ImZ"
 
 tform_command_dict:
-    "Nyquist_like_Z_Z":
-        - [0, 'raw', 6]
-        - [5, 'raw', 7]
+    "ReZ_ImZ":
+        - [0, '1d_raw', 6]
+        - [2, '1d_raw', 7]
 
-    "Bode_like_LogF_ZPhase":
-        - [0, 'log10', 0]
-        - [4, 'raw', 4]
-        - [5, 'raw', 5]
+    "log10_f_ReZ_ImZ":
+        - [0, '1d_log10', 0]
+        - [1, '1d_raw', 6]
+        - [2, '1d_raw', 7]
 
-    "NyBode_like_LogF_ZZ":
-        - [0, 'log10', 0]
-        - [4, 'raw', 6]
-        - [5, 'raw', 7]
+    "log10_f_der_ReZ_der_ImZ":
+        - [0, '1d_log10', 0]
+        - [1, '1d_derivative', 6]
+        - [2, '1d_derivative', 7]
 
-    "Raw_FZ_Z":
-        - [0, 'raw', 0]
-        - [4, 'raw', 6]
-        - [5, 'raw', 7]
+    "der_ReZ_der_ImZ":
+        - [0, '1d_derivative', 6]
+        - [1, '1d_derivative', 7]
 
-    "LogF_RawZZ":
-        - [0, 'log10', 0]
-        - [1, 'raw', 6]
-        - [5, 'raw', 7]
+    "rec_ReZ_ImZ":
+        - [0, '1d_reciprocal', 6]
+        - [2, '1d_raw', 7]
 
-    "Recip_FZZ":
-        - [0, 'reciprocal', 1]
-        - [1, 'reciprocal', 6]
-        - [5, 'reciprocal', 7]
+    "ReZ_rec_ImZ":
+        - [0, '1d_raw', 6]
+        - [2, '1d_reciprocal', 7]
 
-    "Raw_FZPhase":
-        - [0, 'raw', 0]
-        - [1, 'raw', 6]
-        - [5, 'raw', 7]
+    "rec_ReZ_rec_ImZ":
+        - [0, '1d_reciprocal', 6]
+        - [1, '1d_reciprocal', 7]
 
-    "LogF_RawZPhase":
-        - [0, 'log10', 0]
-        - [1, 'raw', 4]
-        - [5, 'raw', 5]
+    "sqr_ReZ_sqr_ImZ":
+        - [3, '1d_multiply', 6]
+        - [4, '1d_multiply', 7]
 
-    "Recip_FZPhase":
-        - [0, 'reciprocal', 0]
-        - [1, 'reciprocal', 4]
-        - [5, 'reciprocal', 5]
+    "log10_ReZ_ImZ":
+        - [1, '1d_log10', 6]
+        - [2, '1d_raw', 7]
 
-    "Raw_FZZ_ZPhase":
-        - [0, 'raw', 0]
-        - [1, 'raw', 6]
-        - [2, 'raw', 7]
-        - [3, 'raw', 4]
-        - [4, 'raw', 5]
+    "exp_ReZ_exp_ImZ":
+        - [1, '1d_exp', 6]
+        - [2, '1d_exp', 7]
 
-    "LogF_ZZ_ZPhase":
-        - [0, 'log10', 0]
-        - [1, 'raw', 2]
-        - [2, 'raw', 7]
-        - [4, 'raw', 4]
-        - [5, 'raw', 5]
+    "exp_ReZ_ImZ":
+        - [1, '1d_exp', 6]
+        - [0, '1d_raw', 7]
+
+    "ReZ_exp_ImZ":
+        - [0, '1d_raw', 6]
+        - [4, '1d_exp', 7]
+
+    "sum_ReZ_ImZ":
+        - [5, '1d_cumsum', 6]
+        - [2, '1d_raw', 7]
+
+    "ReZ_sum_ImZ":
+        - [0, '1d_raw', 6]
+        - [4, '1d_cumsum', 7]
+
+    "sum_ReZ_sum_ImZ":
+        - [0, '1d_cumsum', 6]
+        - [1, '1d_cumsum', 7]

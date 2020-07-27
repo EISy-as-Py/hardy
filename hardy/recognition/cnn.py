@@ -6,10 +6,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 
-from keras.layers import (Dense, Conv2D, MaxPool2D,
-                          Flatten)
+from hardy.handling import to_catalogue
+
+from keras.layers import (Dense, Conv2D, Flatten)
 from keras.models import Sequential
-from keras.optimizers import Adam
+# from keras.optimizers import Adam
 from sklearn.metrics import classification_report, confusion_matrix
 from tensorflow.keras import callbacks
 from keras.preprocessing.image import load_img
@@ -19,7 +20,7 @@ from keras.models import Model
 
 
 # Define the base Keras model to use for comparing the different types of plots
-def build_model(training_set, validation_set, config_path='./'):
+def build_model(training_set, validation_set=None, config_path='./'):
     '''
     Function that allows to build and fit a sequential convolutional
     neural network using Keras.
@@ -54,14 +55,12 @@ def build_model(training_set, validation_set, config_path='./'):
     input = (hparam['input_shape'][0], hparam['input_shape'][0],
              hparam['input_shape'][1])
     model = Sequential()
-    model.add(Conv2D(hparam['filter_size'][0], kernel,
-                     activation=hparam['activation'][0],
-                     input_shape=input))
-    model.add(Conv2D(2*hparam['filter_size'][0], kernel,
-                     activation=hparam['activation'][1]))
-    model.add(Conv2D(4*hparam['filter_size'][0], kernel,
-                     activation=hparam['activation'][2]))
-    model.add(MaxPool2D(2, 2))
+    for i in range(hparam['layers'][0]):
+        model.add(Conv2D(np.power(2, i)*hparam['filter_size'][0], kernel,
+                         activation=hparam['activation'][i],
+                         input_shape=input))
+
+    model.add(getattr(keras.layers, hparam['pooling'][0])(2, 2))
     model.add(Flatten())
     model.add(Dense(hparam['num_classes'][0], activation='softmax'))
     #################################################################
@@ -72,15 +71,20 @@ def build_model(training_set, validation_set, config_path='./'):
 
     #################################################################
     # compile the optimizer and defined the learning function
-    model.compile(optimizer=Adam(lr=hparam['learning_rate'][0]),
+    model.compile(getattr(keras.optimizers, hparam['optimizer'][0])(
+                  lr=hparam['learning_rate'][0]),
                   loss='categorical_crossentropy',
                   metrics=['accuracy'])
     #################################################################
     # Start the learning step and plot the result of the training and
     # validation sets to determine how well the model learned
-    history = model.fit(training_set, epochs=hparam['epochs'][0],
-                        callbacks=[callback], shuffle=True,
-                        validation_data=validation_set)
+    if validation_set:
+        history = model.fit(training_set, epochs=hparam['epochs'][0],
+                            callbacks=[callback], shuffle=True,
+                            validation_data=validation_set, verbose=2)
+    else:
+        history = model.fit(training_set, epochs=hparam['epochs'][0],
+                            callbacks=[callback], shuffle=True, verbose=2)
     #################################################################
 
     return model, history
@@ -213,9 +217,9 @@ def save_load_model(filepath, model=None, save=None, load=None):
 
     Parameters
     ----------
-    filename : str
+    filepath : str
                string indicating the filename for saving or loading model.
-    network : neural_network
+    model : neural_network
               trained neural network variable that is to be saved or loaded.
     save : bool
            boolean value if true saves the neural network model.
@@ -362,3 +366,38 @@ def feature_map_layers(img_feature_array, model, list_layer_pos, save,
                 os.makedirs(log_dir+new_folder_path)
             ax.savefig(log_dir+new_folder_path+name_feature_map, dpi=100)
     return ax
+
+
+def k_fold_model(k, config_path='./', target_size=(80, 80),
+                 classes=['noisy', 'not_noisy'], batch_size=32,
+                 color_mode='rgb', iterator_mode='arrays',
+                 image_list=None, test_set=None, **kwargs):
+    '''
+    '''
+
+    validation_score = []
+
+    for fold in range(k):
+        train_data, val_data = to_catalogue.learning_set(
+            target_size=target_size, classes=classes, batch_size=batch_size,
+            color_mode=color_mode, iterator_mode='arrays',
+            image_list=image_list, k_fold=True, k=k, fold=fold, **kwargs)
+        model, history = build_model(train_data, config_path=config_path)
+        validation_score.append(evaluate_model(model, val_data)[1])
+
+    validation_score = np.average(validation_score)
+    print('The average model accuracy is {} for {} number of folds'.format(
+        np.round(validation_score, 3), k))
+
+    # Retrain the model with the entirety of the data set
+    # and return its performance
+    train_data, val_data = to_catalogue.learning_set(
+        target_size=target_size, classes=classes, batch_size=batch_size,
+        color_mode=color_mode, iterator_mode='arrays', split=0,
+        image_list=image_list, **kwargs)
+    model, history = build_model(train_data, config_path=config_path)
+    final_score = evaluate_model(model, test_set)
+
+    print('The final model accuracy is {}'.format(final_score[1]))
+
+    return validation_score, model, history, final_score

@@ -51,9 +51,10 @@ def build_tuner_model(hp):
         'kernel_size', values=param['kernel_size'][1]['values']),
     kernel_size = (kernel[0], kernel[0])
 
-    filter = getattr(hp, param['filters'][0]
-                     )('filters', min(param['filters'][1]['values']),
-                       max(param['filters'][1]['values']), step=4, default=8)
+    filter = getattr(
+        hp, param['filters'][0])(
+            'filters', min(param['filters'][1]['values']),
+            max(param['filters'][1]['values']), step=4, default=8)
 
     for i in range(hp.Int('conv_layers', 1, max(param['layers']),
                           default=3)):
@@ -166,11 +167,21 @@ def run_tuner(training_set, validation_set, project_name='untransformed'):
                                                       patience=param['patience'
                                                                      ][0])
 
-    tuner = getattr(kt.tuners, param['search_function'][0]
-                    )(build_tuner_model, objective='val_accuracy',
-                      max_trials=param['max_trials'][0],
-                      executions_per_trial=param['exec_per_trial'][0],
-                      project_name=project_name)
+    if param['search_function'][0] == 'BayesianOptimization':
+        tuner = getattr(kt.tuners, param['search_function'][0]
+                        )(build_tuner_model, objective='val_accuracy',
+                          max_trials=param['max_trials'][0],
+                          # alpha=param['alpha'][0],
+                          # beta=param['beta'][0],
+                          executions_per_trial=param['exec_per_trial'][0],
+                          project_name=project_name)
+
+    else:
+        tuner = getattr(kt.tuners, param['search_function'][0]
+                        )(build_tuner_model, objective='val_accuracy',
+                          max_trials=param['max_trials'][0],
+                          executions_per_trial=param['exec_per_trial'][0],
+                          project_name=project_name)
 
     tuner.search(training_set, epochs=param['epochs'][0],
                  validation_data=validation_set,
@@ -180,7 +191,8 @@ def run_tuner(training_set, validation_set, project_name='untransformed'):
 
 
 def report_generation(model, history, metrics, log_dir,
-                      tuner=None, save_model=True, config_path=None):
+                      tuner=None, save_model=True, config_path=None,
+                      k_fold=False, k=None):
     '''
     Function that generates the report based on tuner search
     and hyperparameters
@@ -251,5 +263,8 @@ def report_generation(model, history, metrics, log_dir,
         yaml.dump(metrics_accuracy_feed, yaml_file)
         yaml.dump(validation_metrics_dict, yaml_file)
         yaml.dump(model_location_dict, yaml_file)
+        if k_fold:
+            k_val = {'k_folds': k}
+            yaml.dump(k_val, yaml_file)
         yaml_file.close()
     return
