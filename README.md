@@ -78,5 +78,7 @@ Our vision of the final product:
  * __yNot.py__             :  Home for everything else that seems useful but doesn't fall into one of the other functions! 
  
  
+ ## Acknowledgment 
  
+ Maria Politi acknowledges support from the National Science Foundation through NSF-CBET grant 1917340
  
