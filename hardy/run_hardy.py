@@ -164,11 +164,7 @@ def hardy_multi_transform(  # Data and Config Paths
 def data_wrapper(raw_datapath, tform_commands=None, classes=None,
                  plot_format="RGBrgb", iterator_mode='arrays',
                  print_out=True, project_name=None, run_name=None,
-<<<<<<< HEAD
-                 scale=1.0, skiprows=0):
-=======
                  skiprows=0, scale=1.0):
->>>>>>> a2d556cd3f10a81b3f3875c672528cd786a29be1
     """
     Overall "One-Click" Wrapper to create the three "Keras Ready" Datasets
         needed to train the model: "Training Set", "Validation Set" and
