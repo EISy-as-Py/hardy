@@ -131,6 +131,8 @@ def _data_tuples_from_fnames(input_path='./', skiprows=0, classes=None):
         n_reset += 1
         if n_reset >= n_trigger:
             fread_rate = int(n_trigger / (time.perf_counter() - fread_timer))
+            if fread_rate == 0:
+                fread_rate += 1
             # Rate in Files per Second.
             print('\rLoaded\t{} of {}\tFiles'.format(n_counter, n_total) +
                   '\t at rate of {} Files per Second'.format(fread_rate),

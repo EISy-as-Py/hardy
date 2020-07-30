@@ -91,3 +91,10 @@ class TestSimulationTools(unittest.TestCase):
             assert duration[i] == t, \
                 'print statement changed the value of the time '
         pass
+
+    def test_checkrun(self):
+        run.checkrun(
+            data_path, tform_config_path, config_path,
+            iterator_mode='arrays', classifier='tuner',
+            classes=['noise', 'one'], split=0.5,
+            batch_size=1, project_name='test_wrapper')

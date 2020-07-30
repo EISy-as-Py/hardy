@@ -1,6 +1,8 @@
 # from datetime import datetime
 import time
 import os.path
+import shutil
+import tracemalloc
 import yaml
 
 import hardy.recognition.cnn as cnn
@@ -10,6 +12,7 @@ import hardy.data_reporting.reporting as reporting
 from hardy.handling import pre_processing as preprocessing
 from hardy.handling import to_catalogue as to_catalogue
 from hardy.arbitrage import arbitrage
+from time import perf_counter
 
 
 def hardy_multi_transform(  # Data and Config Paths
@@ -28,8 +31,8 @@ def hardy_multi_transform(  # Data and Config Paths
     OVERALL wrapper function, to pass initial configurations and allow
         all other internal functions to understand and call upon each other.
 
-    Parameters:
-    -------------
+    Parameters
+    ----------
     raw_datapath : str
                    path to the raw .csv files containing the data to classify
     tform_config_path : str
@@ -69,6 +72,15 @@ def hardy_multi_transform(  # Data and Config Paths
     project_name : str
                    name of the folder to be created for storing the results of
                    the tuning
+    k_fold: bool
+            bool value indicating if the k_fold is to be performed. Not valid
+            for tuner
+    k: int
+       integer value indicating how many k folds needs to be performed.
+    seed: int
+          used in hold_out_test_set to isolate the testing data randomly for
+          use in training of neural network. Can be assigned value to repeat
+          the selection.
 
     Function Calls:  (see their related documentation)
     ---------------
@@ -246,7 +258,7 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
         "else"    : Takes data as "image_path" of sorted image folders
 
     Parameters:
-    -------------
+    -----------
     input_datapath : str
                    path to the raw .csv files containing the data to classify
     test_set_filenames : list
@@ -412,3 +424,286 @@ def print_time(duration):
     else:
         print("That Took {} Hrs !".format(round(duration/3600, 2)))
     return duration
+
+
+def checkrun(raw_datapath, tform_config_path,
+             classifier_config_path,
+             # Optional for Data
+             iterator_mode='arrays', plot_format="RGBrgb",
+             print_out=True, skiprows=0,
+             # Optional for Classifier
+             scale=1.0,
+             classifier='tuner', split=0.1, target_size=(80, 80),
+             batch_size=32, classes=['class_1', 'class_2'],
+             project_name='tuner_run', k_fold=False, k=None,
+             color_mode='rgb', seed=None):
+    ''' Check run function that when executed runs all the transformations over
+    1% of the data and returns the time and memory required for the complete
+    preprocessing of data step.
+
+    Parameters
+    ----------
+    raw_datapath : str
+                   path to the raw .csv files containing the data to classify
+    tform_config_path : str
+                        string containing the path to the yaml file
+                        containing the transformations to use and which
+                        data in the .csv file to perform it on
+    classifier_config_path : str
+                             string containing the path to the yaml file
+                             representing the classifier hyperparameters
+    iterator_mode : str
+                    option to use images from arrays directly or save the
+                    .png and use a directory iterator mode
+    plot_format : str
+                  option for standard or RGB color gradient
+    print_out : bool
+                option for printing out feedback on conputational time taken to
+                initialize the data and generate the images
+    num_test_files_class : int or float
+                            numebr of files per class to select for the test
+                            set
+    classifier : str
+                  option cnn or tuner
+    scale :  float
+             percentage fo the image to reduce its size to.
+    split : float
+            the percentage of the learning set to use for the validation step
+    target_size : tuple
+                  image target size. Presented as a tuble indicating number of
+                  pixels composing the two dimensions of the image (w x h)
+    batch_size : int
+                 The number of files to group up into a batch
+
+    classes : list
+              A list containing strings of the classes the data is divided in.
+              The class name represent the folder name the files are contained
+              in.
+    project_name : str
+                   name of the folder to be created for storing the results of
+                   the tuning
+    k_fold: bool
+            bool value indicating if the k_fold is to be performed. Not valid
+            for tuner
+    k: int
+       integer value indicating how many k folds needs to be performed.
+    seed: int
+          used in hold_out_test_set to isolate the testing data randomly for
+          use in training of neural network. Can be assigned value to repeat
+          the selection.
+
+    '''
+    # listing down the filenames
+    file_names = [item for item in os.listdir(raw_datapath)
+                  if item.endswith('.csv')]
+
+    # calculations for extracting 1% of data
+    range_filename = int(len(file_names)*0.01)
+    # check to pass test or when the dataset is very small
+    if range_filename == 0:
+        range_filename += 1
+
+    range_classes = len(classes)
+
+    # calculating files per class to pass to hold_out_test_set
+    # for getting filesnames to be transferring to temporary
+    # folder
+    file_per_class = round(range_filename/range_classes)
+    # check to pass test or when the dataset is very small
+    if file_per_class == 0:
+        file_per_class += 1
+
+    # calculating the test_set_filenames to be used for
+    # the hold_out_test_set in the checkpoint_datacreation
+    # function
+    num_test_files_class = round(0.25*file_per_class)
+
+    # start measuring time here
+    time_1 = perf_counter()
+
+    # starting memory tracer
+    tracemalloc.start()
+
+    # getting filenames to collect files for checkrun
+    file_names_for_test = preprocessing.hold_out_test_set(
+        raw_datapath, number_of_files_per_class=file_per_class,
+        classes=classes)
+
+    # addding .csv extension to the filenames and storing it in
+    # seperate list
+    file_names_csv = []
+    for item in file_names_for_test:
+        file_names_csv.append(item+'.csv')
+
+    # making directory to store the temporary data
+    os.mkdir(os.path.join(raw_datapath, 'temp/'))
+
+    # copying the 1% data to seperate folder
+    for item in file_names_csv:
+        shutil.copy(os.path.join(raw_datapath, item),
+                    os.path.join(raw_datapath+'temp/'))
+
+    # creating new data path to be passed to checkpoint_
+    # datacreation function
+    new_data_path = os.path.join(raw_datapath, 'temp/')
+
+    checkpoint_datacreation(new_data_path, tform_config_path,
+                            classifier_config_path,
+                            # Optional for Data
+                            iterator_mode=iterator_mode,
+                            plot_format=plot_format,
+                            print_out=print_out, skiprows=skiprows,
+                            # Optional for Classifier
+                            num_test_files_class=num_test_files_class,
+                            scale=scale, classifier=classifier, split=split,
+                            target_size=target_size,
+                            batch_size=batch_size, classes=classes,
+                            project_name=project_name, k_fold=k_fold, k=k,
+                            color_mode=color_mode, seed=seed)
+
+    # getting feedback from memory tracer
+    current, peak = tracemalloc.get_traced_memory()
+
+    # stopping memory tracer
+    tracemalloc.stop()
+    time_2 = perf_counter()
+    time_elapsed = time_2-time_1
+
+    print("The total time required for data creation will be approx.\
+         {} hours".format(round((time_elapsed*100)/3600, 3)))
+
+    print("The total memory required for the process will be approx.\
+         {} Gigabytes".format(round(peak*100/(10**9), 3)))
+
+    # removing the temporary data folder
+    shutil.rmtree(new_data_path)
+
+    print("Temporary files created by process are successfully deleted")
+
+
+def checkpoint_datacreation(  # Data and Config Paths
+                  raw_datapath, tform_config_path,
+                  classifier_config_path,
+                  # Optional for Data
+                  iterator_mode='arrays', plot_format="RGBrgb",
+                  print_out=True, skiprows=0,
+                  # Optional for Classifier
+                  num_test_files_class=300, scale=1.0,
+                  classifier='tuner', split=0.1, target_size=(80, 80),
+                  batch_size=32, classes=['class_1', 'class_2'],
+                  project_name='tuner_run', k_fold=False, k=None,
+                  color_mode='rgb', seed=None):
+
+    ''' Function that is part of run_hardy main module, it is run by
+    checkrun function to evaluate the time and memory required by the
+    preprocessing step.
+
+    Parameters
+    ----------
+    raw_datapath : str
+                   path to the raw .csv files containing the data to classify
+    tform_config_path : str
+                        string containing the path to the yaml file
+                        containing the transformations to use and which
+                        data in the .csv file to perform it on
+    classifier_config_path : str
+                             string containing the path to the yaml file
+                             representing the classifier hyperparameters
+    iterator_mode : str
+                    option to use images from arrays directly or save the
+                    .png and use a directory iterator mode
+    plot_format : str
+                  option for standard or RGB color gradient
+    print_out : bool
+                option for printing out feedback on conputational time taken to
+                initialize the data and generate the images
+    num_test_files_class : int or float
+                            numebr of files per class to select for the test
+                            set
+    classifier : str
+                  option cnn or tuner
+    scale :  float
+             percentage fo the image to reduce its size to.
+    split : float
+            the percentage of the learning set to use for the validation step
+    target_size : tuple
+                  image target size. Presented as a tuble indicating number of
+                  pixels composing the two dimensions of the image (w x h)
+    batch_size : int
+                 The number of files to group up into a batch
+
+    classes : list
+              A list containing strings of the classes the data is divided in.
+              The class name represent the folder name the files are contained
+              in.
+    project_name : str
+                   name of the folder to be created for storing the results of
+                   the tuning
+    k_fold: bool
+            bool value indicating if the k_fold is to be performed. Not valid
+            for tuner
+    k: int
+       integer value indicating how many k folds needs to be performed.
+    seed: int
+          used in hold_out_test_set to isolate the testing data randomly for
+          use in training of neural network. Can be assigned value to repeat
+          the selection.
+
+
+    Returns
+    -------
+
+    test_set_filenames: list
+                        list indicating the test set data to be used for
+                        neural network
+    image_data: list
+                list of images comprising of file name, image_data, and
+                label
+    image_path: list
+                indicating the images path for image data when plot
+                data is used
+
+    """
+
+    '''
+    if tform_config_path is None:
+        # ALLOWED so we can test functions without Transfoms
+        #    If so, create a list of one Tform_config, which will be "None"
+        tform_command_list = ["no_transform"]
+        tform_command_dict = {"no_transform": None}
+    else:
+        # Import the Tform Config List (and the dictionary for it)
+        tform_command_list, tform_command_dict = \
+            arbitrage.import_tform_config(tform_config_path)
+        pass
+    # ===========================
+    # 1b) ANY OTHER SETUP?
+    # ===========================
+
+    test_set_filenames = preprocessing.hold_out_test_set(
+        raw_datapath, number_of_files_per_class=num_test_files_class,
+        classes=classes, seed=seed)
+
+    for tform_name in tform_command_list:
+
+        # ============================================
+        # Section 2: Data Wrapper        (Setup + Run)
+        # ============================================
+        tform_commands = tform_command_dict[tform_name]
+
+        if iterator_mode == 'arrays':
+            image_data = data_wrapper(
+                raw_datapath, tform_commands=tform_commands,
+                plot_format=plot_format, iterator_mode=iterator_mode,
+                print_out=print_out, run_name=tform_name, scale=scale,
+                project_name=project_name, classes=classes, skiprows=skiprows)
+            image_path = None
+        else:
+            image_data = None
+            image_path = data_wrapper(
+                raw_datapath, tform_commands=tform_commands,
+                plot_format=plot_format, iterator_mode=iterator_mode,
+                print_out=print_out, run_name=tform_name, scale=scale,
+                project_name=project_name, classes=classes, skiprows=skiprows)
+
+    return test_set_filenames, image_data, image_path

@@ -20,9 +20,6 @@ tform_command_list:
     - "der_q_der_I"
     - "multi_transform"
 
-
-
-
 tform_command_dict:
     "lin_q_lin_I":
         - [0, 'raw', 1]
@@ -47,19 +44,19 @@ tform_command_dict:
         - [1, 'reciprocal', 0]
     "lin_q_sqr_I":
         - [0, 'raw', 1]
-        - [1, 'power', (0,none,2,1)]
+        - [1, 'power', [0,none,2,1]]
     "sqr_q_lin_I":
-        - [3, 'power', (0,none,2,1)]
+        - [3, 'power', [0,none,2,1]]
         - [1, 'raw', 0]
     "sqr_q_log_I":
-        - [5, 'power', (1,none,2,1)]
+        - [5, 'power', [1,none,2,1]]
         - [1, 'nlog', 0]
     "log_q_sqr_I":
         - [0, 'nlog', 1]
-        - [1, 'power', (0,none,2,1)]
+        - [1, 'power', [0,none,2,1]]
     "sqr_q_sqr_I":
-        - [0, 'power', (1,none,2,1)]
-        - [1, 'power', (0,none,2,1)]
+        - [0, 'power', [1,none,2,1]]
+        - [1, 'power', [0,none,2,1]]
     "multi_transform":
         - [0, 'raw', 1]
         - [1, 'nlog', 1]
