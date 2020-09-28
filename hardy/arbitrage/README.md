@@ -26,13 +26,13 @@ The scheme for <code>plotting_values</code> is as follow:
 Currently supported mathematical operations are as follows:
 
 ```
--> <code>raw</code>: returns raw data without performing any operation
--> <code>exp</code>: exponential
--> <code>nlog</code>: natural log
--> <code>log10</code>: logarithm tranformation with base 10
--> <code>reciprocal</code>: reciprocal
--> <code>cumsum</code>: cumulative sum
--> <code>derivative_1d</code>: Differential with respect to 1 dimension
--> <code>derivative_2d</code>: 2-D differentiation
--> <code>power</code>: can be used for array multiplication or to take user defined power for array 
+-> <b>raw</b>: returns raw data without performing any operation
+-> <b>exp</b>: exponential
+-> <b>nlog</b>: natural log
+-> <b>log10</b>: logarithm tranformation with base 10
+-> <b>reciprocal</b>: reciprocal
+-> <b>cumsum</b>: cumulative sum
+-> <b>derivative_1d</b>: Differential with respect to 1 dimension
+-> <b>derivative_2d</b>: 2-D differentiation
+-> <b>power</b>: can be used for array multiplication or to take user defined power for array 
 ```
