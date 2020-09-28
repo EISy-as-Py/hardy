@@ -2,7 +2,7 @@
 
 An example transformation configuration file is shown below:
 
-<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart_TransformConfig.PNG" width=500 />
+<img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/Quickstart_TransformConfig.PNG" width=700 />
 
 The transformation configuration relies on list of transformation a user intends to perform. The name of each transformation follows the variable naming rules for python. The names for transformation must be listed under <code>tform_command_list</code>.
 
@@ -15,24 +15,24 @@ The <code>column_number</code> corresponds to the column number according to the
 The scheme for <code>plotting_values</code> is as follow:
 
 ```
--> 0: Red on x-axis
--> 1: Green on x-axis
--> 2: Blue on x-axis
--> 3: Red on y-axis
--> 4: Green on y-axis
--> 5: Blue on y-axis
+- 0: Red on x-axis
+- 1: Green on x-axis
+- 2: Blue on x-axis
+- 3: Red on y-axis
+- 4: Green on y-axis
+- 5: Blue on y-axis
 ```
 
 Currently supported mathematical operations are as follows:
 
 ```
--> <b>raw</b>: returns raw data without performing any operation
--> <b>exp</b>: exponential
--> <b>nlog</b>: natural log
--> <b>log10</b>: logarithm tranformation with base 10
--> <b>reciprocal</b>: reciprocal
--> <b>cumsum</b>: cumulative sum
--> <b>derivative_1d</b>: Differential with respect to 1 dimension
--> <b>derivative_2d</b>: 2-D differentiation
--> <b>power</b>: can be used for array multiplication or to take user defined power for array 
+- raw: returns raw data without performing any operation
+- exp: exponential
+- nlog: natural log
+- log10: logarithm tranformation with base 10
+- reciprocal: reciprocal
+- cumsum: cumulative sum
+- derivative_1d: Differential with respect to 1 dimension
+- derivative_2d: 2-D differentiation
+- power: can be used for array multiplication or to take user defined power for array 
 ```
