@@ -108,12 +108,12 @@ def _data_tuples_from_fnames(input_path='./', skiprows=0, classes=None):
     if classes is None:
         # This tells us to find the categories on our own.
         #    See "Handling" package for these methods.
-        classes = handling.cats_from_fnames(os.listdir(input_path))
+        classes = handling.classes_from_fnames(os.listdir(input_path))
     elif type(classes) is list:
         # OR simply pass an integer of how many to expect.
         # (in the instance above, default is to expect 2)
-        classes = handling.cats_from_fnames(os.listdir(input_path),
-                                            expect=len(classes))
+        classes = handling.classes_from_fnames(os.listdir(input_path),
+                                               expect=len(classes))
     else:
         pass
 
@@ -145,9 +145,9 @@ def _data_tuples_from_fnames(input_path='./', skiprows=0, classes=None):
         if entry.endswith('.csv'):
             # Read data into pandas dataframe
             fdata, last_skiprows = \
-                handling._smart_read_csv(input_path+entry,
-                                         skiprows=skiprows,
-                                         last_skiprows=last_skiprows)
+                handling.read_csv(input_path+entry,
+                                  skiprows=skiprows,
+                                  last_skiprows=last_skiprows)
             # Now remove any columns with bad data types
             # (Strings, objects, etc)
             for column in fdata.columns:

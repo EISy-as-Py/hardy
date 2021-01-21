@@ -49,17 +49,17 @@ class TestSimulationTools(unittest.TestCase):
                                              str_has=['.csv'],
                                              interact=False)
 
-        labels_1 = handling.cats_from_fnames(file_list=flist,
-                                             path=None,
-                                             expect=2,
-                                             print_ok=False,
-                                             from_serials=False)
+        labels_1 = handling.classes_from_fnames(file_list=flist,
+                                                path=None,
+                                                expect=2,
+                                                print_ok=False,
+                                                from_serials=False)
 
-        labels_2 = handling.cats_from_fnames(file_list=None,
-                                             path=data_path,
-                                             expect=2,
-                                             print_ok=False,
-                                             from_serials=False)
+        labels_2 = handling.classes_from_fnames(file_list=None,
+                                                path=data_path,
+                                                expect=2,
+                                                print_ok=False,
+                                                from_serials=False)
         assert labels_1 == labels_2,\
             "Labels not found equally from path or list? Check fpr Bugs."
         pass
@@ -71,8 +71,8 @@ class TestSimulationTools(unittest.TestCase):
                                                       assumed!)
         """
         file = os.path.join(data_path, file_list[0])
-        thedata, rows = handling._smart_read_csv(full_fname=file,
-                                                 skiprows=0)
+        thedata, rows = handling.read_csv(full_fname=file,
+                                          skiprows=0)
         assert type(thedata) is pd.DataFrame, "Error in Smart Data Reader"
         assert type(rows) is int, "Row Count of '{}' is not int?".format(rows)
 
@@ -84,8 +84,8 @@ class TestSimulationTools(unittest.TestCase):
         certain size, and has the right data types.
         """
         file = os.path.join(data_path, file_list[0])
-        thedata, rows = handling._smart_read_csv(full_fname=file,
-                                                 skiprows=0)
+        thedata, rows = handling.read_csv(full_fname=file,
+                                          skiprows=0)
         testresult = handling._test_df(thedata)
         assert testresult, "Dataframe Test Failed?"
         pass

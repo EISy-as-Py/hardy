@@ -24,7 +24,7 @@ class TestSimulationTools(unittest.TestCase):
 
     def test_summary_report_plots(self):
 
-        run.hardy_multi_transform(
+        run.hardy_main(
             data_path, tform_config_path, config_path,
             iterator_mode='arrays',
             num_test_files_class=1, classes=['noise', 'one'], split=0.25,

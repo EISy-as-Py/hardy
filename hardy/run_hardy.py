@@ -15,18 +15,18 @@ from hardy.arbitrage import arbitrage
 from time import perf_counter
 
 
-def hardy_multi_transform(  # Data and Config Paths
-                          raw_datapath, tform_config_path,
-                          classifier_config_path,
-                          # Optional for Data
-                          iterator_mode='arrays', plot_format="RGBrgb",
-                          print_out=True, skiprows=0,
-                          # Optional for Classifier
-                          num_test_files_class=300, scale=1.0,
-                          classifier='tuner', split=0.1, target_size=(80, 80),
-                          batch_size=32, classes=['class_1', 'class_2'],
-                          project_name='tuner_run', k_fold=False, k=None,
-                          color_mode='rgb', seed=None):
+def hardy_main(  # Data and Config Paths
+               raw_datapath, tform_config_path,
+               classifier_config_path,
+               # Optional for Data
+               iterator_mode='arrays', plot_format="RGBrgb",
+               print_out=True, skiprows=0,
+               # Optional for Classifier
+               num_test_files_class=300, scale=1.0,
+               classifier='tuner', split=0.1, target_size=(80, 80),
+               batch_size=32, classes=['class_1', 'class_2'],
+               project_name='tuner_run', k_fold=False, k=None,
+               color_mode='rgb', seed=None):
     """
     OVERALL wrapper function, to pass initial configurations and allow
         all other internal functions to understand and call upon each other.
@@ -182,10 +182,17 @@ def data_wrapper(raw_tuples_list, raw_datapath, tform_commands=None,
                  print_out=True, project_name=None, run_name=None,
                  skiprows=0, scale=1.0):
     """
-    Overall "One-Click" Wrapper to create the three "Keras Ready" Datasets
+    The function that creates the three "Keras Ready" Datasets
         needed to train the model: "Training Set", "Validation Set" and
         "Test Set", all in the same format which is created via the
         Keras.Preprocessing.Data.Flow (<--- Not exact package/function)
+
+    Parameters
+    ----------
+    raw_tuples_list : tuple
+                      tuple containing the data from each file
+    raw_datapath : str
+                   String representing the source of data
 
     """
     if print_out:

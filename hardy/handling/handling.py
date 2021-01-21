@@ -170,8 +170,8 @@ def ask_file_list():
     return files_list, the_dir
 
 
-def cats_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
-                     from_serials=False):
+def classes_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
+                        from_serials=False):
     """
     Given a list of file names, determine if there are classifying endings
     that split the data into "expect" (default 2) Groups.
@@ -311,8 +311,8 @@ def cats_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
     return classification_list
 
 
-def _smart_read_csv(full_fname, skiprows=0, last_skiprows=None,
-                    size_to_load=None, maxskip=100):
+def read_csv(full_fname, skiprows=0, last_skiprows=None,
+             size_to_load=None, maxskip=100):
     """
     Looping through pandas read_csv, checking the data
         and trying again if it's bad.

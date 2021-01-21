@@ -19,9 +19,9 @@ batch_size = 1
 
 class TestSimulationTools(unittest.TestCase):
 
-    def test_hardy_multi_transform(self):
+    def test_hardy_main(self):
 
-        run.hardy_multi_transform(
+        run.hardy_main(
             data_path, tform_config_path, config_path,
             iterator_mode='arrays', classifier='tuner',
             num_test_files_class=1, classes=['noise', 'one'], split=0.5,
@@ -39,7 +39,7 @@ class TestSimulationTools(unittest.TestCase):
         shutil.rmtree('./hardy/test/test_data/test_wrapper')
 
         # use k-fold validation
-        run.hardy_multi_transform(
+        run.hardy_main(
             data_path, tform_config_path, config_path, k_fold=True, k=2,
             iterator_mode='arrays', classifier='cnn',
             num_test_files_class=1, classes=['noise', 'one'],

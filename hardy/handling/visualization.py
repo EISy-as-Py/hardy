@@ -9,8 +9,8 @@ from skimage.transform import resize
 
 #######################################################################
 # Normalization Functions
-def normalize(impedance_array):
-    '''Function that returns a normalized impedance_array
+def normalize(data_array):
+    '''Function that returns a normalized data_array
 
     The function takes the maximum value of an array and divides each entry of
     the array by it. Additionally, if the minimum of the array is negative, it
@@ -19,28 +19,28 @@ def normalize(impedance_array):
 
     Parameters
     ----------
-    impedance_array : array-like
+    data_array : array-like
                       the array to be normalized.
 
     Returns
     -------
-    normalized_impedance_array :  array-like
+    normalized_data_array :  array-like
                                   the normalized array. All entries in this
                                   array should be values in the range
                                   zero to one.
     '''
-    if not np.any(impedance_array):
-        return impedance_array
+    if not np.any(data_array):
+        return data_array
     else:
-        temp_array = impedance_array.copy()
+        temp_array = data_array.copy()
         if np.amin(temp_array, axis=0) < 0:
             temp_array += abs(np.amin(temp_array, axis=0))
         if np.amax(temp_array, axis=0) > 1:
-            normalized_impedance_array = temp_array/np.amax(temp_array, axis=0)
+            normalized_data_array = temp_array/np.amax(temp_array, axis=0)
         else:
-            normalized_impedance_array = temp_array
+            normalized_data_array = temp_array
 
-        return normalized_impedance_array
+        return normalized_data_array
 
 
 def normalize_image(color_image_array):
