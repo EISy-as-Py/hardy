@@ -9,7 +9,7 @@ ver_file = os.path.join('hardy', 'version.py')
 
 with open(ver_file) as f:
 
-    exec(f.read())
+    v = exec(f.read())
 
 
 # Give setuptools a hint to complain if it's too old a version
@@ -25,7 +25,7 @@ with open(ver_file) as f:
 # SETUP_REQUIRES += ['wheel'] if 'bdist_wheel' in sys.argv else []
 
 
-setup(name='hardy',
+setup(name='hardy', version=1.0,
       description='Handling Arbitrary Recognition of Data, y not',
       description_content_type='text/markdown; \
                                 charset=UTF-8; variant=GFM',

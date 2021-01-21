@@ -130,6 +130,10 @@ def hardy_multi_transform(  # Data and Config Paths
         raw_datapath, number_of_files_per_class=num_test_files_class,
         classes=classes, seed=seed)
 
+    # Make the raw Dataframe Tuples List
+    raw_tuples_list = to_catalogue._data_tuples_from_fnames(
+        raw_datapath, classes=classes, skiprows=skiprows)
+
     for tform_name in tform_command_list:
 
         # ============================================
@@ -139,7 +143,7 @@ def hardy_multi_transform(  # Data and Config Paths
 
         if iterator_mode == 'arrays':
             image_data = data_wrapper(
-                raw_datapath, tform_commands=tform_commands,
+                raw_tuples_list, raw_datapath, tform_commands=tform_commands,
                 plot_format=plot_format, iterator_mode=iterator_mode,
                 print_out=print_out, run_name=tform_name, scale=scale,
                 project_name=project_name, classes=classes, skiprows=skiprows)
@@ -173,8 +177,8 @@ def hardy_multi_transform(  # Data and Config Paths
     return None
 
 
-def data_wrapper(raw_datapath, tform_commands=None, classes=None,
-                 plot_format="RGBrgb", iterator_mode='arrays',
+def data_wrapper(raw_tuples_list, raw_datapath, tform_commands=None,
+                 classes=None, plot_format="RGBrgb", iterator_mode='arrays',
                  print_out=True, project_name=None, run_name=None,
                  skiprows=0, scale=1.0):
     """
@@ -187,9 +191,7 @@ def data_wrapper(raw_datapath, tform_commands=None, classes=None,
     if print_out:
         clock = time.perf_counter()
         print("Processing Data...\t", end="")
-    # Make the raw Dataframe Tuples List
-    raw_tuples_list = to_catalogue._data_tuples_from_fnames(
-        raw_datapath, classes=classes, skiprows=skiprows)
+
     # Now perform trasnsform if given
     if tform_commands is None:
         tform_tuples_list = raw_tuples_list
@@ -691,9 +693,12 @@ def checkpoint_datacreation(  # Data and Config Paths
         # ============================================
         tform_commands = tform_command_dict[tform_name]
 
+        raw_tuples_list = to_catalogue._data_tuples_from_fnames(
+            raw_datapath, classes=classes, skiprows=skiprows)
+
         if iterator_mode == 'arrays':
             image_data = data_wrapper(
-                raw_datapath, tform_commands=tform_commands,
+                raw_tuples_list, raw_datapath, tform_commands=tform_commands,
                 plot_format=plot_format, iterator_mode=iterator_mode,
                 print_out=print_out, run_name=tform_name, scale=scale,
                 project_name=project_name, classes=classes, skiprows=skiprows)
@@ -701,7 +706,7 @@ def checkpoint_datacreation(  # Data and Config Paths
         else:
             image_data = None
             image_path = data_wrapper(
-                raw_datapath, tform_commands=tform_commands,
+                raw_tuples_list, raw_datapath, tform_commands=tform_commands,
                 plot_format=plot_format, iterator_mode=iterator_mode,
                 print_out=print_out, run_name=tform_name, scale=scale,
                 project_name=project_name, classes=classes, skiprows=skiprows)
