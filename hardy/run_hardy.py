@@ -8,7 +8,9 @@ import yaml
 import hardy.recognition.cnn as cnn
 import hardy.recognition.tuner as tuner
 import hardy.data_reporting.reporting as reporting
+import multiprocessing as mp
 
+from functools import partial
 from hardy.handling import pre_processing as preprocessing
 from hardy.handling import to_catalogue as to_catalogue
 from hardy.arbitrage import arbitrage
@@ -130,36 +132,56 @@ def hardy_main(  # Data and Config Paths
         raw_datapath, number_of_files_per_class=num_test_files_class,
         classes=classes, seed=seed)
 
-    # Make the raw Dataframe Tuples List
-    raw_tuples_list = to_catalogue._data_tuples_from_fnames(
-        raw_datapath, classes=classes, skiprows=skiprows)
+    # # Make the raw Dataframe Tuples List
+    # raw_tuples_list = to_catalogue._data_tuples_from_fnames(
+    #     raw_datapath, classes=classes, skiprows=skiprows)
 
-    for tform_name in tform_command_list:
+    data_dict = {}
+    partial_data_wrapper = partial(data_wrapper, raw_datapath=raw_datapath,
+                                   plot_format=plot_format,
+                                   iterator_mode=iterator_mode,
+                                   print_out=print_out, scale=scale,
+                                   project_name=project_name, classes=classes,
+                                   skiprows=skiprows,
+                                   tform_command_dict=tform_command_dict)
+#need to pass tform_command_dict to data_wrapper instead of tform_commands,
+# determine tform_commands in the
+# data_wrapper
 
-        # ============================================
-        # Section 2: Data Wrapper        (Setup + Run)
-        # ============================================
-        tform_commands = tform_command_dict[tform_name]
+#for tform_name in tform_command_list:
 
-        if iterator_mode == 'arrays':
-            image_data = data_wrapper(
-                raw_tuples_list, raw_datapath, tform_commands=tform_commands,
-                plot_format=plot_format, iterator_mode=iterator_mode,
-                print_out=print_out, run_name=tform_name, scale=scale,
-                project_name=project_name, classes=classes, skiprows=skiprows)
-            image_path = None
-        else:
-            image_data = None
-            image_path = data_wrapper(
-                raw_datapath, tform_commands=tform_commands,
-                plot_format=plot_format, iterator_mode=iterator_mode,
-                print_out=print_out, run_name=tform_name, scale=scale,
-                project_name=project_name, classes=classes, skiprows=skiprows)
+    # ============================================
+    # Section 2: Data Wrapper        (Setup + Run)
+    # ============================================
+#    tform_commands = tform_command_dict[tform_name]
+#    print(tform_commands)
+    pool = mp.Pool(processes=mp.cpu_count())
+
+    time1= time.perf_counter()
+    if iterator_mode == 'arrays':
+        image_data = pool.map(partial_data_wrapper, tform_command_list)
+        image_path = None
+        for i in range(len(tform_command_list)):
+            data_dict[tform_command_list[i]] = image_data[i]
+    #    data_dict[tform_name] = image_data
+    else:
+        image_data = None
+        image_path = data_wrapper(
+            raw_datapath, tform_commands=tform_commands,
+            plot_format=plot_format, iterator_mode=iterator_mode,
+            print_out=print_out, run_name=tform_name, scale=scale,
+            project_name=project_name, classes=classes, skiprows=skiprows)
+
+    pool.close()
+
 
         # ============================================
         # Section 3: Classifier Wrapper  (Setup + Run)
         # ============================================
+    for key, value in data_dict.items():
 
+        tform_name = key
+        image_data = value
         # Image PATH is none, but we can pass DATA
         classifier_wrapper(raw_datapath, test_set_filenames,
                            tform_name, classifier_config_path,
@@ -177,28 +199,30 @@ def hardy_main(  # Data and Config Paths
     return None
 
 
-def data_wrapper(raw_tuples_list, raw_datapath, tform_commands=None,
+def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
                  classes=None, plot_format="RGBrgb", iterator_mode='arrays',
-                 print_out=True, project_name=None, run_name=None,
+                 print_out=True, project_name=None,
                  skiprows=0, scale=1.0):
     """
-    The function that creates the three "Keras Ready" Datasets
+    Overall "One-Click" Wrapper to create the three "Keras Ready" Datasets
         needed to train the model: "Training Set", "Validation Set" and
         "Test Set", all in the same format which is created via the
         Keras.Preprocessing.Data.Flow (<--- Not exact package/function)
 
-    Parameters
-    ----------
-    raw_tuples_list : tuple
-                      tuple containing the data from each file
-    raw_datapath : str
-                   String representing the source of data
-
     """
+    #replace the tform_commands with tform_command_dict in the arguments
+    # to make parallel processing possible
+
+
+    tform_commands = tform_command_dict[run_name]
+
+
     if print_out:
         clock = time.perf_counter()
         print("Processing Data...\t", end="")
-
+    # Make the raw Dataframe Tuples List
+    raw_tuples_list = to_catalogue._data_tuples_from_fnames(
+        raw_datapath, classes=classes, skiprows=skiprows)
     # Now perform trasnsform if given
     if tform_commands is None:
         tform_tuples_list = raw_tuples_list
