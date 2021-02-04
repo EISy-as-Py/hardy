@@ -82,25 +82,25 @@ def hardy_main(  # Data and Config Paths
           use in training of neural network. Can be assigned value to repeat
           the selection.
 
-    Function Calls:  (see their related documentation)
-    ---------------
-        import_tform_config :   f(n) of ARBITRAGE.py
-                                Import the list and dictionary of transforms
-                                to be looped through.
-                                (full model and report for each)
+    Function Calls  (see their related documentation)
+    --------------
+    import_tform_config :   f(n) of ARBITRAGE.py
+                            Import the list and dictionary of transforms
+                            to be looped through.
+                            (full model and report for each)
 
-        data_wrapper :  Local Wrapping f(n)
-                        Takes file path and the transformation command
-                        for the current loop, and creates the list-of-tuple
-                        images (OR Saves Image Files to be used later)
+    data_wrapper :  Local Wrapping f(n)
+                    Takes file path and the transformation command
+                    for the current loop, and creates the list-of-tuple
+                    images (OR Saves Image Files to be used later)
 
-        classifier_wrapper :    Local Wrapping f(n)
-                                Takes many inputs including configuration
-                                loading directions. Loads images, and
-                                makes them Keras-Readable.
-                                Then sets up the model and the tuner,
-                                and runs the model test/train/tune loops
-                                as commanded.
+    classifier_wrapper :    Local Wrapping f(n)
+                            Takes many inputs including configuration
+                            loading directions. Loads images, and
+                            makes them Keras-Readable.
+                            Then sets up the model and the tuner,
+                            and runs the model test/train/tune loops
+                            as commanded.
 
     Returns
     -------
