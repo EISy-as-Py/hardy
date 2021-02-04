@@ -31,12 +31,10 @@ dependencies:
   - setuptools
   - scikit-image
   - scikit-learn
-  - scikit-image
-  - tensorflow==2.0
+  - tensorflow==2.1.0
   - testpath
   - tk
   - terminaltables
-  - tensorflow==2.0
   - tabulate
   - colorama
   - pip:
@@ -46,7 +44,7 @@ dependencies:
     - opt-einsum
     - plotly==4.8.1
     - selenium
-    - tensorflow==2.0
+    - tensorflow==2.1.0
     - tqdm
     - urllib3
 prefix: /home/amoeez/anaconda3/envs/EISy-as-Py
