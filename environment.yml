@@ -40,7 +40,7 @@ dependencies:
   - pip:
     - contextlib2
     - google-images-download
-    - keras-tuner
+    - keras-tuner=1.0.1
     - opt-einsum
     - plotly==4.8.1
     - selenium
