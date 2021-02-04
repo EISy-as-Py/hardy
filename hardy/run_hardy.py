@@ -144,20 +144,20 @@ def hardy_main(  # Data and Config Paths
                                    project_name=project_name, classes=classes,
                                    skiprows=skiprows,
                                    tform_command_dict=tform_command_dict)
-#need to pass tform_command_dict to data_wrapper instead of tform_commands,
-# determine tform_commands in the
-# data_wrapper
+    # need to pass tform_command_dict to data_wrapper instead of
+    # tform_commands,
+    # determine tform_commands in the
+    # data_wrapper
 
-#for tform_name in tform_command_list:
+    # for tform_name in tform_command_list:
 
     # ============================================
     # Section 2: Data Wrapper        (Setup + Run)
     # ============================================
-#    tform_commands = tform_command_dict[tform_name]
-#    print(tform_commands)
+    #    tform_commands = tform_command_dict[tform_name]
+    #    print(tform_commands)
     pool = mp.Pool(processes=mp.cpu_count())
 
-    time1= time.perf_counter()
     if iterator_mode == 'arrays':
         image_data = pool.map(partial_data_wrapper, tform_command_list)
         image_path = None
@@ -166,18 +166,13 @@ def hardy_main(  # Data and Config Paths
     #    data_dict[tform_name] = image_data
     else:
         image_data = None
-        image_path = data_wrapper(
-            raw_datapath, tform_commands=tform_commands,
-            plot_format=plot_format, iterator_mode=iterator_mode,
-            print_out=print_out, run_name=tform_name, scale=scale,
-            project_name=project_name, classes=classes, skiprows=skiprows)
+        image_path = pool.map(partial_data_wrapper, tform_command_list)
 
     pool.close()
 
-
-        # ============================================
-        # Section 3: Classifier Wrapper  (Setup + Run)
-        # ============================================
+    # ============================================
+    # Section 3: Classifier Wrapper  (Setup + Run)
+    # ============================================
     for key, value in data_dict.items():
 
         tform_name = key
@@ -210,12 +205,10 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
         Keras.Preprocessing.Data.Flow (<--- Not exact package/function)
 
     """
-    #replace the tform_commands with tform_command_dict in the arguments
+    # replace the tform_commands with tform_command_dict in the arguments
     # to make parallel processing possible
 
-
     tform_commands = tform_command_dict[run_name]
-
 
     if print_out:
         clock = time.perf_counter()
@@ -717,29 +710,43 @@ def checkpoint_datacreation(  # Data and Config Paths
         raw_datapath, number_of_files_per_class=num_test_files_class,
         classes=classes, seed=seed)
 
-    for tform_name in tform_command_list:
+    # ============================================
+    # Section 2: Data Wrapper        (Setup + Run)
+    # ============================================
+    # tform_commands = tform_command_dict[tform_name]
 
-        # ============================================
-        # Section 2: Data Wrapper        (Setup + Run)
-        # ============================================
-        tform_commands = tform_command_dict[tform_name]
+    data_dict = {}
+    partial_data_wrapper = partial(data_wrapper, raw_datapath=raw_datapath,
+                                   plot_format=plot_format,
+                                   iterator_mode=iterator_mode,
+                                   print_out=print_out, scale=scale,
+                                   project_name=project_name, classes=classes,
+                                   skiprows=skiprows,
+                                   tform_command_dict=tform_command_dict)
+    # need to pass tform_command_dict to data_wrapper instead of
+    # tform_commands,
+    # determine tform_commands in the
+    # data_wrapper
 
-        raw_tuples_list = to_catalogue._data_tuples_from_fnames(
-            raw_datapath, classes=classes, skiprows=skiprows)
+    # for tform_name in tform_command_list:
 
-        if iterator_mode == 'arrays':
-            image_data = data_wrapper(
-                raw_tuples_list, raw_datapath, tform_commands=tform_commands,
-                plot_format=plot_format, iterator_mode=iterator_mode,
-                print_out=print_out, run_name=tform_name, scale=scale,
-                project_name=project_name, classes=classes, skiprows=skiprows)
-            image_path = None
-        else:
-            image_data = None
-            image_path = data_wrapper(
-                raw_tuples_list, raw_datapath, tform_commands=tform_commands,
-                plot_format=plot_format, iterator_mode=iterator_mode,
-                print_out=print_out, run_name=tform_name, scale=scale,
-                project_name=project_name, classes=classes, skiprows=skiprows)
+    # ============================================
+    # Section 2: Data Wrapper        (Setup + Run)
+    # ============================================
+    #    tform_commands = tform_command_dict[tform_name]
+    #    print(tform_commands)
+    pool = mp.Pool(processes=mp.cpu_count())
+
+    if iterator_mode == 'arrays':
+        image_data = pool.map(partial_data_wrapper, tform_command_list)
+        image_path = None
+        for i in range(len(tform_command_list)):
+            data_dict[tform_command_list[i]] = image_data[i]
+    #    data_dict[tform_name] = image_data
+    else:
+        image_data = None
+        image_path = pool.map(partial_data_wrapper, tform_command_list)
+
+    pool.close()
 
     return test_set_filenames, image_data, image_path
