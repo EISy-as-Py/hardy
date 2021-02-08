@@ -31,7 +31,7 @@ dependencies:
   - setuptools
   - scikit-image
   - scikit-learn
-  - tensorflow==2.1.0
+  - tensorflow==2.0
   - testpath
   - tk
   - terminaltables
@@ -40,11 +40,12 @@ dependencies:
   - pip:
     - contextlib2
     - google-images-download
-    - keras-tuner
+    - h5py==2.10.0
+    - keras-tuner==1.0.1
     - opt-einsum
     - plotly==4.8.1
     - selenium
-    - tensorflow==2.1.0
+    - tensorflow==2.0
     - tqdm
     - urllib3
 prefix: /home/amoeez/anaconda3/envs/EISy-as-Py
