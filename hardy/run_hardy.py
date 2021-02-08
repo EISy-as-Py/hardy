@@ -28,7 +28,7 @@ def hardy_main(  # Data and Config Paths
                classifier='tuner', split=0.1, target_size=(80, 80),
                batch_size=32, classes=['class_1', 'class_2'],
                project_name='tuner_run', k_fold=False, k=None,
-               color_mode='rgb', seed=None):
+               color_mode='rgb', seed=None, n_threads=1):
     """
     OVERALL wrapper function, to pass initial configurations and allow
         all other internal functions to understand and call upon each other.
@@ -83,6 +83,9 @@ def hardy_main(  # Data and Config Paths
           used in hold_out_test_set to isolate the testing data randomly for
           use in training of neural network. Can be assigned value to repeat
           the selection.
+    n_threads: int
+               Number of cores used for parallel processing during the data
+               transformation stage.
 
     Function Calls  (see their related documentation)
     --------------
@@ -156,7 +159,7 @@ def hardy_main(  # Data and Config Paths
     # ============================================
     #    tform_commands = tform_command_dict[tform_name]
     #    print(tform_commands)
-    pool = mp.Pool(processes=mp.cpu_count())
+    pool = mp.Pool(processes=n_threads)
 
     if iterator_mode == 'arrays':
         image_data = pool.map(partial_data_wrapper, tform_command_list)
