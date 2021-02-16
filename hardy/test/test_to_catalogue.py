@@ -5,6 +5,7 @@ import unittest
 import numpy as np
 import pandas as pd
 
+from hardy.handling import handling
 from hardy.handling.to_catalogue import learning_set, test_set
 from hardy.handling import to_catalogue as catalogue
 from hardy.handling import pre_processing as preprocessing
@@ -39,7 +40,10 @@ class TestSimulationTools(unittest.TestCase):
             'the batch size should be an integer'
         # array iterator option
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-        plot_tups = catalogue.rgb_list(data_tups)
+        data_storage = data_path + 'test_1.pkl'
+        catalogue.rgb_list(data_tups, storage_location=data_storage)
+        plot_tups = handling.pickled_data_loader(data_path, 'test_1')
+
         train, val = learning_set(image_list=plot_tups, split=split,
                                   batch_size=batch_size,
                                   iterator_mode='arrays',
@@ -63,7 +67,10 @@ class TestSimulationTools(unittest.TestCase):
                           ), 'the training set should be an image iterator'
         # array iterator option
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-        plot_tups = catalogue.rgb_list(data_tups)
+        data_storage = data_path + 'test_1.pkl'
+        catalogue.rgb_list(data_tups, storage_location=data_storage)
+        plot_tups = handling.pickled_data_loader(data_path, 'test_1')
+
         testing = test_set(image_list=plot_tups, batch_size=batch_size,
                            iterator_mode='arrays', classes=classes)
         assert isinstance(testing, keras.preprocessing.image.NumpyArrayIterator
@@ -72,7 +79,11 @@ class TestSimulationTools(unittest.TestCase):
     def test_save_load_data(self):
         # Simple pickeling save / load function
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-        plot_tups = catalogue.rgb_list(data_tups)
+        data_storage = data_path + 'test_1.pkl'
+
+        catalogue.rgb_list(data_tups, storage_location=data_storage)
+        plot_tups = handling.pickled_data_loader(data_path, 'test_1')
+
         data = catalogue.save_load_data('test_pickled_data', data=plot_tups,
                                         save=True, location='./hardy/test/')
         assert data == 'Successfully Pickled'
@@ -113,8 +124,9 @@ class TestSimulationTools(unittest.TestCase):
         """
 
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-
-        plot_tups = catalogue.rgb_list(data_tups)
+        data_storage = data_path + 'test_1.pkl'
+        catalogue.rgb_list(data_tups, storage_location=data_storage)
+        plot_tups = handling.pickled_data_loader(data_path, 'test_1')
 
         for row in plot_tups:
             assert type(row) is tuple, "List-of-Tuples has non-tuple?"
@@ -163,8 +175,9 @@ class TestSimulationTools(unittest.TestCase):
     def test_data_split(self):
         num_files = 3
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-
-        plot_tups = catalogue.rgb_list(data_tups)
+        data_storage = data_path + 'test_1' + '.pkl'
+        catalogue.rgb_list(data_tups, storage_location=data_storage)
+        plot_tups = handling.pickled_data_loader(data_path, 'test_1')
 
         test_set_filenames = preprocessing.hold_out_test_set(
             data_path, number_of_files_per_class=num_files)

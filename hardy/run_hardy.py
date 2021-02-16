@@ -11,6 +11,7 @@ import hardy.data_reporting.reporting as reporting
 import multiprocessing as mp
 
 from functools import partial
+from hardy.handling import handling
 from hardy.handling import pre_processing as preprocessing
 from hardy.handling import to_catalogue as to_catalogue
 from hardy.arbitrage import arbitrage
@@ -250,8 +251,10 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
         pass
     # Next make the rgb images Tuples List
     if plot_format == 'RGBrgb':
+        data_store = raw_datapath + run_name + '.pkl'
         tuples_list = to_catalogue.rgb_list(tform_tuples_list, scale=scale,
-                                            plot_format=plot_format)
+                                            plot_format=plot_format,
+                                            storage_location=data_store)
     else:
         tuples_list = to_catalogue.regular_plot_list(
             tform_tuples_list, scale=scale)
@@ -327,7 +330,11 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
                    name of the folder to be created for storing the results of
                    the tuning
     '''
+
     if iterator_mode == 'arrays':
+        # loading pickled data
+
+        image_data = handling.pickled_data_loader(input_path, run_name)
 
         assert image_data, 'No image_data list provided'
 

@@ -187,7 +187,7 @@ def _data_tuples_from_fnames(input_path='./', skiprows=0, classes=None):
 
 
 def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
-             combine_method='add', scale=1.0):
+             combine_method='add', scale=1.0, storage_location='./'):
     '''
     Input a path of csv files (with some guidance),
     Plot them RGB-wise into images
@@ -224,7 +224,7 @@ def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
                         "123847_afsukjeh_*LABEL*.csv""
 
     '''
-
+    pickle_file = open(storage_location, 'wb')
     print("Making rgb Images from Data...", end='\t')
     t = time.perf_counter()
     list_of_rgb_tuples = []
@@ -239,9 +239,11 @@ def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
         rgb_tuple = (data_tuple[0], rgb_image, data_tuple[2])
         list_of_rgb_tuples.append(rgb_tuple)
 
+    pickle.dump(list_of_rgb_tuples, pickle_file)
+    pickle_file.close()
     t_sec = round(time.perf_counter()-t, 2)
     print("Success in {}seconds!".format(t_sec))
-    return list_of_rgb_tuples
+    return 0
 
 
 def regular_plot_list(data_tuples, scale=1.0):

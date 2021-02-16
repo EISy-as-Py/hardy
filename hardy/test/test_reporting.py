@@ -7,6 +7,7 @@ import hardy.data_reporting.reporting as reporting
 import pandas as pd
 
 from hardy import run_hardy as run
+from hardy.handling import handling
 from hardy.handling import pre_processing as preprocessing
 from hardy.handling import to_catalogue as catalogue
 from hardy.recognition import cnn
@@ -59,8 +60,9 @@ class TestSimulationTools(unittest.TestCase):
 
         num_files = 1
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-
-        plot_tups = catalogue.rgb_list(data_tups)
+        data_storage = data_path + 'test_1.pkl'
+        catalogue.rgb_list(data_tups, storage_location=data_storage)
+        plot_tups = handling.pickled_data_loader(data_path, 'test_1')
 
         test_set_filenames = preprocessing.hold_out_test_set(
             data_path, number_of_files_per_class=num_files)
