@@ -250,11 +250,11 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
     # Next make the rgb images Tuples List
     if plot_format == 'RGBrgb':
         data_store = raw_datapath + run_name + '.pkl'
-        tuples_list = to_catalogue.rgb_list(tform_tuples_list, scale=scale,
-                                            plot_format=plot_format,
-                                            storage_location=data_store)
+        to_catalogue.rgb_list(tform_tuples_list, scale=scale,
+                              plot_format=plot_format,
+                              storage_location=data_store)
     else:
-        tuples_list = to_catalogue.regular_plot_list(
+        to_catalogue.regular_plot_list(
             tform_tuples_list, scale=scale)
 
     # OK! Now we have image arrays finished!
@@ -263,7 +263,7 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
     if iterator_mode == 'arrays':
         if print_out:
             print_time(time.perf_counter()-clock)
-        return tuples_list
+        return 0
     else:
         # Write Optional Split based on Iterator_Mode,
         # to optionally use the "to_dirFlow"
