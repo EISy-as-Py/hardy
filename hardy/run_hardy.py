@@ -140,7 +140,7 @@ def hardy_main(  # Data and Config Paths
     # raw_tuples_list = to_catalogue._data_tuples_from_fnames(
     #     raw_datapath, classes=classes, skiprows=skiprows)
 
-    data_dict = {}
+    # data_dict = {}
     partial_data_wrapper = partial(data_wrapper, raw_datapath=raw_datapath,
                                    plot_format=plot_format,
                                    iterator_mode=iterator_mode,
@@ -163,13 +163,14 @@ def hardy_main(  # Data and Config Paths
     pool = mp.Pool(processes=n_threads)
 
     if iterator_mode == 'arrays':
-        image_data = pool.map(partial_data_wrapper, tform_command_list)
+        pool.map(partial_data_wrapper, tform_command_list)
         image_path = None
-        for i in range(len(tform_command_list)):
-            data_dict[tform_command_list[i]] = image_data[i]
+
+    #    for i in range(len(tform_command_list)):
+    #        data_dict[tform_command_list[i]] = image_data[i]
     #    data_dict[tform_name] = image_data
     else:
-        image_data = None
+        # image_data = None
         image_path = pool.map(partial_data_wrapper, tform_command_list)
 
     pool.close()
@@ -177,14 +178,11 @@ def hardy_main(  # Data and Config Paths
     # ============================================
     # Section 3: Classifier Wrapper  (Setup + Run)
     # ============================================
-    for key, value in data_dict.items():
+    for tform_name in tform_command_list:
 
-        tform_name = key
-        image_data = value
         # Image PATH is none, but we can pass DATA
         classifier_wrapper(raw_datapath, test_set_filenames,
                            tform_name, classifier_config_path,
-                           image_data=image_data,
                            classifier=classifier,
                            iterator_mode=iterator_mode,
                            split=split, color_mode=color_mode,
@@ -274,7 +272,7 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
 
 
 def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
-                       image_data=None, classifier='tuner',
+                       classifier='tuner',
                        iterator_mode='arrays', split=0.1,
                        target_size=(80, 80), color_mode='rgb',
                        batch_size=32, image_path=None,
