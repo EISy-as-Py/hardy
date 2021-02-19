@@ -241,11 +241,11 @@ def power(x, y='None', meta_data=None):
     else:
         m = 1
         n = 1
-    if isinstance(y, int) and n:
-        multi_array = np.multiply(np.power(x, m), np.power(y, n))
+    if isinstance(y, str):
+        multi_array = np.power(x, m)
         return multi_array
     else:
-        multi_array = np.power(x, m)
+        multi_array = np.multiply(np.power(x, m), np.power(y, n))
         return multi_array
 
 
