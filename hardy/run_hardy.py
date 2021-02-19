@@ -218,6 +218,7 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
     # Make the raw Dataframe Tuples List
     raw_tuples_list = to_catalogue._data_tuples_from_fnames(
         raw_datapath, classes=classes, skiprows=skiprows)
+
     # Now perform trasnsform if given
     if tform_commands is None:
         tform_tuples_list = raw_tuples_list
