@@ -225,7 +225,6 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
         tform_tuples_list = arbitrage.tform_tuples(raw_tuples_list,
                                                    tform_commands,
                                                    rgb_format=plot_format)
-
     # save the tranformation info in a yaml file for final report
     if project_name and run_name:
         output = [[i, name.split('__')[0], name.split('__')[-1]] for
