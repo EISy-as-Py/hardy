@@ -198,6 +198,7 @@ def data_wrapper(raw_tuples_list, raw_datapath, tform_commands=None,
     if print_out:
         clock = time.perf_counter()
         print("Processing Data...\t", end="")
+    # print(raw_tuples_list) - checked
 
     # Now perform trasnsform if given
     if tform_commands is None:

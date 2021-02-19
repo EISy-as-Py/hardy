@@ -93,21 +93,23 @@ def import_tform_config(tform_config_path='.\tform_config.yaml', raw_df=None):
         for each_tform in tform_command_dict[command]:
             assert type(each_tform) is list, \
                 "Command '{}' has Non-List object".format(command)
-            assert len(each_tform) == 3, \
-                "Command '{}' has Wrong List format.".format(command)
+            # assert len(each_tform) == 3, \
+            #     "Command '{}' has Wrong List format.".format(command)
             assert each_tform[0] >= 0 and each_tform[0] < 6, \
                 "INDEX for Tform '{}' Does Not fit".format(command) +\
                 " in RGBrgb (must be 0 to 5)"
             assert getattr(transform, each_tform[1]), \
                 "Transform '{}' Not Available ".format(each_tform[1]) +\
                 "from Tform_1d1d."
-            if type(each_tform[2]) == 'int':
+            if isinstance(each_tform[2], int):
                 assert each_tform[2] >= 0 and each_tform[2] < df_cols, \
                     "Source Column given in '{}' out of Range" \
                     .format(command) + " Of Raw DataFrame."
-            if type(each_tform[2]) == 'tuple':
+            elif isinstance(each_tform[2], list):
                 assert 4 >= len(each_tform[2]), 'too many arguments' +\
                     ' provided. Maximum of 4 allow at the moment.'
+            else:
+                print("The data type is not correct")
     print("Successfully Loaded {} Transforms to Try!".format(
         len(tform_command_list)))
     return tform_command_list, tform_command_dict
@@ -146,11 +148,11 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
     old_names = list(raw_df.columns)
     new_names = list(range(rgb_col_number))
     for command in tform_commands:
-        if type(command[2]) == 'int':
+        if isinstance(command[2], int):
             new_names[command[0]] = old_names[command[2]] + '__tform__' +\
                 command[1]
-        elif type(command[2]) == 'tuple' and command[1] == 'power':
-            if command[2][1] == 'None':
+        elif isinstance(command[2], list) and command[1] == 'power':
+            if command[2][1] == 'None' or 'none':
                 new_names[command[0]] = old_names[command[2][0]] +\
                     '__tform__' + command[1]
             else:
@@ -166,20 +168,26 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
     # And now, apply each transform and assign the output to the
     #   Column as instructed in that command
     for command in tform_commands:
-        if type(command[2]) == 'int':
+        if isinstance(command[2], int):
+            # print(old_names[command[2]])
             target_raw = raw_df[old_names[command[2]]]
+            # print(target_raw)
             # Get raw data (series?) from source
             # Perform the tform
             transform_function = getattr(transform, command[1])
             tform_data = transform_function(target_raw)
             # Save in output df
             tform_df[new_names[command[0]]] = tform_data
-        if type(command[2]) == 'list':
+        if isinstance(command[2], list):
             # if command[1] == 'power':
             # the power trasnformation is in the form of x^(n)y^(m).
             # the arguments should be inputted as (x, y, n, m)
             data_series_1 = raw_df[old_names[command[2][0]]]
-            data_series_2 = raw_df[old_names[command[2][1]]]
+            if isinstance(command[2][1], str):
+                data_series_2 = 'none'
+            else:
+                data_series_2 = raw_df[old_names[command[2][1]]]
+
             if len(command[2]) == 2:
                 meta_data = None
             else:
@@ -187,6 +195,7 @@ def apply_tform(raw_df, tform_commands, rgb_col_number=6):
             transform_function = getattr(transform, command[1])
             tform_data = transform_function(
                     data_series_1, data_series_2, meta_data)
+            tform_df[new_names[command[0]]] = tform_data
     return tform_df
 
 
@@ -220,10 +229,13 @@ def tform_tuples(list_of_tuples, tform_commands, rgb_format="RGBrgb"):
     for raw_data in list_of_tuples:
         fname = raw_data[0]
         raw_df = copy.deepcopy(raw_data[1])
+        # print(raw_df) - checked
+        # print(tform_commands) - checked
         # ^DeepCopy will FORCE writing new data to avoid messing with RAW.
         label = raw_data[2]
         tform_df = apply_tform(raw_df, tform_commands, rgb_n)
         tform_tup = (fname, tform_df, label)
+        # print(tform_tup) - checked
         transformed_tuples.append(tform_tup)
 
     return transformed_tuples

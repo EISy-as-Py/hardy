@@ -217,7 +217,7 @@ def cwt_1d(raw_df, xy=0):
     return cwt_matrix
 
 
-def power(x, y=None, meta_data=None):
+def power(x, y='None', meta_data=None):
     ''' Function that multiplies two arrays x^m & y^n, element
     by element. If y is None, it return x*x
 
@@ -241,7 +241,7 @@ def power(x, y=None, meta_data=None):
     else:
         m = 1
         n = 1
-    if y and n:
+    if isinstance(y, int) and n:
         multi_array = np.multiply(np.power(x, m), np.power(y, n))
         return multi_array
     else:
