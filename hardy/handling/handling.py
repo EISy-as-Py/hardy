@@ -415,7 +415,7 @@ def pickled_data_loader(raw_datapath, run_name):
     imported_data = open(pickled_file_name, 'rb')
     image_data = pickle.load(imported_data)
     imported_data.close()
-    # os.remove(pickled_file_name)
+    os.remove(pickled_file_name)
 
     return image_data
 

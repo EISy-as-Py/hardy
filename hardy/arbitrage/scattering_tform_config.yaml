@@ -3,22 +3,22 @@
 # 1: q
 
 tform_command_list:
-    - "lin_q_lin_I"
-#    - "lin_q_log_I"
-#   - "log_q_lin_I"
-#    - "log_q_log_I"
-#    - "rec_q_lin_I"
-#    - "rec_q_rec_I"
-#    - "lin_q_rec_I"
-#    - "lin_q_sqr_I"
-#    - "sqr_q_lin_I"
-#    - "sqr_q_log_I"
-#    - "log_q_sqr_I"
-#    - "sqr_q_sqr_I"
-#    - "der_q_log_I"
-#    - "log_q_der_I"
-#    - "der_q_der_I"
-#    - "multi_transform"
+   - "lin_q_lin_I"
+   - "lin_q_log_I"
+   - "log_q_lin_I"
+   - "log_q_log_I"
+   - "rec_q_lin_I"
+   - "rec_q_rec_I"
+   - "lin_q_rec_I"
+   - "lin_q_sqr_I"
+   - "sqr_q_lin_I"
+   - "sqr_q_log_I"
+   - "log_q_sqr_I"
+   - "sqr_q_sqr_I"
+   - "der_q_log_I"
+   - "log_q_der_I"
+   - "der_q_der_I"
+   - "multi_transform"
 
 tform_command_dict:
     "lin_q_lin_I":
