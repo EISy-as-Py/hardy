@@ -166,7 +166,7 @@ def run_tuner(training_set, validation_set, project_name='untransformed'):
     early_stopping = tf.keras.callbacks.EarlyStopping(monitor='loss',
                                                       patience=param['patience'
                                                                      ][0])
-    distrib = tf.distribute.MirroredStrategy()
+
     if param['search_function'][0] == 'BayesianOptimization':
         tuner = getattr(kt.tuners, param['search_function'][0]
                         )(build_tuner_model, objective='val_accuracy',
@@ -181,8 +181,7 @@ def run_tuner(training_set, validation_set, project_name='untransformed'):
                         )(build_tuner_model, objective='val_accuracy',
                           max_trials=param['max_trials'][0],
                           executions_per_trial=param['exec_per_trial'][0],
-                          project_name=project_name,
-                          distribution_strategy=distrib)
+                          project_name=project_name)
 
     tuner.search(training_set, epochs=param['epochs'][0],
                  validation_data=validation_set,
