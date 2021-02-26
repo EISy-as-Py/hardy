@@ -145,8 +145,9 @@ class TestSimulationTools(unittest.TestCase):
         """
 
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-
-        plot_tups = catalogue.regular_plot_list(data_tups)
+        data_storage = data_path + 'test_1.pkl'
+        catalogue.regular_plot_list(data_tups, storage_location=data_storage)
+        plot_tups = handling.pickled_data_loader(data_path, 'test_1')
 
         for row in plot_tups:
             assert type(row) is tuple, "List-of-Tuples has non-tuple?"

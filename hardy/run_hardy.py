@@ -254,8 +254,10 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
                               plot_format=plot_format,
                               storage_location=data_store)
     else:
+        data_store = raw_datapath + run_name + '.pkl'
         to_catalogue.regular_plot_list(
-            tform_tuples_list, scale=scale)
+            tform_tuples_list, scale=scale,
+            storage_location=data_store)
 
     # OK! Now we have image arrays finished!
     #     EITHER Return that list of image tuples

@@ -246,7 +246,7 @@ def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
     return 0
 
 
-def regular_plot_list(data_tuples, scale=1.0):
+def regular_plot_list(data_tuples, scale=1.0, storage_location='./'):
     '''
     Returns a list of tuples containing the arrays of images
     representing x-y plot
@@ -260,11 +260,12 @@ def regular_plot_list(data_tuples, scale=1.0):
           percentage fo the image to reduce its size to.
     Returns
     -------
-    list_of_rgb_tuples  :   list of tuples
+    list_of_plot_tuples  :  list of tuples
                             The list of tuples in the following format
                             (filename, image array, label)
     '''
 
+    pickle_file = open(storage_location, 'wb')
     print("Making regular plot Images from Data...", end='\t')
     t = time.perf_counter()
     list_of_plot_tuples = []
@@ -278,9 +279,12 @@ def regular_plot_list(data_tuples, scale=1.0):
         plot_tuple = (data_tuple[0], plot_image, data_tuple[2])
         list_of_plot_tuples.append(plot_tuple)
 
+    pickle.dump(list_of_plot_tuples, pickle_file)
+    pickle_file.close()
+
     t_sec = round(time.perf_counter()-t, 2)
     print("Success in {}seconds!".format(t_sec))
-    return list_of_plot_tuples
+    return 0
 
 
 def data_set_split(image_list, test_set_filenames):
