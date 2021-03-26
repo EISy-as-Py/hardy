@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 HARDy
 =====
-:code:'HARDy' Handling, Arbitrage, Recognition of Data using python is a
+''HARDy'' Handling, Arbitrage, Recognition of Data using python is a
 package to assist in discovery, research and classification of data.
 
 :code:'HARDy' utilizes feature engineering and kernal methods simultaneously
@@ -15,9 +15,9 @@ printed out using single argument custom built plotly function.
 
 Installation
 ------------
-The easiest way to install :code:'HARDy' is using :code:'conda':
+The easiest way to install :code:'HARDy' is using ''conda'':
 
-..code block:: bash
+.. code block:: bash
    conda install hardy
 
 For detailed installation instructions, visit :doc:'./installation'
@@ -42,7 +42,6 @@ Examples and Documentations!
 
    installation
    examples
-   modules
    faqs
 
 Indices and tables
