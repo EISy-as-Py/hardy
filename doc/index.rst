@@ -39,6 +39,7 @@ Examples and Documentations!
    :maxdepth: 2
    :caption: Contents:
 
+   modules
    installation
    examples
    faqs
