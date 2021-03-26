@@ -17,7 +17,7 @@ Installation
 ------------
 The easiest way to install :code:'HARDy' is using ''conda'':
 
-.. code block:: bash
+.. code-block:: bash
    conda install hardy
 
 For detailed installation instructions, visit :doc:'./installation'
