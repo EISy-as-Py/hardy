@@ -15,12 +15,11 @@ printed out using single argument custom built plotly function.
 
 Installation
 ------------
-The easiest way to install :code:`HARDy` is using :code:`conda`:
-
-.. code-block :: 
+The easiest way to install :code:`HARDy` is using :code:`conda`::
+ 
    conda install hardy
 
-For detailed installation instructions, visit :doc:`./installation`
+For detailed installation instructions, visit `Installation Page:<./installation>`
 
 Dependencies
 ~~~~~~~~~~~~
