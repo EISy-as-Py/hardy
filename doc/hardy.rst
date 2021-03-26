@@ -1,3 +1,5 @@
+.. Hardy Information
+
 hardy package
 =============
 
