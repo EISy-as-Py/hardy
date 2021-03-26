@@ -77,10 +77,11 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '.png', '.csv',
                     '**.ipynb_checkpoints']
 
 # The name of the Pygments (syntax highlighting) style to use.
-# pygments_style = 'sphinx'
+pygments_style = 'sphinx'
+
 autodoc_mock_imports = ["cv2"]
 # If true, `todo` and `todoList` produce output, else they produce nothing.
-# todo_include_todos = False
+todo_include_todos = True
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -99,12 +100,12 @@ html_static_path = []
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-# htmlhelp_basename = 'eisydemodoc'
+htmlhelp_basename = 'hardydoc'
 #
 #
 # # -- Options for LaTeX output ---------------------------------------------
 #
-# latex_elements = {
+latex_elements = {
 #     # The paper size ('letterpaper' or 'a4paper').
 #     #
 #     # 'papersize': 'letterpaper',
@@ -120,25 +121,25 @@ html_static_path = []
 #     # Latex figure (float) alignment
 #     #
 #     # 'figure_align': 'htbp',
-# }
+}
 #
 # # Grouping the document tree into LaTeX files. List of tuples
 # # (source start file, target name, title,
 # #  author, documentclass [howto, manual, or own class]).
-# latex_documents = [
-#     (master_doc, 'eisydemo.tex', 'eisydemo Documentation',
-#      'uwprg', 'manual'),
-# ]
+latex_documents = [
+     (master_doc, 'hardy.tex', 'Hardy Documentation',
+      'Hardy', 'manual'),
+]
 #
 #
 # # -- Options for manual page output ---------------------------------------
 #
 # # One entry per manual page. List of tuples
 # # (source start file, name, description, authors, manual section).
-# man_pages = [
-#     (master_doc, 'hardydemo', 'hardydemo Documentation',
-#      [author], 1)
-# ]
+man_pages = [
+     (master_doc, 'HARDy', 'hardy Documentation',
+      [author], 1)
+]
 #
 #
 # # -- Options for Texinfo output -------------------------------------------
@@ -151,3 +152,6 @@ html_static_path = []
 #      author, 'eisydemo', 'One line description of project.',
 #      'Miscellaneous'),
 # ]
+
+# Example configuration for intersphinx: refer to the Python standard library.
+intersphinx_mapping = {'https://docs.python.org/': None}
