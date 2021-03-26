@@ -5,10 +5,10 @@
 
 HARDy
 =====
-:code:`HARDy`: Handling, Arbitrage, Recognition of Data using python is a
+:code:`HARDy` Handling, Arbitrage, Recognition of Data using python is a
 package to assist in discovery, research and classification of data.
 
-:code:`HARDy`: utilizes feature engineering and kernal methods simultaneously
+:code:`HARDy` utilizes feature engineering and kernal methods simultaneously
 to improve the accuracy of convolutional neural network. :code:`HARDy` enables
 the user to search over given range of hyperparameters to achieve the best
 prediction score for a machine learning model. The summary of results can be
