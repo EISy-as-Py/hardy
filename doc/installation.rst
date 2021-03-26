@@ -21,3 +21,7 @@ To proceed with the installation, the hardy environment needs to be
 acitivated through::
 
     conda activate hardy
+
+.. toctree::
+    :maxdepth: 1
+    :glob:
