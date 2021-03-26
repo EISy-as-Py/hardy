@@ -59,7 +59,7 @@ templates_path = ['_templates']
 source_suffix = '.rst'
 
 # The master toctree document.
-master_doc = 'index'
+master_doc = 'index.rst'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -69,7 +69,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '.png', '.csv',
 
 # The name of the Pygments (syntax highlighting) style to use.
 # pygments_style = 'sphinx'
-autodoc_mock_imports = ["cv2", "packaging"]
+autodoc_mock_imports = ["cv2", "tensorflow"]
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 # todo_include_todos = False
 
