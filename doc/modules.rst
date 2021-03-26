@@ -4,4 +4,5 @@ hardy
 .. toctree::
    :maxdepth: 4
 
-   hardy
+   installation
+   example
