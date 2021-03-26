@@ -1,7 +1,7 @@
 .. Hardy Information
 
-hardy package
-=============
+Module Information
+==================
 
 The ``HARDy`` package is composed of following modules::
 
@@ -10,8 +10,8 @@ The ``HARDy`` package is composed of following modules::
    - Recognition: Machine Learning Engine
    - Data Reporting: Post Classification analysis tool
 
-Subpackages
------------
+Modules
+-------
 
 .. toctree::
 
@@ -20,23 +20,4 @@ Subpackages
    hardy.recognition
    hardy.data_reporting
 
-Submodules
-----------
-
-hardy.version module
---------------------
-
-.. automodule:: hardy.version
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: hardy
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
