@@ -34,7 +34,7 @@ author = 'Maria Politi, Abdul Moeez, David Hurt,\
 # built documents.
 #
 # The short X.Y version.
-version = u'0.1'
+version = u'1.0'
 # The full version, including alpha/beta/rc tags.
 release = u'0.1.0'
 
@@ -69,7 +69,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '.png', '.csv',
 
 # The name of the Pygments (syntax highlighting) style to use.
 # pygments_style = 'sphinx'
-autodoc_mock_imports = ["cv2"]
+autodoc_mock_imports = ["cv2", "packaging"]
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 # todo_include_todos = False
 
