@@ -17,7 +17,7 @@ Installation
 ------------
 The easiest way to install :code:`HARDy` is using :code:`conda`:
 
-.. code-block:: 
+.. code-block :: 
    conda install hardy
 
 For detailed installation instructions, visit :doc:`./installation`
@@ -25,7 +25,7 @@ For detailed installation instructions, visit :doc:`./installation`
 Dependencies
 ~~~~~~~~~~~~
 
-:code:'HARDy' requires following modules:
+:code:`HARDy` requires following modules::
 
 - Python (3.6, 3.7)
 - Tensorflow (2.0)
