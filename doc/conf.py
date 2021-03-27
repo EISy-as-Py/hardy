@@ -54,6 +54,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
     'recommonmark',
+    'nbsphinx',
 ]
 
 # Napoleaon settings
