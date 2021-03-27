@@ -20,8 +20,6 @@ Subpackages
    hardy.recognition
    hardy.data_reporting
 
-Submodules
-----------
 
 hardy.version module
 --------------------
