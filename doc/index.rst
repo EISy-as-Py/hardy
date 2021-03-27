@@ -40,9 +40,9 @@ Examples and Documentations!
    :maxdepth: 10
    :caption: Contents:
 
-   modules
    installation
-   examples
+   Usage & Examples
+   modules
    faqs
 
 Indices and tables
