@@ -55,6 +55,7 @@ extensions = [
     'sphinx.ext.githubpages',
     'recommonmark',
     'nbsphinx',
+    'numpydoc',
 ]
 
 # Napoleaon settings

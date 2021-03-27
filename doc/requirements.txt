@@ -8,3 +8,4 @@ keras-tuner
 scikit-image
 plotly
 nbsphinx
+numpydoc
