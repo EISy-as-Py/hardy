@@ -41,7 +41,7 @@ Examples and Documentations!
    :caption: Contents:
 
    installation
-   Usage & Examples
+   examples
    modules
    faqs
 
