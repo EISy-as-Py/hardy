@@ -37,7 +37,7 @@ Examples and Documentations!
 =================================
 
 .. toctree::
-   :maxdepth: 10
+   :maxdepth: 2
    :caption: Contents:
 
    installation
