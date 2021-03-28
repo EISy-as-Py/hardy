@@ -9,3 +9,4 @@ Examples
 
     examples/example_sas_data.ipynb
     examples/example_HARDy_script.ipynb
+    examples/How_to_write_Configuration_files.ipynb
