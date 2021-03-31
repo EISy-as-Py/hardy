@@ -11,6 +11,7 @@ import hardy.data_reporting.reporting as reporting
 import multiprocessing as mp
 
 from functools import partial
+from hardy.handling import handling
 from hardy.handling import pre_processing as preprocessing
 from hardy.handling import to_catalogue as to_catalogue
 from hardy.arbitrage import arbitrage
@@ -139,7 +140,7 @@ def hardy_main(  # Data and Config Paths
     # raw_tuples_list = to_catalogue._data_tuples_from_fnames(
     #     raw_datapath, classes=classes, skiprows=skiprows)
 
-    data_dict = {}
+    # data_dict = {}
     partial_data_wrapper = partial(data_wrapper, raw_datapath=raw_datapath,
                                    plot_format=plot_format,
                                    iterator_mode=iterator_mode,
@@ -162,13 +163,14 @@ def hardy_main(  # Data and Config Paths
     pool = mp.Pool(processes=n_threads)
 
     if iterator_mode == 'arrays':
-        image_data = pool.map(partial_data_wrapper, tform_command_list)
+        pool.map(partial_data_wrapper, tform_command_list)
         image_path = None
-        for i in range(len(tform_command_list)):
-            data_dict[tform_command_list[i]] = image_data[i]
+
+    #    for i in range(len(tform_command_list)):
+    #        data_dict[tform_command_list[i]] = image_data[i]
     #    data_dict[tform_name] = image_data
     else:
-        image_data = None
+        # image_data = None
         image_path = pool.map(partial_data_wrapper, tform_command_list)
 
     pool.close()
@@ -176,14 +178,11 @@ def hardy_main(  # Data and Config Paths
     # ============================================
     # Section 3: Classifier Wrapper  (Setup + Run)
     # ============================================
-    for key, value in data_dict.items():
+    for tform_name in tform_command_list:
 
-        tform_name = key
-        image_data = value
         # Image PATH is none, but we can pass DATA
         classifier_wrapper(raw_datapath, test_set_filenames,
                            tform_name, classifier_config_path,
-                           image_data=image_data,
                            classifier=classifier,
                            iterator_mode=iterator_mode,
                            split=split, color_mode=color_mode,
@@ -219,6 +218,7 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
     # Make the raw Dataframe Tuples List
     raw_tuples_list = to_catalogue._data_tuples_from_fnames(
         raw_datapath, classes=classes, skiprows=skiprows)
+
     # Now perform trasnsform if given
     if tform_commands is None:
         tform_tuples_list = raw_tuples_list
@@ -226,7 +226,6 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
         tform_tuples_list = arbitrage.tform_tuples(raw_tuples_list,
                                                    tform_commands,
                                                    rgb_format=plot_format)
-
     # save the tranformation info in a yaml file for final report
     if project_name and run_name:
         output = [[i, name.split('__')[0], name.split('__')[-1]] for
@@ -250,11 +249,15 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
         pass
     # Next make the rgb images Tuples List
     if plot_format == 'RGBrgb':
-        tuples_list = to_catalogue.rgb_list(tform_tuples_list, scale=scale,
-                                            plot_format=plot_format)
+        data_store = raw_datapath + run_name + '.pkl'
+        to_catalogue.rgb_list(tform_tuples_list, scale=scale,
+                              plot_format=plot_format,
+                              storage_location=data_store)
     else:
-        tuples_list = to_catalogue.regular_plot_list(
-            tform_tuples_list, scale=scale)
+        data_store = raw_datapath + run_name + '.pkl'
+        to_catalogue.regular_plot_list(
+            tform_tuples_list, scale=scale,
+            storage_location=data_store)
 
     # OK! Now we have image arrays finished!
     #     EITHER Return that list of image tuples
@@ -262,7 +265,7 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
     if iterator_mode == 'arrays':
         if print_out:
             print_time(time.perf_counter()-clock)
-        return tuples_list
+        return 0
     else:
         # Write Optional Split based on Iterator_Mode,
         # to optionally use the "to_dirFlow"
@@ -271,7 +274,7 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
 
 
 def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
-                       image_data=None, classifier='tuner',
+                       classifier='tuner',
                        iterator_mode='arrays', split=0.1,
                        target_size=(80, 80), color_mode='rgb',
                        batch_size=32, image_path=None,
@@ -327,7 +330,11 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
                    name of the folder to be created for storing the results of
                    the tuning
     '''
+
     if iterator_mode == 'arrays':
+        # loading pickled data
+
+        image_data = handling.pickled_data_loader(input_path, run_name)
 
         assert image_data, 'No image_data list provided'
 

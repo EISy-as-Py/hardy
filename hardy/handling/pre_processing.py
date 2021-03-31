@@ -165,7 +165,10 @@ def save_to_folder(input_path, project_name, run_name):
 
     hardy_folder_path = input_path + project_name + '/'
     if not os.path.exists(hardy_folder_path):
-        os.makedirs(hardy_folder_path)
+        try:
+            os.makedirs(hardy_folder_path)
+        except OSError:
+            pass
 
     transformation_folder_path = hardy_folder_path + run_name + '/'
 

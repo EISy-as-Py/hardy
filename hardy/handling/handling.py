@@ -1,5 +1,6 @@
 import os.path
 import tkinter
+import pickle
 
 import pandas as pd
 
@@ -400,6 +401,33 @@ def read_csv(full_fname, skiprows=0, last_skiprows=None,
     if 'Unnamed: 0' in list(fdata):
         fdata.pop('Unnamed: 0')
     return fdata, last_skiprows
+
+
+def pickled_data_loader(raw_datapath, run_name):
+    '''
+    Loads the pickled data
+
+    Parameters
+    ----------
+    raw_datapath: str
+                  location of raw data
+    run_name: str
+              transformation name from the dictionary
+
+    Output
+    ------
+    data_tuples: tuple
+                 list of tuples containing file name
+                 transformed data, label
+    '''
+
+    pickled_file_name = raw_datapath + run_name + '.pkl'
+    imported_data = open(pickled_file_name, 'rb')
+    image_data = pickle.load(imported_data)
+    imported_data.close()
+    os.remove(pickled_file_name)
+
+    return image_data
 
 
 def _test_df(fdata, columns_to_pass=2):
