@@ -15,19 +15,10 @@ Subpackages
 
 .. toctree::
 
-   hardy.handling
-   hardy.arbitrage
-   hardy.recognition
-   hardy.data_reporting
-
-
-hardy.version module
---------------------
-
-.. automodule:: hardy.version
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   handling
+   arbitrage
+   recognition
+   data_reporting
 
 
 Module contents

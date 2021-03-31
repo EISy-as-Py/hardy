@@ -1,4 +1,4 @@
-arbitrage
+Arbitrage
 =======================
 
 Submodules
@@ -7,7 +7,7 @@ Submodules
 arbitrage module
 --------------------------------
 
-.. automodule:: hardy.arbitrage.arbitrage
+.. automodule:: arbitrage
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ arbitrage module
 transformations module
 --------------------------------------
 
-.. automodule:: hardy.arbitrage.transformations
+.. automodule:: transformations
    :members:
    :undoc-members:
    :show-inheritance:
@@ -24,7 +24,7 @@ transformations module
 Module contents
 ---------------
 
-.. automodule:: hardy.arbitrage
+.. automodule:: arbitrage
    :members:
    :undoc-members:
    :show-inheritance:

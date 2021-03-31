@@ -1,4 +1,4 @@
-recognition package
+Recognition
 =========================
 
 Submodules
@@ -7,7 +7,7 @@ Submodules
 cnn module
 ----------------------------
 
-.. automodule:: hardy.recognition.cnn
+.. automodule:: cnn
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ cnn module
 tuner module
 ------------------------------
 
-.. automodule:: hardy.recognition.tuner
+.. automodule:: tuner
    :members:
    :undoc-members:
    :show-inheritance:
@@ -24,7 +24,7 @@ tuner module
 Module contents
 ---------------
 
-.. automodule:: hardy.recognition
+.. automodule:: recognition
    :members:
    :undoc-members:
    :show-inheritance:
