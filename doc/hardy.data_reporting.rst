@@ -7,7 +7,7 @@ Submodules
 reporting module
 --------------------------------------
 
-.. automodule:: data_reporting.reporting
+.. automodule:: hardy.data_reporting.reporting
    :members:
    :undoc-members:
    :show-inheritance:
@@ -16,7 +16,7 @@ reporting module
 Module contents
 ---------------
 
-.. automodule:: data_reporting
+.. automodule:: hardy.data_reporting
    :members:
    :undoc-members:
    :show-inheritance:

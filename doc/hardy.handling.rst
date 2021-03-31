@@ -7,7 +7,7 @@ Submodules
 handling module
 ------------------------------
 
-.. automodule:: handling
+.. automodule:: hardy.handling.handling
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ handling module
 pre\_processing module
 -------------------------------------
 
-.. automodule:: pre_processing
+.. automodule:: hardy.handling.pre_processing
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +23,7 @@ pre\_processing module
 to\_catalogue module
 -----------------------------------
 
-.. automodule:: to_catalogue
+.. automodule:: hardy.handling.to_catalogue
    :members:
    :undoc-members:
    :show-inheritance:
@@ -32,7 +32,7 @@ to\_catalogue module
 visualization module
 -----------------------------------
 
-.. automodule:: visualization
+.. automodule:: hardy.handling.visualization
    :members:
    :undoc-members:
    :show-inheritance:
@@ -41,7 +41,7 @@ visualization module
 Module contents
 ---------------
 
-.. automodule:: handling
+.. automodule:: hardy.handling
    :members:
    :undoc-members:
    :show-inheritance:
