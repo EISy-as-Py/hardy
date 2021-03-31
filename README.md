@@ -47,7 +47,7 @@ To perform various transformations, training Neural Network and Hyperparameter O
 The instructions for modifying or writing your own configuration file can be accessed by clicking on the configuration files listed above.
 
 ## Visualization
- In order to increase the density of data presented to the convolutional neural network and add a visual transfortmation of the data, we adopted a new plotting technique that takes advantage of how images are read by computers. Using color images, we were able to encode the experimental data in the pixel value, using different series per each image channel. The results are data- dense images, which are also pretty to look at.
+ In order to increase the density of data presented to the convolutional neural network and add a visual transformation of the data, we adopted a new plotting technique that takes advantage of how images are read by computers. Using color images, we were able to encode the experimental data in the pixel value, using different series per each image channel. The results are data- dense images, which are also pretty to look at.
 
  <p align="center"><img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/data_visualization.PNG" width=700 alt=" details on the proposed visual transformation to increased the images data density"/></p>
 
@@ -65,7 +65,7 @@ Our vision of the final product:
  * Present a User Interface, to allow non-programmers to interact with and use the chosen classifier(s?) in their work.
 
  ## Use Cases:
- The package is designed to deal wiht a diverse set of labeled data. These are some of the use cases we see benefitting from using the _HARDy_ package.
+ The package is designed to deal with a diverse set of labeled data. These are some of the use cases we see benefitting from using the _HARDy_ package.
 
  <p align="center"><img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/use_cases.PNG" width=500 alt="possible use cases for the HARDy package"/></p>
 
@@ -75,7 +75,6 @@ Our vision of the final product:
  * __arbitrage.py__        :  Data Pre-Analysis, Transformations, and other preparation to be fed into the learning algorithm.
  * __recognition.py__      :  Setup, training and testing of single convolutional neural network (CNN) or hyperparameters optimization for CNNs.
  * __data_reporting.py__   :  Output and reporting of any/all results. Tabular summary of runs, visual performance comparison, as well as parallel coordinate plots and feature maps
- * __yNot.py__             :  Home for everything else that seems useful but doesn't fall into one of the other functions!
 
 
  ## Acknowledgment
