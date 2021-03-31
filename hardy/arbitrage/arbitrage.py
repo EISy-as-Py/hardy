@@ -4,70 +4,45 @@ import yaml
 import numpy as np
 import pandas as pd
 
-# Imports must be changed depending on Package vs GIT build....
 import hardy.arbitrage.transformations as transform
 
-"""
-note :  Almost All of these Functions are partly Obsolete because of the
-        to_config.py change in default data methods. So instead I'm updating
-        to conform to the new standards. Some logic can be re-used.
 
-        Most importantly, we are working with data in the "List_of_Tuples"
-        Format, where each data item is passed as a list of the following:
-            (ID_String, DataFrame, Classify_string(or int?))
-        Later this data is transformed into image list_of_rgb:
-            (ID_String, RGB-3D-Array, Classify_string(or int?)
-        These ARBITRAGE functions are designed to "intercept" the DataFrame
-            List_of_Tuples and return an EQUALLY FORMATTED one where each
-            df is replaced with the one created by the transform list passed.
-
-        WE ARE NO LONGER READING FILES IN THIS PACKAGE.
-        This will ALL be imported BY the preprocessing.py package, which
-        will contain all loops to Read, Arbitrate, and Create CNN-readable
-        Data list.
-"""
-
-# tform_1d1d = transform.list_1d1d  # Import dict of Transform functions
-# tform_keys = list(tform_1d1d.keys())  # This is the list of f(n) keys
-
-
-def import_tform_config(tform_config_path='.\tform_config.yaml', raw_df=None):
+def import_tform_config(tform_config_path='./tform_config.yaml', raw_df=None):
     """Function that imports the transformations from configuration
 
     Parameters
     ----------
     tform_config_path : Str, optional
-                        Path of transform configuration file to
-                        DESCRIPTION. The default is '.\tform_config.yaml'.
+        Path of transform configuration file to apply to the data.
+    raw_df: pd.DataFrame
+        Dataframe of raw data to use for assrting that the configuration
+        file is correctly calling on the data
 
-    CHECKS
-    ------
-    All Index are in 0-5 (for RGBrgb-style plotting)
-    All transform commands are in transform.list_1d1d
-    All source # are below the length of the raw-data list
 
     Returns
     -------
     tform_command_list : list of str
-                         Ordered list of transform commands to use.
-                         Differs from the dict.keys() because this is ordered!
-                         (May save Report with this string as the key,
-                         to be looked up?)
+         Ordered list of transform commands to use.
+         Differs from the dict.keys() because this is ordered!
 
     tform_command_dict :  dict of List-of-Transform-tuples
-                          Each key will return a list of transforms
-                          to do on this data loop.
-                          Each "List of Transforms" as stated elsewhere
-                          contain:
-                          (Index=0, transform, source),
-                          (Index=1, transform, source),
-                          (Index=2, transform, source),
-                          etc. where:
-                          "Index" is the output column destination,
-                          "transform" is command in transform.list_1d1d, and
-                          "source" is the raw data column to be used in the
-                          tform
+         Each key will return a list of transforms to do on this data loop.
+         Each "List of Transforms" as stated elsewhere contain:
+              (Index=0, transform, source),
+              (Index=1, transform, source),
+              (Index=2, transform, source),
+        where:
+              "Index" is the output column destination,
+              "transform" is command in transform.list_1d1d, and
+              "source" is the raw data column to be used in the tform
     """
+
+    # CHECKS
+    # ------
+    # All Index are in 0-5 (for RGBrgb-style plotting)
+    # All transform commands are in transform.list_1d1d
+    # All source # are below the length of the raw-data list
+
     if raw_df is not None:
         df_cols = len(raw_df.columns)
     else:

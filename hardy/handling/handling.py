@@ -105,17 +105,24 @@ def check_dir_path(dir_path, files_contain=['.csv'], n_required=1,
                    raise_err=False):
     """
     Check if a directory contains the files you want:
-        INPUTS:
-            * Path to check (required)
-            * LIST of strings to check. Files must contain ALL strings to pass.
+
+    Parameters
+    ----------
+    dir_path: str
+        Path to check (required)
+    files_contain: list
+        list of strings to check. Files must contain ALL strings to pass.
                 (Default is set to look for .csv)
-            * Number of successful files required to pass the test
+    n_required: int
+        Number of successful files required to pass the test
                 (Default is 1 file)
-            * Failure Handling. whether to Return Failure or raise an Error.
+    raise_err: bool
+        Failure Handling. whether to Return Failure or raise an Error.
                 (Default is FALSE, which will not raise errors.)
-        OUTPUTS:
-            * BOOLEAN (T/F), did we find all the required files?
-            * Error Message, to use in selecting a folder if we failed.
+    Returns
+    -------
+    BOOLEAN (T/F), did we find all the required files?
+    Error Message, to use in selecting a folder if we failed.
     """
     if os.path.isdir(dir_path):
         # First confirm that it's a directory, otherwise fail
@@ -176,12 +183,25 @@ def classes_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
     Given a list of file names, determine if there are classifying endings
     that split the data into "expect" (default 2) Groups.
 
-    (Also report the population of those groups. Return it?)
-    (Also, maybe give option to split the file names by category?
-    If not, would default return_split=False)
+    Paramters
+    ---------
+    file_list: list
+        list containing the raw data files
+    path: str
+        path to the folder containg the raw data files
+    expect: int
+        number representing how many classes the data is expected to be
+        classified into
+    print_ok: bool
+        if True, returns print statements indicating complition of steps
+        within the function
+    from_serials: bool
+        if True uses the serial IDs instead of file names
 
-    Option from_serials, to be used if the file name extensions are already
-    clipped off (aka we're passing serial ID info instead of fnames)
+    Returns
+    -------
+    classification_list: list
+        list containing the classes/labels to separate the data in.
     """
     classification_list = []
     populations = {}  # Dictionary
@@ -312,9 +332,9 @@ def classes_from_fnames(file_list=None, path=None, expect=2, print_ok=True,
 
 
 def read_csv(full_fname, skiprows=0, last_skiprows=None,
-             size_to_load=None, maxskip=100):
+             maxskip=100):
     """
-    Looping through pandas read_csv, checking the data
+    Function to loop through pandas read_csv, checking the data
         and trying again if it's bad.
     Note:
         Will Return ONLY columns which are interger or floats.
@@ -322,27 +342,18 @@ def read_csv(full_fname, skiprows=0, last_skiprows=None,
 
     Parameters
     ----------
-    full_fname :    str
-                    joined path and file name (ideally from root?)
-                    so that we can load the file
+    full_fname: str
+        joined path and file name so that we can load the file
 
-    try_skiprows :  int
-                    this replaces the hard "skiprows" in the
-                    old functions. It'll be the first we try.
+    try_skiprows: int
+        this replaces the hard "skiprows" in the old functions.
+        It'll be the first we try.
 
-    last_skiprows : int (optional)
-                    Function Output of the successful skiprows #.
-                    To be re-fed into the function on the next loop
-                    occurance to speed up. (Will be tried AFTER the
-                                            hard-coded "try"...)
-    size_to_load :  float (optional) from 0 to 1
-                    For long files, trying to load the entire thing
-                    multiple times will take long. So this would only
-                    load a certain number of lines equal to ~the
-                    file size... (Or should we specify line count?)
-                    and then load the full thing at the end.
-
-    max_skip : int
+    last_skiprows: int (optional)
+        Function Output of the successful skiprows #.
+        To be re-fed into the function on the next loop
+        occurance to speed up.
+    max_skip: int
                loop size. Will error if you skip this many rows.
 
     Returns
@@ -351,9 +362,8 @@ def read_csv(full_fname, skiprows=0, last_skiprows=None,
     fdata : Pandas DataFrame
             The dataframe obtained from teh csv file
     last_skiprows : int
-                    the value fo the last row skipped
+            the value fo the last row skipped
     """
-    # load_success = False
     fdata = pd.read_csv(full_fname, skiprows=skiprows)
     # ^ We will use this to Track whether we did a successful load.
     #       Turn it TRUE if a load does not error, but Turn if FALSE
@@ -396,11 +406,15 @@ def _test_df(fdata, columns_to_pass=2):
     """
     Parameters
     ----------
-    fdata : dataframe, just loaded by pd.read_csv()
+    fdata : dataframe
+        Dataframe loaded by pd.read_csv()
+    columns_to_pass: int
+        number of columns containing the raw data.
 
     Returns
     -------
-    load_success : Does the fdata frame pass our tests?
+    load_success : bool
+        If true, it means the data was correctly loaded
     """
     assert type(fdata) is pd.DataFrame, "Not Dataframe"
 

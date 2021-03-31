@@ -3,59 +3,10 @@ import pickle
 import os
 import time
 
-# import matplotlib.pyplot as plt
 import numpy as np
-
 import hardy.handling.visualization as vis
 import hardy.handling.handling as handling
 from keras.preprocessing.image import ImageDataGenerator
-
-
-"""
-To_Catalogue, functions for handling (?) data?
-    (This has gotten messy and VERY overlapping, both with handling.py
-     and with the downstream pre_processing.py)...
-
-Current Status:
-    save_load_data : Executes a pickel data dump or load (unsafe?)
-
-    _data_tuples_from_fnames :  Gets properly formatted List_of_tuples from
-                                an input_path using smart category finder
-                                and smart/safe read csv (arbitrary rows, and
-                                deletes columns of "bad" data like strings)
-
-    ** Note:  Here in Wrapping Function Flow, is where the Arbitrage Transforms
-              Would "Intercept" the data and create transforms!
-
-    rgb_list :  Takes that list of dataframe tuples (following convention)
-                and creates a list of image tuples (same convention)
-
-    data_set_split : Takes that image_tuple list, and splits
-                     based on an also-given list of file names?
-                     test_set is the names passed, learning is all others...
-
-    rgb_visualize : Internal function called by rgb_list. Takes one fdata
-                    dataframe and creates the image for it via a plot_format
-                    string like 'RGBrgb' or "RgBrGb","Rg" or "Rxxgxx" etc.
-
-    learning_set :  Complex (multi-options) BUT, given the right rules
-                    (should be defaults) will turn the image_tuple_list
-                    into the proper (255) images, then use the Keras
-                    Preprocessing to turn them into keras objects.
-                    Finally, executes data_set_split to return separate
-                    Training and Validation data sets.
-
-    test_set:       Does all of that, without splitting the data.
-
-    #######################################################################
-    rgb_list_to_dirflow: Unused for now. Gives the possibility of outputting
-                         the rgb_list of tuples to a data structure
-                         designed to work with keras flow_from_dir()
-    _safe_clear_dirflow: Used to "safely" clear a directory to overwrite with
-                         new files. Clears NOTHING unless specific folder
-                         structure is in place, to avoid errors.
-
-"""
 
 
 def save_load_data(filename, data=None, save=None, load=None,
@@ -96,12 +47,24 @@ def save_load_data(filename, data=None, save=None, load=None,
 
 def _data_tuples_from_fnames(input_path='./', skiprows=0, classes=None):
     """
-    Setting up the Data_tuples list, from ONE FOLDER with all of the data
-    (OF different classes) inside of it.
-    For each file, do a "smart-load" of the data, remove bad columns,
-    and determine the classification from the file name.
-    Then Return that line of data_tuples in the format of:
-    (FileName (no extension), DataFrame, LABEL)
+    Setting up the Data_tuples list, from ONE FOLDER with all of the data.
+    For each file, the function loads the data, removes bad columns,
+    and determines the label from the file name.
+
+    Parameters
+    ----------
+    input_path: str
+        path to the folder containig the data
+    skiprows: int
+        number of rows in a file to skip when converting it a dataframe
+    classes: list
+        list of classes/labels the data will be divided into
+
+    Returns
+    -------
+    list_of_tuples: list
+        list of tuples in the form of (filename, dataframe, label) for each
+        file the dataset
     """
     # Get list of classes for later
     list_of_tuples = []
@@ -189,39 +152,34 @@ def _data_tuples_from_fnames(input_path='./', skiprows=0, classes=None):
 def rgb_list(data_tuples, plot_format='RgBrGb', column_names=None,
              combine_method='add', scale=1.0):
     '''
-    Input a path of csv files (with some guidance),
-    Plot them RGB-wise into images
-    return a list of tuples as to be fed into the keras PreProcess f(n)
+    Input a path of csv files (with some guidance), plots them RGB-wise
+    into images and returns a list of tuples as to be fed into the
+    pre_processing functions
 
     Parameters
     ----------
-    data_tuples :   list of tuples
-                    following the convention:
-                    (SERIAL, DataFrame, LABEL)
-                    (see below...)
-    plot_format :   string
-                    to pass into rgb_visualize
-                        "single", "else", or some "RGBrgb"...
-                        DEFAULT: "RgBrGb"? Discuss with group!!!
-    combine_method :string
-                    to pass into rgb_visualize
+    data_tuples: list of tuples
+            following the convention (SERIAL, DataFrame, LABEL)
+    plot_format: string
+        to pass into rgb_visualize "single", "else", or some "RGBrgb"
+    combine_method: string
+        string to use as input for rgb_visualize function
+    column names: list of strings (Optional)
+        IF given, will drop all columns not in the list given.
+    scale: float
+        percentage fo the image to reduce its size to.
 
-    column names :  list of strings (Optional)
-                    IF given, will drop all columns not in the
-                        list given. (If no colums match, will ERROR.)
-    scale :  float
-             percentage fo the image to reduce its size to.
     Returns
     -------
-    list_of_rgb_tuples  :   list of tuples
-                            following the format: (SERIAL, IMG, LABEL)
-    SERIAL      :   File name with the extension taken off
-                        (We should parse with . not just [-4])...
-    IMG         :   ndarray of NxNx3
-
-    LABEL       :   Classification label, either from the passed list
-                        or from the last part of the serial/filename:
-                        "123847_afsukjeh_*LABEL*.csv""
+    list_of_rgb_tuples: list
+        list of tuples following the format: (SERIAL, IMG, LABEL)
+    SERIAL: str
+        File name with the extension taken off
+    IMG: array
+        ndarray of NxNx3
+    LABEL: str
+        Classification label, either from the passed list or from the last
+        part of the serial/filename: "123847_afsukjeh_*LABEL*.csv""
 
     '''
 
@@ -251,16 +209,16 @@ def regular_plot_list(data_tuples, scale=1.0):
 
     Parameters
     ----------
-    data_tuples :   list of tuples
-                    The list of tuples in the following format
-                     (filenames, dataframe, label)
-    scale :  float
+    data_tuples: list of tuples
+        The list of tuples in the following format
+         (filenames, dataframe, label)
+    scale:  float
           percentage fo the image to reduce its size to.
     Returns
     -------
-    list_of_rgb_tuples  :   list of tuples
-                            The list of tuples in the following format
-                            (filename, image array, label)
+    list_of_rgb_tuples: list of tuples
+        The list of tuples in the following format
+        (filename, image array, label)
     '''
 
     print("Making regular plot Images from Data...", end='\t')
@@ -288,23 +246,22 @@ def data_set_split(image_list, test_set_filenames):
 
     Parameters
     ----------
-    image_list : list
-                 A list of tuples containing the filenames, the arrays
-                 reoresenitng the images and their labels
-    test_set_filenames : list
-                         List of strings containig the filename of the datasets
-                         selected to the be in the test set
+    image_list: list
+        A list of tuples containing the filenames, the arrays
+        reoresenitng the images and their labels
+    test_set_filenames: list
+        List of strings containig the filename of the datasets
+        selected to the be in the test set
 
     Returns
     -------
     test_set_list : list
-                    A list of tuples containing the filenames, the arrays
-                    reoresenitng the images and their labels to be used as
-                    the test set
+        A list of tuples containing the filenames, the arrays
+        reoresenitng the images and their labels to be used as the test set
     learning_set_list : list
-                        A list of tuples containing the filenames, the arrays
-                        reoresenitng the images and their labels to be used as
-                        the learning set
+        A list of tuples containing the filenames, the arrays
+        reoresenitng the images and their labels to be used as
+        the learning set
 
     '''
     test_set_list = [n for n in image_list if n[0][:][:] in test_set_filenames]
@@ -322,34 +279,31 @@ def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
 
     Parameters
     ----------
-    plot_format :   EITHER 'single' (bodge, depreciate later)
-                    OR some combination of "RGBrgb", which will be
-                    the order of columns plotted:
-                    R = red   X-axis      r = red   Y-axis
-                    G = green X-axis      g = green Y-axis
-                    B = blue  X-axis      b = blue   Y-axis
-                    * X = do not plot (skip column)
-                    ** If RGBrgb letters are missing, simply pass
-                    to the plotting function as "None"
+    plot_format:  string
+        EITHER 'single' (bodge, depreciate later) OR some combination of
+        "RGBrgb", which will be the order of columns plotted:
+            R = red   X-axis      r = red   Y-axis
+            G = green X-axis      g = green Y-axis
+            B = blue  X-axis      b = blue   Y-axis
+            * X = do not plot (skip column)
+            ** If RGBrgb letters are missing, simply pass
+            to the plotting function as "None"
 
-                    The to-be-depreciated 'single' is thus:
-                    "RB"
-                    The As-written "else" is thus:
-                    "Rb"
-
-    combine_method: "add" or "mlt" - which visualization fn to use
-    scale :  float
-             percentage fo the image to reduce its size to.
+    combine_method: string
+        Either "add" or "mlt" - which visualization function to use
+    scale:  float
+        percentage fo the image to reduce its size to.
 
     Returns
     -------
+    list_of_tuples: list
+        list of tuples, following: (SERIAL, IMG, LABEL)
 
-    list_of_tuples: list of tuples, following: (SERIAL, IMG, LABEL)
+    SERIAL: string
+        File name with the extension taken off
 
-    SERIAL: File name with the extension taken off
-            (We should parse with . not just [-4])
-
-    IMG: ndarray of NxNx3
+    IMG: ndarray
+        Array of size NxNx3 representing the image of the data
 
     '''
     if not column_names:
@@ -406,73 +360,22 @@ def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
                                                   plot=False)
     return rgb_image
 
-# The following funciton needs to be revised and connected
-#  to the amin code wrapping function
-# def rgb_list_to_DirFlow(rgb_tuples, basepath, newfolder="rbg_for_keras",
-#                         delete_existing=True):
-#     """
-#     Takes the list of tuples (as made in "rgb_list") and creates the exact
-#         file structure of saved PNG images that will be used in the
-#         "KERAS FLOW FROM DIRECTORY" method.
-#
-#     Also will save a log file in the base path (csv? or look for log?)
-#         describing the
-#     """
-#     classes = []
-#     for each_image in rgb_tuples:
-#         if each_image[2] not in classes:
-#             # Make a unique list of the classes...
-#             classes.append(each_image[2])
-#         else:
-#             pass
-#
-#     newfolder_path = os.path.join(basepath, newfolder)
-#     # Make new folder full path... But what if it exists?
-#     if os.path.isdir(newfolder_path):
-#         # Well, if "Delete Existing" is true, delete that folder.
-#         if delete_existing:
-#             # Loop through and delete all... DANGEROUS
-#             # So instead wrote a safety loop.
-#             _safe_clear_dirflow(newfolder_path)
-#         else:
-#             n = 0
-#            newer_folder = os.path.join(basepath, newfolder + "_{}".format(n))
-#             while os.path.isdir(newer_folder) and n < 100:
-#                 n += 1
-#                 newer_folder = os.path.join(basepath,
-#                                             newfolder + "_{}".format(n))
-#             else:
-#                 pass
-#             newfolder_path = newer_folder
-#             print("Directory Full! \n" +
-#                   "Creating New Dir @   {}".format(newer_folder))
-#     else:
-#         pass
-#
-#     # Now, make folders and fill them with the images!
-#     os.makedirs(newfolder_path)
-#     for each_class in classes:
-#         class_folder = os.path.join(newfolder_path, each_class)
-#         os.makedirs(class_folder)
-#         for each_image in rgb_tuples:
-#             if each_image[2] == each_class:
-#                 # If this image is in the class, save it in this folder!
-#                 save_png = os.path.join(class_folder, each_image[0] + '.png')
-#                 plt.imsave(save_png, each_image[1])
-#     return basepath, newfolder
-
-
-def _safe_clear_dirflow(the_path):
+def _safe_clear_dirflow(path):
     """
-    Safely check that the path contains ONLY folders of png files.
-        if any other structure, will simply ERROR out.
-    (for now, doesn't fix errors, just raises them)
+    Safely check that the path contains ONLY folders of png files,
+    if any other structure, will simply ERROR out.
+
+    Parameters
+    ----------
+    path: str
+        string to the path to the folders of data images to be used
+
     """
-    print("Clearing {}...".format(the_path))
-    assert os.path.isdir(the_path), "Didn't pass a folder to be cleaned"
-    list_dir = [f for f in os.listdir(the_path) if not f.startswith('.')]
+    print("Clearing {}...".format(path))
+    assert os.path.isdir(path), "Didn't pass a folder to be cleaned"
+    list_dir = [f for f in os.listdir(path) if not f.startswith('.')]
     for folder in list_dir:
-        cat_folder = os.path.join(the_path, folder)
+        cat_folder = os.path.join(path, folder)
         assert os.path.isdir(cat_folder), \
             "Dir contains Non-Folder File!"
         cat_folder_item = [f for f in os.listdir(cat_folder)
@@ -526,15 +429,19 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
                  The list of tuples in the following format
                  (filenames, image_array, label)
     k_fold: Bool
-    k:  int
+        input to select the k-fold validation for the classification step
+    k: int
+        number of total subsets to divide the data in for the k-fold validation
     fold: int
+        the subset number to use for partitioning the data - used as input to
+        avoid inner loop in this function
 
     Returns
     -------
     training_set:  Keras image iterator
-                The training set containg labelled images
+        The training set containg labelled images
     validation_set: Keras image iterator
-                The training set containg labelled images
+        The training set containg labelled images
     '''
 
     if iterator_mode == 'arrays':
@@ -662,30 +569,28 @@ def test_set(path=None, target_size=(80, 80),
     path: str
           A string containing the path to the files to use for the test set
     target_size: tuple
-                 A tuple containing the dimentions of the image to be inputted
-                 in the model
+         A tuple containing the dimentions of the image to be inputted
+         in the model
     classes: list
-             A list containing strings of the classes the data is divided in.
-             The class name represent the folder name the files are contained
-             in.
+         A list containing strings of the classes the data is divided in.
+         The class name represent the folder name the files are contained in.
     batch_size: int
                 The number of files to group up into a batch
     color_mode: str
                 Either grayscale or rgb
     iterator_mode : str
-                    string indicating which Keras IamgeDataGenerator mode
-                    to use. Options are 'arrays' or 'images'. The first will
-                    use the "flow" option, the second will use
-                    "flow_from_directory" option
+        string indicating which Keras IamgeDataGenerator mode
+        to use. Options are 'arrays' or 'images'. The first will
+        use the "flow" option, the second will use "flow_from_directory" option
     image_list : list
-                 The list of tuples in the following format
-                 (filenames, image_array, label)
+         The list of tuples in the following format
+         (filenames, image_array, label)
 
     Returns
     -------
     test_set :  Keras image iterator
-                The testing set containg labelled images that was not part of
-                the learning dataset
+        The testing set containg labelled images that was not part of
+        the learning dataset
     '''
     data = ImageDataGenerator(**kwargs)
     if iterator_mode == 'arrays':

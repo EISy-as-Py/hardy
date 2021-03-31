@@ -10,7 +10,8 @@ from skimage.transform import resize
 #######################################################################
 # Normalization Functions
 def normalize(data_array):
-    '''Function that returns a normalized data_array
+    '''
+    Function that returns a normalized data_array
 
     The function takes the maximum value of an array and divides each entry of
     the array by it. Additionally, if the minimum of the array is negative, it
@@ -20,14 +21,13 @@ def normalize(data_array):
     Parameters
     ----------
     data_array : array-like
-                      the array to be normalized.
+        the array to be normalized.
 
     Returns
     -------
     normalized_data_array :  array-like
-                                  the normalized array. All entries in this
-                                  array should be values in the range
-                                  zero to one.
+      the normalized array. All entries in this array should be values
+      in the range zero to one.
     '''
     if not np.any(data_array):
         return data_array
@@ -44,22 +44,22 @@ def normalize(data_array):
 
 
 def normalize_image(color_image_array):
-    ''' Function that normalizes a color image array.
+    '''
+    Function that normalizes a color image array.
     The color image array will ahve dimensions (n,n, 3).
     The 'n' value will depends on how big your image is
 
     Parameters
     ----------
-
-    color_image_array : array-like
-                        a multidimentional array of shape (n,n,3)
+    color_image_array: array-like
+        a multidimentional array of shape (n,n,3)
 
     Returns
     -------
     normalized_image: array-like
-                      the normalized image array. All entries in this
-                      array should be values in the range zero to one.
-                      The image shape should still be (n,n,3)
+        the normalized image array. All entries in this
+        array should be values in the range zero to one.
+        The image shape should still be (n,n,3)
     '''
     # Determine the size of the square image
     n = np.shape(color_image_array)[0]
@@ -96,33 +96,33 @@ def rgb_plot(red_array=None, green_array=None, blue_array=None,
 
     Parameters
     ----------
-    red_array : array
-                the data array to be plotted in the red channel.
-    green_array : array
-                  the data array to be plotted in the green channel.
-    blue_array : array
-                 the data array to be plotted in the blue channel.
-    scale :  float
-             percentage fo the image to reduce its size to.
-    plot : bool
-           if True, the color gradient representation of the data will be
-           displayed
-    filename : str
-               The filename will be the same as the .csv containing the data
-               used to create this plot.
-    save_location : str
-                    String containing the path of the forlder to use when
-                    saving the data and the image.
-    save_image : bool
-                 Option to save the output of the simuation as a plot
-                 in a .png file format.
-                 The filename used for the file will be the same
-                 as the raw data file created in this function.
+    red_array: array
+        the data array to be plotted in the red channel.
+    green_array: array
+        the data array to be plotted in the green channel.
+    blue_array: array
+        the data array to be plotted in the blue channel.
+    scale: float
+        percentage fo the image to reduce its size to.
+    plot: bool
+        if True, the color gradient representation of the data will be
+        displayed
+    filename: str
+        The filename will be the same as the .csv containing the data
+        used to create this plot.
+    save_location: str
+        String containing the path of the forlder to use when
+        saving the data and the image.
+    save_image: bool
+        Option to save the output of the simuation as a plot
+        in a .png file format. The filename used for the file
+        will be the same as the raw data file created in this function.
+
     Returns
     -------
     rbg_plot :  matplotlib plot
-                Plot representing the data as a color gradient on the x-axis
-                in one of the three basic colors: red, blue or green
+        Plot representing the data as a color gradient on the x-axis
+        in one of the three basic colors: red, blue or green
     '''
     arrays = {'red_array': red_array, 'blue_array': blue_array,
               'green_array': green_array}
@@ -184,31 +184,32 @@ def orthogonal_images_add(image_x, image_y, plot=True, save_image=None,
     Parameters
     ----------
     image_x : array-like
-              A multidimentional array of shape (n,n,3) with
-              entries in range zero to one
+        A multidimentional array of shape (n,n,3) with entries in range
+        zero to one
     image_y : array-like
-              A multidimentional array of shape (n,n,3) with
-              entries in range zero to one
+        A multidimentional array of shape (n,n,3) with entries in range
+        zero to one
     plot : bool
-           if True, the color gradient representation of the data will be
-           displayed
+        if True, the color gradient representation of the data will be
+        displayed
     filename : str
-               The filename will be the same as the .csv containing the data
-               used to create this plot.
+       The filename will be the same as the .csv containing the data
+       used to create this plot.
     save_location : str
-                    String containing the path of the forlder to use when
-                    saving the data and the image.
+        String containing the path of the forlder to use when saving the
+        data and the image.
     save_image : bool
-                 Option to save the output of the simuation as a plot
-                 in a .png file format.
-                 The filename used for the file will be the same
-                 as the raw data file created in this function.
+         Option to save the output of the simuation as a plot
+         in a .png file format.
+         The filename used for the file will be the same as the raw data
+         file created in this function.
+
     Returns
     -------
-    combined_image :  matplotlib plot
-                      Plot representing the data as a color gradient on the
-                      x-axis and on the y-axis in one of the three basic
-                      colors: red, blue or green
+    combined_image: matplotlib plot
+          Plot representing the data as a color gradient on the
+          x-axis and on the y-axis in one of the three basic
+          colors: red, blue or green
 
     """
     image_flip = np.ndarray(shape=image_y.shape)
@@ -248,32 +249,31 @@ def orthogonal_images_mlt(image_x, image_y, plot=True, save_image=None,
 
     Parameters
     ----------
-    image_x : array-like
-              A multidimentional array of shape (n,n,3) with
-              entries in range zero to one
-    image_y : array-like
-              A multidimentional array of shape (n,n,3) with
-              entries in range zero to one
-    plot : bool
-           if True, the color gradient representation of the data will be
-           displayed
-    filename : str
-               The filename will be the same as the .csv containing the data
-               used to create this plot.
-    save_location : str
-                    String containing the path of the forlder to use when
-                    saving the data and the image.
-    save_image : bool
-                 Option to save the output of the simuation as a plot
-                 in a .png file format.
-                 The filename used for the file will be the same
-                 as the raw data file created in this function.
+    image_x: array-like
+        A multidimentional array of shape (n,n,3) with
+        entries in range zero to one
+    image_y: array-like
+        A multidimentional array of shape (n,n,3) with
+        entries in range zero to one
+    plot: bool
+        if True, the color gradient representation of the data will be
+        displayed
+    filename: str
+        The filename will be the same as the .csv containing the data
+        used to create this plot.
+    save_location: str
+        String containing the path of the forlder to use when
+        saving the data and the image.
+    save_image: bool
+        Option to save the output of the simuation as a plot in a .png file
+        format. The filename used for the file will be the same
+        as the raw data file created in this function.
     Returns
     -------
-    combined_image :  matplotlib plot
-                      Plot representing the data as a color gradient on the
-                      x-axis and on the y-axis in one of the three basic
-                      colors: red, blue or green
+    combined_image: matplotlib plot
+        Plot representing the data as a color gradient on the
+        x-axis and on the y-axis in one of the three basic
+        colors: red, blue or green
     '''
     # Check and Fix/Prepare for Zero-Arrays
     for channel in range(3):
@@ -316,11 +316,12 @@ def regular_plot(tform_df_tuple, scale=1.0):
 
     Parameters
     ----------
-    tform_df_tuple : list
-                     The list of tuples in the following format
+    tform_df_tuple: list
+        The list of tuples in the following format
                      (filenames, dataframe, label)
-    scale :  float
-             percentage fo the image to reduce its size to.
+    scale: float
+        percentage fo the image to reduce its size to.
+
     Returns
     -------
     img :  np.array
@@ -349,15 +350,16 @@ def get_img_from_fig(fig, scale=1.0, dpi=100):
 
     Parameters
     ----------
-    fig : matplotlib figure
-          The figure containing the x-y plot of the data
+    fig: matplotlib figure
+        The figure containing the x-y plot of the data
 
-    scale :  float
-             percentage fo the image to reduce its size to.
+    scale: float
+        percentage fo the image to reduce its size to.
+
     Returns
     -------
-    img :  np.array
-           A numpy arrays representing the image. Iamge will be in rgb mode
+    img: np.array
+        A numpy arrays representing the image. Iamge will be in rgb mode
 
     '''
     buf = io.BytesIO()

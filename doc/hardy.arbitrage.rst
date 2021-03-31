@@ -1,10 +1,10 @@
-hardy.arbitrage package
+arbitrage
 =======================
 
 Submodules
 ----------
 
-hardy.arbitrage.arbitrage module
+arbitrage module
 --------------------------------
 
 .. automodule:: hardy.arbitrage.arbitrage
@@ -12,18 +12,10 @@ hardy.arbitrage.arbitrage module
    :undoc-members:
    :show-inheritance:
 
-hardy.arbitrage.transformations module
+transformations module
 --------------------------------------
 
 .. automodule:: hardy.arbitrage.transformations
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-hardy.arbitrage.version module
-------------------------------
-
-.. automodule:: hardy.arbitrage.version
    :members:
    :undoc-members:
    :show-inheritance:

@@ -152,6 +152,7 @@ def evaluate_model(model, testing_set):
                 The testing set containg labelled images that was not part of
                 the learning dataset. This will be used to evaluate the actual
                 performance of the trained model.
+
     Returns
     -------
     results[1] : float32
@@ -373,6 +374,7 @@ def k_fold_model(k, config_path='./', target_size=(80, 80),
                  color_mode='rgb', iterator_mode='arrays',
                  image_list=None, test_set=None, **kwargs):
     '''
+
     '''
 
     validation_score = []

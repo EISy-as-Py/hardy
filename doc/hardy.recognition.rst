@@ -1,10 +1,10 @@
-hardy.recognition package
+recognition package
 =========================
 
 Submodules
 ----------
 
-hardy.recognition.cnn module
+cnn module
 ----------------------------
 
 .. automodule:: hardy.recognition.cnn
@@ -12,18 +12,10 @@ hardy.recognition.cnn module
    :undoc-members:
    :show-inheritance:
 
-hardy.recognition.tuner module
+tuner module
 ------------------------------
 
 .. automodule:: hardy.recognition.tuner
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-hardy.recognition.version module
---------------------------------
-
-.. automodule:: hardy.recognition.version
    :members:
    :undoc-members:
    :show-inheritance:
