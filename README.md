@@ -4,15 +4,15 @@
 <img src=https://github.com/EISy-as-Py/hardy/blob/master/doc/images/EIS_Formats.PNG width=400 p align="right">
 
 # Project HARDy
- 
+
  _"HARDy: Handling Arbitrary Recognition of Data in python"_
-A package to assist in discovery, research, and classification of YOUR data, no matter who you are! 
+A package to assist in discovery, research, and classification of YOUR data, no matter who you are!
 
 ## Project Objective
 
-Numerical and visual transformation of experimental data to improve its classification and cataloging 
+Numerical and visual transformation of experimental data to improve its classification and cataloging
 
-This project was part of DIRECT Capstone Project at University of Washington and was presented at the showcase, follow this 
+This project was part of DIRECT Capstone Project at University of Washington and was presented at the showcase, follow this
 <a href=https://prezi.com/view/5ugf5HyDxZevQlOHmuyO/>link </a>  for the presentation
 
 ## Requirements:
@@ -26,7 +26,7 @@ The detailed list of dependencies is reflected in the <a href=https://github.com
 The package HARDy can be installed using following steps:
 1. In your terminal, run <code>git clone https://github.com/EISy-as-Py/hardy.git</code>
 2. Change the directory to hardy root directory
-3. Run <code>python setup.py install</code> 
+3. Run <code>python setup.py install</code>
 4. To check installation run, <code>python -c "import hardy"</code> in your terminal
 
 
@@ -34,9 +34,9 @@ The package HARDy can be installed using following steps:
 
 HARDy uses Keras for training Convolutional Neural Network & Keras-tuner for the hyperparameter optimization. The flow of information is shown in image below:
 
-<p align="center"><img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/information_flow.png" width=700 alt="information flow of how the package works"/></p>
+<p align="center"><img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/HARDy_diagram.png" width=700 alt="information flow of how the package works"/></p>
 
-An example jupyter notebook to run HARDy using single script is available at this link <a href=https://github.com/EISy-as-Py/hardy/blob/master/doc/example_HARDy_script.md>Example Notebook</code></a> 
+An example jupyter notebook to run HARDy using single script is available at this link <a href=https://github.com/EISy-as-Py/hardy/blob/master/doc/example_HARDy_script.md>Example Notebook</code></a>
 
 To perform various transformations, training Neural Network and Hyperparameter Optimization, Hardy utilizes following <code>.yaml</code> configuration files:
 
@@ -46,14 +46,14 @@ To perform various transformations, training Neural Network and Hyperparameter O
 
 The instructions for modifying or writing your own configuration file can be accessed by clicking on the configuration files listed above.
 
-## Visualization 
+## Visualization
  In order to increase the density of data presented to the convolutional neural network and add a visual transfortmation of the data, we adopted a new plotting technique that takes advantage of how images are read by computers. Using color images, we were able to encode the experimental data in the pixel value, using different series per each image channel. The results are data- dense images, which are also pretty to look at.
- 
+
  <p align="center"><img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/data_visualization.PNG" width=700 alt=" details on the proposed visual transformation to increased the images data density"/></p>
- 
- 
+
+
 ## Mission:
-We have been commissioned by Professor Lilo Pozzo to create a new tool for research and discovery, For her lab and for high throughput researchers everywhere. 
+We have been commissioned by Professor Lilo Pozzo to create a new tool for research and discovery, For her lab and for high throughput researchers everywhere.
 Our vision of the final product:
  * A package which can approach any large, labeled dataset (such as those familiar to High Throughput Screening (HTS) researchers).
  * Perform a (procedurally generated and data-guided) wide array of transformations on the data to produce completely novel ways of examining the data, maybe not Human-Readable but in a certainly machine-readable format.
@@ -61,24 +61,23 @@ Our vision of the final product:
  * Report back to the user:
     * Which versions of the Model/Algorithm worked best?
     * Which transformations appeared the most useful? (AKA were used across many of the most successful models)
-    * What Data "Fingerprints" should we pay the most attention to? 
+    * What Data "Fingerprints" should we pay the most attention to?
  * Present a User Interface, to allow non-programmers to interact with and use the chosen classifier(s?) in their work.
- 
+
  ## Use Cases:
- The package is designed to deal wiht a diverse set of labeled data. These are some of the use cases we see benefitting from using the _HARDy_ package. 
- 
+ The package is designed to deal wiht a diverse set of labeled data. These are some of the use cases we see benefitting from using the _HARDy_ package.
+
  <p align="center"><img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/use_cases.PNG" width=500 alt="possible use cases for the HARDy package"/></p>
- 
- 
+
+
  ## Modules Overview:
  * __handling.py__         :  Functions related to configuration, importing/exporting, and other sorts of back-end useful tasks.
  * __arbitrage.py__        :  Data Pre-Analysis, Transformations, and other preparation to be fed into the learning algorithm.
  * __recognition.py__      :  Setup, training and testing of single convolutional neural network (CNN) or hyperparameters optimization for CNNs.
- * __data_reporting.py__   :  Output and reporting of any/all results. Tabular summary of runs, visual performance comparison, as well as parallel coordinate plots and feature maps 
- * __yNot.py__             :  Home for everything else that seems useful but doesn't fall into one of the other functions! 
- 
- 
- ## Acknowledgment 
- 
+ * __data_reporting.py__   :  Output and reporting of any/all results. Tabular summary of runs, visual performance comparison, as well as parallel coordinate plots and feature maps
+ * __yNot.py__             :  Home for everything else that seems useful but doesn't fall into one of the other functions!
+
+
+ ## Acknowledgment
+
  Maria Politi acknowledges support from the National Science Foundation through NSF-CBET grant 1917340
- 

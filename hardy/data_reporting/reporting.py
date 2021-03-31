@@ -10,7 +10,8 @@ from plotly.subplots import make_subplots
 
 
 def report_dataframes(report_path):
-
+    '''
+    '''
     categories = [f for f in os.listdir(report_path) if not f.startswith('.')
                   or f.endswith('.csv')]
 
@@ -91,7 +92,8 @@ def report_dataframes(report_path):
 
 
 def report_plots(hyperparam_df, history_df):
-
+    '''
+    '''
     # Generate plot for comparing the CNN histories
     fig1 = make_subplots(subplot_titles=('CNN Loss', 'CNN Accuracy'),
                          horizontal_spacing=0.15, rows=1, cols=2)
