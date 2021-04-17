@@ -366,6 +366,7 @@ def rgb_visualize(fdata, plot_format='RGBrgb', combine_method='add',
                                                   plot=False)
     return rgb_image
 
+
 def _safe_clear_dirflow(path):
     """
     Safely check that the path contains ONLY folders of png files,
