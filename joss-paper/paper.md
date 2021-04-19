@@ -26,7 +26,7 @@ authors:
       email: dpozzo@uw.edu
       orcid: 0000-0001-7104-9061
       affiliations: 1
-affiliations:
+affiliation:
     - name: University of Washington, Department of Chemical Engineering, Seattle, WA, USA
       index: 1
     - name: University of Washington, Department of Materials Science and Engineering, Seattle, WA, USA
