@@ -69,11 +69,11 @@ First, the pre-labelled data was loaded. A subset of the files, three thousand f
 
 The data is then fed into a convolutional neural network, whose hyperparameters and structure were defined using another configuration file. Alternatively, it is also possible to train multiple classifiers for a single transformation trial through the use of a tuner, by instead providing a hyperparameter space and a search method. The classification results, as well as the best performing trained model were saved for each transformation run. The package also allows to visually compare, through a parallel coordinates plots (see documentation), the performance of each transformation and, in the case of a tuning session, which hyperparameter combination yielded higher classification accuracy. Figure 3 shows a summary of few runs comparing the two visualization strategies. 
 
-![Summary of few transformations using cartesian coordinate and RGB representation along with the respective fittings](./images/transformation_run_example.jpeg)
+![Summary of few transformations using cartesian coordinate and RGB representation along with the respective fittings](./images/transformation_run_example.png)
 
 Comprehensive results for all transformations tested are available in the documentation. It can be noticed that data representation using Cartesian coordinate plots yielded a higher number of instances in which the accuracy of the trained machine learning model was ~25\%. This value corresponds to machine learning model's inability to recognize differences in a four-class classification task. On the other hand, the RGB plots show, on average, higher accuracy for the same combinations of numerical transformations. To further validate the results, mathematical fitting was performed on a test set using the SASmodels package. The fitting was based on probabilities determined by the ML model for each label. In scenarios where the output probability was below 70\%, the data was also fitted using the second highest possible SAS model.
 
-![Model fitting examples for various validation files used under Log q - derivative I transformations](./images/fitting_examples.jpeg)
+![Model fitting examples for various validation files used under Log q - derivative I transformations](./images/fitting_examples.png)
 
 The average chi-square parameter of the fitted data was determined to be 7.5. Approximately 11 \% of the data had a probability lower than 70\%. In all cases, if the neural network was not able to correctly label the data with the highest probability label, the second highest probability label was the correct one.
 
