@@ -9,23 +9,23 @@ authors:
     - name: Maria Politi
       email: politim@uw.edu
       orcid: 0000-0002-5815-3371
-      affiliations: 1
+      affiliation: 1
     - name: Abdul Moeez
       email: amoeez@uw.edu
       orcid: 0000-0002-9582-0372
-      affiliations: 2
+      affiliation: 2
     - name: David Beck
       email: dacb@uw.edu
       orcid: 0000-0002-5371-7035
-      affiliations: "1,3"
+      affiliation: "1,3"
     - name: Stuart Adler
       email: stuadler@uw.edu
       orcid: 0000-0003-3472-0199
-      affiliations: 1
+      affiliation: 1
     - name: Lilo Pozzo
       email: dpozzo@uw.edu
       orcid: 0000-0001-7104-9061
-      affiliations: 1
+      affiliation: 1
 affiliations:
     - name: University of Washington, Department of Chemical Engineering, Seattle, WA, USA
       index: 1
