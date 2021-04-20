@@ -17,7 +17,7 @@ authors:
     - name: David Beck
       email: dacb@uw.edu
       orcid: 0000-0002-5371-7035
-      affiliations: 1,3
+      affiliations: "1,3"
     - name: Stuart Adler
       email: stuadler@uw.edu
       orcid: 0000-0003-3472-0199
@@ -26,7 +26,7 @@ authors:
       email: dpozzo@uw.edu
       orcid: 0000-0001-7104-9061
       affiliations: 1
-affiliation:
+affiliations:
     - name: University of Washington, Department of Chemical Engineering, Seattle, WA, USA
       index: 1
     - name: University of Washington, Department of Materials Science and Engineering, Seattle, WA, USA
@@ -38,6 +38,7 @@ date: 10 April December 2021
 bibliography: paper.bib
 
 ---
+
 `HARDy` is a python-based package that helps evaluate differences in data through feature engineering coupled with kernel methods. The package provides an extension to machine learning by adding layers of feature transformation and representation. The workflow of the package is as follows:
 
 - _Configuration_: Sets attribute for user-defined transformations, machine learning hyperparameters or hyperparameter space
