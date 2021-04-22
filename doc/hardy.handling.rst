@@ -23,7 +23,7 @@ pre\_processing module
 to\_catalogue module
 -----------------------------------
 
-.. automodule::
+.. automodule:: hardy.handling.to_catalogue
    :members:
    :undoc-members:
    :show-inheritance:
@@ -32,7 +32,7 @@ to\_catalogue module
 visualization module
 -----------------------------------
 
-.. automodule::
+.. automodule:: hardy.handling.visualization
    :members:
    :undoc-members:
    :show-inheritance:
@@ -41,7 +41,7 @@ visualization module
 Module contents
 ---------------
 
-.. automodule::
+.. automodule:: hardy.handling
    :members:
    :undoc-members:
    :show-inheritance:
