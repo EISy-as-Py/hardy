@@ -7,7 +7,7 @@ Submodules
 cnn module
 ----------------------------
 
-.. automodule:: cnn
+.. automodule::
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ cnn module
 tuner module
 ------------------------------
 
-.. automodule:: tuner
+.. automodule::
    :members:
    :undoc-members:
    :show-inheritance:
@@ -24,7 +24,7 @@ tuner module
 Module contents
 ---------------
 
-.. automodule:: recognition
+.. automodule::
    :members:
    :undoc-members:
    :show-inheritance:

@@ -7,7 +7,7 @@ Submodules
 arbitrage module
 --------------------------------
 
-.. automodule:: arbitrage
+.. automodule::
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ arbitrage module
 transformations module
 --------------------------------------
 
-.. automodule:: transformations
+.. automodule::
    :members:
    :undoc-members:
    :show-inheritance:
@@ -24,7 +24,7 @@ transformations module
 Module contents
 ---------------
 
-.. automodule:: arbitrage
+.. automodule::
    :members:
    :undoc-members:
    :show-inheritance:
