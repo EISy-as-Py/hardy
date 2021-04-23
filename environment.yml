@@ -37,6 +37,7 @@ dependencies:
   - terminaltables
   - tabulate
   - colorama
+  - yaml
   - pip:
     - contextlib2
     - google-images-download
