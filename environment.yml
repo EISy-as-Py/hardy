@@ -37,7 +37,6 @@ dependencies:
   - terminaltables
   - tabulate
   - colorama
-  - pyyaml
   - pip:
     - contextlib2
     - google-images-download
@@ -49,4 +48,5 @@ dependencies:
     - tensorflow==2.0
     - tqdm
     - urllib3
+    - pyyaml
 prefix: /home/amoeez/anaconda3/envs/EISy-as-Py
