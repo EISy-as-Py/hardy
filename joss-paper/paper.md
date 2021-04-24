@@ -6,11 +6,11 @@ tags:
     - Machine Learning
     - Python
 authors:
-    - name: Maria Politi
+    - name: Maria Politi^[co-first author]^[corresponding author]
       email: politim@uw.edu
       orcid: 0000-0002-5815-3371
       affiliation: 1
-    - name: Abdul Moeez
+    - name: Abdul Moeez^[co-first author]
       email: amoeez@uw.edu
       orcid: 0000-0002-9582-0372
       affiliation: 2
@@ -33,6 +33,7 @@ affiliations:
       index: 2
     - name: eScience Institute, University of Washington, Seattle, WA, USA
       index: 3
+
 
 date: 10 April December 2021
 bibliography: paper.bib
