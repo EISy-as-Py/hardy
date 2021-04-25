@@ -6,7 +6,7 @@ tags:
     - Machine Learning
     - Python
 authors:
-    - name: Maria Politi^[co-first author]
+    - name: Maria Politi^[co-first author][^1]
       email: politim@uw.edu
       orcid: 0000-0002-5815-3371
       affiliation: 1
@@ -57,6 +57,7 @@ One of the most widely applied strategy to enhance the performance of machine le
 `HARDy` presents an infrastructure which aids in the identification of the best combination of numerical and visual transformations to improve data classification through Convolutional Neural Networks (CNN). `HARDy` exploits the difference between human-readable images of experimental data (i.e. Cartesian representation) and computer-readable plots, which maximizes the data density presented to an algorithm and reduce superfluous information. `HARDy` uses configuration files, fed to the open-source package `Keras-tuner`, removing the need for the user to manually generate unique parameters combinations for each neural network model to be investigated.
 
 
+
 # Description and Use Case
 
 The python-based package `HARDy` is a modularly structured package which classifies data using 2D convolutional neural networks. A schematic for the package can be found in figure 1.
@@ -84,3 +85,5 @@ In conclusion, `HARDy` can significantly improve data classification so that aut
 This project was supported by: National Science Foundation through NSF-CBET grant no. 1917340, the Data Intensive Research Enabling Clean Technology (DIRECT) National Science Foundation (NSF) National Research Traineeship (DGE-1633216), the State of Washington through the University of Washington (UW) Clean Energy Institute and the UW eScience Institute
 
 # References
+
+[^1]: Corresponding Author
