@@ -6,7 +6,7 @@ tags:
     - Machine Learning
     - Python
 authors:
-    - name: Maria Politi^[co-first author],[^corresponding author]
+    - name: Maria Politi^[co-first author]([^1: corresponding author]
       email: politim@uw.edu
       orcid: 0000-0002-5815-3371
       affiliation: 1
