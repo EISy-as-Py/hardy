@@ -86,4 +86,4 @@ This project was supported by: National Science Foundation through NSF-CBET gran
 
 # References
 
-[^1]: Corresponding Author
+[^1]: corresponding author
