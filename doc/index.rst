@@ -20,7 +20,7 @@ The easiest way to install :code:`HARDy` is using :code:`conda`::
  
    conda install -c pozzorg hardy 
 
-For detailed installation instructions, visit `Installation Page:<./installation.rst>`
+For detailed installation instructions, visit [Installation Page](./installation.rst)
 
 Dependencies
 ~~~~~~~~~~~~
