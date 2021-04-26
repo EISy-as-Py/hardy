@@ -5,6 +5,7 @@ import yaml
 import unittest
 from hardy import run_hardy as run
 from hardy.handling import pre_processing as preprocessing
+from hardy.handling import handling
 # import pickle
 # import numpy as np
 
@@ -56,6 +57,27 @@ class TestSimulationTools(unittest.TestCase):
                         'The filetype returned in not a dictionary'
         shutil.rmtree('./hardy/test/test_data/test_wrapper')
         pass
+
+    def test_data_wrapper(self):
+
+        tform_command_list, tform_command_dict = \
+            arbitrage.import_tform_config(tform_config_path)
+
+        run.data_wrapper(tform_command_list[0],
+            data_path, tform_command_dict,
+            iterator_mode='arrays',
+            classes=['noise', 'one'],
+            project_name='test_wrapper')
+        data_location = os.listdir(data_path)
+        for item in data_location:
+            if item.endswith('.pkl'):
+                    image_data = handling.pickled_data_loader(data_path,
+                    tform_command_list[0])
+                    assert isinstance(image_data, tuple),\
+                        'The images are correctly pickled'
+        os.remove('./hardy/test/test_data/'+tform_command_list[0]+'.pkl')
+
+
 
     def test_classifier_wrapper(self):
         num_files = 3
