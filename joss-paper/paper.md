@@ -6,11 +6,11 @@ tags:
     - Machine Learning
     - Python
 authors:
-    - name: Maria Politi
+    - name: Maria Politi^[co-first author][^1]
       email: politim@uw.edu
       orcid: 0000-0002-5815-3371
       affiliation: 1
-    - name: Abdul Moeez
+    - name: Abdul Moeez^[co-first author]
       email: amoeez@uw.edu
       orcid: 0000-0002-9582-0372
       affiliation: 2
@@ -34,6 +34,7 @@ affiliations:
     - name: eScience Institute, University of Washington, Seattle, WA, USA
       index: 3
 
+
 date: 10 April December 2021
 bibliography: paper.bib
 
@@ -56,6 +57,7 @@ One of the most widely applied strategy to enhance the performance of machine le
 `HARDy` presents an infrastructure which aids in the identification of the best combination of numerical and visual transformations to improve data classification through Convolutional Neural Networks (CNN). `HARDy` exploits the difference between human-readable images of experimental data (i.e. Cartesian representation) and computer-readable plots, which maximizes the data density presented to an algorithm and reduce superfluous information. `HARDy` uses configuration files, fed to the open-source package `Keras-tuner`, removing the need for the user to manually generate unique parameters combinations for each neural network model to be investigated.
 
 
+
 # Description and Use Case
 
 The python-based package `HARDy` is a modularly structured package which classifies data using 2D convolutional neural networks. A schematic for the package can be found in figure 1.
@@ -64,9 +66,9 @@ The python-based package `HARDy` is a modularly structured package which classif
 
 The package was tested on a set of simulated Small Angle Scattering (SAS) data to be classified into four different particle models: spherical, ellipsoidal, cylindrical and core-shell spherical. A total of ten thousand files were generated for each model. The data was generated using \textit{sasmodels}. The geometrical and physical parameters used to obtain each spectrum were taken from a published work discussing a similar classification task [@ArchibaldRichardK2020Caas]. The name of each SAS model was used as label for the data, allowing for further validation of the test set results. These models were selected as they present similar parameters and data features, which at times make it challenging to distinguish between them.
 
-First, the pre-labelled data was loaded. A subset of the files, three thousand files in total, was identified as the testing set. All the ML models initialized in the same code run were validated using the same testing set. A user-provided list of transformations, inputted through a configuration file, was then applied to the data. Different trials can be specified, so that multiple sets of transformations can be investigated. Both Cartesian and RGB plots representations were compared. The latter visualization option was obtained by encoding the data into the pixel values of each channel composing a color image, for a total of six-channels available (i.e., 3 RGB channels in horizontal/vertical orthogonal directions).
-
 ![Summary table of few transformations using cartesian coordinate and RGB representation along with the respective fittings. The final accuracies are also provided. The original data label corresponds to the icon on the left-most graph, whereas the icon under each fit correspond to the model prediction.](./images/transformation_run_example.png)
+
+First, the pre-labelled data was loaded. A subset of the files, three thousand files in total, was identified as the testing set. All the ML models initialized in the same code run were validated using the same testing set. A user-provided list of transformations, inputted through a configuration file, was then applied to the data. Different trials can be specified, so that multiple sets of transformations can be investigated. Both Cartesian and RGB plots representations were compared. The latter visualization option was obtained by encoding the data into the pixel values of each channel composing a color image, for a total of six-channels available (i.e., 3 RGB channels in horizontal/vertical orthogonal directions).
 
 The data was then fed into a convolutional neural network, whose hyperparameters and structure were defined using another configuration file. Alternatively, it is also possible to train multiple classifiers for a single transformation trial through the use of a tuner, by instead providing a hyperparameter space and a search method. The classification results, as well as the best performing trained model were saved for each transformation run. The package also allows to visually compare, through parallel coordinates plots (see documentation), the performance of each transformation. Figure 2 shows a summary of few runs comparing the two visualization strategies and their best performing model accuracies. 
 
@@ -83,3 +85,5 @@ In conclusion, `HARDy` can significantly improve data classification so that aut
 This project was supported by: National Science Foundation through NSF-CBET grant no. 1917340, the Data Intensive Research Enabling Clean Technology (DIRECT) National Science Foundation (NSF) National Research Traineeship (DGE-1633216), the State of Washington through the University of Washington (UW) Clean Energy Institute and the UW eScience Institute
 
 # References
+
+[^1]: corresponding author

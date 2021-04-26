@@ -1,6 +1,10 @@
 [![Build Status](https://travis-ci.org/EISy-as-Py/hardy.svg?branch=master&kill_cache=1)](https://travis-ci.org/EISy-as-Py/hardy)
 [![Coverage Status](https://coveralls.io/repos/github/EISy-as-Py/hardy/badge.svg?branch=master)](https://coveralls.io/github/EISy-as-Py/hardy?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/hardy/badge/?version=latest)](https://hardy.readthedocs.io/en/latest/?badge=latest)
+[![Anaconda-Server Badge](https://anaconda.org/pozzorg/hardy/badges/platforms.svg)](https://anaconda.org/pozzorg/hardy)
+[![Anaconda-Server Badge](https://anaconda.org/pozzorg/hardy/badges/installer/conda.svg)](https://conda.anaconda.org/pozzorg)
+[![Anaconda-Server Badge](https://anaconda.org/pozzorg/hardy/badges/license.svg)](https://anaconda.org/pozzorg/hardy)
+
 <img src=https://github.com/EISy-as-Py/hardy/blob/master/doc/images/EIS_Formats.PNG width=400 p align="right">
 
 # Project HARDy
@@ -23,7 +27,12 @@ Package HARDy has following main dependencies:
 The detailed list of dependencies is reflected in the <a href=https://github.com/EISy-as-Py/hardy/blob/master/environment.yml><code>environment.yml</code></a> file
 
 ## Installation:
-The package HARDy can be installed using following steps:
+The package HARDy can be installed using following command:
+
+<code>conda install -c pozzorg hardy </code>
+
+Alternatively, you can also install it using the GitHub repository as follows:
+
 1. In your terminal, run <code>git clone https://github.com/EISy-as-Py/hardy.git</code>
 2. Change the directory to hardy root directory
 3. Run <code>python setup.py install</code>
