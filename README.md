@@ -45,7 +45,7 @@ HARDy uses Keras for training Convolutional Neural Network & Keras-tuner for the
 
 <p align="center"><img src="https://github.com/EISy-as-Py/hardy/blob/master/doc/images/HARDy_diagram.png" width=700 alt="information flow of how the package works"/></p>
 
-An example jupyter notebook to run HARDy using single script is available at this link <a href=https://github.com/EISy-as-Py/hardy/blob/master/doc/examples/example_HARDy_script.md>Example Notebook</code></a>
+An example jupyter notebook to run HARDy using single script is available at this link <a href=https://github.com/EISy-as-Py/hardy/blob/master/doc/examples/example_HARDy_script.ipynb>Example Notebook</code></a>
 
 To perform various transformations, training Neural Network and Hyperparameter Optimization, Hardy utilizes following <code>.yaml</code> configuration files:
 
