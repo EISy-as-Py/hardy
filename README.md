@@ -55,6 +55,8 @@ To perform various transformations, training Neural Network and Hyperparameter O
 
 The instructions for modifying or writing your own configuration file can be accessed by clicking on the configuration files listed above.
 
+The notebooks and documentations can also be accessed at this link <a href=https://hardy.readthedocs.io/en/latest/index.html>Documentations</a>
+
 ## Visualization
  In order to increase the density of data presented to the convolutional neural network and add a visual transformation of the data, we adopted a new plotting technique that takes advantage of how images are read by computers. Using color images, we were able to encode the experimental data in the pixel value, using different series per each image channel. The results are data- dense images, which are also pretty to look at.
 
