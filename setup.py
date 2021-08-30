@@ -8,7 +8,7 @@ from setuptools import setup
 ver_file = os.path.join('hardy', 'version.py')
 
 with open(ver_file) as f:
-
+    
     v = exec(f.read())
 
 
@@ -36,7 +36,24 @@ setup(name='hardy', version=1.0,
       license='MIT',
       author='Maria Polit, Abdul Moeez, David Hurt',
       python_requires="~=3.5",
-
+      install_requires=[
+          "numpy==1.18.1",
+          "pandas==1.0.3",
+          "keras==2.3.1",
+          "tensorflow==2.2.0",
+          "scikit-learn==0.23.1",
+          "keras-tuner==1.0.1",
+          "h5py==2.10.0",
+          "plotly==4.8.1",
+          "scikit-image==0.17.2",
+          "opencv-python",
+          "grpcio==1.16.1",
+          "pyyaml==5.3.1",
+          "scipy==1.4.1",
+          "python-dateutil==2.8.1",
+          "pytz==2020.1",
+          "google-pasta",
+      ],
       packages=setuptools.find_packages())
 
 classifiers = ("Programming Language :: Python :: 3",
