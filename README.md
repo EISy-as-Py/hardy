@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/EISy-as-Py/hardy.svg?branch=master&kill_cache=1)](https://travis-ci.org/EISy-as-Py/hardy)
+[![Build Status](https://app.travis-ci.com/EISy-as-Py/hardy.svg?branch=master)](https://app.travis-ci.com/EISy-as-Py/hardy)
 [![Coverage Status](https://coveralls.io/repos/github/EISy-as-Py/hardy/badge.svg?branch=master)](https://coveralls.io/github/EISy-as-Py/hardy?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/hardy/badge/?version=latest)](https://hardy.readthedocs.io/en/latest/?badge=latest)
 [![Anaconda-Server Badge](https://anaconda.org/pozzorg/hardy/badges/platforms.svg)](https://anaconda.org/pozzorg/hardy)
