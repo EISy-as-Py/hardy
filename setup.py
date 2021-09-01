@@ -34,7 +34,7 @@ setup(name='hardy', version=1.0,
                                      charset=UTF-8; variant=GFM',
       url='https://github.com/EISy-as-Py/hardy',
       license='MIT',
-      author='Maria Polit, Abdul Moeez, David Hurt',
+      author='Maria Politi, Abdul Moeez, David Hurt',
       python_requires="~=3.5",
       install_requires=[
           "numpy==1.18.1",
