@@ -8,33 +8,35 @@ import hardy.arbitrage.transformations as transform
 
 
 def import_tform_config(tform_config_path='./tform_config.yaml', raw_df=None):
-    """Function that imports the transformations from configuration
+    """ Function that imports the transformations from configuration
 
     Parameters
     ----------
     tform_config_path : Str, optional
-        Path of transform configuration file to apply to the data.
+                        Path of transform configuration file to apply
+                        to the data.
     raw_df: pd.DataFrame
-        Dataframe of raw data to use for assrting that the configuration
-        file is correctly calling on the data
+            Dataframe of raw data to use for assrting that the configuration
+            file is correctly calling on the data
 
 
     Returns
     -------
     tform_command_list : list of str
-         Ordered list of transform commands to use.
-         Differs from the dict.keys() because this is ordered!
+                         Ordered list of transform commands to use.
+                         Differs from the dict.keys() because this is ordered!
 
-    tform_command_dict :  dict of List-of-Transform-tuples
-         Each key will return a list of transforms to do on this data loop.
-         Each "List of Transforms" as stated elsewhere contain:
-              (Index=0, transform, source),
-              (Index=1, transform, source),
-              (Index=2, transform, source),
-        where:
-              "Index" is the output column destination,
-              "transform" is command in transform.list_1d1d, and
-              "source" is the raw data column to be used in the tform
+    tform_command_dict : dict of List-of-Transform-tuples
+                         Each key will return a list of transforms to do on
+                         this data loop.
+                         Each "List of Transforms" as stated elsewhere contain:
+                         (Index=0, transform, source),
+                         (Index=1, transform, source),
+                         (Index=2, transform, source),
+                         where:
+                         "Index" is the output column destination,
+                         "transform" is command in transform.list_1d1d, and
+                         "source" is the raw data column to be used in the tform
     """
 
     # CHECKS
