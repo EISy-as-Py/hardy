@@ -24,7 +24,7 @@ This project was part of DIRECT Capstone Project at University of Washington and
 
 ## Requirements:
 Package HARDy has following main dependencies:
-1. Python => 3.6
+1. Python = 3.7
 2. Tensorflow = 2.0
 
 The detailed list of dependencies is reflected in the <a href=https://github.com/EISy-as-Py/hardy/blob/master/environment.yml><code>environment.yml</code></a> file

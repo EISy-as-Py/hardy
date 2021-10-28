@@ -27,7 +27,7 @@ Dependencies
 
 :code:`HARDy` requires following modules::
 
-- Python (3.6, 3.7)
+- Python (3.7)
 - Tensorflow (2.0)
 - Keras Tuner (1.0.0)
 
