@@ -10,3 +10,4 @@ plotly
 nbsphinx
 numpydoc
 PyYAML
+scikit-learn
