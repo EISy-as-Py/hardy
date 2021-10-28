@@ -15,10 +15,10 @@ Subpackages
 
 .. toctree::
 
-   handling
-   arbitrage
-   recognition
-   data_reporting
+   hardy.handling
+   hardy.arbitrage
+   hardy.recognition
+   hardy.data_reporting
 
 
 Module contents
