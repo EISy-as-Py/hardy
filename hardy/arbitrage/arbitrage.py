@@ -36,7 +36,9 @@ def import_tform_config(tform_config_path='./tform_config.yaml', raw_df=None):
                          where:
                          "Index" is the output column destination,
                          "transform" is command in transform.list_1d1d, and
-                         "source" is the raw data column to be used in the tform
+                         "source" is the raw data column to be used in the
+                         tform
+
     """
 
     # CHECKS
