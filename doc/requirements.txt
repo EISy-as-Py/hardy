@@ -9,3 +9,4 @@ scikit-image
 plotly
 nbsphinx
 numpydoc
+PyYAML
