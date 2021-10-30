@@ -21,7 +21,7 @@ The easiest way to install :code:`HARDy` is using :code:`conda`::
    conda install -c pozzorg hardy 
 
 For detailed installation instructions, visit
-`Installation Page<https://hardy.readthedocs.io/en/latest/installation.html>`_
+`Installation Page <https://hardy.readthedocs.io/en/latest/installation.html>`_
 
 Dependencies
 ~~~~~~~~~~~~
@@ -32,7 +32,7 @@ Dependencies
 - Tensorflow (2.0)
 - Keras Tuner (1.0.0)
 
-Complete list of dependencies can be found in the :code:'environment' file
+Complete list of dependencies can be found in the :code:`environment` file
 
 Examples and Documentations!
 =================================
