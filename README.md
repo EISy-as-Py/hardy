@@ -34,13 +34,17 @@ The package HARDy can be installed using following command:
 
 <code>conda install -c pozzorg hardy </code>
 
-Alternatively, you can also install it using the GitHub repository as follows:
+Alternatively, you can also install it using the GitHub repository in following steps, provided the dependencies are already satisfied:
+
+*Please note that currently v1.0 is the most stable release
 
 1. In your terminal, run <code>git clone https://github.com/EISy-as-Py/hardy.git</code>
-2. Change the directory to hardy root directory
-3. Run <code>python setup.py install</code>
-4. To check installation run, <code>python -c "import hardy"</code> in your terminal
+2. Change the directory to hardy root directory 
+3. Run <code>git checkout v1.0</code>
+4. Run <code>python setup.py install</code>
+5. To check installation run, <code>python -c "import hardy"</code> in your terminal
 
+For other methods of installation like using environment file and installation using pip, please visit <a href=https://hardy.readthedocs.io/en/latest/installation.html>Installation<a> page.
 
 ## Usage:
 
