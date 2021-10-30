@@ -9,6 +9,22 @@ The easiest way to install :code:`HARDy` is using :code:`conda`::
  
    conda install -c pozzorg hardy
 
+Installation using Git
+----------------------
+:code:`HARDy` can also be installed using Git. Currently version 1.0
+is the most stable version. To install version 1.0, run the following
+commands in the terminal::
+
+    git clone https://github.com/EISy-as-Py/hardy.git
+    cd HARDy
+    git checkout v1.0
+    python setup.py install
+
+To check installation run the following command in your terminal::
+    
+    python -c "import hardy"
+
+
 Installation using ``evironment.yml`` (Recommended)
 ---------------------------------------------------
 To avoid installing each dependency one by one, we recommend using
@@ -26,16 +42,25 @@ The final step is run the installation command for :code:`HARDy`::
 
     conda install -c pozzorg hardy
 
-Installation using Git
+To check installation run the following command in your terminal::
+    
+    python -c "import hardy"
+
+Installation using pip
 ----------------------
-:code:`HARDy` can also be installed using Git. Currently version 1.0
-is the most stable version. To install version 1.0, run the following
-commands in the terminal::
+:code:`HARDy` is also configured to be installed using pip. Currently
+version 1.0 is the most stable version. To install version 1.0, run the
+following commands in the terminal::
 
     git clone https://github.com/EISy-as-Py/hardy.git
     cd HARDy
     git checkout v1.0
-    python setup.py install
+    pip install .
+
+To check installation run the following command in your terminal::
+    
+    python -c "import hardy"
+
 
 .. toctree::
     :maxdepth: 1

@@ -34,7 +34,7 @@ The package HARDy can be installed using following command:
 
 <code>conda install -c pozzorg hardy </code>
 
-Alternatively, you can also install it using the GitHub repository in following steps, provided the dependencies are already satisfied:
+Alternatively, you can also install it using the GitHub repository in following steps:
 
 *Please note that currently v1.0 is the most stable release
 
