@@ -39,7 +39,7 @@ Alternatively, you can also install it using the GitHub repository in following 
 *Please note that currently v1.0 is the most stable release
 
 1. In your terminal, run <code>git clone https://github.com/EISy-as-Py/hardy.git</code>
-2. Change the directory to hardy root directory 
+2. Change the directory to hardy root directory, by running <code>cd hardy</code> 
 3. Run <code>git checkout v1.0</code>
 4. Run <code>python setup.py install</code>
 5. To check installation run, <code>python -c "import hardy"</code> in your terminal
