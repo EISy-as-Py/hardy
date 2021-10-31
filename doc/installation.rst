@@ -12,7 +12,7 @@ The easiest way to install :code:`HARDy` is using :code:`conda`::
 Installation using Git
 ----------------------
 :code:`HARDy` can also be installed using Git. Currently version 1.0
-is the most stable version. To install version v1.0, follow the following
+is the most stable version. To install version 1.0, follow the following
 steps:
 
 * In your terminal, run::
@@ -29,7 +29,7 @@ steps:
     
 * Run::
 
-    python setup.py install</code>
+    python setup.py install
 
 To check installation run the following command in your terminal::
     
