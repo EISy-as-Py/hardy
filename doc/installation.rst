@@ -13,15 +13,22 @@ Installation using Git
 ----------------------
 :code:`HARDy` can also be installed using Git. Currently version 1.0
 is the most stable version. To install version v1.0, follow the following
-steps::
+steps:
 
 * In your terminal, run::
+
     git clone https://github.com/EISy-as-Py/hardy.git
+
 * Change the directory to hardy root directory, by running::
+
     cd hardy
+    
 * Run::
+
     git checkout v1.0
+    
 * Run::
+
     python setup.py install</code>
 
 To check installation run the following command in your terminal::
