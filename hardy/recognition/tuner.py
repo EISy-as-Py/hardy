@@ -238,7 +238,7 @@ def report_generation(model, history, metrics, log_dir,
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
         model_location = log_dir+'best_model'
-        model.save(model_location)
+        model.save(model_location+'.h5')
         model_location_dict = {'model_location': model_location}
     else:
         model_location = 'None'
