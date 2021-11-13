@@ -566,7 +566,7 @@ def learning_set(path=None, split=0.1, target_size=(80, 80),
 def test_set(path=None, target_size=(80, 80),
              classes=['noisy', 'not_noisy'], batch_size=32,
              color_mode='rgb', iterator_mode='arrays',
-             image_list=None, **kwargs):
+             image_list=None, training=True, **kwargs):
     '''
     A funciton that will create an iterator for the files representing the
     test set
@@ -633,9 +633,13 @@ def test_set(path=None, target_size=(80, 80),
                                         len(np.unique(classes))))
         image_labels = keras.utils.to_categorical(
             image_labels, num_classes=len(np.unique(image_labels)))
-        test_set = data.flow(x=image_data, y=image_labels,
-                             batch_size=batch_size,
-                             shuffle=False)
+        if training:
+            test_set = data.flow(x=image_data, y=image_labels,
+                                 batch_size=batch_size,
+                                 shuffle=False)
+        else:
+            test_set = data.flow(x=image_data, batch_size=batch_size,
+                                 shuffle=False)
 
     else:
         test_set = data.flow_from_directory(path + 'test_set/',
