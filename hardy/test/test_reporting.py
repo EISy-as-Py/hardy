@@ -1,3 +1,4 @@
+# import os
 import plotly
 import shutil
 import unittest
@@ -8,8 +9,10 @@ import pandas as pd
 
 from hardy import run_hardy as run
 from hardy.handling import handling
+# from hardy.arbitrage import arbitrage
 from hardy.handling import pre_processing as preprocessing
 from hardy.handling import to_catalogue as catalogue
+# from hardy.run_hardy import data_wrapper
 from hardy.recognition import cnn
 
 # from hardy.handling import pre_processing as preprocessing
@@ -80,5 +83,34 @@ class TestSimulationTools(unittest.TestCase):
                                          config_path='./hardy/test/')
 
         result = reporting.model_analysis(model, testing_set, test_set_list)
+
+        assert isinstance(result, pd.DataFrame)
+
+    def test_model_prediction(self):
+
+        num_files = 1
+        data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
+        data_storage = data_path + 'test_1.pkl'
+        catalogue.rgb_list(data_tups, storage_location=data_storage)
+        plot_tups = handling.pickled_data_loader(data_path, 'test_1')
+
+        test_set_filenames = preprocessing.hold_out_test_set(
+            data_path, number_of_files_per_class=num_files)
+
+        test_set_list, learning_set_list = catalogue.data_set_split(
+            plot_tups, test_set_filenames)
+        train, val = catalogue.learning_set(image_list=learning_set_list,
+                                            split=split,
+                                            classes=['noise', 'one'],
+                                            iterator_mode='arrays')
+        testing_set = catalogue.test_set(image_list=test_set_list,
+                                         classes='d',
+                                         iterator_mode='arrays')
+        model, history = cnn.build_model(train, val,
+                                         config_path='./hardy/test/')
+
+        result = reporting.model_predictions(model, testing_set,
+                                             classes=['noise', 'one'],
+                                             test_set_list=test_set_list)
 
         assert isinstance(result, pd.DataFrame)

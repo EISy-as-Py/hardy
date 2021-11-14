@@ -325,3 +325,53 @@ def model_analysis(model, test_set, test_set_list=None):
                                      "Probabilities": probabilities})
 
     return result
+
+
+def model_predictions(model, test_set, classes, test_set_list=None):
+    ''' The function that provides predictions using a trained model
+
+    Parameters
+    ----------
+    model: keras.model
+            a keras instance of the trained model to use for the prediction
+    test_set_list: list
+                    list representing the file names, images and labels
+                    for test set.
+    classes: list
+             list representing classes. Must be in same order as used for
+             training the model
+    test_set: keras.ImageDataGenerator iterator
+                 the interator instance created using the
+                 keras.ImageDataGenerator. This can either be a
+                 NumpyArrayIterator or a DirectoryIterator
+
+    Returns
+    -------
+    result: pandas.DataFrame
+            dataframe having filenames, actual labels,
+            predicted labels and probability for decision
+    '''
+
+    predictions = model.predict(test_set)
+
+    predicted_class_indices = np.argmax(predictions, axis=1)
+
+    probabilities = []
+    for n in range(len(predictions)):
+        probabilities.append(np.round(predictions[n], 3))
+
+    filenames = [n[0][:][:] for n in test_set_list]
+
+    labels_dict = {}
+
+    for i, label in enumerate(np.unique(classes)):
+        for j in range(len(classes)):
+            if classes[j] == label:
+                labels_dict.update({i: label})
+
+    predicted_labels = [labels_dict[k] for k in predicted_class_indices]
+
+    result = pd.DataFrame.from_dict({"Filenames": filenames,
+                                     "Predicted_Labels": predicted_labels,
+                                     "Probabilities": probabilities})
+    return result
