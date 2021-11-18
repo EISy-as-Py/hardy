@@ -32,7 +32,7 @@ install:
 
 # a list of commands to run before the main script
 before_script:
-    - python -c import numpy
+    - python -c "import numpy"
     - flake8 hardy
 
 # the actual commands to run
