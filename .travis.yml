@@ -5,7 +5,6 @@ language: python
 # note that all of the versions listed will be tried
 matrix:
     include:
-        - python: 3.6
         - python: 3.7
 
 # what branches should be evaluated
@@ -30,10 +29,10 @@ install:
 #    - pip install --no-deps keras-tuner
     - conda install --yes coverage coveralls flake8
     - pip install .
-    - pip install numpy==1.18.1
 
 # a list of commands to run before the main script
 before_script:
+    - python -c import numpy
     - flake8 hardy
 
 # the actual commands to run
