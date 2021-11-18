@@ -24,18 +24,18 @@ before_install:
 
 # list of commands to run to setup the environment
 install:
-    - conda env create -q -n test-environment
-#   python=$TRAVIS_PYTHON_VERSION
-    - conda activate test-environment
+#    - conda env create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
+#    - conda activate test-environment
 #    - conda install install -c pozzorg hardy
 #    - pip install --no-deps keras-tuner
-    - conda install --yes coverage coveralls flake8
-    - pip install .
+    - python -m pip install .
+#    - conda install --yes coverage coveralls flake8
+    - pip install coverage coveralls flake8
 #    - python -c "import pandas"
 
 # a list of commands to run before the main script
 before_script:
-    - conda activate test_environment
+#    - conda activate test_environment
     - flake8 hardy
 
 # the actual commands to run
