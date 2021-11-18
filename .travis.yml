@@ -28,8 +28,8 @@ install:
 #    - conda env create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
 #   - conda activate test-environment
 #    - pip install --no-deps keras-tuner
-    - conda install --yes coverage coveralls flake8
     - pip install .
+    - pip install coverage coveralls flake8
 
 # a list of commands to run before the main script
 before_script:
