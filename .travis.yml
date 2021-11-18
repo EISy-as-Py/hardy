@@ -28,7 +28,7 @@ install:
 #    - conda activate test-environment
 #    - conda install install -c pozzorg hardy
 #    - pip install --no-deps keras-tuner
-    - python -m pip install .
+    - pip install .
 #    - conda install --yes coverage coveralls flake8
     - pip install coverage coveralls flake8
 #    - python -c "import pandas"
