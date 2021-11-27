@@ -15,6 +15,12 @@ def raw(raw_array):
     -------
     raw_array: numpy.array
                array representing data values
+    
+    Notes
+    -----
+    .. math::
+        Z = Z
+
     '''
     # Placeholder, to perform "no transform" and use the raw data in that
     # column
@@ -22,6 +28,25 @@ def raw(raw_array):
 
 
 def exp(raw_array):
+    '''Function that returns the exponent of individual elements in
+    the array
+
+    Parameters
+    ----------
+    raw_array: numpy.array
+               array representing data values
+    
+    Returns
+    -------
+    exp_array: numpy.array
+               array representing the exponentials of data values
+    
+    Notes
+    -----
+    .. math::
+        Z = \\exp{Z}
+
+    '''
     # import numpy as np
     # Simple transform, returning the exponential value of each number
     return np.exp(raw_array)
