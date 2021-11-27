@@ -137,7 +137,7 @@ def cumsum(raw_array):
     Notes
     -----
     .. math::
-        Z = \[ [Z_1, Z_1+Z_2, Z_1+Z_2+Z_3, Z_1+...+Z_n] \]
+        Z = [Z_1, Z_1+Z_2, Z_1+Z_2+Z_3, Z_1+...+Z_n]
     '''
     cumsum_array = np.cumsum(raw_array)
     return cumsum_array
@@ -164,7 +164,7 @@ def derivative_1d(raw_array, spacing=0):
 
     where
     .. math::
-        h = \[ [0, 1, 2, 3, ..., size-1] \]
+        h = [0, 1, 2, 3, ..., size-1]
     '''
 
     if spacing == 0:
