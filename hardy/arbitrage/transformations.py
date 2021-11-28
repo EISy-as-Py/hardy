@@ -91,7 +91,7 @@ def log10(raw_array):
     Notes
     -----
     .. math::
-        Z = \\lg{Z}
+        Z = \\log{Z}
     '''
 
     # NOTE: All Elements in array MUST be Positive!?
@@ -162,7 +162,7 @@ def derivative_1d(raw_array, spacing=0):
     .. math::
         f_{(0)}^{(1)} = \\frac{f(x+1)-f(x-1)}{2h}
 
-    where :math:`h` = \\[ [0, 1, 2, 3, ..., size-1] \\]
+    where :math:`h = [0, 1, 2, 3, ..., size-1]`
     '''
 
     if spacing == 0:
@@ -193,7 +193,7 @@ def derivative_2d(x, y, meta_data=None):
     Notes
     -----
     .. math::
-        Z = [ \\fract{Y_(i+1)-Y_(i)}{X_(i+1)-X_(i)}, ... ,0]
+        Z = [ \\frac{Y_{(i+1)}-Y_{(i)}}{X_{(i+1)}-X_{(i)}}, ... ,0]
     """
 
     diff_x = np.diff(x)
@@ -298,7 +298,8 @@ def power(x, y='None', meta_data=None):
     -----
     .. math::
         Z = X^m*Y^n
-    or if :math:`Y`=0
+
+    if :math:`Y=0`
 
     .. math::
         Z = X^m

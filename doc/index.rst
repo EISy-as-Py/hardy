@@ -42,6 +42,7 @@ Examples and Documentations!
    :caption: Contents:
 
    installation
+   gstarted
    examples
    modules
    faqs
