@@ -160,11 +160,9 @@ def derivative_1d(raw_array, spacing=0):
     Notes
     -----
     .. math::
-        f_{(0)}^{(1)} = \frac{f(x+1)-f(x-1)}{2h}
+        f_{(0)}^{(1)} = \\frac{f(x+1)-f(x-1)}{2h}
 
-    where
-    .. math::
-        h = [0, 1, 2, 3, ..., size-1]
+    where :math:`h` = \\[ [0, 1, 2, 3, ..., size-1] \\]
     '''
 
     if spacing == 0:
@@ -191,6 +189,11 @@ def derivative_2d(x, y, meta_data=None):
     -------
     slope_array: numpy.array
                  array representing the slope between x and y
+
+    Notes
+    -----
+    .. math::
+        Z = [ \\fract{Y_(i+1)-Y_(i)}{X_(i+1)-X_(i)}, ... ,0]
     """
 
     diff_x = np.diff(x)
@@ -281,12 +284,25 @@ def power(x, y='None', meta_data=None):
     y: numpy.array
         numpy array representing the second array to be multiplied
         if None it the module will square the x array
+    meta_data: numpy.array
+               [m, n] where m is the power of x, and n is the power
+                of y. If none, m=1 and n=1
 
     Returns
     -------
     multi_array: numpy.array
-                    numpy array representing the one to one multiplication
-                    of two arrays
+                 numpy array representing the one to one multiplication
+                 of two arrays
+
+    Notes
+    -----
+    .. math::
+        Z = X^m*Y^n
+    or if :math:`Y`=0
+
+    .. math::
+        Z = X^m
+
     '''
     if meta_data:
         m = meta_data[0]
