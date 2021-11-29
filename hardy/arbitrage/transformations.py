@@ -15,6 +15,12 @@ def raw(raw_array):
     -------
     raw_array: numpy.array
                array representing data values
+
+    Notes
+    -----
+    .. math::
+        Z = Z
+
     '''
     # Placeholder, to perform "no transform" and use the raw data in that
     # column
@@ -22,6 +28,25 @@ def raw(raw_array):
 
 
 def exp(raw_array):
+    '''Function that returns the exponent of individual elements in
+    the array
+
+    Parameters
+    ----------
+    raw_array: numpy.array
+               array representing data values
+
+    Returns
+    -------
+    exp_array: numpy.array
+               array representing the exponentials of data values
+
+    Notes
+    -----
+    .. math::
+        Z = \\exp{Z}
+
+    '''
     # import numpy as np
     # Simple transform, returning the exponential value of each number
     return np.exp(raw_array)
@@ -38,6 +63,11 @@ def nlog(raw_array):
     -------
     log_array: np.ndarray
                natural log values of each element in the input array
+
+    Notes
+    -----
+    .. math::
+        Z = \\ln{Z}
     '''
 
     # NOTE: All Elements in array MUST be Positive!?
@@ -58,6 +88,10 @@ def log10(raw_array):
     -------
     log_array: np.ndarray
                natural log values of each element in the input array
+    Notes
+    -----
+    .. math::
+        Z = \\log{Z}
     '''
 
     # NOTE: All Elements in array MUST be Positive!?
@@ -78,6 +112,11 @@ def reciprocal(raw_array):
     -------
     reciprocal_array: np.ndarray
                reciprocal values of each element in the input array
+
+    Notes
+    -----
+    .. math::
+        Z = \\frac{1}{Z}
     '''
     reciprocal_array = np.reciprocal(raw_array)
     return reciprocal_array
@@ -94,6 +133,11 @@ def cumsum(raw_array):
     -------
     cumsum _array: np.ndarray
                cumulative sum of values in the input array
+
+    Notes
+    -----
+    .. math::
+        Z = [Z_1, Z_1+Z_2, Z_1+Z_2+Z_3, Z_1+...+Z_n]
     '''
     cumsum_array = np.cumsum(raw_array)
     return cumsum_array
@@ -112,6 +156,13 @@ def derivative_1d(raw_array, spacing=0):
     -------
     derivative_array: np.ndarray
                       array representing gradient at each datapoint
+
+    Notes
+    -----
+    .. math::
+        f_{(0)}^{(1)} = \\frac{f(x+1)-f(x-1)}{2h}
+
+    where :math:`h = [0, 1, 2, 3, ..., size-1]`
     '''
 
     if spacing == 0:
@@ -138,6 +189,11 @@ def derivative_2d(x, y, meta_data=None):
     -------
     slope_array: numpy.array
                  array representing the slope between x and y
+
+    Notes
+    -----
+    .. math::
+        Z = [ \\frac{Y_{(i+1)}-Y_{(i)}}{X_{(i+1)}-X_{(i)}}, ... ,0]
     """
 
     diff_x = np.diff(x)
@@ -228,12 +284,26 @@ def power(x, y='None', meta_data=None):
     y: numpy.array
         numpy array representing the second array to be multiplied
         if None it the module will square the x array
+    meta_data: numpy.array
+               [m, n] where m is the power of x, and n is the power
+                of y. If none, m=1 and n=1
 
     Returns
     -------
     multi_array: numpy.array
-                    numpy array representing the one to one multiplication
-                    of two arrays
+                 numpy array representing the one to one multiplication
+                 of two arrays
+
+    Notes
+    -----
+    .. math::
+        Z = X^m*Y^n
+
+    if :math:`Y=0`
+
+    .. math::
+        Z = X^m
+
     '''
     if meta_data:
         m = meta_data[0]
