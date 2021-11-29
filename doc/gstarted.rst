@@ -25,8 +25,8 @@ The example script to run HARDy is as follows:
 
 Importing HARDy library
 -----------------------
-code::
-import hardy.run_hardy as run
+
+``import hardy.run_hardy as run``
 
 Defining path variables
 -----------------------
@@ -44,13 +44,13 @@ Defining the path to tuner or CNN configuration::
 
 Executing hardy_main
 --------------------
-code::
-run.hardy_main(raw_data_path, tform_config_path, classifier_config_path, batch_size=64,
+
+``run.hardy_main(raw_data_path, tform_config_path, classifier_config_path, batch_size=64,
 scale=0.2, num_test_files_class=750, target_size=(500, 500), iterator_mode='arrays',
 classifier='tuner', n_threads=1, classes=['class_1', 'class_2', 'class_3'],
-project_name='my_project_name')
+project_name='my_project_name')``
 
-The following arguments are acceptable in the :code:``hardy_main()`` function::
+The following arguments are acceptable in the :code:`hardy_main()` function:
 
     * raw_data_path: data_path for the .csv files or images
     * tform_config_path: path for transformation configuration files (.yaml)
