@@ -9,6 +9,7 @@ it into RGB representation as shown in the image below:
 
 .. image:: images/hardy_gstarted.png
     :width: 400
+    :align: center
     :alt: image explaining the numerical and visual transformation
 
 :code:`Hardy`, by default, is configured to take minimal inputs
