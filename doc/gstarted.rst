@@ -55,8 +55,8 @@ Defining the path to tuner or CNN configuration::
 
     classifier_config_path = './hardy/recognition/'
 
-Executing hardy_main
---------------------
+Executing hardy run
+-------------------
 The following code starts the numerical and visual transformations along with the
 hyperparameter tuning session::
 
