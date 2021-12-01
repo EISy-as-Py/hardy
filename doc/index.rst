@@ -43,6 +43,7 @@ Examples and Documentations!
 
    installation
    gstarted
+   advanced
    examples
    modules
    faqs
