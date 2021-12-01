@@ -1,5 +1,16 @@
 Getting Started
 ===============
+:code:`HARDy` works by leveraging the information density in data
+representation which makes it easier for machine to make inference
+as compared to the human readable representation. This is achieved
+through numerical and visual transformation. :code:`HARDy` in the
+first stage achieves numerical transformation and then it transforms
+it into RGB representation as shown in the image below:
+
+.. image:: images/hardy_gstarted.png
+    :width: 400
+    :alt: image explaining the numerical and visual transformation
+
 :code:`Hardy`, by default, is configured to take minimal inputs
 from the user and perform numerical and visual transformations 
 on its own. The numerical transformations follow rules defined
@@ -26,6 +37,8 @@ The example script to run HARDy is as follows:
 Importing HARDy library
 -----------------------
 
+The following code snippet imports :code:`hardy` into your respective environment::
+
     import hardy.run_hardy as run
 
 Defining path variables
@@ -44,6 +57,8 @@ Defining the path to tuner or CNN configuration::
 
 Executing hardy_main
 --------------------
+The following code starts the numerical and visual transformations along with the
+hyperparameter tuning session::
 
     run.hardy_main(raw_data_path, tform_config_path, classifier_config_path, batch_size=64,
     scale=0.2, num_test_files_class=750, target_size=(500, 500), iterator_mode='arrays',
