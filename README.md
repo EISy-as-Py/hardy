@@ -94,6 +94,17 @@ Our vision of the final product:
  * __recognition.py__      :  Setup, training and testing of single convolutional neural network (CNN) or hyperparameters optimization for CNNs.
  * __data_reporting.py__   :  Output and reporting of any/all results. Tabular summary of runs, visual performance comparison, as well as parallel coordinate plots and feature maps
 
+ ## Community Guidlines:
+ We welcome the members of open-source community to extend the functionalities of HARDy, submit feature requests and report bugs.
+ 
+ ### Feature Request:
+ If you would like to suggest a feature or start a discussion on possible extension of HARDy, please feel free to <a href="https://github.com/EISy-as-Py/hardy/issues/new/choose">raise an issue</a>
+ 
+ ### Bug Report:
+ If you would like to report a bug, please follow <a href="https://github.com/EISy-as-Py/hardy/issues/new/choose">this link</a>
+ 
+ ### Contributions:
+ If you would to contribute to HARDy, you can fork the repository, add your contribution and generate a pull request. The complete guide to make contributions can be found at this <a href="https://github.com/EISy-as-Py/hardy/blob/master/CONTRIBUTIONS.md">link</a>
 
  ## Acknowledgment
 
