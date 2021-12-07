@@ -7,8 +7,8 @@ Following numerical transformations are currently defined in the
 .. automodule:: hardy.arbitrage.transformations
    :members:
 
-Defining your own numerical transformations
-===========================================
+Defining numerical transformations
+----------------------------------
 
 User defined numerical transformations can be integrated in the
 :code:`HARDy` by integrating the transformation definition
