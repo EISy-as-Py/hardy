@@ -34,3 +34,12 @@ Then the report folder having :code:`project_name` in :code:`data_path`
 is created. The report folder contains folders for each transformation run.
 These transformation folders contains model validation results, best tuned model
 for a particular transformation and model hyperparameter details.
+
+Further Contents
+================
+
+.. toctree::
+    :maxdepth: 1
+    :glob:
+
+    transformations
