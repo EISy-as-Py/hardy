@@ -43,3 +43,4 @@ Further Contents
     :glob:
 
     transformations
+    examples/using_data_reporting.ipynb
