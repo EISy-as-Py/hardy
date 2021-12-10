@@ -12,4 +12,3 @@ numpydoc
 PyYAML
 scikit-learn
 docutils==0.17.1
-renku-sphinx-theme
