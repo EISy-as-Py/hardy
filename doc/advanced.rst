@@ -35,12 +35,13 @@ is created. The report folder contains folders for each transformation run.
 These transformation folders contains model validation results, best tuned model
 for a particular transformation and model hyperparameter details.
 
-Further Contents
-----------------
+Using Advanced Tools & Customization
+------------------------------------
 
 .. toctree::
     :maxdepth: 1
     :glob:
 
     transformations
+    examples/rgb_cart.ipynb
     examples/using_data_reporting.ipynb
