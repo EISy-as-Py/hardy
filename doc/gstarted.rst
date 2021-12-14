@@ -27,10 +27,13 @@ file. The guide to write configuration files is available at
 Data Preparation
 ----------------
 :code:`HARDy` is configured to input :code:`.csv` files only. Before
-starting your :code:`HARDy` run, make sure the data files are only in
-:code:`.csv` format. Moreover, the :code:`.csv` files must have a header
-of same length. Another parameter to keep in consideration is that all the
-data files must have same number of data rows.
+starting your :code:`HARDy` run, make sure following conditions are met:
+    * Data files are only in :code:`.csv` format.
+    * The :code:`.csv` files must have a header of same length.
+    * The training data files must also include the labels in  their filenames. The
+    labels should be unique and must not overlap. For example, label `core-shell sphere`
+    for scattering model overlaps with the label `sphere`. This overlap should be avoided.
+    * The data files must have same number of data rows.
 
 The wrapper function, :code:`run_hardy`, takes care of all the numerical
 and visual transformations along with hyperparameter tuning and CNN runs.

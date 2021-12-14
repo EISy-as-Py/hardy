@@ -45,3 +45,4 @@ Using Advanced Tools & Customization
     transformations
     examples/rgb_cart.ipynb
     examples/using_data_reporting.ipynb
+    examples/numpy_directory.ipynb
