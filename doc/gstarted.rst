@@ -130,6 +130,16 @@ The following arguments are acceptable in the :code:`hardy_main()` function:
     * ``k_fold``: Boolean value indicating whether k-fold validation need to be performed or not
     * ``k``: value indicating how many k-folds need to be performed
 
+Evaluating Results
+------------------
 
+After the :code:`HARDy` run is complete, the results for each transformation can be
+found under the path::
+
+    raw_data_path/project_name/transformation_name
+
+The results include best trained model, evaluation result for best model and hyperparameter
+configuration for best model. The reports can be analyzed through :code:`data_reporting`
+module in `HARDy`. Its usage is described in :code:`Advanced Functionalities` section.
 
 
