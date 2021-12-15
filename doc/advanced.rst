@@ -46,3 +46,4 @@ Using Advanced Tools & Customization
     examples/rgb_cart.ipynb
     examples/using_data_reporting.ipynb
     examples/numpy_directory.ipynb
+    examples/kfoldvalidation.ipynb
