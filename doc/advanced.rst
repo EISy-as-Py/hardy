@@ -47,4 +47,4 @@ Using Advanced Tools & Customization
     examples/using_data_reporting.ipynb
     examples/numpy_directory.ipynb
     examples/kfoldvalidation.ipynb
-    examples/featuremap.ipynb
+    examples/feature_mapping.ipynb
