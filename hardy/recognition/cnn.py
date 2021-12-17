@@ -16,7 +16,7 @@ from tensorflow.keras import callbacks
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
 from numpy import expand_dims
-from keras.models import Model
+from tensorflow.keras.models import Model
 
 
 # Define the base Keras model to use for comparing the different types of plots
@@ -297,17 +297,20 @@ def feature_map(image, model, classes, size, layer_num=None,
             layer = model.layers[i]
             if 'flatten' in layer.name or layer.output.shape[1] == classes:
                 continue
+            elif 'global_max_pooling' in layer.name:
+                continue
             list_layer_pos.append(i)
 
         return feature_map_layers(img_feature_array, model, list_layer_pos,
                                   save, log_dir)
 
     elif layer_num == 'last':
-        for i in range(len(model.layers)):
-            list_layer_pos.append(i)
-        feature_map_model = Model(inputs=model.inputs,
-                                  outputs=model.layers[max(list_layer_pos)]
-                                  .output)
+        feature_map_model = model
+        # for i in range(len(model.layers)):
+        #     list_layer_pos.append(i)
+        # feature_map_model = Model(inputs=model.inputs,
+        #                         outputs=model.layers[max(list_layer_pos)]
+        #                         .output)
         feature_map = feature_map_model.predict(img_feature_array)
         print('The output from final layer is {}'.format(feature_map))
         return feature_map
@@ -355,8 +358,12 @@ def feature_map_layers(img_feature_array, model, list_layer_pos, save,
               shape {}'.format(item, model.layers[item].name,
                                model.layers[item].output.shape))
         ax = plt.figure(figsize=(10, 10))
+        if feature_map_model.layers[item].output.shape[3]/6 <= 6:
+            rows = 6
+        else:
+            rows = feature_map_model.layers[item].output.shape[3]/6
         for x in range(1, feature_map.shape[3]+1):
-            b = ax.add_subplot(6, 6, x)
+            b = ax.add_subplot(int(rows), 6, x)
             b.axis('off')
             plt.imshow(feature_map[0, :, :, x-1], cmap='gray')
 

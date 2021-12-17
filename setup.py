@@ -8,7 +8,6 @@ from setuptools import setup
 ver_file = os.path.join('hardy', 'version.py')
 
 with open(ver_file) as f:
-    
     v = exec(f.read())
 
 
