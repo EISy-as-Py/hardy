@@ -90,7 +90,7 @@ class TestSimulationTools(unittest.TestCase):
 
         # test for array data
         image_load = load_img(image_path+image_name,
-                              target_size=(80, 80))
+                              target_size=(100, 100))
 
         image_array = img_to_array(image_load)
 

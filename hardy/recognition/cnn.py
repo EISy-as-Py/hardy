@@ -297,7 +297,7 @@ def feature_map(image, model, classes, size, layer_num=None,
             layer = model.layers[i]
             if 'flatten' in layer.name or layer.output.shape[1] == classes:
                 continue
-            elif 'global_max_pooling' in layer.name:
+            elif 'global' in layer.name:
                 continue
             list_layer_pos.append(i)
 
