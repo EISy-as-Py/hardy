@@ -30,9 +30,7 @@ Data Preparation
 starting your :code:`HARDy` run, make sure following conditions are met:
     * Data files are only in :code:`.csv` format.
     * The :code:`.csv` files must have a header of same length.
-    * The training data files must also include the labels in  their filenames. The
-    labels should be unique and must not overlap. For example, label `core-shell sphere`
-    for scattering model overlaps with the label `sphere`. This overlap should be avoided.
+    * The training data files must also include the labels in  their filenames. The labels should be unique and must not overlap. For example, label `core-shell sphere` for scattering model overlaps with the label `sphere`. This overlap should be avoided.
     * The data files must have same number of data rows.
 
 The wrapper function, :code:`run_hardy`, takes care of all the numerical
