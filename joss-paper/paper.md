@@ -20,7 +20,6 @@ authors:
       affiliation: "1,3"
     - name: Stuart Adler
       email: stuadler@uw.edu
-      orcid: 0000-0003-3472-0199
       affiliation: 1
     - name: Lilo Pozzo
       email: dpozzo@uw.edu
@@ -40,7 +39,7 @@ bibliography: paper.bib
 
 ---
 
-`HARDy` is a python-based package that helps evaluate differences in data through feature engineering coupled with kernel methods. The package provides an extension to machine learning by adding layers of feature transformation and representation. The workflow of the package is as follows:
+`HARDy` is a Python-based package that helps evaluate differences in data through feature engineering coupled with kernel methods. The package provides an extension to machine learning by adding layers of feature transformation and representation. The workflow of the package is as follows:
 
 - _Configuration_: Sets attribute for user-defined transformations, machine learning hyperparameters or hyperparameter space
 - _Handling_: Imports pre-labelled data from `.csv` files and loads into the catalogue. Later the data will be split into training and testing sets
@@ -54,13 +53,13 @@ High Throughput Experimentation (HTE) and High Throughput Testing (HTT) have exp
 
 One of the most widely applied strategy to enhance the performance of machine learning model is Combined Automatic Machine Learning (AutoML) for CASH (Combined Alogrithm Selection and Hyperparameter Optimization) [@hutter2019automated]. However, these packages are only limited to hyper-parameter tuning and data features remain untouched. To improve the effectiveness of machine learning models, some of the popular feature engineering strategies used for simple numerical data include binning, binarization, normalization, Box-Cox Transformations and Quantile Sketch Array (QSA) [@zheng2018feature][@nargesian2017learning]. Moreover, Deep Feature Synthesis has also shown promising results. Here features are generated from relational databases by performing multi-layer mathematical transformation operations [@kanter2015deep].
 
-`HARDy` presents an infrastructure which aids in the identification of the best combination of numerical and visual transformations to improve data classification through Convolutional Neural Networks (CNN). `HARDy` exploits the difference between human-readable images of experimental data (i.e. Cartesian representation) and computer-readable plots, which maximizes the data density presented to an algorithm and reduce superfluous information. `HARDy` uses configuration files, fed to the open-source package `Keras-tuner`, removing the need for the user to manually generate unique parameters combinations for each neural network model to be investigated.
+`HARDy` presents an infrastructure which aids in the identification of the best combination of numerical and visual transformations to improve data classification through Convolutional Neural Networks (CNN). `HARDy` exploits the difference between human-readable images of experimental data (i.e. Cartesian representation) and computer-readable plots, which maximizes the data density presented to an algorithm and reduce superfluous information. `HARDy` uses configuration files, fed to the open-source package `KerasTuner`, removing the need for the user to manually generate unique parameters combinations for each neural network model to be investigated.
 
 
 
 # Description and Use Case
 
-The python-based package `HARDy` is a modularly structured package which classifies data using 2D convolutional neural networks. A schematic for the package can be found in figure 1.
+The Python-based package `HARDy` is a modularly structured package which classifies data using 2D convolutional neural networks. A schematic for the package can be found in figure 1.
 
 ![Workflow schematics for HARDy. The data files, left-most column, are subject to numerical and visual transformations, according to the rules outlined in the user defined configuration files. The images are then fed into either a CNN or a tuner, for which the hyperparameter space is controlled through another configuration file. Finally, each transformation produces a report comprising of the best trained model file, the log of training session and the model validation result.](./images/HARDy_diagram.png)
 
