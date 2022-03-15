@@ -6,7 +6,7 @@
 [![Anaconda-Server Badge](https://anaconda.org/pozzorg/hardy/badges/license.svg)](https://anaconda.org/pozzorg/hardy)
 
 
-![status](https://joss.theoj.org/papers/6bcfb38bd849bb22b02615607236a98d/status.svg)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.03829/status.svg)](https://doi.org/10.21105/joss.03829)
 
 <img src=https://github.com/EISy-as-Py/hardy/blob/master/doc/images/EIS_Formats.PNG width=400 p align="right">
 
