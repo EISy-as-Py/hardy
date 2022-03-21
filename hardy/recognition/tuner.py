@@ -253,7 +253,7 @@ def report_generation(model, history, metrics, log_dir,
     validation_metrics_dict = {'test_loss': float(metrics[0]),
                                'test_accuracy': float(metrics[1])}
 
-    report_location = log_dir+'/report/'
+    report_location = os.path.join(log_dir, 'report')
     if not os.path.exists(report_location):
         os.makedirs(report_location)
 

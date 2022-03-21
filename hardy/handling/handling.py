@@ -421,7 +421,7 @@ def pickled_data_loader(raw_datapath, run_name):
                  transformed data, label
     '''
 
-    pickled_file_name = raw_datapath + run_name + '.pkl'
+    pickled_file_name = os.path.join(raw_datapath, run_name + '.pkl')
     imported_data = open(pickled_file_name, 'rb')
     image_data = pickle.load(imported_data)
     imported_data.close()

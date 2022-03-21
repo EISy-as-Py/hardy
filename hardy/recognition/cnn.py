@@ -369,10 +369,11 @@ def feature_map_layers(img_feature_array, model, list_layer_pos, save,
 
         if save:
             name_feature_map = "feature_map_"+str(model.layers[item].name)+"_"
-            new_folder_path = "/report/feature_maps/"
-            if not os.path.exists(log_dir+new_folder_path):
-                os.makedirs(log_dir+new_folder_path)
-            ax.savefig(log_dir+new_folder_path+name_feature_map, dpi=100)
+            new_folder_path = os.path.join('report', 'feature_maps')
+            if not os.path.exists(os.path.join(log_dir, new_folder_path)):
+                os.makedirs(os.path.join(log_dir, new_folder_path))
+            ax.savefig(os.path.join(log_dir, new_folder_path+name_feature_map),
+                       dpi=100)
     return ax
 
 

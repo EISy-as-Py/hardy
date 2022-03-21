@@ -18,11 +18,11 @@ def report_dataframes(report_path):
     import_dict = {}
 
     for i in range(len(categories)):
-        yaml_path = report_path+categories[i]+'/report/'
+        yaml_path = os.path.join(report_path, categories[i], 'report')
         yaml_file_name = [file for file in os.listdir(yaml_path)
                           if file != 'run_tform_config.yaml' and not
                           (file.startswith('.') or file.endswith('.csv'))]
-        with open(yaml_path+yaml_file_name[0], 'r') as file:
+        with open(os.path.join(yaml_path, yaml_file_name[0]), 'r') as file:
             import_dict[categories[i]] = yaml.load(
                 file, Loader=yaml.FullLoader)
 
@@ -228,11 +228,11 @@ def summary_dataframe(report_path):
                   or f.endswith('.csv')]
     run_tform = {}
     for i in range(len(categories)):
-        yaml_path = report_path+categories[i]+'/report/'
+        yaml_path = os.path.join(report_path, categories[i], 'report')
         yaml_file_name = [file for file in os.listdir(yaml_path)
                           if file == 'run_tform_config.yaml']
     #     print(yaml_file_name)
-        with open(yaml_path+yaml_file_name[0], 'r') as file:
+        with open(os.path.join(yaml_path, yaml_file_name[0]), 'r') as file:
             run_tform[categories[i]] = yaml.load(file,
                                                  Loader=yaml.FullLoader)
     run_name = []

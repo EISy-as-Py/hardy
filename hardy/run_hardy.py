@@ -285,10 +285,10 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
         # generate a yaml file to store the trasnformation info
         output_path = preprocessing.save_to_folder(raw_datapath, project_name,
                                                    run_name)
-        report_location = output_path+'/report/'
+        report_location = os.path.join(output_path, 'report')
         if not os.path.exists(report_location):
             os.makedirs(report_location)
-        with open(report_location+'run_tform_config.yaml',
+        with open(os.path.join(report_location, 'run_tform_config.yaml'),
                   'w') as yaml_file:
             yaml.dump(run_tform, yaml_file)
             yaml_file.close()
@@ -296,12 +296,12 @@ def data_wrapper(run_name=None, raw_datapath='./', tform_command_dict=None,
         pass
     # Next make the rgb images Tuples List
     if plot_format == 'RGBrgb':
-        data_store = raw_datapath + run_name + '.pkl'
+        data_store = os.path.join(raw_datapath, run_name + '.pkl')
         to_catalogue.rgb_list(tform_tuples_list, scale=scale,
                               plot_format=plot_format,
                               storage_location=data_store)
     else:
-        data_store = raw_datapath + run_name + '.pkl'
+        data_store = os.path.join(raw_datapath, run_name + '.pkl')
         to_catalogue.regular_plot_list(
             tform_tuples_list, scale=scale,
             storage_location=data_store)
@@ -483,12 +483,12 @@ def classifier_wrapper(input_path, test_set_filenames, run_name, config_path,
         performance_evaluation = reporting.model_analysis(model, test_set,
                                                           test_set_list)
         performance_evaluation.to_csv(
-            output_path+'report/model_evaluation.csv')
+            os.path.join(output_path, 'report', 'model_evaluation.csv'))
     else:
         performance_evaluation = reporting.model_analysis(model, test_set)
 
         performance_evaluation.to_csv(
-            output_path+'report/model_evaluation.csv')
+            os.path.join(output_path, 'report', 'model_evaluation.csv'))
     return
 
 
@@ -619,16 +619,16 @@ def checkrun(raw_datapath, tform_config_path,
         file_names_csv.append(item+'.csv')
 
     # making directory to store the temporary data
-    os.mkdir(os.path.join(raw_datapath, 'temp/'))
+    os.mkdir(os.path.join(raw_datapath, 'temp'))
 
     # copying the 1% data to seperate folder
     for item in file_names_csv:
         shutil.copy(os.path.join(raw_datapath, item),
-                    os.path.join(raw_datapath+'temp/'))
+                    os.path.join(raw_datapath+'temp'))
 
     # creating new data path to be passed to checkpoint_
     # datacreation function
-    new_data_path = os.path.join(raw_datapath, 'temp/')
+    new_data_path = os.path.join(raw_datapath, 'temp')
 
     checkpoint_datacreation(new_data_path, tform_config_path,
                             classifier_config_path,

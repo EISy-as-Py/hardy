@@ -37,11 +37,12 @@ def save_load_data(filename, data=None, save=None, load=None,
                   dataset that is loaded from the specified location
     """
     if save:
-        pickle.dump(data, open(location + filename + file_extension, 'wb'))
+        pickle.dump(data, open(os.path.join(
+            location, filename + file_extension), 'wb'))
         return 'Successfully Pickled'
     elif load:
-        loaded_data = pickle.load(open(location + filename + file_extension,
-                                  'rb'))
+        loaded_data = pickle.load(open(os.path.join(
+            location, filename + file_extension), 'rb'))
         return loaded_data
 
 
@@ -108,7 +109,7 @@ def _data_tuples_from_fnames(input_path='./', skiprows=0, classes=None):
         if entry.endswith('.csv'):
             # Read data into pandas dataframe
             fdata, last_skiprows = \
-                handling.read_csv(input_path+entry,
+                handling.read_csv(os.path.join(input_path, entry),
                                   skiprows=skiprows,
                                   last_skiprows=last_skiprows)
             # Now remove any columns with bad data types
@@ -642,7 +643,7 @@ def test_set(path=None, target_size=(80, 80),
                                  shuffle=False)
 
     else:
-        test_set = data.flow_from_directory(path + 'test_set/',
+        test_set = data.flow_from_directory(os.path.join(path, 'test_set'),
                                             target_size=target_size,
                                             classes=classes,
                                             batch_size=batch_size,

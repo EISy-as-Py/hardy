@@ -83,7 +83,7 @@ def test_set_folder(path, test_set_filenames):
                       A string containging the path to the test set folder.
     '''
 
-    test_set_folder = path + 'test_set/'
+    test_set_folder = os.path.join(path, 'test_set')
 
     if not os.path.exists(test_set_folder):
         os.makedirs(test_set_folder)
@@ -91,7 +91,7 @@ def test_set_folder(path, test_set_filenames):
     test_set_files = [n for n in os.listdir(path) if n in test_set_filenames]
 
     for file in test_set_files:
-        shutil.move(path + file, test_set_folder)
+        shutil.move(os.path.join(path, file), test_set_folder)
     return test_set_folder
 
 
@@ -130,11 +130,11 @@ def classes_folder_split(path, classes=['noise', ''],
     for i in range(len(classes)):
         list_of_files = [n for n in os.listdir(path) if
                          n.endswith(classes[i] + end_of_file)]
-        new_folder_path = path + class_folder[i] + '/'
+        new_folder_path = os.path.join(path, class_folder[i])
         if not os.path.exists(new_folder_path):
             os.makedirs(new_folder_path)
         for file in list_of_files:
-            shutil.move(path + file, new_folder_path)
+            shutil.move(os.path.join(path, file), new_folder_path)
         list_of_folders.append(new_folder_path)
     return list_of_folders
 
@@ -163,14 +163,14 @@ def save_to_folder(input_path, project_name, run_name):
                                   generated path
     '''
 
-    hardy_folder_path = input_path + project_name + '/'
+    hardy_folder_path = os.path.join(input_path, project_name)
     if not os.path.exists(hardy_folder_path):
         try:
             os.makedirs(hardy_folder_path)
         except OSError:
             pass
 
-    transformation_folder_path = hardy_folder_path + run_name + '/'
+    transformation_folder_path = os.path.join(hardy_folder_path, run_name)
 
     if not os.path.exists(transformation_folder_path):
         os.makedirs(transformation_folder_path)

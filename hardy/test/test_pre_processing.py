@@ -9,7 +9,7 @@ import numpy as np
 # from hardy.handling import to_catalogue as catalogue
 from hardy.handling import pre_processing as preprocessing
 
-data_path = './hardy/test/test_folder_split/'
+data_path = os.path.join('.', 'hardy', 'test', 'test_folder_split')
 
 
 class TestSimulationTools(unittest.TestCase):
@@ -51,7 +51,7 @@ class TestSimulationTools(unittest.TestCase):
             # move the files out of the folder for ensuring
             # the next test iteration works
             for file in [n for n in os.listdir(path)]:
-                shutil.move(path + file, data_path)
+                shutil.move(os.path.join(path, file), data_path)
         pass
 
     def test_save_to_folder(self):

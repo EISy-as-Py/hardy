@@ -7,7 +7,7 @@ import pandas as pd
 import hardy.arbitrage.transformations as transform
 
 
-def import_tform_config(tform_config_path='./tform_config.yaml', raw_df=None):
+def import_tform_config(tform_config_path='tform_config.yaml', raw_df=None):
     """ Function that imports the transformations from configuration
 
     Parameters
