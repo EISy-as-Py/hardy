@@ -624,7 +624,7 @@ def checkrun(raw_datapath, tform_config_path,
     # copying the 1% data to seperate folder
     for item in file_names_csv:
         shutil.copy(os.path.join(raw_datapath, item),
-                    os.path.join(raw_datapath+'temp'))
+                    os.path.join(raw_datapath, 'temp'))
 
     # creating new data path to be passed to checkpoint_
     # datacreation function

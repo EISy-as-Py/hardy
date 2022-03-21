@@ -8,7 +8,7 @@ from hardy.handling.to_catalogue import learning_set
 from hardy.recognition import cnn
 from hardy.recognition import tuner
 
-path = './hardy/test/test_image/'
+path = os.path.join('.', 'hardy', 'test', 'test_image')
 split = 0.25
 classes = ['class_1', 'class_2']
 batch_size = 1
@@ -17,7 +17,7 @@ batch_size = 1
 class TestSimulationTools(unittest.TestCase):
 
     def test_build_param(self):
-        param = tuner.build_param('./hardy/recognition/')
+        param = tuner.build_param(os.path.join('.', 'hardy', 'recognition'))
 
         assert isinstance(param, tuner.build_param), \
             'the returned type for param space is incorrect'
@@ -26,25 +26,25 @@ class TestSimulationTools(unittest.TestCase):
 
     def test_report_generation(self):
 
-        config_path = './hardy/test/'
+        config_path = os.path.join('.', 'hardy', 'test')
         train, val = learning_set(path, split=split, classes=classes,
                                   iterator_mode=None)
         model, history = cnn.build_model(train, val,
                                          config_path=config_path)
         metrics = cnn.evaluate_model(model, val)
 
-        log_dir = './hardy/test/temp_report/'
+        log_dir = os.path.join('.', 'hardy', 'test', 'temp_report')
 
         tuner.report_generation(model, history, metrics, log_dir,
                                 save_model=False, config_path=config_path)
 
-        report_dir = log_dir+'report/'
+        report_dir = os.path.join(log_dir, 'report')
 
         report_location = os.listdir(report_dir)
 
         for item in report_location:
             if item.endswith('.yaml'):
-                with open(report_dir+item, 'r') as file:
+                with open(os.path.join(report_dir, item), 'r') as file:
                     report = yaml.load(file, Loader=yaml.FullLoader)
                     assert isinstance(report, dict),\
                         'The filetype returned in not a dictionary'
@@ -57,7 +57,7 @@ class TestSimulationTools(unittest.TestCase):
         shutil.rmtree(log_dir)
 
     def test_run_tuner(self):
-        config_path = './hardy/test/'
+        config_path = os.path.join('.', 'hardy', 'test')
         tuner.build_param(config_path)
 
         train, val = learning_set(path, split=split, classes=classes,
@@ -73,7 +73,7 @@ class TestSimulationTools(unittest.TestCase):
 
         # Deleting the log files
 
-        shutil.rmtree('./'+project_name)
+        shutil.rmtree(os.path.join('.', project_name))
 
         print('Successfully Deleted the log directory created under test')
         # Generate test for BayesianOptimization search function

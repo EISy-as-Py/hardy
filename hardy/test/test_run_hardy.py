@@ -10,10 +10,10 @@ from hardy.arbitrage import arbitrage
 # import pickle
 # import numpy as np
 
-path = './hardy/test/test_image/'
-data_path = './hardy/test/test_data/'
-tform_config_path = data_path + 'tform_config.yaml'
-config_path = './hardy/test/'
+path = os.path.join('.', 'hardy', 'test', 'test_image')
+data_path = os.path.join('.', 'hardy', 'test', 'test_data')
+tform_config_path = os.path.join(data_path, 'tform_config.yaml')
+config_path = os.path.join('.', 'hardy', 'test')
 split = 0.25
 classes = ['class_1', 'class_2']
 batch_size = 1
@@ -30,11 +30,11 @@ class TestSimulationTools(unittest.TestCase):
             batch_size=1, project_name='test_wrapper')
         output_path = preprocessing.save_to_folder(
                 data_path, 'test_wrapper', 'test_1')
-        report_dir = output_path+'report/'
+        report_dir = os.path.join(output_path, 'report')
         report_location = os.listdir(report_dir)
         for item in report_location:
             if item.endswith('.yaml'):
-                with open(report_dir+item, 'r') as file:
+                with open(os.path.join(report_dir, item), 'r') as file:
                     report = yaml.load(file, Loader=yaml.FullLoader)
                     assert isinstance(report, dict),\
                         'The filetype returned in not a dictionary'
@@ -48,15 +48,16 @@ class TestSimulationTools(unittest.TestCase):
             batch_size=1, project_name='test_wrapper')
         output_path = preprocessing.save_to_folder(
                 data_path, 'test_wrapper', 'test_1')
-        report_dir = output_path+'report/'
+        report_dir = os.path.join(output_path, 'report')
         report_location = os.listdir(report_dir)
         for item in report_location:
             if item.endswith('.yaml'):
-                with open(report_dir+item, 'r') as file:
+                with open(os.path.join(report_dir, item), 'r') as file:
                     report = yaml.load(file, Loader=yaml.FullLoader)
                     assert isinstance(report, dict),\
                         'The filetype returned in not a dictionary'
-        shutil.rmtree('./hardy/test/test_data/test_wrapper')
+        shutil.rmtree(os.path.join('.', 'hardy', 'test', 'test_data',
+                      'test_wrapper'))
         pass
 
     def test_data_wrapper(self):
@@ -81,7 +82,7 @@ class TestSimulationTools(unittest.TestCase):
     def test_classifier_wrapper(self):
         num_files = 3
         run_name = 'test_1'
-        config_path = './hardy/test/'
+        config_path = os.path.join('.', 'hardy', 'test')
         output_path = preprocessing.save_to_folder(
             path, 'test_classifier', run_name)
         test_set_filenames = preprocessing.hold_out_test_set(
@@ -91,17 +92,17 @@ class TestSimulationTools(unittest.TestCase):
                                iterator_mode='folder',
                                split=split, classes=classes, image_path=path,
                                project_name='test_classifier')
-        report_dir = output_path+'report/'
+        report_dir = os.path.join(output_path, 'report')
         report_location = os.listdir(report_dir)
         for item in report_location:
             if item.endswith('.yaml'):
-                with open(report_dir+item, 'r') as file:
+                with open(os.path.join(report_dir, item), 'r') as file:
                     report = yaml.load(file, Loader=yaml.FullLoader)
                     assert isinstance(report, dict),\
                         'The filetype returned in not a dictionary'
         # remove report files after checking they were
         # correctly created
-        shutil.rmtree(path+'test_classifier/')
+        shutil.rmtree(os.path.join(path, 'test_classifier'))
         print('the result folder was correctly deleted after testing')
         pass
 

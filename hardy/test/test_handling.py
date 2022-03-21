@@ -6,7 +6,7 @@ import pandas as pd
 
 from hardy.handling import handling
 
-data_path = './hardy/test/test_data/'
+data_path = os.path.join('.', 'hardy', 'test', 'test_data')
 file_list = os.listdir(data_path)
 
 

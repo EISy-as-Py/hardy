@@ -6,8 +6,9 @@ import pandas as pd
 from hardy.arbitrage import arbitrage
 from hardy.handling import handling
 
-data_path = './hardy/test/test_data/'
-tform_config_path = './hardy/test/test_data/test_tform_config.yaml'
+data_path = os.path.join('.', 'hardy', 'test', 'test_data')
+tform_config_path = os.path.join('.', 'hardy', 'test', 'test_data',
+                                 'test_tform_config.yaml')
 
 
 assert os.path.exists(data_path), \

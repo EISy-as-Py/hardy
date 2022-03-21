@@ -47,7 +47,7 @@ def build_model(training_set, validation_set=None, config_path='./'):
     '''
     #################################################################
     # Get the hyperparameters from the cnn_configuration file
-    with open(config_path + 'cnn_config.yaml', 'r') as file:
+    with open(os.path.join(config_path, 'cnn_config.yaml'), 'r') as file:
         hparam = yaml.load(file, Loader=yaml.FullLoader)
     ##################################################################
     # Build CNN Model
@@ -281,7 +281,7 @@ def feature_map(image, model, classes, size, layer_num=None,
     '''
     if isinstance(image, str):
         if image_path:
-            img_feature = load_img(image_path + image,
+            img_feature = load_img(os.path.join(image_path, image),
                                    target_size=(size, size))
             img_feature_array = img_to_array(img_feature)
         else:

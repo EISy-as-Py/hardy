@@ -1,4 +1,4 @@
-# import os
+import os
 import plotly
 import shutil
 import unittest
@@ -17,10 +17,10 @@ from hardy.recognition import cnn
 
 # from hardy.handling import pre_processing as preprocessing
 
-path = './hardy/test/test_image/'
-data_path = './hardy/test/test_data/'
-tform_config_path = data_path + 'tform_config.yaml'
-config_path = './hardy/test/'
+path = os.path.join('.', 'hardy', 'test', 'test_image')
+data_path = os.path.join('.', 'hardy', 'test', 'test_data')
+tform_config_path = os.path.join(data_path, 'tform_config.yaml')
+config_path = os.path.join('.', 'hardy', 'test')
 split = 0.25
 
 
@@ -33,7 +33,8 @@ class TestSimulationTools(unittest.TestCase):
             iterator_mode='arrays',
             num_test_files_class=1, classes=['noise', 'one'], split=0.25,
             classifier='tuner', batch_size=1, project_name='test_wrapper1')
-        report_path = './hardy/test/test_data/test_wrapper1/'
+        report_path = os.path.join('.', 'hardy', 'test', 'test_data',
+                                   'test_wrapper1')
         fig1, fig2 = reporting.summary_report_plots(
             report_path)
 
@@ -46,7 +47,8 @@ class TestSimulationTools(unittest.TestCase):
         # shutil.rmtree('./test_run')
 
     def test_summary_report_tables(self):
-        report_path = './hardy/test/test_data/test_wrapper1/'
+        report_path = os.path.join('.', 'hardy', 'test', 'test_data',
+                                   'test_wrapper1')
 
         summary, tform_rank = reporting.summary_report_tables(
             report_path)
@@ -56,14 +58,15 @@ class TestSimulationTools(unittest.TestCase):
         assert isinstance(tform_rank, pd.DataFrame),\
             'The returned table is not a dataframe'
 
-        shutil.rmtree('./hardy/test/test_data/test_wrapper1')
+        shutil.rmtree(os.path.join('.', 'hardy', 'test', 'test_data',
+                                   'test_wrapper1'))
         # shutil.rmtree('./test_run')
 
     def test_model_analysis(self):
 
         num_files = 1
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-        data_storage = data_path + 'test_1.pkl'
+        data_storage = os.path.join(data_path, 'test_1.pkl')
         catalogue.rgb_list(data_tups, storage_location=data_storage)
         plot_tups = handling.pickled_data_loader(data_path, 'test_1')
 
@@ -79,8 +82,9 @@ class TestSimulationTools(unittest.TestCase):
         testing_set = catalogue.test_set(image_list=test_set_list,
                                          classes=['noise', 'one'],
                                          iterator_mode='arrays')
+        configuration = os.path.join('.', 'hardy', 'test')
         model, history = cnn.build_model(train, val,
-                                         config_path='./hardy/test/')
+                                         config_path=configuration)
 
         result = reporting.model_analysis(model, testing_set, test_set_list)
 
@@ -90,7 +94,7 @@ class TestSimulationTools(unittest.TestCase):
 
         num_files = 1
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-        data_storage = data_path + 'test_1.pkl'
+        data_storage = os.path.join(data_path, 'test_1.pkl')
         catalogue.rgb_list(data_tups, storage_location=data_storage)
         plot_tups = handling.pickled_data_loader(data_path, 'test_1')
 
@@ -106,8 +110,9 @@ class TestSimulationTools(unittest.TestCase):
         testing_set = catalogue.test_set(image_list=test_set_list,
                                          classes='d',
                                          iterator_mode='arrays')
+        configuration = os.path.join('.', 'hardy', 'test')
         model, history = cnn.build_model(train, val,
-                                         config_path='./hardy/test/')
+                                         config_path=configuration)
 
         result = reporting.model_predictions(model, testing_set,
                                              classes=['noise', 'one'],

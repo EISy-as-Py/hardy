@@ -10,8 +10,8 @@ from hardy.handling.to_catalogue import learning_set, test_set
 from hardy.handling import to_catalogue as catalogue
 from hardy.handling import pre_processing as preprocessing
 
-path = './hardy/test/test_image/'
-data_path = './hardy/test/test_data/'
+path = os.path.join('.', 'hardy', 'test', 'test_image')
+data_path = os.path.join('.', 'hardy', 'test', 'test_data')
 split = 0.1
 classes = ['class_1', 'class_2']
 batch_size = 1
@@ -40,7 +40,7 @@ class TestSimulationTools(unittest.TestCase):
             'the batch size should be an integer'
         # array iterator option
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-        data_storage = data_path + 'test_1.pkl'
+        data_storage = os.path.join(data_path, 'test_1.pkl')
         catalogue.rgb_list(data_tups, storage_location=data_storage)
         plot_tups = handling.pickled_data_loader(data_path, 'test_1')
 
@@ -67,7 +67,7 @@ class TestSimulationTools(unittest.TestCase):
                           ), 'the training set should be an image iterator'
         # array iterator option
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-        data_storage = data_path + 'test_1.pkl'
+        data_storage = os.path.join(data_path, 'test_1.pkl')
         catalogue.rgb_list(data_tups, storage_location=data_storage)
         plot_tups = handling.pickled_data_loader(data_path, 'test_1')
 
@@ -79,18 +79,19 @@ class TestSimulationTools(unittest.TestCase):
     def test_save_load_data(self):
         # Simple pickeling save / load function
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-        data_storage = data_path + 'test_1.pkl'
+        data_storage = os.path.join(data_path, 'test_1.pkl')
 
         catalogue.rgb_list(data_tups, storage_location=data_storage)
         plot_tups = handling.pickled_data_loader(data_path, 'test_1')
 
+        save_loc = os.path.join('.', 'hardy', 'test')
         data = catalogue.save_load_data('test_pickled_data', data=plot_tups,
-                                        save=True, location='./hardy/test/')
+                                        save=True, location=save_loc)
         assert data == 'Successfully Pickled'
         data = catalogue.save_load_data('test_pickled_data', data=plot_tups,
-                                        load=True, location='./hardy/test/')
+                                        load=True, location=save_loc)
         assert isinstance(data, list), 'the data was correctly loaded'
-        os.remove('./hardy/test/test_pickled_data.npy')
+        os.remove(os.path.join('.', 'hardy', 'test', 'test_pickled_data.npy'))
         print('compressed file correctly removed after testing')
         pass
 
@@ -124,7 +125,7 @@ class TestSimulationTools(unittest.TestCase):
         """
 
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-        data_storage = data_path + 'test_1.pkl'
+        data_storage = os.path.join(data_path, 'test_1.pkl')
         catalogue.rgb_list(data_tups, storage_location=data_storage)
         plot_tups = handling.pickled_data_loader(data_path, 'test_1')
 
@@ -145,7 +146,7 @@ class TestSimulationTools(unittest.TestCase):
         """
 
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-        data_storage = data_path + 'test_1.pkl'
+        data_storage = os.path.join(data_path, 'test_1.pkl')
         catalogue.regular_plot_list(data_tups, storage_location=data_storage)
         plot_tups = handling.pickled_data_loader(data_path, 'test_1')
 
@@ -176,7 +177,7 @@ class TestSimulationTools(unittest.TestCase):
     def test_data_split(self):
         num_files = 3
         data_tups = catalogue._data_tuples_from_fnames(input_path=data_path)
-        data_storage = data_path + 'test_1' + '.pkl'
+        data_storage = os.path.join(data_path, 'test_1' + '.pkl')
         catalogue.rgb_list(data_tups, storage_location=data_storage)
         plot_tups = handling.pickled_data_loader(data_path, 'test_1')
 
@@ -192,5 +193,5 @@ class TestSimulationTools(unittest.TestCase):
         pass
 
     def test_safe_clear_dirflow(self):
-        path_png = './hardy/test/test_image/test_set/'
+        path_png = os.path.join('.', 'hardy', 'test', 'test_image', 'test_set')
         catalogue._safe_clear_dirflow(path_png)

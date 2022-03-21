@@ -8,7 +8,7 @@ import tensorflow as tf
 
 class build_param():
     def __init__(self, config_path):
-        with open(config_path + 'tuner_config.yaml', 'r') as file:
+        with open(os.path.join(config_path, 'tuner_config.yaml'), 'r') as file:
             self.hparam = yaml.load(file, Loader=yaml.FullLoader)
         global tuner_parameters
         tuner_parameters = self.hparam
@@ -231,14 +231,14 @@ def report_generation(model, history, metrics, log_dir,
         best_hp = tuner.get_best_hyperparameters()[0].values
     else:
         assert (config_path), "Please,Provide the config path"
-        with open(config_path + 'cnn_config.yaml', 'r') as file:
+        with open(os.path.join(config_path, 'cnn_config.yaml'), 'r') as file:
             best_hp = yaml.load(file, Loader=yaml.FullLoader)
 
     if save_model:
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
-        model_location = log_dir+'best_model'
-        model.save(model_location+'.h5')
+        model_location = os.path.join(log_dir, 'best_model.h5')
+        model.save(model_location)
         model_location_dict = {'model_location': model_location}
     else:
         model_location = 'None'
@@ -257,8 +257,8 @@ def report_generation(model, history, metrics, log_dir,
     if not os.path.exists(report_location):
         os.makedirs(report_location)
 
-    with open(report_location+datetime.datetime.now().strftime(
-             "%y%m%d_%H%M") + ".yaml", 'w') as yaml_file:
+    with open(os.path.join(report_location, datetime.datetime.now().strftime(
+             "%y%m%d_%H%M") + ".yaml"), 'w') as yaml_file:
         yaml.dump(best_hp, yaml_file)
         yaml.dump(metrics_accuracy_feed, yaml_file)
         yaml.dump(validation_metrics_dict, yaml_file)
