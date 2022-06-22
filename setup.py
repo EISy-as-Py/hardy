@@ -36,7 +36,7 @@ setup(name='hardy', version=1.0,
       author='Maria Politi, Abdul Moeez, David Hurt',
       python_requires="~=3.5",
       install_requires=[
-          "numpy==1.18.1",
+          "numpy==1.22.0",
           "pandas==1.0.3",
           "keras==2.3.1",
           "tensorflow==2.2.0",
